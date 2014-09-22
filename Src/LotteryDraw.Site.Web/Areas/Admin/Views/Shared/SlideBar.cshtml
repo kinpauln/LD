@@ -1,0 +1,104 @@
+﻿<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+    <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+        <button class="btn btn-success">
+            <i class="icon-signal"></i>
+        </button>
+
+        <button class="btn btn-info">
+            <i class="icon-pencil"></i>
+        </button>
+
+        <button class="btn btn-warning">
+            <i class="icon-group"></i>
+        </button>
+
+        <button class="btn btn-danger">
+            <i class="icon-cogs"></i>
+        </button>
+    </div>
+
+    <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+        <span class="btn btn-success"></span>
+
+        <span class="btn btn-info"></span>
+
+        <span class="btn btn-warning"></span>
+
+        <span class="btn btn-danger"></span>
+    </div>
+</div>
+<!-- #sidebar-shortcuts -->
+
+<ul class="nav nav-list">
+    <li>
+        <a href="#" class="dropdown-toggle">
+            <i class="icon-dashboard"></i>
+            <span class="menu-text">配置管理 </span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+
+        <ul class="submenu">
+            <li>
+                <a href="~/Admin/Business/Set2Top">
+                    <i class="icon-double-angle-right"></i>
+                    置顶
+                </a>
+                <a href="~/Admin/Business/ManualIntervention">
+                    <i class="icon-double-angle-right"></i>
+                    人工干预
+                </a>
+                <a href="~/Admin/Business/NonAudit">
+                    <i class="icon-double-angle-right"></i>
+                    免审核
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#" class="dropdown-toggle">
+            <i class="icon-text-width"></i>
+            <span class="menu-text">奖品管理 </span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+
+        <ul class="submenu">
+            <li>
+                <a href="#">
+                    <i class="icon-double-angle-right"></i>
+                    发布奖品
+                </a>
+                <a href="#">
+                    <i class="icon-double-angle-right"></i>
+                    其他
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="~/Admin/Business/Advertisements">
+            <i class="icon-picture"></i>
+            <span class="menu-text">广告管理 </span>
+        </a>
+    </li>
+
+    <li>
+        <a href="~/Admin/Home/Index">
+            <i class="icon-desktop"></i>
+            <span class="menu-text">用户管理 </span>
+        </a>
+    </li>
+</ul>
+<!-- /.nav-list -->
+
+<div class="sidebar-collapse" id="sidebar-collapse">
+    <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+</div>
+<script type="text/javascript">
+    jQuery(function ($) {
+        var controller = '@ViewContext.RouteData.Values["controller"]';
+        var action = '@ViewContext.RouteData.Values["action"]';
+        var url = controller + "/" + action;
+        $("ul.submenu a[href $='" + url + "' ]").parent().parent().prev("a").trigger("click");
+        $("ul.nav>li>a[href $='" + url + "' ]").parent().addClass("active");
+    });
+</script>

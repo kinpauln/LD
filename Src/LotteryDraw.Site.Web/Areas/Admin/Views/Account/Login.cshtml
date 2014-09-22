@@ -1,0 +1,456 @@
+﻿@model LotteryDraw.Site.Models.LoginModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>登陆</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- basic styles -->
+
+    <link href="/content/admin/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/content/admin/assets/css/font-awesome.min.css" />
+
+    <!--[if IE 7]>
+		  <link rel="stylesheet" href="/content/admin/assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+    <!-- page specific plugin styles -->
+
+    <!-- fonts -->
+
+    <link rel="stylesheet" href="http://fonts.useso.com/css?family=Open+Sans:400,300" />
+
+    <!-- ace styles -->
+
+    <link rel="stylesheet" href="/content/admin/assets/css/ace.min.css" />
+    <link rel="stylesheet" href="/content/admin/assets/css/ace-rtl.min.css" />
+
+    <!--[if lte IE 8]>
+		  <link rel="stylesheet" href="/content/admin/assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+    <!-- page specific plugin scripts -->
+
+    <style type="text/css">
+        .input-validation-error {
+            border: 1px solid #f00;
+            background-color: #fee;
+        }
+
+        .validation-summary-errors {
+            font-weight: bold;
+            color: #ff0000;
+            font-size: 10px;
+        }
+
+        .field-validation-error {
+        }
+    </style>
+</head>
+
+<body class="login-layout">
+    <div class="main-container">
+        <div class="main-content">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="login-container">
+                        <div class="center">
+                            <h1>
+                                <i class="icon-leaf green"></i>
+                                <span class="red">ChouJiangMa</span>
+                                <span class="white">Wuliubang</span>
+                            </h1>
+                            <h4 class="blue">&copy; 物流邦</h4>
+                        </div>
+
+                        <div class="space-6"></div>
+
+                        <div class="position-relative">
+                            <div id="login-box" class="login-box visible widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <h4 class="header blue lighter bigger">
+                                            <i class="icon-coffee green"></i>
+                                            请输入您的信息
+                                        </h4>
+
+                                        <div class="space-6"></div>
+
+                                        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { name = "loginForm", id = "loginForm" }))
+                                        {
+                                            //@Html.AntiForgeryToken()
+                                            //@Html.ValidationSummary(true)
+                                            if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
+                                            {
+                                            <div class="alert alert-danger">
+
+                                                <strong>
+                                                    <i class="icon-remove"></i>
+                                                    抱歉!
+                                                </strong>
+
+                                                @ViewBag.Message
+                                                <br />
+                                            </div>}
+                                            <fieldset>
+                                                <label class="block clearfix form-group">
+                                                    <span class="block input-icon input-icon-right">
+                                                        @Html.TextBoxFor(model => model.Account, new { @class = "form-control", placeholder = "用户名", @for = "username" })
+                                                        <i class="icon-user"></i>
+                                                    </span>
+                                                </label>
+
+                                                <label class="block clearfix form-group">
+                                                    <span class="block input-icon input-icon-right">
+
+                                                        @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "密码", @for = "password" })
+
+                                                        <i class="icon-lock"></i>
+                                                    </span>
+                                                </label>
+
+                                                <div class="space"></div>
+
+                                                <div class="clearfix">
+                                                    <label class="inline">
+                                                        @Html.ValidationMessageFor(model => model.IsRememberLogin)
+                                                        @Html.CheckBoxFor(model => model.IsRememberLogin, new { @class = "ace" })
+                                                        <span class="lbl">记住我</span>
+                                                    </label>
+
+                                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                                        <i class="icon-key"></i>
+                                                        登陆
+                                                    </button>
+                                                </div>
+
+                                                <div class="space-4"></div>
+                                            </fieldset>
+                                            @Html.HiddenFor(m => m.ReturnUrl);
+                                        }
+
+                                        @section Scripts {
+                                            @Scripts.Render("~/bundles/jqueryval")
+                                        }
+                                        @*<div class="social-or-login center">
+												<span class="bigger-110">Or Login Using</span>
+											</div>
+
+											<div class="social-login center">
+												<a class="btn btn-primary">
+													<i class="icon-facebook"></i>
+												</a>
+
+												<a class="btn btn-info">
+													<i class="icon-twitter"></i>
+												</a>
+
+												<a class="btn btn-danger">
+													<i class="icon-google-plus"></i>
+												</a>
+											</div>*@
+                                    </div>
+                                    <!-- /widget-main -->
+
+                                    <div class="toolbar clearfix">
+                                        <div>
+                                            <a href="#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link">
+                                                <i class="icon-arrow-left"></i>
+                                                忘记密码？
+                                            </a>
+                                        </div>
+
+                                        @*<div>
+                                            <a href="#" onclick="show_box('signup-box'); return false;" class="user-signup-link">我要注册
+													<i class="icon-arrow-right"></i>
+                                            </a>
+                                        </div>*@
+                                    </div>
+                                </div>
+                                <!-- /widget-body -->
+                            </div>
+                            <!-- /login-box -->
+
+                            <div id="forgot-box" class="forgot-box widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <h4 class="header red lighter bigger">
+                                            <i class="icon-key"></i>
+                                            找回密码
+                                        </h4>
+
+                                        <div class="space-6"></div>
+                                        <p>
+                                            请输入您要找回密码的帐号和邮箱
+                                        </p>
+
+                                        <form>
+                                            <fieldset>
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="用户名" />
+                                                        <i class="icon-user"></i>
+                                                    </span>
+                                                </label>
+
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="email" class="form-control" placeholder="Email" />
+                                                        <i class="icon-envelope"></i>
+                                                    </span>
+                                                </label>
+                                                <div class="clearfix">
+                                                    <button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+                                                        <i class="icon-lightbulb"></i>
+                                                        发送给我!
+                                                    </button>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                    <!-- /widget-main -->
+
+                                    <div class="toolbar center">
+                                        <a href="#" onclick="show_box('login-box'); return false;" class="back-to-login-link">返回登录
+												<i class="icon-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /widget-body -->
+                            </div>
+                            <!-- /forgot-box -->
+
+                            <div id="signup-box" class="signup-box widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <h4 class="header green lighter bigger">
+                                            <i class="icon-group blue"></i>
+                                            New User Registration
+                                        </h4>
+
+                                        <div class="space-6"></div>
+                                        <p>Enter your details to begin: </p>
+
+                                        <form>
+                                            <fieldset>
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="email" class="form-control" placeholder="Email" />
+                                                        <i class="icon-envelope"></i>
+                                                    </span>
+                                                </label>
+
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="Username" />
+                                                        <i class="icon-user"></i>
+                                                    </span>
+                                                </label>
+
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="password" class="form-control" placeholder="Password" />
+                                                        <i class="icon-lock"></i>
+                                                    </span>
+                                                </label>
+
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="password" class="form-control" placeholder="Repeat password" />
+                                                        <i class="icon-retweet"></i>
+                                                    </span>
+                                                </label>
+
+                                                <label class="block">
+                                                    <input type="checkbox" class="ace" />
+                                                    <span class="lbl">I accept the
+															<a href="#">User Agreement</a>
+                                                    </span>
+                                                </label>
+
+                                                <div class="space-24"></div>
+
+                                                <div class="clearfix">
+                                                    <button type="reset" class="width-30 pull-left btn btn-sm">
+                                                        <i class="icon-refresh"></i>
+                                                        Reset
+                                                    </button>
+
+                                                    <button type="button" class="width-65 pull-right btn btn-sm btn-success">
+                                                        Register
+															<i class="icon-arrow-right icon-on-right"></i>
+                                                    </button>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+
+                                    <div class="toolbar center">
+                                        <a href="#" onclick="show_box('login-box'); return false;" class="back-to-login-link">
+                                            <i class="icon-arrow-left"></i>
+                                            Back to login
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /widget-body -->
+                            </div>
+                            <!-- /signup-box -->
+                        </div>
+                        <!-- /position-relative -->
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+    <!-- /.main-container -->
+
+    <!-- basic scripts -->
+
+    <!--[if !IE]> -->
+
+    <script src="http://ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    <!-- <![endif]-->
+
+    <!--[if IE]>
+<script src="http://ajax.useso.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<![endif]-->
+
+    <!--[if !IE]> -->
+
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/content/admin/assets/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+    </script>
+
+    <!-- <![endif]-->
+
+    <!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='/content/admin/assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+    @*<script src="assets/js/fuelux/fuelux.wizard.min.js"></script>*@
+    <script src="/content/admin/assets/js/jquery.validate.min.js"></script>
+    <script src="/content/admin/assets/js/jquery.maskedinput.min.js"></script>
+    @*<script src="assets/js/additional-methods.min.js"></script>
+    <script src="assets/js/bootbox.min.js"></script>
+    <script src="assets/js/select2.min.js"></script>*@
+
+    <script type="text/javascript">
+        if ("ontouchend" in document) document.write("<script src='/content/admin/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+
+    <!-- inline scripts related to this page -->
+
+    <script type="text/javascript">
+        function show_box(id) {
+            jQuery('.widget-box.visible').removeClass('visible');
+            jQuery('#' + id).addClass('visible');
+        }
+
+        var exchange = function (a, b) {
+            var n = a.next(), p = b.prev();
+            b.insertBefore(n);
+            a.insertAfter(p);
+
+        };
+
+        var rbme = jQuery("input:checkbox[name=IsRememberLogin]:first");
+        var hidnRbme = rbme.next("input[type=hidden]:first");
+        exchange(hidnRbme, rbme);
+
+        $(function () {
+            //AceAlert("asdf");
+            //AceConfirm("asdf");
+
+            $.mask.definitions['~'] = '[+-]';
+            $('#phone').mask('(0532) 88236548-1211');
+
+            jQuery.validator.addMethod("phone", function (value, element) {
+                return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
+            }, "Enter a valid phone number.");
+
+            $('#loginForm').validate({
+                errorElement: 'label',
+                errorClass: 'help-block',
+                focusInvalid: false,
+                rules: {
+                    LoginName: {
+                        required: true
+                        //,email: true,
+                        //minlength: 5,
+                        //equalTo: "#password",
+                        //phone: 'required',
+                        //url: true
+                    },
+                    Password: {
+                        required: true,
+                        minlength: 5,
+                    }
+                },
+
+                messages: {
+                    LoginName: {
+                        required: "用户名不能为空",
+                        //email: "Please provide a valid email."
+                    },
+                    Password: {
+                        required: "密码不能为空",
+                        minlength: "至少5位"
+                    }
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit   
+                    $('.alert-danger', $('.login-form')).show();
+                },
+                highlight: function (e) {
+                    $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                },
+                /* 验证通过时的处理 */
+                success: function (e) {
+                    $(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+                    $(e).remove();
+                },
+                /* 错误信息的显示位置 */
+                errorPlacement: function (error, element) {
+                    if (element.is(':checkbox') || element.is(':radio')) {
+                        var controls = element.closest('div[class*="col-"]');
+                        if (controls.find(':checkbox,:radio').length > 1) controls.append(error);
+                        else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+                    }
+                    else if (element.is('.select2')) {
+                        error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+                    }
+                    else if (element.is('.chosen-select')) {
+                        error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+                    }
+                    else error.insertAfter(element.parent());
+                },
+                /*执行ajaxsubmit*/
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+        });
+
+        function validateForm() {
+        }
+    </script>
+    <div style="display: none">
+        <script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script>
+    </div>
+    @Html.Partial("Dialogs");
+</body>
+</html>

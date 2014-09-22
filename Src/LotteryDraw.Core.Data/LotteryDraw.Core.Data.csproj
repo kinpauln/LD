@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{761686F6-93A6-4313-94D5-29DC65492EC0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LotteryDraw.Core.Data</RootNamespace>
+    <AssemblyName>LotteryDraw.Core.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configurations\Account\LoginLogConfiguration.generated.cs" />
+    <Compile Include="Configurations\Account\MemberConfiguration.generated.cs" />
+    <Compile Include="Configurations\Account\MemberExtendConfiguration.generated.cs" />
+    <Compile Include="Configurations\Account\LoginLogConfiguration.cs" />
+    <Compile Include="Configurations\Account\MemberAddressConfiguration.cs" />
+    <Compile Include="Configurations\Account\MemberExtendConfiguration.cs" />
+    <Compile Include="Configurations\Business\PrizeConfiguration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configurations\Business\PrizeConfiguration.generated.cs" />
+    <Compile Include="Configurations\Security\RoleConfiguration.cs" />
+    <Compile Include="Configurations\Security\RoleConfiguration.generated.cs" />
+    <Compile Include="Configurations\Systems\LogInfoConfiguration.generated.cs" />
+    <Compile Include="Initialize\DatabaseInitializer.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Account\ILoginLogRepository.generated.cs" />
+    <Compile Include="Repositories\Account\IMemberExtendRepository.generated.cs" />
+    <Compile Include="Repositories\Account\IMemberRepository.generated.cs" />
+    <Compile Include="Repositories\Account\Impl\LoginLogRepository.generated.cs" />
+    <Compile Include="Repositories\Account\Impl\MemberExtendRepository.generated.cs" />
+    <Compile Include="Repositories\Account\Impl\MemberRepository.generated.cs" />
+    <Compile Include="Repositories\Business\Impl\PrizeRepository.generated.cs" />
+    <Compile Include="Repositories\Business\IPrizeRepository.generated.cs" />
+    <Compile Include="Repositories\Security\Impl\RoleRepository.generated.cs" />
+    <Compile Include="Repositories\Security\IRoleRepository.generated.cs" />
+    <Compile Include="Repositories\Systems\ILogInfoRepository.generated.cs" />
+    <Compile Include="Repositories\Systems\Impl\LogInfoRepository.generated.cs" />
+    <Compile Include="T4\EntityCodeScript.cs">
+      <DependentUpon>EntityCodeScript.tt</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="T4\EntityCodeScript.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EntityCodeScript.cs</LastGenOutput>
+      <LastOutputs>
+..\Configurations\Account\LoginLogConfiguration.generated.cs
+..\Configurations\Account\MemberConfiguration.generated.cs
+..\Configurations\Account\MemberExtendConfiguration.generated.cs
+..\Configurations\Business\PrizeConfiguration.generated.cs
+..\Configurations\Security\RoleConfiguration.generated.cs
+..\Configurations\Systems\LogInfoConfiguration.generated.cs
+..\Repositories\Account\ILoginLogRepository.generated.cs
+..\Repositories\Account\IMemberExtendRepository.generated.cs
+..\Repositories\Account\IMemberRepository.generated.cs
+..\Repositories\Account\Impl\LoginLogRepository.generated.cs
+..\Repositories\Account\Impl\MemberExtendRepository.generated.cs
+..\Repositories\Account\Impl\MemberRepository.generated.cs
+..\Repositories\Business\Impl\PrizeRepository.generated.cs
+..\Repositories\Business\IPrizeRepository.generated.cs
+..\Repositories\Security\Impl\RoleRepository.generated.cs
+..\Repositories\Security\IRoleRepository.generated.cs
+..\Repositories\Systems\ILogInfoRepository.generated.cs
+..\Repositories\Systems\Impl\LogInfoRepository.generated.cs
+.\EntityCodeScript.cs
+</LastOutputs>
+    </None>
+    <None Include="T4\Include\EntityConfigurationTemplate.ttinclude" />
+    <None Include="T4\Include\EntityRepositoryTemplate.ttinclude" />
+    <None Include="T4\Include\IEntityRepositoryTemplate.ttinclude" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LotteryDraw.Component.Data\LotteryDraw.Component.Data.csproj">
+      <Project>{01d263c6-97d8-496f-9e95-ca338f597747}</Project>
+      <Name>LotteryDraw.Component.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LotteryDraw.Component.Tools\LotteryDraw.Component.Tools.csproj">
+      <Project>{a6dfe374-fd47-482a-b733-852c6d840d34}</Project>
+      <Name>LotteryDraw.Component.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LotteryDraw.Core.Models\LotteryDraw.Core.Models.csproj">
+      <Project>{cd4a2973-b3c1-4397-8855-a007428b760c}</Project>
+      <Name>LotteryDraw.Core.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
