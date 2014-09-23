@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Areas/Website/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    @RenderSection("styles", required: false)
+}
+
+<div class="inner met_flash">
+    <div class="flash">
+        <img src="~/content/website/images/1405417163.jpg" width="1002" alt="" height="128">
+    </div>
+</div>
+
+
+<div class="sidebar inner">
+
+    <div class="sb_nav">
+        <h3 class="title myCorner" data-corner="top 5px" style="border-top-left-radius: 5px; border-top-right-radius: 5px;"><span>@ViewBag.LeftTitleContent</span></h3>
+        <div class="active" id="sidebar" data-csnow="15" data-class3="0" data-jsok="2">
+            <dl class="list-none navnow">
+                <dt><a href="http://www.wuliubang.net/" title="联系我们" class="zm"><span>联系我们</span></a></dt>
+            </dl>
+            <dl class="list-none navnow">
+                <dt><a href="http://www.wuliubang.net/" title="留言中心" class="zm"><span>留言中心</span></a></dt>
+            </dl>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="sb_box sbbo">
+        <h3 class="title">
+            <div class="position">当前位置：<a href="http://www.wuliubang.net/demo/met093/354/" title="网站首页">网站首页</a> &gt; <a href="/">联系我们</a></div>
+            <span>联系我们</span> </h3>
+        <div class="clear"></div>
+        <div class="editor active" id="showtext">
+            <div>
+                @RenderBody()
+            </div>
+            <div class="met_hits">
+                <div class="metjiathis">
+                    <div class="jiathis_style"><span class="jiathis_txt">分享到：</span><a class="jiathis_button_icons_1" title="分享到QQ空间"><span class="jiathis_txt jtico jtico_qzone"></span></a><a class="jiathis_button_icons_2" title="分享到新浪微博"><span class="jiathis_txt jtico jtico_tsina"></span></a><a class="jiathis_button_icons_3" title="分享到腾讯微博"><span class="jiathis_txt jtico jtico_tqq"></span></a><a class="jiathis_button_icons_4" title="分享到微信"><span class="jiathis_txt jtico jtico_weixin"></span></a><a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a></div>
+                    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1346378669840136" charset="utf-8"></script>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section scripts{
+    @RenderSection("styles", required: false)
+}

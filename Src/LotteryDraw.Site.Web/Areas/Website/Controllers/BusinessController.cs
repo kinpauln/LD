@@ -21,6 +21,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// </summary>
         public ActionResult ContactUs()
         {
+            ViewBag.LeftTitleContent = "联系我们";
             return View();
         }
     }
