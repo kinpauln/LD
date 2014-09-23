@@ -9,8 +9,10 @@ using System.Web.Mvc;
 
 namespace LotteryDraw.Site.Web.Controllers
 {
-    public class AccountController : Controller
+    [Export]
+    public abstract class AccountControllerBase : Controller
     {
+        protected string _areaName = string.Empty;
 
         #region 属性
 
@@ -21,10 +23,10 @@ namespace LotteryDraw.Site.Web.Controllers
 
         #region 视图功能
         [AuthorizeIgnore]
-        public ActionResult Login(string areaName)
+        public ActionResult Login()
         {
             string returnUrl = Request.Params["returnUrl"];
-            returnUrl = returnUrl ?? Url.Action("Index", "Home", new { area = areaName });
+            returnUrl = returnUrl ?? Url.Action("Index", "Home", new { area = _areaName });
             if (User.Identity.IsAuthenticated)
             {
                 return Redirect(returnUrl);
@@ -65,7 +67,14 @@ namespace LotteryDraw.Site.Web.Controllers
         public ActionResult Logout()
         {
             string returnUrl = Request.Params["returnUrl"];
-            returnUrl = returnUrl ?? Url.Action("Login", "Account", new { area = "Admin" });
+            if (_areaName.Trim().ToLower().Equals("Admin"))
+            {
+                returnUrl = returnUrl ?? Url.Action("Login", "Account", new { area = "Admin" });
+            }
+            else
+            {
+                returnUrl = returnUrl ?? Url.Action("Index", "Home", new { area = "Website" });
+            }
             if (User.Identity.IsAuthenticated)
             {
                 AccountContract.Logout();

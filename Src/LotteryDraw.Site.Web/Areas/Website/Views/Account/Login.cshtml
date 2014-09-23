@@ -2,20 +2,23 @@
     ViewBag.Title = "Login";
     Layout = "~/Areas/Website/Views/Shared/_Layout.cshtml";
 }
+@model LotteryDraw.Site.Models.LoginModel
 
 <div class="active" id="messagelist">
-    <form method="POST" name="loginform">
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { name = "loginForm", id = "loginForm" })){
         <table class="message_table">
             <tbody>
                 <tr>
                     <td class="text">用户名：</td>
                     <td class="input">
-                        <input id="txtUserName" name="username" type="text" class="input-text"><span class="info">*</span></td>
+                        @Html.TextBoxFor(model => model.Account, new { @class = "input-text", placeholder = "用户名", id = "txtUserName" })
+                        <span class="info">*</span></td>
                 </tr>
                 <tr>
                     <td class="text">密码：</td>
                     <td class="input">
-                        <input id="txtPwd" name="password" type="text" class="input-text"><span class="info">*</span></td>
+                        @Html.PasswordFor(model => model.Password, new { @class = "input-text", placeholder = "密码" })
+                        <span class="info">*</span></td>
                 </tr>
                 <tr>
                     <td class="text"></td>
@@ -24,6 +27,7 @@
                 </tr>
             </tbody>
         </table>
-    </form>
+        @Html.HiddenFor(m => m.ReturnUrl);
+    }
 
 </div>
