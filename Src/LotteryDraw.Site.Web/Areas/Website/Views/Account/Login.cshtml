@@ -3,10 +3,27 @@
     Layout = "~/Areas/Website/Views/Shared/_Layout.cshtml";
 }
 
-<form>
-    <table>
-        <tr><td><label>用户名：</label></td><td><input type="text" id="txtUserName" name="username" /></td></tr>
-        <tr><td><label>密码</label></td><td><input type="password" id="txtPwd" name="password" /></td></tr>
-        <tr><td colspan="2"><input type="button" id="btnLogin" value="登录" /></td></tr>
-    </table>
-</form>
+<div class="active" id="messagelist">
+    <form method="POST" name="loginform">
+        <table class="message_table">
+            <tbody>
+                <tr>
+                    <td class="text">用户名：</td>
+                    <td class="input">
+                        <input id="txtUserName" name="username" type="text" class="input-text"><span class="info">*</span></td>
+                </tr>
+                <tr>
+                    <td class="text">密码：</td>
+                    <td class="input">
+                        <input id="txtPwd" name="password" type="text" class="input-text"><span class="info">*</span></td>
+                </tr>
+                <tr>
+                    <td class="text"></td>
+                    <td class="submint">
+                        <input type="submit" name="Submit" value="登录" class="submit button orange"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+</div>

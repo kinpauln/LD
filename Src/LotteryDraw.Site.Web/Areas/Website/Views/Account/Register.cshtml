@@ -2,5 +2,60 @@
     ViewBag.Title = "Register";
     Layout = "~/Areas/Website/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Register</h2>
+@section styles{
+    <style type="text/css">
+        div.reg-desc li {
+            list-style: decimal;
+        }
+    </style>
+}
+<div class="active" id="messagelist">
+    <div style="width: 50%; margin: auto;">
+        <h3 class="ctitle">注册说明</h3>
+        <div class="editor reg-desc">
+            <ul>
+                <li>免费抽奖，中奖信息随机公告，流程透明开放。</li>
+                <li>发起抽奖需缴纳费用：个人10元/次 ，单位50元/次 ，外国人10美元/次，外国单位50美金/次。大额抽奖需有保险公司承保或第三方书面担保，驰名公司除外。（发票自负快递费）</li>
+                <li>若商家拒绝兑奖，“抽奖吗”网站先行垫付。</li>
+                <li>和“抽奖吗”一起，信守中国法律。</li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <form method="POST" name="regform">
+        <table class="message_table">
+            <tbody>
+                <tr>
+                    <td class="text">姓名</td>
+                    <td class="input">
+                        <input name="pname" type="text" class="input-text"><span class="info">*</span></td>
+                </tr>
+                <tr>
+                    <td class="text">电话</td>
+                    <td class="input">
+                        <input name="tel" type="text" class="input-text"></td>
+                </tr>
+                <tr>
+                    <td class="text">Email</td>
+                    <td class="input">
+                        <input name="email" type="text" class="input-text"></td>
+                </tr>
+                <tr>
+                    <td class="text">其他联系方式</td>
+                    <td class="input">
+                        <input name="contact" type="text" class="input-text">如QQ、MSN等</td>
+                </tr>
+                <tr>
+                    <td class="text">留言内容</td>
+                    <td class="input">
+                        <textarea name="info" cols="50" rows="6" class="textarea-text"></textarea><span class="info">*</span></td>
+                </tr>
+                <tr>
+                    <td class="text"></td>
+                    <td class="submint">
+                        <input type="submit" name="Submit" value="注册" class="submit button orange"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
