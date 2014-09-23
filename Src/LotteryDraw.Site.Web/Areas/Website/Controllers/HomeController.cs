@@ -6,10 +6,10 @@ using System.Web.Mvc;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
-    public class DefaultController : Controller
+    public class HomeController : Controller
     {
         //
-        // GET: /Website/Default/
+        // GET: /Website/Home/
 
         public ActionResult Index()
         {

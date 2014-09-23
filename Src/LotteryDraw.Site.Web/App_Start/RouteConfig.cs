@@ -16,7 +16,7 @@ namespace LotteryDraw.Site.Web
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
                 , namespaces: new string[] { "LotteryDraw.Site.Web.Areas.Website.Controllers" }
                 ).DataTokens.Add("Area", "Website");
         }

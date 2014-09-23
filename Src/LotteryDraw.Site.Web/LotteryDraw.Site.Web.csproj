@@ -195,8 +195,9 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Website\Controllers\AccountController.cs" />
     <Compile Include="Areas\Website\Controllers\BusinessController.cs" />
-    <Compile Include="Areas\Website\Controllers\DefaultController.cs" />
+    <Compile Include="Areas\Website\Controllers\HomeController.cs" />
     <Compile Include="Areas\Website\WebsiteAreaRegistration.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\AuthorizeFilterAttribute.cs" />
     <Compile Include="Filters\AuthorizeIgnoreAttribute.cs" />
@@ -403,7 +404,6 @@
     <Content Include="Content\admin\assets\css\images\Thumbs.db" />
     <Content Include="Content\admin\assets\font\fontawesome-webfont.woff" />
     <Content Include="Areas\Website\Views\Web.config" />
-    <Content Include="Areas\Website\Views\Default\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Business\Advertisements.cshtml" />
     <Content Include="Areas\Website\Views\Shared\BreadCrumbs.cshtml" />
     <Content Include="Areas\Website\Views\Shared\Error.cshtml" />
@@ -417,6 +417,7 @@
     <Content Include="Areas\Website\Views\Account\Login.cshtml" />
     <Content Include="Areas\Website\Views\Account\Register.cshtml" />
     <Content Include="Areas\Website\Views\Shared\_Layout_Business.cshtml" />
+    <Content Include="Areas\Website\Views\Home\Index.cshtml" />
     <None Include="Properties\PublishProfiles\LotteryDraw.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
