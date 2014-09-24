@@ -4,21 +4,99 @@
 }
 @model LotteryDraw.Site.Models.LoginModel
 
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.maskedinput.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.ct:gt(0)').hide();
+            var hdw = $('.tab_title li');
+
+            hdw.click(function () {
+                $(this).addClass('one').siblings().removeClass();
+                var hdw_index = hdw.index(this);
+                $('.ct').eq(hdw.index(this)).show()
+                    .siblings().hide();
+            });
+
+            //$.mask.definitions['~'] = '[+-]';
+            //$('#Tel').mask('135-0987-7756');
+
+            jQuery.validator.addMethod("phone", function (value, element) {
+                return this.optional(element) || /^(13[0-9]|15[0|3|6|7|8|9]|18[8|9])\d{8}$/.test(value);
+            }, "请输入合法的手机号码.");
+
+            $("#loginForm").validate({
+                errorElement: 'span',
+                errorClass: 'error-info',
+                focusInvalid: false,
+                rules: {
+                    Account: {
+                        required: true
+                        //,email: true,
+                        //minlength: 5,
+                        //equalTo: "#password",
+                        //phone: 'required',
+                        //url: true
+                    },
+                    Password: {
+                        required: true
+                    }
+                },
+
+                messages: {
+                    Account: {
+                        required: "用户名不能为空"
+                    },
+                    Password: {
+                        required: "密码不能为空"
+                    }
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit   
+                    //$('.alert-danger', $('.login-form')).show();
+                },
+                highlight: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                },
+                /* 验证通过时的处理 */
+                success: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+                    //$(e).remove();
+                },
+                /* 错误信息的显示位置 */
+                errorPlacement: function (error, element) {
+                    //element.parent().append("<br />");
+                    error.appendTo(element.parent());
+                },
+                /*执行ajaxsubmit*/
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+
+        });
+    </script>
+}
 <div class="active" id="messagelist">
     @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { name = "loginForm", id = "loginForm" })){
         <table class="message_table">
             <tbody>
                 <tr>
                     <td class="text">用户名：</td>
-                    <td class="input">
+                    <td class="input"> 
                         @Html.TextBoxFor(model => model.Account, new { @class = "input-text", placeholder = "用户名", id = "txtUserName" })
-                        <span class="info">*</span></td>
+                        <span class="info">*</span>
+                        <br />
+                        @Html.ValidationMessageFor(model => model.Account)
+                    </td>
                 </tr>
                 <tr>
                     <td class="text">密码：</td>
                     <td class="input">
                         @Html.PasswordFor(model => model.Password, new { @class = "input-text", placeholder = "密码" })
-                        <span class="info">*</span></td>
+                        <span class="info">*</span>
+                        <br />
+                        @Html.ValidationMessageFor(model => model.Password)</td>
                 </tr>
                 <tr>
                     <td class="text"></td>

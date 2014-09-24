@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /*初始化*/
 body,h1,h2,h3,h4,h5,h6,dl,dt,li,dd,th,td,p,pre,form,input,button,textarea,hr{margin:0;padding:0;}h1,h2,h3,h4,h5,h6{font-size:100%;}img{border:0;}button,input,select,textarea{font-size:100%;}ul,ol{ padding-left:40px;}
 .clear{ clear:both; }
@@ -195,7 +195,7 @@ ul.searchnavlist li{ padding:5px 0px;}
 
 .metpager_7 a,.metpager_7 span.miy{ border:1px solid  #2c2c2c; padding:2px 5px 2px 5px; background:url(../images/page/page7.gif) #2c2c2c; color:#fff;}
 .metpager_7 a:hover { border:1px solid #aad83e; color:#fff;background:url(../images/page/page7_2.gif) #aad83e;}
-.metpager_7 a:active { border:1px solid #aad83e; color:#fff;background:urlurl(../images/page/page7_2.gif) #aad83e;}
+.metpager_7 a:active { border:1px solid #aad83e; color:#fff;background:url(../images/page/page7_2.gif) #aad83e;}
 .metpager_7 span.current {border:1px solid #aad83e; padding:2px 5px 2px 5px; margin:2px; color:#fff;background:url(../images/page/page7_2.gif) #aad83e; text-decoration:none;}
 .metpager_7 span.disabled { border:1px solid #f3f3f3; padding:2px 5px 2px 5px; margin:2px; color:#ccc;}
 
@@ -210,3 +210,6 @@ ul.searchnavlist li{ padding:5px 0px;}
 .metpager_9 a:hover { border:1px solid #85bd1e; color:#638425; background-color:#f1ffd6; } 
 .metpager_9 span.current {border:1px solid #b2e05d; padding:2px 5px 2px 5px; margin:2px; color:#fff; background-color:#b2e05d; text-decoration:none;} 
 .metpager_9 span.disabled { border:1px solid #f3f3f3; padding:2px 5px 2px 5px; margin:2px; color:#ccc;} 
+
+/*其他样式*/
+span.error-info, span.field-validation-error { color:#f00; }

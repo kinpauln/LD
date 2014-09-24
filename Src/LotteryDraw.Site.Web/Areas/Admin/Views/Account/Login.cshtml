@@ -343,8 +343,8 @@
 <![endif]-->
 
     @*<script src="assets/js/fuelux/fuelux.wizard.min.js"></script>*@
-    <script src="/content/admin/assets/js/jquery.validate.min.js"></script>
-    <script src="/content/admin/assets/js/jquery.maskedinput.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     @*<script src="assets/js/additional-methods.min.js"></script>
     <script src="assets/js/bootbox.min.js"></script>
     <script src="assets/js/select2.min.js"></script>*@
@@ -382,13 +382,13 @@
             jQuery.validator.addMethod("phone", function (value, element) {
                 return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
             }, "Enter a valid phone number.");
-
+            
             $('#loginForm').validate({
                 errorElement: 'label',
                 errorClass: 'help-block',
                 focusInvalid: false,
                 rules: {
-                    LoginName: {
+                    Account: {
                         required: true
                         //,email: true,
                         //minlength: 5,
@@ -403,7 +403,7 @@
                 },
 
                 messages: {
-                    LoginName: {
+                    Account: {
                         required: "用户名不能为空",
                         //email: "Please provide a valid email."
                     },
@@ -444,9 +444,6 @@
                 }
             });
         });
-
-        function validateForm() {
-        }
     </script>
     <div style="display: none">
         <script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script>

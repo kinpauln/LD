@@ -59,6 +59,8 @@
     </style>
 }
 @section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $('.ct:gt(0)').hide();
@@ -69,6 +71,155 @@
                 var hdw_index = hdw.index(this);
                 $('.ct').eq(hdw.index(this)).show()
                     .siblings().hide();
+            });
+
+            //$.mask.definitions['~'] = '[+-]';
+            //$('#Tel').mask('135-0987-7756');
+
+            jQuery.validator.addMethod("phone", function (value, element) {
+                return this.optional(element) || /^(13[0-9]|15[0|3|6|7|8|9]|18[8|9])\d{8}$/.test(value);
+            }, "请输入合法的手机号码.");
+
+            $("form[name='regform-psnl']").validate({
+                errorElement: 'span',
+                errorClass: 'error-info',
+                focusInvalid: false,
+                rules: {
+                    UserName: {
+                        required: true
+                        //,email: true,
+                        //minlength: 5,
+                        //equalTo: "#password",
+                        //phone: 'required',
+                        //url: true
+                    },
+                    Password: {
+                        required: true,
+                        minlength: 6,
+                    },
+                    ConfirmPassword: {
+                        equalTo: "#PasswordPsnl",
+                    },
+                    Email: {
+                        email: true
+                    },
+                    Tel: {
+                        phone: 'required'
+                    }
+                },
+
+                messages: {
+                    UserName: {
+                        required: "用户名不能为空"
+                    },
+                    Password: {
+                        required: "密码不能为空",
+                        minlength: "至少6位"
+                    },
+                    ConfirmPassword: {
+                        equalTo: "两次输入的密码不一致"
+                    },
+                    Email: {
+                        email: "邮箱格式不正确"
+                    },
+                    Tel: {
+                        phone: "手机号码不合法"
+                    }
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit   
+                    //$('.alert-danger', $('.login-form')).show();
+                },
+                highlight: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                },
+                /* 验证通过时的处理 */
+                success: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+                    //$(e).remove();
+                },
+                /* 错误信息的显示位置 */
+                errorPlacement: function (error, element) {
+                    //element.parent().append("<br />");
+                    error.appendTo(element.parent());
+                },
+                /*执行ajaxsubmit*/
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+
+            $("form[name='regform-ent']").validate({
+                errorElement: 'span',
+                errorClass: 'error-info',
+                focusInvalid: false,
+                rules: {
+                    UserName: {
+                        required: true
+                        //,email: true,
+                        //minlength: 5,
+                        //equalTo: "#password",
+                        //phone: 'required',
+                        //url: true
+                    },
+                    Password: {
+                        required: true,
+                        minlength: 6,
+                    },
+                    ConfirmPassword: {
+                        equalTo: "#PasswordPsnl",
+                    },
+                    Name: {
+                        required: true
+                    },
+                    Email: {
+                        email: true
+                    },
+                    Tel: {
+                        phone: 'required'
+                    }
+                },
+
+                messages: {
+                    UserName: {
+                        required: "用户名不能为空"
+                    },
+                    Password: {
+                        required: "密码不能为空",
+                        minlength: "至少6位"
+                    },
+                    ConfirmPassword: {
+                        equalTo: "两次输入的密码不一致"
+                    },
+                    Name: {
+                        required: "公司名称不能为空"
+                    },
+                    Email: {
+                        email: "邮箱格式不正确"
+                    },
+                    Tel: {
+                        phone: "手机号码不合法"
+                    }
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit   
+                    //$('.alert-danger', $('.login-form')).show();
+                },
+                highlight: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                },
+                /* 验证通过时的处理 */
+                success: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+                    //$(e).remove();
+                },
+                /* 错误信息的显示位置 */
+                errorPlacement: function (error, element) {
+                    //element.parent().append("<br />");
+                    error.appendTo(element.parent());
+                },
+                /*执行ajaxsubmit*/
+                submitHandler: function (form) {
+                    form.submit();
+                }
             });
         });
     </script>
@@ -89,19 +240,25 @@
                                 <td class="text">用户名</td>
                                 <td class="input">
                                     @Html.TextBoxFor(model => model.UserName, new { @class = "input-text", placeholder = "用户名" })
-                                    <span class="info">*</span></td>
+                                    <span class="info">*</span>
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.UserName)
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text">密码</td>
                                 <td class="input">
-                                    @Html.PasswordFor(model => model.Password, new { @class = "input-text", placeholder = "密码" })
-                                    <span class="info">*</span></td>
+                                    @Html.PasswordFor(model => model.Password, new { @class = "input-text", id = "PasswordPsnl", placeholder = "密码" })
+                                    <span class="info">*</span>
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.Password)
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text">确认密码</td>
                                 <td class="input">
-                                    <input name="password" type="password" class="input-text">
-                                    <span class="info">*</span></td>
+                                    <input name="ConfirmPassword" id="ConfirmPasswordPsnl" type="password" class="input-text">
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text">Email</td>
@@ -138,19 +295,25 @@
                                 <td class="text">用户名</td>
                                 <td class="input">
                                     @Html.TextBoxFor(model => model.UserName, new { @class = "input-text", placeholder = "用户名" })
-                                    <span class="info">*</span></td>
+                                    <span class="info">*</span>
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.UserName)
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text">密码</td>
                                 <td class="input">
-                                    @Html.PasswordFor(model => model.Password, new { @class = "input-text", placeholder = "密码" })
-                                    <span class="info">*</span></td>
+                                    @Html.PasswordFor(model => model.Password, new { @class = "input-text", id = "PasswordEnt", placeholder = "密码" })
+                                    <span class="info">*</span>
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.Password)
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text">确认密码</td>
                                 <td class="input">
-                                    <input name="password" type="password" class="input-text">
-                                    <span class="info">*</span></td>
+                                    <input name="ConfirmPassword" id="ConfirmPasswordEnt" type="password" class="input-text">
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text">公司名称</td>
@@ -176,11 +339,6 @@
                                 <td class="input">
                                     @Html.TextBoxFor(model => model.Tel, new { @class = "input-text", placeholder = "电话" })
                                 </td>
-                            </tr>
-                            <tr>
-                                <td class="text">其他联系方式</td>
-                                <td class="input">
-                                    <input name="contact" type="text" class="input-text">如QQ、MSN等</td>
                             </tr>
                             <tr>
                                 <td class="text">备注</td>
