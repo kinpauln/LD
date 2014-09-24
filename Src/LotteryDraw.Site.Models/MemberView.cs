@@ -21,6 +21,7 @@ namespace LotteryDraw.Site.Models
         [Display(Name = "登录密码")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "{0}不能为空！")]
         public string Email { get; set; }
 
         public string Tel { get; set; }

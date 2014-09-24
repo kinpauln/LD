@@ -101,6 +101,7 @@
                         equalTo: "#PasswordPsnl",
                     },
                     Email: {
+                        required: true,
                         email: true
                     },
                     Tel: {
@@ -120,6 +121,7 @@
                         equalTo: "两次输入的密码不一致"
                     },
                     Email: {
+                        required: "邮箱不能为空",
                         email: "邮箱格式不正确"
                     },
                     Tel: {
@@ -172,6 +174,7 @@
                         required: true
                     },
                     Email: {
+                        required: true,
                         email: true
                     },
                     Tel: {
@@ -194,6 +197,7 @@
                         required: "公司名称不能为空"
                     },
                     Email: {
+                        required: "邮箱不能为空",
                         email: "邮箱格式不正确"
                     },
                     Tel: {
@@ -226,6 +230,10 @@
 }
 <div class="active" id="messagelist">
     <div id="mytabs">
+        @if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
+        {
+            <div style="color: #f00;" class="error-info">@ViewBag.Message</div>
+        }
         <ul class="tab_title">
             <li class="one">个人</li>
             <li>企业</li>
@@ -264,6 +272,9 @@
                                 <td class="text">Email</td>
                                 <td class="input">
                                     @Html.TextBoxFor(model => model.Email, new { @class = "input-text", placeholder = "Email" })
+                                    <span class="info">*</span>
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.Email)
                                 </td>
                             </tr>
                             <tr>
@@ -332,6 +343,9 @@
                                 <td class="text">Email</td>
                                 <td class="input">
                                     @Html.TextBoxFor(model => model.Email, new { @class = "input-text", placeholder = "Email" })
+                                    <span class="info">*</span>
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.Email)
                                 </td>
                             </tr>
                             <tr>
