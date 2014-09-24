@@ -78,12 +78,19 @@
     </script>
 }
 <div class="active" id="messagelist">
-    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { name = "loginForm", id = "loginForm" })){
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { name = "loginForm", id = "loginForm" }))
+    {
         <table class="message_table">
             <tbody>
+                @if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
+                {
+                    <tr>
+                        <td colspan="2" style="text-align: center; color: #f00;">@ViewBag.Message</td>
+                    </tr>
+                }
                 <tr>
                     <td class="text">用户名：</td>
-                    <td class="input"> 
+                    <td class="input">
                         @Html.TextBoxFor(model => model.Account, new { @class = "input-text", placeholder = "用户名", id = "txtUserName" })
                         <span class="info">*</span>
                         <br />
