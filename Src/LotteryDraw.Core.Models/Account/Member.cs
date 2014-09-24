@@ -39,13 +39,27 @@ namespace LotteryDraw.Core.Models.Account
         [StringLength(32)]
         public string Password { get; set; }
 
-        [Required]
+        //[Required]
         [StringLength(20)]
-        public string NickName { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [StringLength(50)]
         public string Email { get; set; }
+
+        /// <summary>
+        /// 获取或设置 用户类型
+        /// </summary>
+        public MemberType MemberType
+        {
+            get { return (MemberType)MemberTypeNum; }
+            set { MemberTypeNum = (int)value; }
+        }
+
+        /// <summary>
+        /// 获取或设置 角色类型的数值表示，用于数据库存储
+        /// </summary>
+        public int MemberTypeNum { get; set; }
 
         /// <summary>
         /// 获取或设置 用户扩展信息

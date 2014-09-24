@@ -58,6 +58,13 @@ namespace LotteryDraw.Core
         /// <returns>业务操作结果</returns>
         OperationResult Login(LoginInfo loginInfo);
 
+        /// <summary>
+        ///     用户注册
+        /// </summary>
+        /// <param name="member">用户信息</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult Register(Member member);
+
         #endregion
     }
 }

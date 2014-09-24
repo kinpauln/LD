@@ -7,9 +7,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
+namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
-    public abstract class AdminControllerBase : BaseController
+    public abstract class WebsiteControllerBase : BaseController
     {
         /// <summary>
         /// 重写分页Size
@@ -21,8 +21,10 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
                 return 12;
             }
         }
-        public override ActionResult InfoPage() {
-            return View("~/Areas/Admin/Views/Shared/InfoPage.cshtml");
+
+        public override ActionResult InfoPage()
+        {
+            return View("~/Areas/Website/Views/Shared/InfoPage.cshtml");
         }
 
         ///// <summary>
@@ -68,7 +70,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
 
             if (!User.Identity.IsAuthenticated)
             {
-                filterContext.Result = RedirectToAction("Login", "Account", new { Area = "Admin" });
+                filterContext.Result = RedirectToAction("Login", "Account", new { Area = "Website" });
                 return;
             }
 

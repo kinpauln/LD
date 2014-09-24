@@ -29,6 +29,7 @@ namespace LotteryDraw.Core.Models.Account
         public MemberExtend()
         {
             Id = CombHelper.NewComb();
+            Address = new MemberAddress();
         }
 
         public string Tel { get; set; }

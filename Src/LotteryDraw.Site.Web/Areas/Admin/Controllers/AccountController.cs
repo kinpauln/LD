@@ -35,5 +35,10 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
         }
 
         #endregion
+
+        public override ActionResult InfoPage()
+        {
+            return View("~/Areas/Admin/Views/Shared/InfoPage.cshtml");
+        }
     }
 }

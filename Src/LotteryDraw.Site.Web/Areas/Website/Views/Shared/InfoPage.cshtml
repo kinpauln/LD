@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Website/Views/Shared/_Layout.cshtml";
+}
+
+<div class="active" id="messagelist">
+    <h></h>
+</div>
+<div class="active" id="shownews">
+    <h1 class="title">操作信息描述</h1>
+    <div class="editor">@Html.Raw(TempData["Message"])</div>
+    @Html.Partial("MetHitsPartial")
+</div>

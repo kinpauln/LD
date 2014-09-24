@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
-    public class BusinessController : Controller
+    public class BusinessController : WebsiteControllerBase
     {
         //
         // GET: /Website/Business/
@@ -19,6 +19,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// <summary>
         ///  联系我们
         /// </summary>
+        //[AuthorizeIgnore]
         public ActionResult ContactUs()
         {
             ViewBag.LeftTitleContent = "联系我们";

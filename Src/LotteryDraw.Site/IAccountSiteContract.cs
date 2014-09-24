@@ -37,5 +37,12 @@ namespace LotteryDraw.Site
         ///     用户退出
         /// </summary>
         void Logout();
+
+        /// <summary>
+        ///     用户注册
+        /// </summary>
+        /// <param name="model">登录模型信息</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult Register(MemberView model);
     }
 }

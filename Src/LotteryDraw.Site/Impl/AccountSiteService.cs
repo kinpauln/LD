@@ -22,6 +22,7 @@ using LotteryDraw.Core.Impl;
 using LotteryDraw.Core.Models;
 using LotteryDraw.Core.Models.Account;
 using LotteryDraw.Site.Models;
+using LotteryDraw.Core.Models.Security;
 
 
 namespace LotteryDraw.Site.Impl
@@ -54,7 +55,7 @@ namespace LotteryDraw.Site.Impl
                     ? DateTime.Now.AddDays(7)
                     : DateTime.Now.Add(FormsAuthentication.Timeout);
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, member.UserName, DateTime.Now, expiration,
-                    true, member.NickName, FormsAuthentication.FormsCookiePath);
+                    true, member.Name, FormsAuthentication.FormsCookiePath);
                 HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
                 if (model.IsRememberLogin)
                 {
@@ -72,6 +73,28 @@ namespace LotteryDraw.Site.Impl
         public void Logout()
         {
             FormsAuthentication.SignOut();
+        }
+
+        /// <summary>
+        ///     用户注册
+        /// </summary>
+        /// <param name="model">登录模型信息</param>
+        /// <returns>业务操作结果</returns>
+        public OperationResult Register(MemberView model)
+        {
+            PublicHelper.CheckArgument(model, "model");
+            Member member = new Member
+            {
+                UserName = model.UserName,
+                Password = model.Password,
+                Email = model.Email,
+                Name = model.Name,
+                Extend = new MemberExtend() { Tel = model.Tel },
+                //Roles = new Role[]{new Role(){ RoleType= RoleType.User,Description = ""}},
+                MemberTypeNum = (int)model.MemberType
+            };
+            OperationResult result = base.Register(member);
+            return result;
         }
     }
 }

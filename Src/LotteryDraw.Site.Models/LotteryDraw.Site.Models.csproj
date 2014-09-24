@@ -48,6 +48,12 @@
     <Compile Include="MemberView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LotteryDraw.Component.Tools\LotteryDraw.Component.Tools.csproj">
+      <Project>{a6dfe374-fd47-482a-b733-852c6d840d34}</Project>
+      <Name>LotteryDraw.Component.Tools</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

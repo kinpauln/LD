@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LotteryDraw.Component.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,13 @@ namespace LotteryDraw.Site.Models
 
         public string UserName { get; set; }
 
-        public string NickName { get; set; }
+        public string Name { get; set; }
+
+        public string Password { get; set; }
 
         public string Email { get; set; }
+
+        public string Tel { get; set; }
 
         public bool IsDeleted { get; set; }
 
@@ -22,5 +27,7 @@ namespace LotteryDraw.Site.Models
         public int LoginLogCount { get; set; }
 
         public IEnumerable<string> RoleNames { get; set; }
+
+        public MemberType MemberType { get; set; }
     }
 }

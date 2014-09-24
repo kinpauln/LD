@@ -173,7 +173,7 @@ namespace LotteryDraw.Consoles
             var members = memberRepository.Entities.Where<Member, int>(m => true, 1, 15, out total, sortConditions).ToList();
             foreach (var member in members)
             {
-                Console.WriteLine(member.NickName);
+                Console.WriteLine(member.Name);
             }
         }
 

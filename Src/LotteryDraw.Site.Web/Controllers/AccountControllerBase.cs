@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace LotteryDraw.Site.Web.Controllers
 {
     [Export]
-    public abstract class AccountControllerBase : Controller
+    public abstract class AccountControllerBase : BaseController
     {
         protected string _areaName = string.Empty;
 

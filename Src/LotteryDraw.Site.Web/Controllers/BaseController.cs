@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
+namespace LotteryDraw.Site.Web.Controllers
 {
     public abstract class BaseController : Controller
     {
@@ -16,6 +16,8 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
         {
             get { return 10; }
         }
+
+        public abstract ActionResult InfoPage();
 
         #region 公共提示画面操作
         /// <summary>

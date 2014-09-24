@@ -30,7 +30,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             var memberViews = AccountContract.Members.Where<Member, int>(m => true, pageIndex, pageSize, out total, sortConditions).Select(m => new MemberView
             {
                 UserName = m.UserName,
-                NickName = m.NickName,
+                Name = m.Name,
                 Email = m.Email,
                 IsDeleted = m.IsDeleted,
                 AddDate = m.AddDate,

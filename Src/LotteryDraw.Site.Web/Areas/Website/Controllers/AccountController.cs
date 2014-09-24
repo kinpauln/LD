@@ -42,9 +42,50 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         public ActionResult Register()
         {
             ViewBag.IsPostBack = false;
-            return View();
+            MemberView model = new MemberView {
+                
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [AuthorizeIgnore]
+        public ActionResult Register(MemberView model,string psnl,string ent)
+        {
+            ViewBag.IsPostBack = true;
+            if (!string.IsNullOrEmpty(psnl)) {
+                model.MemberType = MemberType.Personal;
+            }
+            else if (!string.IsNullOrEmpty(ent))
+            {
+                model.MemberType = MemberType.Enterprise;
+            }
+            try
+            {
+                OperationResult result = AccountContract.Register(model);
+                string msg = result.Message ?? result.ResultType.ToDescription();
+                if (result.ResultType == OperationResultType.Success)
+                {
+                    TempData["Message"] = "注册成功。现在<a href='/Account/Login'>登录<a>";
+                    return RedirectToAction("InfoPage");
+                }
+                //ModelState.AddModelError("", msg);
+                ViewBag.Message = msg;
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                //ModelState.AddModelError("", e.Message);
+                ViewBag.Message = e.Message;
+                return View(model);
+            }
         }
 
         #endregion
+
+        public override ActionResult InfoPage()
+        {
+            return View("~/Areas/Website/Views/Shared/InfoPage.cshtml");
+        }
     }
 }

@@ -116,5 +116,24 @@ namespace LotteryDraw.Core.Impl
             LoginLogRepository.Insert(loginLog);
             return new OperationResult(OperationResultType.Success, "登录成功。", member);
         }
+
+        /// <summary>
+        ///     用户注册
+        /// </summary>
+        /// <param name="member">用户信息</param>
+        /// <returns>业务操作结果</returns>
+        public OperationResult Register(Member member)
+        {
+            //PublicHelper.CheckArgument(member, "member");
+            int rcount = MemberRepository.Insert(member);
+            if (rcount > 0)
+            {
+                return new OperationResult(OperationResultType.Success, "注册成功。", member);
+            }
+            else
+            {
+                return new OperationResult(OperationResultType.Warning, "注册失败。");
+            }
+        }
     }
 }
