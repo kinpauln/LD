@@ -211,5 +211,79 @@ ul.searchnavlist li{ padding:5px 0px;}
 .metpager_9 span.current {border:1px solid #b2e05d; padding:2px 5px 2px 5px; margin:2px; color:#fff; background-color:#b2e05d; text-decoration:none;} 
 .metpager_9 span.disabled { border:1px solid #f3f3f3; padding:2px 5px 2px 5px; margin:2px; color:#ccc;} 
 
+
+/*digg翻页样式*/
+div.diggpager
+{
+    padding-right: 3px;
+    padding-left: 3px;
+    padding-bottom: 3px;
+    margin: 3px;
+    padding-top: 3px;
+    text-align: center;
+}
+
+div.diggpager a
+{
+    border: #e0e0e0 1px solid;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-bottom: 2px;
+    margin: 2px;
+    color: #aaa;
+    padding-top: 2px;
+    text-decoration: none;
+}
+
+div.diggpager a:hover
+{
+    border: #a0a0a0 1px solid;
+    color: #aaa;
+}
+
+div.diggpager a:active
+{
+    border: #a0a0a0 1px solid;
+    color: #aaa;
+}
+
+div.diggpager span.current
+{
+    border: 1px solid #e0e0e0;
+    padding: 2px 5px 2px 5px;
+    margin: 2px;
+    color: #aaa;
+    background-color: #f0f0f0;
+    text-decoration: none;
+}
+
+div.diggpager a.disabled
+{
+    color: #ccc;
+    border: #eee 1px solid;
+    padding-top: 2px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    margin: 2px;
+}
+
+div.diggpager a[disabled], 
+        div.diggpager a[disabled]:link, 
+        div.diggpager a[disabled]:active, 
+        div.diggpager a[disabled]:visited, 
+        div.diggpager a[disabled]:hover, 
+        div.diggpager a[disabled]:focus
+{
+    color: #ccc!important;
+    text-decoration: none!important;
+    border: #e0e0e0 1px solid;
+}
+
+div.diggpager a[disabled]:hover
+{
+    border: #e0e0e0 1px solid;
+}
+
 /*其他样式*/
 span.error-info, span.field-validation-error { color:#f00; }

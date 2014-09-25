@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Webdiyer.WebControls.Mvc;
+@model PagedList<LotteryDraw.Site.Models.PrizeView>
+@{
     ViewBag.Title = "奖品管理";
     Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
 }
@@ -8,5 +10,178 @@
 }
 
 @section  BreadCrumbs{
-    &gt; <label>奖品管理</label>
+    &gt;
+    <label>奖品管理</label>
 }
+@section styles{
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table th td {
+            border: solid 1px #808080;
+        }
+
+        table th {
+            text-align: left;
+        }
+
+        #adv-list {
+            position: relative;
+            margin-bottom: 10px;
+            zoom: 1;
+        }
+
+        #adv-list a {
+            cursor: pointer;
+            width: 30%;
+            float: left;
+            display: inline-block;
+            margin: 20px 20px 0px 0px;
+            background: #ebebeb url(../../../content/website/pic-bg.jpg) repeat-x 0 0;
+            padding: 0;
+        }
+
+        #adv-list a span {
+            float: left;
+            margin-left: 112px;
+            padding: 12px 16px 0px 0px;
+            overflow: hidden;
+        }
+
+        #adv-list a img {
+            float: left;
+            width: 100px;
+            padding-top: 6px;
+            padding-left: 4px;
+            min-height: 126px;
+        }
+
+        #adv-list a span h4 {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 18px;
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+
+        #adv-list a span p {
+            font-family: "simsun";
+            font-size: 12px;
+            line-height: 20px;
+            color: #555;
+        }
+
+        #adv-list a span h4.c_blue {
+            color: #3686ab;
+        }
+
+        #adv-list a span h4.c_orange {
+            color: #F4AF74;
+        }
+
+        #adv-list a span h4.c_green {
+            color: #629C39;
+        }
+
+        #adv-list a.last {
+            margin-right: 0;
+        }
+
+        #adv-list a, #adv-list a:hover {
+            text-decoration: none;
+        }
+
+        #adv-list .a1, #adv-list .a2, #adv-list .a3 {
+            float: left;
+        }
+    </style>
+}
+<div class="active" id="newslist">
+    <table>
+        <tr>
+            <th>序号</th>
+            <th>名称</th>
+            <th>图片</th>
+            <th>描述</th>
+        </tr>
+        @foreach (var item in Model)
+        { 
+        
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Name</td>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+            </tr>
+        }
+    </table>
+    @Html.Pager(Model, new PagerOptions
+{
+    PageIndexParameterName = "id",
+    FirstPageText = "首页",
+    LastPageText = "尾页",
+    PrevPageText = "上一页",
+    NextPageText = "下一页",
+    SeparatorHtml = "",
+    CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
+}, new { @class = "diggpager" })
+</div>
+@*<div id="adv-list">
+
+    <div>
+        <a href="http://www.wuliubang.net/demo/met093/354/service/">
+            <img src="/content/website/images/1405492353.jpg" alt="猎头服务" class="ph" style="height: 127px;">
+            <span class="ph" style="height: 127px;">
+                <h4 class="c_blue">猎头服务</h4>
+                <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
+            </span></a>
+    </div>
+    <div>
+        <a href="http://www.wuliubang.net/demo/met093/354/industry/"><span class="ph" style="height: 127px;">
+            <h4 class="c_orange">行业优势</h4>
+            <p>孜之追求的精神文化：“以人为本，诚信至上，敬业尽责，卓越完美”； 国际接轨运作模式精准到位的专业评估！</p>
+        </span>
+            <img src="/content/website/images/1405492417.jpg" alt="行业优势" class="ph" style="height: 127px;">
+        </a>
+    </div>
+
+
+    <div>
+        <a href="http://www.wuliubang.net/demo/met093/354/consulting/"><span class="ph" style="height: 127px;">
+            <h4 class="c_green">咨询服务</h4>
+            <p>行之有效的运营策略：“把握时机，科学决策，规范管理，有效控制”； 专注,和谐,感恩,共赢! 脉随心动，精彩共舞！</p>
+        </span>
+            <img src="/content/website/images/1405492887.jpg" alt="咨询服务" class="ph" style="height: 127px;">
+        </a>
+    </div>
+    <div>
+        <a href="http://www.wuliubang.net/demo/met093/354/job/"><span class="ph" style="height: 127px;">
+            <h4 class="c_orange">猎头职位</h4>
+            <p>审时度势的奋斗目标：“整合资源，拓展市场，高效运行，有序操作”我们服务企业，成就人才，铸就一份份事业辉煌。</p>
+        </span>
+            <img src="/content/website/images/1405492502.jpg" alt="猎头职位" class="ph" style="height: 127px;">
+        </a>
+    </div>
+
+
+    <div>
+        <a href="http://www.wuliubang.net/demo/met093/354/training/"><span class="ph" style="height: 127px;">
+            <h4 class="c_blue">培训服务</h4>
+            <p>静水流深，载誉不缺，精神唯此，可得永年，为客户获取最具竞争力的人力资源为精英匹配呈现价值的事业平台！</p>
+        </span>
+            <img src="/content/website/images/1405492451.jpg" alt="培训服务" class="ph" style="height: 127px;">
+        </a>
+    </div>
+    <div>
+        <a href="http://www.wuliubang.net/demo/met093/354/new/"><span class="ph" style="height: 127px;">
+            <h4 class="c_orange">新闻咨询</h4>
+            <p>持之以恒的经营理念：“始于客户需求，终于客户满意”，十年脉脉耕耘，十年脉脉服务，静水深流，但载誉不缺！</p>
+        </span>
+            <img src="/content/website/images/1405492430.jpg" alt="新闻咨询" class="ph" style="height: 127px;">
+        </a>
+    </div>
+
+</div>*@

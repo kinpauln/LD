@@ -1,4 +1,5 @@
 ﻿using LotteryDraw.Component.Tools;
+using LotteryDraw.Core;
 using LotteryDraw.Site.Models;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Webdiyer.WebControls.Mvc;
+using LotteryDraw.Core.Models.Business;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
@@ -13,7 +16,10 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
     public class VipController : WebsiteControllerBase
     {
         [Import]
-        public IPrizeSiteContract PrizeContract { get; set; }
+        public IPrizeSiteContract PrizeSiteContract { get; set; }
+
+        [Import]
+        public IPrizeContract PrizeContract { get; set; }
 
         public ActionResult Index()
         {
@@ -42,7 +48,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 ViewBag.Message = "用户Id为0";
                 return View(model);
             }
-            OperationResult result = PrizeContract.Add(model);
+            OperationResult result = PrizeSiteContract.Add(model);
             string msg = result.Message ?? result.ResultType.ToDescription();
             if (result.ResultType == OperationResultType.Success)
             {
@@ -57,9 +63,27 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// <summary>
         ///  奖品管理
         /// </summary>
-        public ActionResult ManagePrizes()
+        public ActionResult ManagePrizes(int? id)
         {
-            return View();
+            int userid = this.UserId ?? 0;
+
+            int pageIndex = id ?? 1;
+            int total;
+            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
+
+            var rlist = PrizeContract.Prizes
+                .Where(p => p.Member.Id.Equals(userid))
+                .Where<Prize, Guid>(m => true, pageIndex, this.PageSize, out total, sortConditions)
+                .OrderByDescending(p=>p.AddDate)
+                .Select(p => new PrizeView()
+            {
+                Name = p.Name,
+                Description = p.Description,
+                Photo = p.Photo
+            });
+
+            PagedList<PrizeView> model = new PagedList<PrizeView>(rlist, pageIndex, this.PageSize, total);
+            return View(model);
         }
 
         /// <summary>
@@ -77,6 +101,14 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             ViewBag.OptionName = "会员选项";
             ViewBag.MetHitsVisible = false;
             ViewBag.MemberId = this.UserId ?? 0;
+        }
+
+        public override int PageSize
+        {
+            get
+            {
+                return 10;
+            }
         }
     }
 }
