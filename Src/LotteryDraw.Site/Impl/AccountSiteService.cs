@@ -59,7 +59,7 @@ namespace LotteryDraw.Site.Impl
                     ? DateTime.Now.AddDays(7)
                     : DateTime.Now.Add(FormsAuthentication.Timeout);
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, member.UserName, DateTime.Now, expiration,
-                    true, member.UserName, FormsAuthentication.FormsCookiePath);
+                    true, member.Id.ToString(), FormsAuthentication.FormsCookiePath);
                 HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
                 if (model.IsRememberLogin)
                 {
