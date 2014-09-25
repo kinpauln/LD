@@ -2,11 +2,101 @@
     ViewBag.Title = "发布奖品";
     Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
 }
+@model LotteryDraw.Site.Models.PrizeView
 
 @section  LeftMenuItems{
     @Html.Partial("VipNavPartial")
 }
 
 @section  BreadCrumbs{
-    &gt; <label>发布奖品</label>
+    &gt;
+    <label>发布奖品</label>
+}
+@using (Html.BeginForm("PublishPrize", "Vip", FormMethod.Post, new { id = "prizeForm" }))
+{
+    @Html.HiddenFor(model => model.MemberId)
+    <table class="message_table">
+        <tbody>
+            @if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
+            {
+                <tr>
+                    <td colspan="2" style="text-align: center; color: #f00;">@ViewBag.Message</td>
+                </tr>
+            }
+            <tr>
+                <td class="text">奖品名称</td>
+                <td class="input">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "input-text", placeholder = "奖品名称" })
+                    <span class="info">*</span>
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Name)
+                </td>
+            </tr>
+            <tr>
+                <td class="text">奖品图片</td>
+                <td class="input">
+                    @*@Html.TextBox(model => model.Photo, new { @class = "input-text", id = "PasswordPsnl", placeholder = "密码" })
+                    <span class="info">*</span>
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Password)*@
+                </td>
+            </tr>
+            <tr>
+                <td class="text">描述：</td>
+                <td class="input">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "textarea-text", cols = "50", rows = "6", placeholder = "描述" })
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td class="text"></td>
+                <td class="submint">
+                    <input type="submit" value="发布" class="submit button orange"></td>
+            </tr>
+        </tbody>
+    </table>
+}
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.maskedinput.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#prizeForm").validate({
+                errorElement: 'span',
+                errorClass: 'error-info',
+                focusInvalid: false,
+                rules: {
+                    Name: {
+                        required: true
+                    }
+                },
+
+                messages: {
+                    Name: {
+                        required: "奖品名称不能为空"
+                    }
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit   
+                    //$('.alert-danger', $('.login-form')).show();
+                },
+                highlight: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                },
+                /* 验证通过时的处理 */
+                success: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+                    //$(e).remove();
+                },
+                /* 错误信息的显示位置 */
+                errorPlacement: function (error, element) {
+                    //element.parent().append("<br />");
+                    error.appendTo(element.parent());
+                },
+                /*执行ajaxsubmit*/
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
 }

@@ -23,6 +23,7 @@ using LotteryDraw.Core.Models;
 using LotteryDraw.Core.Models.Account;
 using LotteryDraw.Site.Models;
 using LotteryDraw.Core.Models.Security;
+using LotteryDraw.Core;
 
 
 namespace LotteryDraw.Site.Impl
@@ -31,8 +32,11 @@ namespace LotteryDraw.Site.Impl
     ///     账户模块站点业务实现
     /// </summary>
     [Export(typeof(IAccountSiteContract))]
-    internal class AccountSiteService : AccountService, IAccountSiteContract
+    internal class AccountSiteService : IAccountSiteContract
     {
+        [Import]
+        public IAccountContract AccountContract { get; set; }
+
         /// <summary>
         ///     用户登录
         /// </summary>
@@ -47,7 +51,7 @@ namespace LotteryDraw.Site.Impl
                 Password = model.Password,
                 IpAddress = HttpContext.Current.Request.UserHostAddress
             };
-            OperationResult result = base.Login(loginInfo);
+            OperationResult result = AccountContract.Login(loginInfo);
             if (result.ResultType == OperationResultType.Success)
             {
                 Member member = (Member)result.AppendData;
@@ -93,7 +97,7 @@ namespace LotteryDraw.Site.Impl
                 //Roles = new Role[]{new Role(){ RoleType= RoleType.User,Description = ""}},
                 MemberTypeNum = (int)model.MemberType
             };
-            OperationResult result = base.Register(member);
+            OperationResult result = AccountContract.Register(member);
             return result;
         }
     }

@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper\Enums.cs" />
+    <Compile Include="Impl\PrizeSiteService.cs" />
+    <Compile Include="IPrizeSiteContract.cs" />
     <Compile Include="Helper\Ioc\MefDependencySolver.cs" />
     <Compile Include="Helper\Logging\AdminLogAttribute.cs" />
     <Compile Include="Helper\SiteStaticStrings.cs" />

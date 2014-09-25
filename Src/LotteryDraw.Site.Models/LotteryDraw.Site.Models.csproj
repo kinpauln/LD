@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PrizeView.cs" />
     <Compile Include="LoginModel.cs" />
     <Compile Include="MemberView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

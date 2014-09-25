@@ -25,7 +25,8 @@ namespace LotteryDraw.Core.Impl
     /// <summary>
     ///     账户模块核心业务实现
     /// </summary>
-    public abstract class AccountService : CoreServiceBase, IAccountContract
+    [Export(typeof(IAccountContract))]
+    public class AccountService : CoreServiceBase, IAccountContract
     {
         #region 属性
 

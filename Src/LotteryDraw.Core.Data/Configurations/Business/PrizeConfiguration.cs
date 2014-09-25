@@ -13,8 +13,9 @@ namespace LotteryDraw.Core.Data.Configurations.Business
     /// </summary>    
 	internal partial class PrizeConfiguration
     {
-        partial void PrizeConfigurationAppend(){ 
-
+        partial void PrizeConfigurationAppend()
+        {
+            HasRequired(m => m.Member).WithMany(n => n.Prizes);
         }
     }
 }

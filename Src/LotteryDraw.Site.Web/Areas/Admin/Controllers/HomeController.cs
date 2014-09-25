@@ -11,6 +11,7 @@ using LotteryDraw.Core.Models.Account;
 using LotteryDraw.Site.Models;
 
 using Webdiyer.WebControls.Mvc;
+using LotteryDraw.Core;
 
 
 namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
@@ -19,7 +20,10 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
     public class HomeController : AdminControllerBase
     {
         [Import]
-        public IAccountSiteContract AccountContract { get; set; }
+        public IAccountSiteContract AccountSiteContract { get; set; }
+
+        [Import]
+        public IAccountContract AccountContract { get; set; }
 
         public ActionResult Index(int? id)
         {

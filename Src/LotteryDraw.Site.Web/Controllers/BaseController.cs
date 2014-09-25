@@ -7,6 +7,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Security;
 
 namespace LotteryDraw.Site.Web.Controllers
 {
@@ -15,6 +16,18 @@ namespace LotteryDraw.Site.Web.Controllers
         public virtual int PageSize
         {
             get { return 10; }
+        }
+
+        public int? UserId {
+            get
+            {
+                var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                string uid = ticket.UserData;
+                if (string.IsNullOrEmpty(uid))
+                    return null;
+                return Int32.Parse(uid);
+            }
         }
 
         public abstract ActionResult InfoPage();

@@ -16,6 +16,7 @@ using System.ComponentModel.DataAnnotations;
 using LotteryDraw.Component.Tools;
 using LotteryDraw.Core.Models.Security;
 using System;
+using LotteryDraw.Core.Models.Account;
 
 
 namespace LotteryDraw.Core.Models.Business
@@ -35,7 +36,12 @@ namespace LotteryDraw.Core.Models.Business
         [StringLength(20)]
         public string Name { get; set; }
 
-        [Required]
+        //[Required]
         public byte[] Photo { get; set; }
+
+        [Required]
+        public string Description { get; set; }
+
+        public virtual Member Member { get; set; }
     }
 }

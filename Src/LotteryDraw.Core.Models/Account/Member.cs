@@ -15,6 +15,7 @@ using System.ComponentModel.DataAnnotations;
 
 using LotteryDraw.Component.Tools;
 using LotteryDraw.Core.Models.Security;
+using LotteryDraw.Core.Models.Business;
 
 
 namespace LotteryDraw.Core.Models.Account
@@ -65,6 +66,11 @@ namespace LotteryDraw.Core.Models.Account
         /// 获取或设置 用户扩展信息
         /// </summary>
         public virtual MemberExtend Extend { get; set; }
+
+        /// <summary>
+        /// 获取或设置 用户下的奖品
+        /// </summary>
+        public virtual ICollection<Prize> Prizes { get; set; }
 
         /// <summary>
         /// 获取或设置 用户拥有的角色信息集合

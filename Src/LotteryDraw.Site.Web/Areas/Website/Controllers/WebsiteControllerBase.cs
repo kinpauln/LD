@@ -114,6 +114,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             //    return;
 
             //RenderViewData();
+            ViewBag.MetHitsVisible = true;
         }
 
         /// <summary>

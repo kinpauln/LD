@@ -1,5 +1,5 @@
 ﻿// 源文件头信息：
-// <copyright file="IAccountSiteContract.cs">
+// <copyright file="IPrizeSiteContract.cs">
 // Copyright(c)2014 Kingdon.All rights reserved.
 // CLR版本：4.0.30319.239
 // 开发组织：王金鹏@中国
@@ -24,25 +24,27 @@ namespace LotteryDraw.Site
     /// <summary>
     ///     账户模块站点业务契约
     /// </summary>
-    public interface IAccountSiteContract
+    public interface IPrizeSiteContract
     {
         /// <summary>
-        ///     用户登录
+        ///     添加奖品
         /// </summary>
-        /// <param name="model">登录模型信息</param>
+        /// <param name="prize">奖品信息</param>
         /// <returns>业务操作结果</returns>
-        OperationResult Login(LoginModel model);
+        OperationResult Add(PrizeView prize);
 
         /// <summary>
-        ///     用户退出
+        ///     更新奖品
         /// </summary>
-        void Logout();
+        /// <param name="member">奖品信息</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult Update(PrizeView prize);
 
         /// <summary>
-        ///     用户注册
+        ///     删除奖品
         /// </summary>
-        /// <param name="model">登录模型信息</param>
+        /// <param name="member">奖品信息</param>
         /// <returns>业务操作结果</returns>
-        OperationResult Register(MemberView model);
+        OperationResult Delete(PrizeView prize);
     }
 }
