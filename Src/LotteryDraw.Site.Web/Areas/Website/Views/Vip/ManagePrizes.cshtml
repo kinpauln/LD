@@ -109,7 +109,7 @@
             }
     </style>
 }
-<div class="active" id="prizelist" style="margin-top: 10px;">
+<div class="active" id="prizelist" style="margin: 10px 0;">
 
     @if (!string.IsNullOrEmpty(TempData["Message"] as string))
     {
@@ -124,6 +124,10 @@
             <th style="width: 120px;">修改日期</th>
             <th style="width: 120px;">操作</th>
         </tr>
+        @if (Model == null || Model.Count == 0) {
+             <tr>
+                <td colspan="6">没有奖品</td></tr>
+        }
         @foreach (var item in Model)
         {
             <tr>
