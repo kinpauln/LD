@@ -74,7 +74,7 @@ namespace LotteryDraw.Core.Data.Migrations
 
 
             List<Prize> prizes = new List<Prize>();
-            for (int i = 1; i < 100; i++)
+            for (int i = 1; i < 1000; i++)
             {
                 Random rnd = new Random((int)DateTime.Now.Ticks + i);
                 var prize = new Prize() { Name = i.ToString(), Description = i.ToString(), AddDate = DateTime.Now };

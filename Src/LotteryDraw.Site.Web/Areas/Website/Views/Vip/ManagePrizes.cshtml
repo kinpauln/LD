@@ -117,7 +117,6 @@
     }
     <table>
         <tr>
-            <th style="width: 50px;">序号</th>
             <th>名称</th>
             <th>图片</th>
             <th>描述</th>
@@ -125,14 +124,9 @@
             <th style="width: 120px;">修改日期</th>
             <th style="width: 120px;">操作</th>
         </tr>
-        @{
-            int icount = 0;
-        }
         @foreach (var item in Model)
         {
-            icount++;
             <tr>
-                <td>@icount</td>
                 <td>@item.Name</td>
                 <td>@item.Name</td>
                 <td>@item.Description</td>
