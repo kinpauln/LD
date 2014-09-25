@@ -168,7 +168,7 @@
                         minlength: 6,
                     },
                     ConfirmPassword: {
-                        equalTo: "#PasswordPsnl",
+                        equalTo: "#PasswordEnt",
                     },
                     Name: {
                         required: true
@@ -330,7 +330,7 @@
                                 <td class="text">公司名称</td>
                                 <td class="input">
                                     @Html.TextBoxFor(model => model.Name, new { @class = "input-text", placeholder = "公司名称" })
-                                    <span class="info">*</span>
+                                    <span class="info">*</span><br />
                                 </td>
                             </tr>
                             <tr>
