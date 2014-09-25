@@ -1,0 +1,26 @@
+﻿<header>
+    <div class="inner">
+        <div class="top-logo">
+
+            <a href="/" title="物流邦·抽奖吗" id="web_logo">
+                <img src="~/content/website/images/1405415376.png" alt="物流邦·抽奖吗" title="物流邦·抽奖吗" style="margin: 25px 0px 0px 15px;">
+            </a>
+
+            <ul class="top-nav list-none">
+                @if (User.Identity.IsAuthenticated)
+                { 
+                    <li class="b" style="cursor: pointer;"><a href="/Account/Logout" style="display: block;">【注销】</a></li>
+                    <li class="b">&nbsp;|</li>
+                    <li class="b"><span style="float: left;">欢迎您，</span><a href="#" style="display: block; float: left; color: red;">@User.Identity.Name</a></li>
+                    }
+                else
+                {
+                    <li class="b" style="cursor: pointer;"><a href="/Account/Register" style="display: block;">【注册】</a></li>
+                    <li class="b" style="cursor: pointer;"><a href="/Account/Login" style="display: block;">【登录】</a></li>
+                    }
+                <li class="t"><a href="http://www.wuliubang.net/" onclick="SetHome(this,window.location,&quot;非IE浏览器不支持此功能，请手动设置！&quot;);" style="cursor: pointer;" title="设为首页">设为首页</a><span>|</span><a href="http://www.wuliubang.net/" onclick="addFavorite(&quot;非IE浏览器不支持此功能，请手动设置！&quot;);" style="cursor: pointer;" title="收藏本站">收藏本站</a></li>
+
+            </ul>
+        </div>
+    </div>
+</header>

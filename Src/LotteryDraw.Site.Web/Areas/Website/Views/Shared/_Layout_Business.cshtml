@@ -12,25 +12,19 @@
     </div>
 </div>
 
-
 <div class="sidebar inner">
 
     <div class="sb_nav">
         <h3 class="title myCorner" data-corner="top 5px" style="border-top-left-radius: 5px; border-top-right-radius: 5px;"><span>@ViewBag.LeftTitleContent</span></h3>
-        <div class="active" id="sidebar" data-csnow="15" data-class3="0" data-jsok="2">
-            <dl class="list-none navnow">
-                <dt><a href="http://www.wuliubang.net/" title="联系我们" class="zm"><span>联系我们</span></a></dt>
-            </dl>
-            <dl class="list-none navnow">
-                <dt><a href="http://www.wuliubang.net/" title="留言中心" class="zm"><span>留言中心</span></a></dt>
-            </dl>
+        <div class="active" id="sidebar" data-csnow="15" data-class3="0" data-jsok="2">            
+            @RenderSection("LeftMenuItems", required: false)
             <div class="clear"></div>
         </div>
     </div>
     <div class="sb_box sbbo">
-        <h3 class="title">
-            <div class="position">当前位置：<a href="http://www.wuliubang.net/demo/met093/354/" title="网站首页">网站首页</a> &gt; <a href="/">联系我们</a></div>
-            <span>联系我们</span> </h3>
+    <h3 class="title">
+        <div class="position">当前位置：<a href="/" title="网站首页">网站首页</a> &gt; <a href="/">@ViewBag.OptionName</a>@RenderSection("BreadCrumbs", required: false)</div>
+        <span>@ViewBag.OptionName</span> </h3>
         <div class="clear"></div>
         <div class="editor active" id="showtext">
             <div>
@@ -45,5 +39,14 @@
 </div>
 
 @section scripts{
-    @RenderSection("styles", required: false)
+    <script type="text/javascript">
+        $(function () {
+            $("#sidebar dl>dt").removeClass("on");
+            var controller = '@ViewContext.RouteData.Values["controller"]';
+            var action = '@ViewContext.RouteData.Values["action"]';
+            var url = controller + "/" + action;
+            $("#sidebar dl>dt>a[href $='" + url + "']").parent().addClass("on");
+        });
+    </script>
+    @RenderSection("scripts", required: false)
 }

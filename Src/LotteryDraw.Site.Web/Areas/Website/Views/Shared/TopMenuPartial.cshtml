@@ -1,0 +1,46 @@
+﻿<nav>
+    <div class="inner">
+        <ul class="list-none">
+            <li style="width: 99px;" class="navdown">
+                <a href="/" title="首页" class="nav"><span>首页</span></a>
+            </li>
+            <li class="line"></li>
+            <li style="width: 99px;">
+                <a href="/" title="微博" class="nav"><span>微博</span></a>
+            </li>
+            <li class="line"></li>
+            <li style="width: 99px;">
+                <a href="/" title="微信" class="nav"><span>微信</span></a>
+            </li>
+            <li class="line"></li>
+            <li style="width: 99px;">
+                <a href="/" title="网站" class="nav"><span>网站</span></a>
+            </li>
+            <li class="line"></li>
+            <li style="width: 99px;">
+                <a href="/" title="实业" class="nav"><span>实业</span></a>
+            </li>
+            <li class="line"></li>
+            <li style="width: 98px; display: none;"><a href="/business/contactus" title="联系我们" class="hover-none nav"><span>联系我们</span></a>
+                <dl>
+                    <dd style="border-top-style: none;"><a href="/business/contactus" title="联系我们">联系我们</a></dd>
+                    <dd class="last" style="border-bottom-style: none;"><a href="/" title="留言中心">留言中心</a></dd>
+
+                </dl>
+
+            </li>
+            <li class="line"></li>
+            <li style="width: 99px;">
+                <a href="/" title="现场抽奖" class="nav"><span>现场抽奖</span></a>
+            </li>
+            @if (User.Identity.IsAuthenticated)
+            { 
+                <li style="width: 99px;">
+                    <a href="/Vip/Index" title="会员选项" class="nav"><span>会员选项</span></a>
+                </li>
+            }
+        </ul>
+
+    </div>
+
+</nav>
