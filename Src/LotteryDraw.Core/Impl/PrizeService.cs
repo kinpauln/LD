@@ -80,7 +80,15 @@ namespace LotteryDraw.Core.Impl
         /// <returns>业务操作结果</returns>
         public OperationResult Update(Prize prize)
         {
-            return null;
+            int rcount = PrizeRepository.Update(prize);
+            if (rcount > 0)
+            {
+                return new OperationResult(OperationResultType.Success, "更新商品成功。", prize);
+            }
+            else
+            {
+                return new OperationResult(OperationResultType.Warning, "更新商品失败。");
+            }
         }
 
         /// <summary>
@@ -90,7 +98,15 @@ namespace LotteryDraw.Core.Impl
         /// <returns>业务操作结果</returns>
         public OperationResult Delete(Prize prize)
         {
-            return null;
+            int rcount = PrizeRepository.Delete(prize);
+            if (rcount > 0)
+            {
+                return new OperationResult(OperationResultType.Success, "删除商品成功。", prize);
+            }
+            else
+            {
+                return new OperationResult(OperationResultType.Warning, "删除商品失败。");
+            }
         }
     }
 }

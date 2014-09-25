@@ -18,6 +18,7 @@ using System.Linq;
 using LotteryDraw.Component.Data;
 using LotteryDraw.Core.Models.Account;
 using LotteryDraw.Core.Models.Security;
+using LotteryDraw.Core.Models.Business;
 
 
 namespace LotteryDraw.Core.Data.Migrations
@@ -49,7 +50,7 @@ namespace LotteryDraw.Core.Data.Migrations
                 new Member { UserName = "wjp", Password = "123456", Email = "jp.wang@wuliubang.net", Name = "Íõ½ðÅô" }
             };
 
-            for (int i = 0; i < 26; i++)
+            for (int i = 0; i < 11; i++)
             {
                 Random rnd = new Random((int)DateTime.Now.Ticks + i);
                 Member member = new Member
@@ -63,12 +64,28 @@ namespace LotteryDraw.Core.Data.Migrations
                 member.Roles.Add(roleArray[rnd.Next(0, roleArray.Length)]);
                 if (rnd.NextDouble() > 0.5)
                 {
-                    member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);                    
+                    member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);
                 }
                 members.Add(member);
             }
             DbSet<Member> memberSet = context.Set<Member>();
             memberSet.AddOrUpdate(m => new { m.UserName }, members.ToArray());
+            context.SaveChanges();
+
+
+            List<Prize> prizes = new List<Prize>();
+            for (int i = 1; i < 100; i++)
+            {
+                Random rnd = new Random((int)DateTime.Now.Ticks + i);
+                var prize = new Prize() { Name = i.ToString(), Description = i.ToString(), AddDate = DateTime.Now };
+                var memberArray = memberSet.ToArray();
+                var member = memberArray[rnd.Next(0, memberArray.Length)];
+                prize.Member = member;
+                prizes.Add(prize);
+            }
+            DbSet<Prize> prizeSet = context.Set<Prize>();
+            prizeSet.AddOrUpdate(m => new { m.Name }, prizes.ToArray());
+            context.SaveChanges();
         }
     }
 }

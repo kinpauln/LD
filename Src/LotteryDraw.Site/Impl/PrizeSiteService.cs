@@ -70,9 +70,26 @@ namespace LotteryDraw.Site.Impl
         /// </summary>
         /// <param name="member">奖品信息</param>
         /// <returns>业务操作结果</returns>
-        public OperationResult Update(PrizeView prize)
+        public OperationResult Update(PrizeView pvmodel)
         {
-            return null;
+            PublicHelper.CheckArgument(pvmodel, "pvmodel");
+            try
+            {
+                Prize dbmodel = PrizeContract.Prizes.SingleOrDefault(m => m.Id.Equals(pvmodel.Id));
+                if (dbmodel == null)
+                {
+                    return new OperationResult(OperationResultType.Error, string.Format("不存在要更新的Id为{0}的奖品", pvmodel.Id));
+                }
+
+                dbmodel.Name = pvmodel.Name;
+                dbmodel.Description = pvmodel.Description;
+                dbmodel.UpdateDate = DateTime.Now;
+                return PrizeContract.Update(dbmodel);
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
         }
 
         /// <summary>
@@ -80,9 +97,22 @@ namespace LotteryDraw.Site.Impl
         /// </summary>
         /// <param name="member">奖品信息</param>
         /// <returns>业务操作结果</returns>
-        public OperationResult Delete(PrizeView prize)
+        public OperationResult Delete(Guid guid)
         {
-            return null;
+            try
+            {
+                Prize pmodel = PrizeContract.Prizes.SingleOrDefault(m => m.Id.Equals(guid));
+                if (pmodel == null)
+                {
+                    return new OperationResult(OperationResultType.Error, string.Format("不存在Id为{0}的奖品", guid));
+                }
+
+                return PrizeContract.Delete(pmodel);
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
         }
     }
 }

@@ -42,6 +42,8 @@ namespace LotteryDraw.Core.Models.Business
         [Required]
         public string Description { get; set; }
 
+        public DateTime? UpdateDate { get; set; }
+
         public virtual Member Member { get; set; }
     }
 }

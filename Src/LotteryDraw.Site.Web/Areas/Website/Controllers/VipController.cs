@@ -77,13 +77,29 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 .OrderByDescending(p=>p.AddDate)
                 .Select(p => new PrizeView()
             {
+                Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
+                AddDate = p.AddDate,
+                UpdateDate = p.UpdateDate,
                 Photo = p.Photo
             });
 
             PagedList<PrizeView> model = new PagedList<PrizeView>(rlist, pageIndex, this.PageSize, total);
             return View(model);
+        }
+
+        public ActionResult PrizeDelete(Guid id)
+        {
+            OperationResult result = PrizeSiteContract.Delete(id);
+            string msg = result.Message ?? result.ResultType.ToDescription();
+            if (result.ResultType == OperationResultType.Success)
+            {
+                TempData["Message"] = "奖品删除成功。<br /><a href='/Vip/ManagePrizes'>返回</a>奖品管理页";
+                return RedirectToAction("InfoPage");
+            }
+            TempData["Message"] = msg;
+            return RedirectToAction("ManagePrizes");
         }
 
         /// <summary>
@@ -93,6 +109,62 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        ///  发起抽奖
+        /// </summary>
+        [HttpPost]
+        public ActionResult LaunchPrize(PrizeView model)
+        {
+            return View();
+        }
+        
+        public ActionResult PrizeDetail(Guid id)
+        {
+            PrizeView model = PrizeContract.Prizes
+                .Where(p => p.Id.Equals(id))
+                .Select(p => new PrizeView()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    AddDate = p.AddDate,
+                    UpdateDate = p.UpdateDate,
+                    Photo = p.Photo
+                }).FirstOrDefault();
+            return View(model);
+        }
+
+        #region 编辑奖品
+        public ActionResult PrizeEdit(Guid id)
+        {
+            PrizeView model = PrizeContract.Prizes
+                .Where(p => p.Id.Equals(id))
+                .Select(p => new PrizeView()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Photo = p.Photo
+                }).FirstOrDefault();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult PrizeEdit(PrizeView model)
+        {
+            ViewBag.IsPostBack = true;
+            OperationResult result = PrizeSiteContract.Update(model);
+            string msg = result.Message ?? result.ResultType.ToDescription();
+            if (result.ResultType == OperationResultType.Success)
+            {
+                TempData["Message"] = "奖品修改成功。<br /><a href='/Vip/ManagePrizes'>返回</a>奖品管理页";
+                return RedirectToAction("InfoPage");
+            }
+            ViewBag.Message = msg;
+            return View(model);
+        } 
+        #endregion
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {

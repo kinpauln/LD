@@ -9,6 +9,8 @@ namespace LotteryDraw.Site.Models
 {
     public class PrizeView
     {
+        public Guid Id { get; set; }
+
         [Required(ErrorMessage = "{0}不能为空！")]
         [Display(Name = "奖品名称")]
         public string Name { get; set; }
@@ -25,5 +27,7 @@ namespace LotteryDraw.Site.Models
         public bool IsDeleted { get; set; }
 
         public DateTime AddDate { get; set; }
+
+        public DateTime? UpdateDate { get; set; }
     }
 }

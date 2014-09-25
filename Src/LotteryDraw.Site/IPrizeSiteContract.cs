@@ -45,6 +45,6 @@ namespace LotteryDraw.Site
         /// </summary>
         /// <param name="member">奖品信息</param>
         /// <returns>业务操作结果</returns>
-        OperationResult Delete(PrizeView prize);
+        OperationResult Delete(Guid guid);
     }
 }
