@@ -3,8 +3,13 @@
         var Default = $.extend({}, $.fn.PreviewImage.defaults, options);
         function init() {
             var divContainer = document.getElementById(Default.DivPreviewId);
-            divContainer.style.width = Default.MaxWidth + "px";
-            divContainer.style.height = Default.MaxHeight + "px";
+            var imgobj = document.getElementById(Default.ImageClientId);
+            if (imgobj.src == "" || imgobj.src == null) {
+                divContainer.style.width = Default.MaxWidth + "px";
+                divContainer.style.height = Default.MaxHeight + "px";
+            }
+            imgobj.style.maxWidth = Default.MaxWidth + "px";
+            imgobj.style.maxHeight = Default.MaxHeight + "px";
             divContainer.style.border = "solid 1px #d2e2e2";
             divContainer.style.backgroundColor = "#ccc";
             divContainer.style.display = "block";
@@ -45,8 +50,8 @@
                                 if (newPreview == null) {
                                     newPreview = document.createElement("div");
                                     newPreview.setAttribute("id", divPreviewId + "New");
-                                    newPreview.style.width = Default.MaxWidth + "px";
-                                    newPreview.style.height = Default.MaxHeight + "px";
+                                    newPreview.style.maxWidth = Default.MaxWidth + "px";
+                                    newPreview.style.maxHeight = Default.MaxHeight + "px";
                                     newPreview.style.border = "solid 1px #d2e2e2";
                                 }
                                 newPreview.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src='" + document.selection.createRange().text + "')";
@@ -78,11 +83,13 @@
                     }
                 });
                 $("#" + Default.ImageClientId).load(function () {
-                    var image = new Image();
-                    image.src = $(this).attr("src");
-                    $(this).attr("width", Default.MaxWidth);
-                    $(this).attr("height", Default.MaxHeight);
-                    $(this).attr("alt", Default.MaxWidth + "x" + Default.MaxHeight);
+                    //var image = new Image();
+                    //image.src = $(this).attr("src");
+                    $("#" + Default.DivPreviewId).width($(this).width());
+                    $("#" + Default.DivPreviewId).height($(this).height());
+                    //$(this).attr("width", Default.MaxWidth);
+                    //$(this).attr("height", Default.MaxHeight);
+                    //$(this).attr("alt", Default.MaxWidth + "x" + Default.MaxHeight);
                 });
             }
         });

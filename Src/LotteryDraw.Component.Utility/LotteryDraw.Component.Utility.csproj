@@ -69,6 +69,7 @@
     <Compile Include="RegExp.cs" />
     <Compile Include="SerializationHelper.cs" />
     <Compile Include="SerializeHelper.cs" />
+    <Compile Include="StreamUtil.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="StringUtil.cs" />
     <Compile Include="ValidateCode\AnimatedGifEncoder.cs" />

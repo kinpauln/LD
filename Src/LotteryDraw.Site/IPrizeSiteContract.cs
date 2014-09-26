@@ -38,7 +38,7 @@ namespace LotteryDraw.Site
         /// </summary>
         /// <param name="member">奖品信息</param>
         /// <returns>业务操作结果</returns>
-        OperationResult Update(PrizeView prize);
+        OperationResult Update(PrizeView prize, bool savePhoto = false);
 
         /// <summary>
         ///     删除奖品

@@ -53,6 +53,7 @@ namespace LotteryDraw.Site.Impl
             {
                 Name = pvmodel.Name,
                 Description = pvmodel.Description,
+                Photo = pvmodel.Photo,
                 Member = AccountContract.Members.SingleOrDefault(m => m.Id.Equals(pvmodel.MemberId))
             };
             try
@@ -70,7 +71,7 @@ namespace LotteryDraw.Site.Impl
         /// </summary>
         /// <param name="member">奖品信息</param>
         /// <returns>业务操作结果</returns>
-        public OperationResult Update(PrizeView pvmodel)
+        public OperationResult Update(PrizeView pvmodel, bool savePhoto=false)
         {
             PublicHelper.CheckArgument(pvmodel, "pvmodel");
             try
@@ -83,6 +84,9 @@ namespace LotteryDraw.Site.Impl
 
                 dbmodel.Name = pvmodel.Name;
                 dbmodel.Description = pvmodel.Description;
+                if (savePhoto) {
+                    dbmodel.Photo = pvmodel.Photo;
+                }
                 dbmodel.UpdateDate = DateTime.Now;
                 return PrizeContract.Update(dbmodel);
             }

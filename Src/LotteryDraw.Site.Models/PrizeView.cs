@@ -1,4 +1,5 @@
 ﻿using LotteryDraw.Component.Tools;
+using LotteryDraw.Component.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +19,15 @@ namespace LotteryDraw.Site.Models
         [Required(ErrorMessage = "{0}不能为空！")]
         [Display(Name = "图片")]
         public byte[] Photo { get; set; }
+
+        public string PhotoBase64
+        {
+            get
+            {
+                return StreamUtil.BytesToBase64(this.Photo);
+            }
+            set { }
+        }
 
         [Display(Name = "描述")]
         public string Description { get; set; }

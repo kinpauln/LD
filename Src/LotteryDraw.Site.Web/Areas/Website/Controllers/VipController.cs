@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using Webdiyer.WebControls.Mvc;
 using LotteryDraw.Core.Models.Business;
+using System.IO;
+using LotteryDraw.Component.Utility;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
@@ -31,7 +33,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// </summary>
         public ActionResult PublishPrize()
         {
-            PrizeView model = new PrizeView {
+            PrizeView model = new PrizeView
+            {
                 MemberId = this.UserId ?? 0
             };
             return View(model);
@@ -44,7 +47,17 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         public ActionResult PublishPrize(PrizeView model)
         {
             ViewBag.IsPostBack = true;
-            if (model.MemberId == 0) {
+
+            if (Request.Files.Count == 0 || Request.Files[0].ContentLength == 0)
+            {
+                ViewBag.Message = "请选择文件";
+                return View(model);
+            }
+            Stream photoStrem = Request.Files[0].InputStream;
+            model.Photo = StreamUtil.StreamToBytes(photoStrem);
+
+            if (model.MemberId == 0)
+            {
                 ViewBag.Message = "用户Id为0";
                 return View(model);
             }
@@ -74,7 +87,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             var rlist = PrizeContract.Prizes
                 .Where(p => p.Member.Id.Equals(userid))
                 .Where<Prize, Guid>(m => true, pageIndex, this.PageSize, out total, sortConditions)
-                .OrderByDescending(p=>p.AddDate)
+                .OrderByDescending(p => p.AddDate)
                 .Select(p => new PrizeView()
             {
                 Id = p.Id,
@@ -118,7 +131,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             return View();
         }
-        
+
         public ActionResult PrizeDetail(Guid id)
         {
             PrizeView model = PrizeContract.Prizes
@@ -154,7 +167,18 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         public ActionResult PrizeEdit(PrizeView model)
         {
             ViewBag.IsPostBack = true;
-            OperationResult result = PrizeSiteContract.Update(model);
+            bool savePhoto = false;
+
+            if (Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
+            {
+                Stream photoStrem = Request.Files[0].InputStream;
+                byte[] fileBytes = StreamUtil.StreamToBytes(photoStrem);
+
+                savePhoto = true;
+                model.Photo = StreamUtil.StreamToBytes(photoStrem);
+            }
+
+            OperationResult result = PrizeSiteContract.Update(model, savePhoto);
             string msg = result.Message ?? result.ResultType.ToDescription();
             if (result.ResultType == OperationResultType.Success)
             {
@@ -163,8 +187,16 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
             ViewBag.Message = msg;
             return View(model);
-        } 
+        }
         #endregion
+
+        public FileResult GetImage(string base64String)
+        {
+            if (string.IsNullOrEmpty(base64String))
+                return null;
+            //return the image to View
+            return new FileContentResult(StreamUtil.Base64ToBytes(base64String), "image/jpeg");
+        }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {

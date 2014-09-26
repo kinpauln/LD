@@ -118,7 +118,7 @@
     <table>
         <tr>
             <th>名称</th>
-            <th>图片</th>
+            <th style="width: 110px;">图片</th>
             <th>描述</th>
             <th style="width: 120px;">发布日期</th>
             <th style="width: 120px;">修改日期</th>
@@ -132,7 +132,7 @@
         {
             <tr>
                 <td>@item.Name</td>
-                <td>@item.Name</td>
+                <td><img src="data:image/png;base64,@item.PhotoBase64" style="max-width:100px;display:block;margin:0 auto;" /></td>
                 <td>@item.Description</td>
                 <td>@item.AddDate.ToString("yyy-MM-dd HH:mm:ss")</td>
                 <td>@{string dateString = item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyy-MM-dd HH:mm:ss") : string.Empty;}@dateString</td>

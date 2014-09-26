@@ -32,10 +32,7 @@
             <tr>
                 <td class="text">奖品图片：</td>
                 <td class="input">
-                    @*@Html.TextBox(model => model.Photo, new { @class = "input-text", id = "PasswordPsnl", placeholder = "密码" })
-                    <span class="info">*</span>
-                    <br />
-                    @Html.ValidationMessageFor(model => model.Password)*@
+                    <img src="data:image/png;base64,@Model.PhotoBase64" style="max-width:400px;" />
                 </td>
             </tr>
             <tr>
