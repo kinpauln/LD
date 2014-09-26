@@ -12,61 +12,59 @@
     &gt;
     <label>奖品详情</label>
 }
-@using (Html.BeginForm("LaunchPrize", "Vip", FormMethod.Post, new { id = "prizeForm" }))
-{
-    @Html.HiddenFor(model => model.MemberId)
-    <table class="message_table">
-        <tbody>
-            @if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
-            {
-                <tr>
-                    <td colspan="2" style="text-align: center; color: #f00;">@ViewBag.Message</td>
-                </tr>
-            }
+
+<table class="message_table">
+    <tbody>
+        @if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
+        {
             <tr>
-                <td class="text">奖品名称：</td>
-                <td class="input">
-                    @Model.Name
-                </td>
+                <td colspan="2" style="text-align: center; color: #f00;">@ViewBag.Message</td>
             </tr>
-            <tr>
-                <td class="text">奖品图片：</td>
-                <td class="input">
-                    <img src="data:image/png;base64,@Model.PhotoBase64" style="max-width:400px;" />
-                </td>
-            </tr>
-            <tr>
-                <td class="text">描述：</td>
-                <td class="input">
-                    @Model.Description
-                </td>
-            </tr>
-            <tr>
-                <td class="text">发布时间：</td>
-                <td class="input">
-                    @Model.AddDate.ToString("yyy-MM-dd HH:mm:ss")
-                </td>
-            </tr>
-            <tr>
-                <td class="text">修改时间：</td>
-                <td class="input">
-                    @{
-                        string dateString = Model.UpdateDate.HasValue ? Model.UpdateDate.Value.ToString("yyy-MM-dd HH:mm:ss") : string.Empty;
-                    }
-                    @dateString
-                </td>
-            </tr>
-            <tr>
-                <td class="text"></td>
-                <td class="submint">
-                    <input type="submit" value="发起抽奖" class="submit button orange">
-                    <a href="/Vip/ManagePrizes">
-                        <input type="button" value="返回" class="submit button orange" /></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-}
+        }
+        <tr>
+            <td class="text">奖品名称：</td>
+            <td class="input">
+                @Model.Name
+            </td>
+        </tr>
+        <tr>
+            <td class="text">奖品图片：</td>
+            <td class="input">
+                <img src="data:image/png;base64,@Model.PhotoBase64" style="max-width:400px;" />
+            </td>
+        </tr>
+        <tr>
+            <td class="text">描述：</td>
+            <td class="input">
+                @Model.Description
+            </td>
+        </tr>
+        <tr>
+            <td class="text">发布时间：</td>
+            <td class="input">
+                @Model.AddDate.ToString("yyy-MM-dd HH:mm:ss")
+            </td>
+        </tr>
+        <tr>
+            <td class="text">修改时间：</td>
+            <td class="input">
+                @{
+                    string dateString = Model.UpdateDate.HasValue ? Model.UpdateDate.Value.ToString("yyy-MM-dd HH:mm:ss") : string.Empty;
+                }
+                @dateString
+            </td>
+        </tr>
+        <tr>
+            <td class="text"></td>
+            <td class="submint">
+                <a href="/Vip/LaunchPrize/@Model.Id">
+                    <input type="submit" value="发起抽奖" class="submit button orange"></a>
+                <a href="/Vip/ManagePrizes">
+                    <input type="button" value="返回" class="submit button orange" /></a>
+            </td>
+        </tr>
+    </tbody>
+</table>
 @section scripts{
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>

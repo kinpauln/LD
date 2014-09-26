@@ -118,16 +118,19 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// <summary>
         ///  发起抽奖
         /// </summary>
-        public ActionResult LaunchPrize()
+        public ActionResult LaunchPrize(Guid id)
         {
-            return View();
+            PrizeOrderView model = new PrizeOrderView() { 
+                PrizeId = id
+            };
+            return View(model);
         }
 
         /// <summary>
         ///  发起抽奖
         /// </summary>
         [HttpPost]
-        public ActionResult LaunchPrize(PrizeView model)
+        public ActionResult LaunchPrize(PrizeOrderView model)
         {
             return View();
         }

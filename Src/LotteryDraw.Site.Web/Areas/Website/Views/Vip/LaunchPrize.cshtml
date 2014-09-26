@@ -2,12 +2,89 @@
     ViewBag.Title = "发起抽奖";
     Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
 }
+@model LotteryDraw.Site.Models.PrizeOrderView
 
 @section  LeftMenuItems{
     @Html.Partial("VipNavPartial")
 }
 
 @section  BreadCrumbs{
-    &gt; <label>发起抽奖</label>
+    &gt;
+    <label>发起抽奖</label>
 }
 
+@using (Html.BeginForm("LaunchPrize", "Vip", FormMethod.Post, new { id = "prizeForm" }))
+{
+    @Html.HiddenFor(model => model.PrizeId)
+    <table class="message_table">
+        <tbody>
+            @if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
+            {
+                <tr>
+                    <td colspan="2" style="text-align: center; color: #f00;">@ViewBag.Message</td>
+                </tr>
+            }
+            <tr>
+                <td class="text">开奖类型：</td>
+                <td class="input">
+                    <select>
+                        <option value="1">定时开奖</option>
+                        <option value="2">定员开奖</option>
+                        <option value="3">实时开奖</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="text"></td>
+                <td class="submint">
+                    <input type="submit" value="开奖" class="submit button orange">
+                    <input type="button" value="返回" onclick="javascript: history.go(-1);" class="submit button orange" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.maskedinput.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#prizeForm").validate({
+                errorElement: 'span',
+                errorClass: 'error-info',
+                focusInvalid: false,
+                rules: {
+                    Name: {
+                        required: true
+                    }
+                },
+
+                messages: {
+                    Name: {
+                        required: "奖品名称不能为空"
+                    }
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit   
+                    //$('.alert-danger', $('.login-form')).show();
+                },
+                highlight: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                },
+                /* 验证通过时的处理 */
+                success: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+                    //$(e).remove();
+                },
+                /* 错误信息的显示位置 */
+                errorPlacement: function (error, element) {
+                    //element.parent().append("<br />");
+                    error.appendTo(element.parent());
+                },
+                /*执行ajaxsubmit*/
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
+}
