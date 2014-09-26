@@ -131,9 +131,9 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Name</td>
+                <td><div title="@item.Name" style="width:100px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.Name</div></td>
                 <td><img src="data:image/png;base64,@item.PhotoBase64" style="max-width:100px;display:block;margin:0 auto;" /></td>
-                <td>@item.Description</td>
+                <td><div title="@item.Description" style="width:120px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.Description</div></td>
                 <td>@item.AddDate.ToString("yyy-MM-dd HH:mm:ss")</td>
                 <td>@{string dateString = item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyy-MM-dd HH:mm:ss") : string.Empty;}@dateString</td>
                 <td><a href="/Vip/PrizeDetail/@item.Id">详情</a>&nbsp;|&nbsp;<a href="/Vip/PrizeEdit/@item.Id">编辑</a>&nbsp;|&nbsp;<a href="/Vip/PrizeDelete/@item.Id" onclick="javascript:return confirm('确认要删除？')">删除</a</td>
