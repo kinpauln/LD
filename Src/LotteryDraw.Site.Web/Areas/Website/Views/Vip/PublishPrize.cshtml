@@ -35,10 +35,10 @@
             <tr>
                 <td class="text">奖品图片</td>
                 <td class="input">
-                    @*@Html.TextBox(model => model.Photo, new { @class = "input-text", id = "PasswordPsnl", placeholder = "密码" })
-                    <span class="info">*</span>
-                    <br />
-                    @Html.ValidationMessageFor(model => model.Password)*@
+                    <input type="file" id="prizePhoto" name="PrizePhoto" />
+                    <div id="divPreview" style="background-color:#ccc;text-align:center;vertical-align:middle;">
+                        <img id="imgHeadPhoto" style="display: none;" width="200" height="200" alt="" />
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -59,6 +59,7 @@
 @section scripts{
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
+    <script src="~/Scripts/jquery.previewimage.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#prizeForm").validate({
@@ -96,6 +97,14 @@
                 submitHandler: function (form) {
                     form.submit();
                 }
+            });
+
+            $("#prizePhoto").PreviewImage({
+                ImageClientId: "imgHeadPhoto",
+                MaxWidth: 300,
+                MaxHeight: 200,
+                DivPreviewId: "divPreview",
+                AllowExtention: ".jpg,.bmp,.gif,.png"
             });
         });
     </script>
