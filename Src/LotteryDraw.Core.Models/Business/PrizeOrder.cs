@@ -22,33 +22,32 @@ using LotteryDraw.Core.Models.Account;
 namespace LotteryDraw.Core.Models.Business
 {
     /// <summary>
-    ///     实体类——奖品信息
+    ///     实体类——奖品开奖信息
     /// </summary>
-    [Description("奖品信息")]
-    public class Prize : EntityBase<Guid>
+    [Description("奖品开奖信息")]
+    public class PrizeOrder : EntityBase<Guid>
     {
-        public Prize()
+        public PrizeOrder()
         {
-            Id = CombHelper.NewComb();
+            //Id = CombHelper.NewComb();
         }
 
-        [Required]
-        [StringLength(20)]
-        public string Name { get; set; }
-
-        //[Required]
-        public byte[] Photo { get; set; }
-
-        [Required]
-        public string Description { get; set; }
-
-        public DateTime? UpdateDate { get; set; }
-
-        public virtual Member Member { get; set; }
+        /// <summary>
+        /// 开奖类型
+        /// </summary>
+        public RevealType RevealType
+        {
+            get { return (RevealType)RevealTypeNum; }
+            set { RevealTypeNum = (int)value; }
+        }
 
         /// <summary>
-        /// 获取或设置 开奖信息
+        /// 获取或设置 抽奖类型的数值表示，用于数据库存储
         /// </summary>
-        public virtual ICollection<PrizeOrder> PrizeOrders { get; set; }
+        public int RevealTypeNum { get; set; }
+
+        public virtual Prize Prize { get; set; }
+
+        public virtual PrizeOrderExtend Extend { get; set; }
     }
 }

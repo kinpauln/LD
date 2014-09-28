@@ -13,6 +13,9 @@ namespace LotteryDraw.Site.Models
     {
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// 开奖类型
+        /// </summary>
         public RevealType RevealType { get; set; }
 
         [Display(Name = "描述")]
@@ -25,14 +28,5 @@ namespace LotteryDraw.Site.Models
         public DateTime AddDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
-    }
-
-    public enum RevealType { 
-        [Description("定时开奖")]
-        Timing = 1,
-        [Description("定员开奖")]
-        Quota = 2,
-        [Description("现场开奖")]
-        Scene = 3
     }
 }

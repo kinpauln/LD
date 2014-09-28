@@ -51,29 +51,48 @@ namespace LotteryDraw.Core.Data.Migrations
                 new Member { UserName = "wjp", Password = "123456", Email = "jp.wang@wuliubang.net", Name = "王金鹏" }
             };
 
-            for (int i = 0; i < 11; i++)
-            {
-                Random rnd = new Random((int)DateTime.Now.Ticks + i);
-                Member member = new Member
-                {
-                    UserName = "username" + i,
-                    Password = "123456",
-                    Email = "userName" + i + "@wuliubang.net",
-                    Name = "用户" + i
-                };
-                var roleArray = roleSet.ToArray();
-                member.Roles.Add(roleArray[rnd.Next(0, roleArray.Length)]);
-                if (rnd.NextDouble() > 0.5)
-                {
-                    member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);
-                }
-                members.Add(member);
-            }
+            //for (int i = 0; i < 11; i++)
+            //{
+            //    Random rnd = new Random((int)DateTime.Now.Ticks + i);
+            //    Member member = new Member
+            //    {
+            //        UserName = "username" + i,
+            //        Password = "123456",
+            //        Email = "userName" + i + "@wuliubang.net",
+            //        Name = "用户" + i
+            //    };
+            //    var roleArray = roleSet.ToArray();
+            //    member.Roles.Add(roleArray[rnd.Next(0, roleArray.Length)]);
+            //    if (rnd.NextDouble() > 0.5)
+            //    {
+            //        member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);
+            //    }
+            //    members.Add(member);
+            //}
             DbSet<Member> memberSet = context.Set<Member>();
             memberSet.AddOrUpdate(m => new { m.UserName }, members.ToArray());
             context.SaveChanges();
 
-            string base64String = @"/9j/4AAQSkZJRgABAgEASABIAAD/4Q4tRXhpZgAATU0AKgAAAAgACAEOAAIAAAAFAAAAbgESAAMA
+            List<Prize> prizes = new List<Prize>();
+            for (int i = 1; i < 300; i++)
+            {
+                Random rnd = new Random((int)DateTime.Now.Ticks + i);
+                var prize = new Prize() { Name = i.ToString(), Description = i.ToString(), AddDate = DateTime.Now };
+                var memberArray = memberSet.ToArray();
+                var member = memberArray[rnd.Next(0, memberArray.Length)];
+                prize.Member = member;
+                prize.Photo = StreamUtil.Base64ToBytes(StaticStrings.demoImageBase64String);
+                prizes.Add(prize);
+            }
+            DbSet<Prize> prizeSet = context.Set<Prize>();
+            prizeSet.AddOrUpdate(m => new { m.Name }, prizes.ToArray());
+            context.SaveChanges();
+        }
+    }
+
+    public class StaticStrings
+    {
+        public const string demoImageBase64String = @"/9j/4AAQSkZJRgABAgEASABIAAD/4Q4tRXhpZgAATU0AKgAAAAgACAEOAAIAAAAFAAAAbgESAAMA
 AAABAAEAAAEaAAUAAAABAAAAcwEbAAUAAAABAAAAewEoAAMAAAABAAIAAAExAAIAAAAUAAAAgwEy
 AAIAAAAUAAAAl4dpAAQAAAABAAAArAAAANhBTi0yAAAAAEgAAAABAAAASAAAAAFBZG9iZSBQaG90
 b3Nob3AgNy4wADIwMDM6MTI6MTcgMTE6MDg6MTIAAAADoAEAAwAAAAH//wAAoAIABAAAAAEAAAGw
@@ -1127,20 +1146,5 @@ dOTh9pf3fxfhvqP93+1/d9/9l+OZUuTDFzeZan1tPtf3Y/3s6/3h6/w+jMPJy+Dmn6JMMi/3rf7H
 HQ8unV+eo/v7D7fQ/b+jr/HMqPN1Q5S973jUf/WfPKH/AB2f+Uln/wB7P94+sn+8n+R4/wCXmVj+
 lycX1n8D+1+iWhf+s5fmD/x0f+UT1n/jo/7zf7xXX/HO9v8Alp/y6Zdi/uOvx+LTl/vxy59Pg//Z
 ";
-            List<Prize> prizes = new List<Prize>();
-            for (int i = 1; i < 1000; i++)
-            {
-                Random rnd = new Random((int)DateTime.Now.Ticks + i);
-                var prize = new Prize() { Name = i.ToString(), Description = i.ToString(), AddDate = DateTime.Now };
-                var memberArray = memberSet.ToArray();
-                var member = memberArray[rnd.Next(0, memberArray.Length)];
-                prize.Member = member;
-                prize.Photo = StreamUtil.Base64ToBytes(base64String);
-                prizes.Add(prize);
-            }
-            DbSet<Prize> prizeSet = context.Set<Prize>();
-            prizeSet.AddOrUpdate(m => new { m.Name }, prizes.ToArray());
-            context.SaveChanges();
-        }
-    }
+    } 
 }

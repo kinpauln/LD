@@ -58,10 +58,14 @@
     <Compile Include="Configurations\Account\LoginLogConfiguration.cs" />
     <Compile Include="Configurations\Account\MemberAddressConfiguration.cs" />
     <Compile Include="Configurations\Account\MemberExtendConfiguration.cs" />
+    <Compile Include="Configurations\Business\PrizeOrderExtendConfiguration.cs" />
+    <Compile Include="Configurations\Business\PrizeOrderConfiguration.cs" />
     <Compile Include="Configurations\Business\PrizeConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Configurations\Business\PrizeConfiguration.generated.cs" />
+    <Compile Include="Configurations\Business\PrizeOrderConfiguration.generated.cs" />
+    <Compile Include="Configurations\Business\PrizeOrderExtendConfiguration.generated.cs" />
     <Compile Include="Configurations\Security\RoleConfiguration.cs" />
     <Compile Include="Configurations\Security\RoleConfiguration.generated.cs" />
     <Compile Include="Configurations\Systems\LogInfoConfiguration.generated.cs" />
@@ -74,7 +78,11 @@
     <Compile Include="Repositories\Account\Impl\LoginLogRepository.generated.cs" />
     <Compile Include="Repositories\Account\Impl\MemberExtendRepository.generated.cs" />
     <Compile Include="Repositories\Account\Impl\MemberRepository.generated.cs" />
+    <Compile Include="Repositories\Business\Impl\PrizeOrderExtendRepository.generated.cs" />
+    <Compile Include="Repositories\Business\Impl\PrizeOrderRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeRepository.generated.cs" />
+    <Compile Include="Repositories\Business\IPrizeOrderExtendRepository.generated.cs" />
+    <Compile Include="Repositories\Business\IPrizeOrderRepository.generated.cs" />
     <Compile Include="Repositories\Business\IPrizeRepository.generated.cs" />
     <Compile Include="Repositories\Security\Impl\RoleRepository.generated.cs" />
     <Compile Include="Repositories\Security\IRoleRepository.generated.cs" />
@@ -97,6 +105,8 @@
 ..\Configurations\Account\MemberConfiguration.generated.cs
 ..\Configurations\Account\MemberExtendConfiguration.generated.cs
 ..\Configurations\Business\PrizeConfiguration.generated.cs
+..\Configurations\Business\PrizeOrderConfiguration.generated.cs
+..\Configurations\Business\PrizeOrderExtendConfiguration.generated.cs
 ..\Configurations\Security\RoleConfiguration.generated.cs
 ..\Configurations\Systems\LogInfoConfiguration.generated.cs
 ..\Repositories\Account\ILoginLogRepository.generated.cs
@@ -105,7 +115,11 @@
 ..\Repositories\Account\Impl\LoginLogRepository.generated.cs
 ..\Repositories\Account\Impl\MemberExtendRepository.generated.cs
 ..\Repositories\Account\Impl\MemberRepository.generated.cs
+..\Repositories\Business\Impl\PrizeOrderExtendRepository.generated.cs
+..\Repositories\Business\Impl\PrizeOrderRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeRepository.generated.cs
+..\Repositories\Business\IPrizeOrderExtendRepository.generated.cs
+..\Repositories\Business\IPrizeOrderRepository.generated.cs
 ..\Repositories\Business\IPrizeRepository.generated.cs
 ..\Repositories\Security\Impl\RoleRepository.generated.cs
 ..\Repositories\Security\IRoleRepository.generated.cs
