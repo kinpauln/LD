@@ -8,7 +8,7 @@ using System.Text;
 
 namespace LotteryDraw.Site.Models
 {
-    public class PrizeView
+    public class PrizeView : ModelBase
     {
         public Guid Id { get; set; }
 
@@ -33,10 +33,6 @@ namespace LotteryDraw.Site.Models
         public string Description { get; set; }
 
         public int MemberId { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTime AddDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
     }

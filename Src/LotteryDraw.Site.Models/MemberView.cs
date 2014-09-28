@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LotteryDraw.Site.Models
 {
-    public class MemberView
+    public class MemberView : ModelBase
     {
         public int Id { get; set; }
 
@@ -25,10 +25,6 @@ namespace LotteryDraw.Site.Models
         public string Email { get; set; }
 
         public string Tel { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTime AddDate { get; set; }
 
         public int LoginLogCount { get; set; }
 
