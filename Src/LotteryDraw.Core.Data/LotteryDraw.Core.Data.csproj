@@ -59,6 +59,8 @@
     <Compile Include="Configurations\Account\LoginLogConfiguration.cs" />
     <Compile Include="Configurations\Account\MemberAddressConfiguration.cs" />
     <Compile Include="Configurations\Account\MemberExtendConfiguration.cs" />
+    <Compile Include="Configurations\Business\PrizeBettingConfiguration.cs" />
+    <Compile Include="Configurations\Business\PrizeBettingConfiguration.generated.cs" />
     <Compile Include="Configurations\Business\PrizeOrderExtendConfiguration.cs" />
     <Compile Include="Configurations\Business\PrizeOrderConfiguration.cs" />
     <Compile Include="Configurations\Business\PrizeConfiguration.cs">
@@ -79,9 +81,11 @@
     <Compile Include="Repositories\Account\Impl\LoginLogRepository.generated.cs" />
     <Compile Include="Repositories\Account\Impl\MemberExtendRepository.generated.cs" />
     <Compile Include="Repositories\Account\Impl\MemberRepository.generated.cs" />
+    <Compile Include="Repositories\Business\Impl\PrizeBettingRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeOrderExtendRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeOrderRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeRepository.generated.cs" />
+    <Compile Include="Repositories\Business\IPrizeBettingRepository.generated.cs" />
     <Compile Include="Repositories\Business\IPrizeOrderExtendRepository.generated.cs" />
     <Compile Include="Repositories\Business\IPrizeOrderRepository.generated.cs" />
     <Compile Include="Repositories\Business\IPrizeRepository.generated.cs" />
@@ -105,6 +109,7 @@
 ..\Configurations\Account\LoginLogConfiguration.generated.cs
 ..\Configurations\Account\MemberConfiguration.generated.cs
 ..\Configurations\Account\MemberExtendConfiguration.generated.cs
+..\Configurations\Business\PrizeBettingConfiguration.generated.cs
 ..\Configurations\Business\PrizeConfiguration.generated.cs
 ..\Configurations\Business\PrizeOrderConfiguration.generated.cs
 ..\Configurations\Business\PrizeOrderExtendConfiguration.generated.cs
@@ -116,9 +121,11 @@
 ..\Repositories\Account\Impl\LoginLogRepository.generated.cs
 ..\Repositories\Account\Impl\MemberExtendRepository.generated.cs
 ..\Repositories\Account\Impl\MemberRepository.generated.cs
+..\Repositories\Business\Impl\PrizeBettingRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeOrderExtendRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeOrderRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeRepository.generated.cs
+..\Repositories\Business\IPrizeBettingRepository.generated.cs
 ..\Repositories\Business\IPrizeOrderExtendRepository.generated.cs
 ..\Repositories\Business\IPrizeOrderRepository.generated.cs
 ..\Repositories\Business\IPrizeRepository.generated.cs

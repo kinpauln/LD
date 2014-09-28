@@ -60,6 +60,11 @@ namespace LotteryDraw.Core.Models.Business
         /// </summary>
         public int RevealStateNum { get; set; }
 
+        /// <summary>
+        /// 获取或设置 该奖单下的所有用户投注
+        /// </summary>
+        public virtual ICollection<PrizeBetting> PrizeBettings { get; set; }
+
         public virtual Prize Prize { get; set; }
 
         public virtual PrizeOrderExtend Extend { get; set; }
