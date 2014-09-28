@@ -46,6 +46,20 @@ namespace LotteryDraw.Core.Models.Business
         /// </summary>
         public int RevealTypeNum { get; set; }
 
+        /// <summary>
+        /// 开奖状态
+        /// </summary>
+        public RealState RealState
+        {
+            get { return (RealState)RevealStateNum; }
+            set { RevealStateNum = (int)value; }
+        }
+
+        /// <summary>
+        /// 获取或设置 开奖状态的数值表示，用于数据库存储
+        /// </summary>
+        public int RevealStateNum { get; set; }
+
         public virtual Prize Prize { get; set; }
 
         public virtual PrizeOrderExtend Extend { get; set; }

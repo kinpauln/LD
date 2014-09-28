@@ -44,4 +44,20 @@ namespace LotteryDraw.Component.Tools
         [Description("现场开奖")]
         Scene = 4
     }
+
+    /// <summary>
+    /// 开奖类型
+    /// </summary>
+    [Description("开奖状态")]
+    public enum RealState
+    {
+        [Description("未开奖")]
+        UnDrawn = 1,
+        [Description("开奖中")]
+        Drawing = 2,
+        [Description("开奖结束")]
+        Drawn = 3,
+        [Description("取消")]
+        Canceled = 4
+    }
 }

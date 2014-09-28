@@ -57,6 +57,11 @@ namespace LotteryDraw.Core.Models.Business
         ///  中奖人数
         /// </summary>
         public int? LuckyCount { get; set; }
+
+        /// <summary>
+        ///  问答
+        /// </summary>
+        public PrizeAsking PrizeAsking { get; set; }
         
         public virtual PrizeOrder PrizeOrder { get; set; }
     }

@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\Account\PrizeAskingConfiguration.cs" />
     <Compile Include="Configurations\Account\LoginLogConfiguration.generated.cs" />
     <Compile Include="Configurations\Account\MemberConfiguration.generated.cs" />
     <Compile Include="Configurations\Account\MemberExtendConfiguration.generated.cs" />
