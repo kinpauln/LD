@@ -19,6 +19,8 @@ namespace LotteryDraw.Site.Models
         [Display(Name = "开奖类型")]
         public RevealType RevealType { get; set; }
 
+        public int RevealTypeNum { get; set; }
+
         /// <summary>
         /// 开奖状态
         /// </summary>
@@ -69,7 +71,7 @@ namespace LotteryDraw.Site.Models
 
         [Display(Name = "答案")]
         public string Answer { get; set; }
-
+        
         public DateTime? UpdateDate { get; set; }
     }
 }

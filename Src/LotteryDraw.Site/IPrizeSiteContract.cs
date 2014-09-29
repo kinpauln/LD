@@ -22,14 +22,14 @@ using LotteryDraw.Site.Models;
 namespace LotteryDraw.Site
 {
     /// <summary>
-    ///     账户模块站点业务契约
+    ///     奖品模块站点业务契约
     /// </summary>
     public interface IPrizeSiteContract
     {
         /// <summary>
         ///     添加奖品
         /// </summary>
-        /// <param name="prize">奖品信息</param>
+        /// <param name="prizeorder">奖品信息</param>
         /// <returns>业务操作结果</returns>
         OperationResult Add(PrizeView prize);
 

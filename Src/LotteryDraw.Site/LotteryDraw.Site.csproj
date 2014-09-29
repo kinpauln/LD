@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helper\Enums.cs" />
+    <Compile Include="IPrizeOrderSiteContract.cs" />
+    <Compile Include="Extentions\SiteExtentions.cs" />
+    <Compile Include="Impl\PrizeOrderSiteService.cs" />
     <Compile Include="Impl\PrizeSiteService.cs" />
     <Compile Include="IPrizeSiteContract.cs" />
     <Compile Include="Helper\Ioc\MefDependencySolver.cs" />

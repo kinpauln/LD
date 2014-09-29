@@ -29,7 +29,7 @@ namespace LotteryDraw.Core.Models.Business
     {
         public PrizeOrder()
         {
-            //Id = CombHelper.NewComb();
+            Id = CombHelper.NewComb();
         }
 
         /// <summary>
@@ -59,6 +59,11 @@ namespace LotteryDraw.Core.Models.Business
         /// 获取或设置 开奖状态的数值表示，用于数据库存储
         /// </summary>
         public int RevealStateNum { get; set; }
+
+        /// <summary>
+        ///  排序
+        /// </summary>
+        public int? SortOrder { get; set; }
 
         /// <summary>
         /// 获取或设置 该奖单下的所有用户投注

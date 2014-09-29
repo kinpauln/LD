@@ -59,17 +59,17 @@ namespace LotteryDraw.Core.Impl
         /// <summary>
         ///     添加奖品
         /// </summary>
-        /// <param name="prize">奖品信息</param>
+        /// <param name="prizeorder">奖品信息</param>
         /// <returns>业务操作结果</returns>
         public OperationResult Add(Prize prize) {
             int rcount = PrizeRepository.Insert(prize);
             if (rcount > 0)
             {
-                return new OperationResult(OperationResultType.Success, "发布商品成功。", prize);
+                return new OperationResult(OperationResultType.Success, "发布奖品成功。", prize);
             }
             else
             {
-                return new OperationResult(OperationResultType.Warning, "发布商品失败。");
+                return new OperationResult(OperationResultType.Warning, "发布奖品失败。");
             }
         }
 
@@ -83,11 +83,11 @@ namespace LotteryDraw.Core.Impl
             int rcount = PrizeRepository.Update(prize);
             if (rcount > 0)
             {
-                return new OperationResult(OperationResultType.Success, "更新商品成功。", prize);
+                return new OperationResult(OperationResultType.Success, "更新奖品成功。", prize);
             }
             else
             {
-                return new OperationResult(OperationResultType.Warning, "更新商品失败。");
+                return new OperationResult(OperationResultType.Warning, "更新奖品失败。");
             }
         }
 
@@ -101,11 +101,11 @@ namespace LotteryDraw.Core.Impl
             int rcount = PrizeRepository.Delete(prize);
             if (rcount > 0)
             {
-                return new OperationResult(OperationResultType.Success, "删除商品成功。", prize);
+                return new OperationResult(OperationResultType.Success, "删除奖品成功。", prize);
             }
             else
             {
-                return new OperationResult(OperationResultType.Warning, "删除商品失败。");
+                return new OperationResult(OperationResultType.Warning, "删除奖品失败。");
             }
         }
     }

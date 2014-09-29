@@ -16,71 +16,80 @@
 @section  styles{
     <style type="text/css">
         div.row-container {
+        }
 
-        }
         div.formdata {
-            display:none;
+            display: none;
         }
+
         input[type=text].num {
-            width:30px;
+            width: 30px;
         }
     </style>
 }
 
-@Html.HiddenFor(model => model.PrizeId)
 @if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
-    {
+{
     <div class="row-container" style="text-align: center; color: #f00;">@ViewBag.Message</div>
 }
-    <div class="row-container">
-        <table class="message_table">
-            <tbody>
-                <tr>
-                    <td class="text">开奖类型：</td>
-                    <td class="input">
-                        <select id="slLauchType">
-                            <option value="-1" containerid="welcome-container">请选择</option>
-                            <option value="1" containerid="timing-container">定时开奖</option>
-                            <option value="2" containerid="quota-container">定员开奖</option>
-                            <option value="3" containerid="answer-container">答案开奖</option>
-                            <option value="4" containerid="scene-container">实时开奖</option>
-                        </select>
-                    </td>
-                </tr>
-        </table>
-        <div class="clear"></div>
-    </div>
+<div class="row-container">
+    <table class="message_table">
+        <tbody>
+            <tr>
+                <td class="text">开奖类型：</td>
+                <td class="input">
+                    @*@Html.DropDownList("slLauchType",(SelectList)ViewBag.RevealTypeList)*@
+                    <select id="slLauchType">
+                        <option value="-1" containerid="welcome-container">请选择</option>
+                        <option value="1" containerid="timing-container">定时开奖</option>
+                        <option value="2" containerid="quota-container">定员开奖</option>
+                        <option value="3" containerid="answer-container">答案开奖</option>
+                        <option value="4" containerid="scene-container">实时开奖</option>
+                    </select>
+                </td>
+            </tr>
+    </table>
+    <div class="clear"></div>
+</div>
 <div class="row-container tab" id="welcome-container">
     请选择抽奖类型，并设置好必要的抽奖信息。
 </div>
 <div class="row-container formdata tab" id="timing-container">
     @using (Html.BeginForm("LaunchPrize", "Vip", FormMethod.Post, new { @class = "timing" }))
     {
+        <input type="hidden" name="RevealType" />
+        @Html.HiddenFor(m => m.RevealTypeNum);
+        @Html.HiddenFor(model => model.PrizeId)
         <table class="message_table">
             <tbody>
                 <tr>
                     <td class="text">开奖日期：</td>
                     <td class="input">
-                        <input type="text" name="launchTime" id="txtLaunchTime" class="input-text" readonly />
+                        @Html.TextBoxFor(m => m.LaunchTime, new { @class = "input-text", id = "txtLaunchTime", @readonly = "readonly" })<span class="info">*</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="text">中奖最低人数：</td>
                     <td class="input">
-                        <input type="text" name="launchTime" id="txtMinLuckyCount" class="input-text num" value="1" />
+                        @Html.TextBoxFor(m => m.MinLuckyCount, new { @class = "input-text num" })<span class="info">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text">中奖人数：</td>
+                    <td class="input">
+                        @Html.TextBoxFor(m => m.LuckyCount, new { @class = "input-text num" })<span class="info">*</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="text">开奖率：</td>
                     <td class="input">
-                        <input type="text" name="launchTime" id="txtLuckyPercent" class="input-text num" value="10" /><span>%</span>
+                        @Html.TextBoxFor(m => m.LuckyPercent, new { @class = "input-text num" })<span>%</span><span class="info">*</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="text"></td>
                     <td class="submint">
-                        <input type="submit" value="开奖" class="submit button orange">
-                        <input type="button" value="返回" onclick="javascript: history.go(-1);" class="submit button orange" />
+                        @Html.Partial("LaunchPageButtonsPartial")
                     </td>
                 </tr>
             </tbody>
@@ -91,25 +100,27 @@
 <div class="row-container formdata tab" id="quota-container">
     @using (Html.BeginForm("LaunchPrize", "Vip", FormMethod.Post, new { @class = "quota" }))
     {
+        <input type="hidden" name="RevealType" />
+        @Html.HiddenFor(m => m.RevealTypeNum);
+        @Html.HiddenFor(model => model.PrizeId)
         <table class="message_table">
             <tbody>
                 <tr>
                     <td class="text">奖池大小：</td>
                     <td class="input">
-                        <input type="text" name="PoolCount" id="txtPoolCount" class="input-text num" value="1" />
+                        @Html.TextBoxFor(m => m.PoolCount, new { @class = "input-text num" })
                     </td>
                 </tr>
                 <tr>
                     <td class="text">开奖率：</td>
                     <td class="input">
-                        <input type="text" name="LuckyPercent" id="txtLuckyPercent" class="input-text num" value="10" /><span>%</span>
+                        @Html.TextBoxFor(m => m.LuckyPercent, new { @class = "input-text num" })<span>%</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="text"></td>
                     <td class="submint">
-                        <input type="submit" value="开奖" class="submit button orange">
-                        <input type="button" value="返回" onclick="javascript: history.go(-1);" class="submit button orange" />
+                        @Html.Partial("LaunchPageButtonsPartial")
                     </td>
                 </tr>
             </tbody>
@@ -120,37 +131,39 @@
 <div class="row-container formdata tab" id="answer-container">
     @using (Html.BeginForm("LaunchPrize", "Vip", FormMethod.Post, new { @class = "answer" }))
     {
+        <input type="hidden" name="RevealType" />
+        @Html.HiddenFor(m => m.RevealTypeNum);
+        @Html.HiddenFor(model => model.PrizeId)
         <table class="message_table">
             <tbody>
                 <tr>
                     <td class="text">开奖问题：</td>
                     <td class="input">
-                        <textarea  name="Question" id="txtQuestion" cols="50" rows="3" class="textarea-text" name="Answer" id="txtAnswer"></textarea><span class="info">*</span>
+                        @Html.TextAreaFor(m => m.Question, new { @class = "textarea-text", cols = "50", rows = "3" })<span class="info">*</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="text">开奖答案：</td>
                     <td class="input">
-                        <textarea cols="50" rows="6" class="textarea-text" name="Answer" id="txtAnswer"></textarea><span class="info">*</span>
+                        @Html.TextAreaFor(m => m.Answer, new { @class = "textarea-text", cols = "50", rows = "6" })<span class="info">*</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="text">中奖最低人数：</td>
                     <td class="input">
-                        <input type="text" name="MinLuckyCount" id="txtMinLuckyCount" class="input-text num" value="1" />
+                        @Html.TextBoxFor(m => m.MinLuckyCount, new { @class = "input-text num" })
                     </td>
                 </tr>
                 <tr>
                     <td class="text">开奖率：</td>
                     <td class="input">
-                        <input type="text" name="LuckyPercent" id="txtLuckyPercent" class="input-text num" value="10" /><span>%</span>
+                        @Html.TextBoxFor(m => m.LuckyPercent, new { @class = "input-text num" })<span>%</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="text"></td>
                     <td class="submint">
-                        <input type="submit" value="开奖" class="submit button orange">
-                        <input type="button" value="返回" onclick="javascript: history.go(-1);" class="submit button orange" />
+                        @Html.Partial("LaunchPageButtonsPartial")
                     </td>
                 </tr>
             </tbody>
@@ -161,25 +174,27 @@
 <div class="row-container formdata tab" id="scene-container">
     @using (Html.BeginForm("LaunchPrize", "Vip", FormMethod.Post, new { @class = "scene" }))
     {
+        <input type="hidden" name="RevealType" />
+        @Html.HiddenFor(m => m.RevealTypeNum);
+        @Html.HiddenFor(model => model.PrizeId)
         <table class="message_table">
             <tbody>
                 <tr>
                     <td class="text">中奖最低人数：</td>
                     <td class="input">
-                        <input type="text" name="launchTime" id="txtMinLuckyCount" class="input-text" style="width: 30px;" value="1" />
+                        @Html.TextBoxFor(m => m.MinLuckyCount, new { @class = "input-text num" })
                     </td>
                 </tr>
                 <tr>
                     <td class="text">开奖率：</td>
                     <td class="input">
-                        <input type="text" name="launchTime" id="txtLuckyPercent" class="input-text" value="10" style="width: 30px;" /><span>%</span>
+                        @Html.TextBoxFor(m => m.LuckyPercent, new { @class = "input-text num" })<span>%</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="text"></td>
                     <td class="submint">
-                        <input type="submit" value="开奖" class="submit button orange">
-                        <input type="button" value="返回" onclick="javascript: history.go(-1);" class="submit button orange" />
+                        @Html.Partial("LaunchPageButtonsPartial")
                     </td>
                 </tr>
             </tbody>
@@ -244,6 +259,8 @@
             });
 
             $("#slLauchType").change(function () {
+                $("input:hidden[name='RevealType']").val($(this).val());
+                $("input:hidden[name='RevealTypeNum']").val($(this).val());
                 var $opobj = $(this).find("option:selected");
                 var containerid = $opobj.attr("containerid");
                 $("div.tab").hide();

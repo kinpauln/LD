@@ -29,7 +29,7 @@ namespace LotteryDraw.Core.Models.Business
     {
         public PrizeOrderExtend()
         {
-            Id = CombHelper.NewComb();
+            //Id = CombHelper.NewComb();
             PrizeAsking = new PrizeAsking();
         }
 
