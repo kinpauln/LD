@@ -20,6 +20,8 @@ using LotteryDraw.Core.Models.Account;
 using LotteryDraw.Core.Models.Security;
 using LotteryDraw.Core.Data.Repositories.Business;
 using LotteryDraw.Core.Models.Business;
+using System.Data.SqlClient;
+using System.Data;
 
 
 namespace LotteryDraw.Core.Impl
@@ -61,7 +63,8 @@ namespace LotteryDraw.Core.Impl
         /// </summary>
         /// <param name="prizeorder">奖品信息</param>
         /// <returns>业务操作结果</returns>
-        public OperationResult Add(Prize prize) {
+        public OperationResult Add(Prize prize)
+        {
             int rcount = PrizeRepository.Insert(prize);
             if (rcount > 0)
             {
@@ -107,6 +110,53 @@ namespace LotteryDraw.Core.Impl
             {
                 return new OperationResult(OperationResultType.Warning, "删除奖品失败。");
             }
+        }
+
+        public void CallProcedureDemo(out string outInvalidPartCodes, out string outInvalidPropertyCodes, out string outErrorMessage)
+        {
+            int searchType = 1; 
+            string keywords = string.Empty; 
+            int topcount = 0;
+            IList<SqlParameter> paramList = new List<SqlParameter>();
+            paramList.Add(new SqlParameter("@searchType", searchType));
+            paramList.Add(new SqlParameter("@searchKeywords", keywords));
+            paramList.Add(new SqlParameter("@topCount", topcount));
+
+            DataSet ds = PrizeRepository.ExecProcdureReturnDataSet("sp_gloabalsearch", paramList.ToArray<SqlParameter>());
+
+
+            DataTable dt = new DataTable();
+            IList<SqlParameter> paramList2 = new List<SqlParameter>();
+
+            SqlParameter paramdt = new SqlParameter("@Datas", SqlDbType.Structured);
+            paramdt.Value = dt;
+            paramList2.Add(paramdt);
+
+            SqlParameter partParam = new SqlParameter("@InvalidPartCodes", SqlDbType.VarChar, 1000);
+            partParam.Direction = ParameterDirection.Output;
+            paramList2.Add(partParam);
+
+            SqlParameter propertyParam = new SqlParameter("@InvalidPropertyCodes", SqlDbType.VarChar, 1000);
+            propertyParam.Direction = ParameterDirection.Output;
+            paramList2.Add(propertyParam);
+
+            SqlParameter errorMessageParam = new SqlParameter("@ErrorMessage", SqlDbType.VarChar, 1000);
+            errorMessageParam.Direction = ParameterDirection.Output;
+            paramList2.Add(errorMessageParam);
+
+            SqlCommand command = new SqlCommand();
+            PrizeRepository.ExecProcdure("sp_importPartPropertyDatas", out command, paramList.ToArray<SqlParameter>());
+
+            outInvalidPartCodes = command.Parameters["@InvalidPartCodes"].Value.ToString();
+            outInvalidPropertyCodes = command.Parameters["@InvalidPropertyCodes"].Value.ToString();
+            outErrorMessage = command.Parameters["@ErrorMessage"].Value.ToString();
+
+            int LanType = 0;
+            int state = 0;
+            SqlParameter[] sqlparams = new SqlParameter[2];
+            sqlparams[0] = new SqlParameter("LanType", LanType);
+            sqlparams[1] = new SqlParameter("state", state);
+            DataTable DataTable = PrizeRepository.SqlQueryForDataTatable("select LeaveName,LeaveEmail from LeaveInfo where LanType=@LanType and State=@State", sqlparams);
         }
     }
 }

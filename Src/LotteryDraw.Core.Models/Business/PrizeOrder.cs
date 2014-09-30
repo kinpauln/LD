@@ -49,9 +49,9 @@ namespace LotteryDraw.Core.Models.Business
         /// <summary>
         /// ¿ª½±×´Ì¬
         /// </summary>
-        public RealState RealState
+        public RevealState RevealState
         {
-            get { return (RealState)RevealStateNum; }
+            get { return (RevealState)RevealStateNum; }
             set { RevealStateNum = (int)value; }
         }
 

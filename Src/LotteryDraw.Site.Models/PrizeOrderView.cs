@@ -25,14 +25,16 @@ namespace LotteryDraw.Site.Models
         /// 开奖状态
         /// </summary>
         [Display(Name = "开奖状态")]
-        public RealState RealState
+        public RevealState RevealState
         {
             get;
             set;
         }
 
-        [Display(Name = "描述")]
-        public string Description { get; set; }
+        public int RevealStateNum { get; set; }
+
+        [Display(Name = "备注")]
+        public string Remarks { get; set; }
 
         public Guid PrizeId { get; set; }
 
@@ -71,7 +73,7 @@ namespace LotteryDraw.Site.Models
 
         [Display(Name = "答案")]
         public string Answer { get; set; }
-        
+                
         public DateTime? UpdateDate { get; set; }
     }
 }

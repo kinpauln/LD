@@ -16,6 +16,8 @@ using System.Linq.Expressions;
 using System.Text;
 
 using LotteryDraw.Component.Tools;
+using System.Data;
+using System.Data.SqlClient;
 
 
 namespace LotteryDraw.Component.Data
@@ -110,6 +112,40 @@ namespace LotteryDraw.Component.Data
         /// <returns> 符合编号的记录，不存在返回null </returns>
         TEntity GetByKey(TKey key);
 
+        /// <summary>
+        /// EF SQL 语句返回 dataTable
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        System.Data.DataTable SqlQueryForDataTatable(string sql,
+                System.Data.SqlClient.SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行存储过程,返回DataSet对象
+        /// </summary>
+        /// <param name="pname">存储过程名字</param>
+        /// <param name="parameters">存储过程参数</param>
+        /// <returns>数据集</returns>
+        DataSet ExecProcdureReturnDataSet(string pname, params SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行存储过程,影响的行数
+        /// </summary>
+        /// <param name="pname">存储过程名字</param>
+        /// <param name="parameters">存储过程参数</param>
+        /// <returns>数据集</returns>
+        int ExecProcdureReturnRowCount(string pname, params SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行存储过程,带着SqlCommand输出参数
+        /// </summary>
+        /// <param name="pname">存储过程名字</param>
+        /// <param name="parameters">存储过程参数</param>
+        /// <returns>影响的行数</returns>
+        int ExecProcdure(string pname, out SqlCommand command, params SqlParameter[] parameters);
+
         #endregion
+
     }
 }

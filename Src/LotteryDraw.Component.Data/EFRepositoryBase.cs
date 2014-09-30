@@ -18,6 +18,8 @@ using System.Linq.Expressions;
 using System.Text;
 
 using LotteryDraw.Component.Tools;
+using System.Data.SqlClient;
+using System.Data;
 
 
 namespace LotteryDraw.Component.Data
@@ -190,5 +192,130 @@ namespace LotteryDraw.Component.Data
         }
 
         #endregion
+
+        /// <summary>
+        /// EF SQL 语句返回 dataTable
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public System.Data.DataTable SqlQueryForDataTatable(string sql,
+                System.Data.SqlClient.SqlParameter[] parameters)
+        {
+            Database db = EFContext.DbContext.Database;
+            using (SqlConnection conn = new SqlConnection(db.Connection.ConnectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = sql;
+
+                if (parameters.Length > 0)
+                {
+                    foreach (var item in parameters)
+                    {
+                        cmd.Parameters.Add(item);
+                    }
+                }
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable table = new DataTable();
+                adapter.Fill(table);
+                return table;
+            }
+        }
+
+        /// <summary>
+        /// 执行存储过程,返回DataSet对象
+        /// </summary>
+        /// <param name="pname">存储过程名字</param>
+        /// <param name="parameters">存储过程参数</param>
+        /// <returns>数据集</returns>
+        public DataSet ExecProcdureReturnDataSet(string pname, params SqlParameter[] parameters)
+        {
+            Database db = EFContext.DbContext.Database;
+            using (SqlConnection conn = new SqlConnection(db.Connection.ConnectionString))
+            {
+                conn.Open();
+                SqlCommand userCommand = new SqlCommand(pname, conn);
+                userCommand.CommandType = CommandType.StoredProcedure;//采用存储过程
+                if (parameters != null)
+                {
+                    //遍历参数,添加到SqlCommand 对象子执行
+                    foreach (SqlParameter parm in parameters)
+                        userCommand.Parameters.Add(parm);
+                }
+
+                SqlDataAdapter adapter = new SqlDataAdapter(userCommand);
+                DataSet ds = new DataSet();
+                adapter.Fill(ds);
+                return ds;
+            }
+        }
+
+        /// <summary>
+        /// 执行存储过程,影响的行数
+        /// </summary>
+        /// <param name="pname">存储过程名字</param>
+        /// <param name="parameters">存储过程参数</param>
+        /// <returns>数据集</returns>
+        public int ExecProcdureReturnRowCount(string pname, params SqlParameter[] parameters)
+        {
+            Database db = EFContext.DbContext.Database;
+            using (SqlConnection conn = new SqlConnection(db.Connection.ConnectionString))
+            {
+                conn.Open();
+                SqlCommand userCommand = new SqlCommand(pname, conn);
+                userCommand.CommandType = CommandType.StoredProcedure;//采用存储过程
+                if (parameters != null)
+                {
+                    //遍历参数,添加到SqlCommand 对象子执行
+                    foreach (SqlParameter parm in parameters)
+                        userCommand.Parameters.Add(parm);
+                }
+
+                try
+                {
+                    return userCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 执行存储过程,带着SqlCommand输出参数
+        /// </summary>
+        /// <param name="pname">存储过程名字</param>
+        /// <param name="parameters">存储过程参数</param>
+        /// <returns>影响的行数</returns>
+        public int ExecProcdure(string pname, out SqlCommand command, params SqlParameter[] parameters)
+        {
+            Database db = EFContext.DbContext.Database;
+            using (SqlConnection conn = new SqlConnection(db.Connection.ConnectionString))
+            {
+                conn.Open();
+                SqlCommand userCommand = new SqlCommand(pname, conn);
+                userCommand.CommandType = CommandType.StoredProcedure;//采用存储过程
+                if (parameters != null)
+                {
+                    //遍历参数,添加到SqlCommand 对象子执行
+                    foreach (SqlParameter parm in parameters)
+                        userCommand.Parameters.Add(parm);
+                }
+
+                try
+                {
+                    command = userCommand;
+                    return userCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
     }
 }

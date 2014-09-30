@@ -49,7 +49,7 @@ namespace LotteryDraw.Component.Tools
     /// 开奖类型
     /// </summary>
     [Description("开奖状态")]
-    public enum RealState
+    public enum RevealState
     {
         [Description("未开奖")]
         UnDrawn = 1,

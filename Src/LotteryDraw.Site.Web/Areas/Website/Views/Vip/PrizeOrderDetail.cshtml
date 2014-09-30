@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "奖单详情";
+    Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
+}
+@model LotteryDraw.Site.Models.PrizeOrderView
+
+@section  LeftMenuItems{
+    @Html.Partial("VipNavPartial")
+}
+
+@section  BreadCrumbs{
+    &gt;
+    <label>奖单详情</label>
+}
+
+<table class="message_table">
+    <tbody>
+        @if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <tr>
+                <td colspan="2" style="text-align: center; color: #f00;">@ViewBag.Message</td>
+            </tr>
+        }
+        @if (Model == null) { }
+        else{
+        <tr>
+            <td class="text">开奖类型：</td>
+            <td class="input">
+                @*@Model.RevealType.ToString()*@
+            </td>
+        </tr>
+        <tr>
+            <td class="text">描述：</td>
+            <td class="input">
+                @Model.Remarks
+            </td>
+        </tr>
+        <tr>
+            <td class="text">发起时间：</td>
+            <td class="input">
+                @Model.AddDate.ToString("yyy-MM-dd HH:mm:ss")
+            </td>
+        </tr>
+        <tr>
+            <td class="text">修改时间：</td>
+            <td class="input">
+                @{
+                    string dateString = Model.UpdateDate.HasValue ? Model.UpdateDate.Value.ToString("yyy-MM-dd HH:mm:ss") : string.Empty;
+                }
+                @dateString
+            </td>
+        </tr>
+        }
+        <tr>
+            <td class="text"></td>
+            <td class="submint">
+                <a href="/Vip/PrizeOrderList">
+                    <input type="submit" value="奖单列表" class="submit button orange"></a>
+                <a href="/Vip/ManagePrizes">
+                    <input type="button" value="返回" class="submit button orange" /></a>
+            </td>
+        </tr>
+    </tbody>
+</table>

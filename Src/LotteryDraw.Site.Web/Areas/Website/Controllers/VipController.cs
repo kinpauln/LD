@@ -19,7 +19,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
     public class VipController : WebsiteControllerBase
     {
         #region 属性
-            #region 受保护的属性
+        #region 受保护的属性
         [Import]
         protected IPrizeSiteContract PrizeSiteContract { get; set; }
 
@@ -27,7 +27,10 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         protected IPrizeOrderSiteContract PrizeOrderSiteContract { get; set; }
 
         [Import]
-        protected IPrizeContract PrizeContract { get; set; }  
+        protected IPrizeOrderContract PrizeOrderContract { get; set; }
+
+        [Import]
+        protected IPrizeContract PrizeContract { get; set; }
         #endregion
         #endregion
 
@@ -80,8 +83,33 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             //ModelState.AddModelError("", msg);
             ViewBag.Message = msg;
             return View(model);
-        } 
+        }
         #endregion
+
+        /// <summary>
+        ///  奖单详情
+        /// </summary>
+        public ActionResult PrizeOrderDetail(Guid id)
+        {
+            PrizeOrderView model = PrizeOrderContract.PrizeOrders
+                .Where(p => p.Id.Equals(id))
+                .Select(p => new PrizeOrderView()
+                {
+                    Id = p.Id,
+                    RevealTypeNum = p.RevealTypeNum,
+                    //RevealState = p.RevealState,
+                    LaunchTime = p.Extend.LaunchTime,
+                    MinLuckyCount = p.Extend.MinLuckyCount,
+                    LuckyCount = p.Extend.LuckyCount,
+                    LuckyPercent = p.Extend.LuckyPercent,
+                    PoolCount = p.Extend.PoolCount,
+                    Remarks = p.Extend.Remarks,
+                    AddDate = p.AddDate
+                }).FirstOrDefault();
+            if (model == null)
+                ViewBag.Message = string.Format("不存在Id为{0}的奖单",id);
+            return View(model);
+        }
 
         #region 发起抽奖
         /// <summary>
@@ -93,7 +121,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             {
                 PrizeId = id
             };
-            ViewBag.RevealTypeList = model.RevealType.ToDescriptionSelectList();  
+            ViewBag.RevealTypeList = model.RevealType.ToDescriptionSelectList();
             return View(model);
         }
 
@@ -107,13 +135,14 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             string msg = result.Message ?? result.ResultType.ToDescription();
             if (result.ResultType == OperationResultType.Success)
             {
-                TempData["Message"] = "发起抽奖成功。<br /><a href='/Vip/PrizeOrderDetail'>查看<a>奖单";
+
+                TempData["Message"] = string.Format("发起抽奖成功。<br /><a href='/Vip/PrizeOrderDetail/{0}'>查看<a>奖单", model.PrizeId);
                 return RedirectToAction("InfoPage");
             }
             //ModelState.AddModelError("", msg);
             ViewBag.Message = msg;
             return View(model);
-        } 
+        }
         #endregion
 
         #region 编辑奖品
@@ -175,7 +204,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             {
                 return 10;
             }
-        } 
+        }
         #endregion
 
         /// <summary>
