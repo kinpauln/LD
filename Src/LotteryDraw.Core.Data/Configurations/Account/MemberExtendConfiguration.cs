@@ -15,7 +15,7 @@ namespace LotteryDraw.Core.Data.Configurations.Account
     {
         partial void MemberExtendConfigurationAppend()
         {
-            HasRequired(m => m.Member).WithOptional(n => n.Extend);
+            HasRequired(m => m.Member).WithOptional(n => n.Extend).WillCascadeOnDelete(true);
         }
     }
 }
