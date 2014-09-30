@@ -17,7 +17,11 @@ namespace LotteryDraw.Site.Models
         /// 开奖类型
         /// </summary>
         [Display(Name = "开奖类型")]
-        public RevealType RevealType { get; set; }
+        public RevealType RevealType
+        {
+            get { return (RevealType)RevealTypeNum; }
+            set { RevealTypeNum = (int)value; }
+        }
 
         public int RevealTypeNum { get; set; }
 
@@ -27,8 +31,8 @@ namespace LotteryDraw.Site.Models
         [Display(Name = "开奖状态")]
         public RevealState RevealState
         {
-            get;
-            set;
+            get { return (RevealState)RevealStateNum; }
+            set { RevealStateNum = (int)value; }
         }
 
         public int RevealStateNum { get; set; }

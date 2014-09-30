@@ -1,0 +1,68 @@
+﻿@using Webdiyer.WebControls.Mvc;
+@using LotteryDraw.Component.Tools;
+@model PagedList<LotteryDraw.Site.Models.PrizeOrderView>
+@{
+    ViewBag.Title = "奖单列表";
+    Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
+}
+
+@section  LeftMenuItems{
+    @Html.Partial("VipNavPartial")
+}
+
+@section  BreadCrumbs{
+    &gt;
+    <label>奖单列表</label>
+}
+@section styles{
+    <link href="~/Content/website/css/prize.css" rel="stylesheet" />
+}
+<div class="active" id="prizelist" style="margin: 10px 0;">
+
+    @if (!string.IsNullOrEmpty(TempData["Message"] as string))
+    {
+        <div style="color: #f00;" class="error-info">@TempData["Message"]</div>
+    }
+    <table class="prize-list">
+        <tr>
+            <th>抽奖类型</th>
+            <th>状态</th>
+            <th>描述</th>
+            <th style="width: 120px;">发布日期</th>
+            <th style="width: 120px;">操作</th>
+        </tr>
+        @if (Model == null || Model.Count == 0) {
+             <tr>
+                <td colspan="6">没有奖单</td></tr>
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.RevealType.ToDescription()</td>
+                <td>@item.RevealState.ToDescription()</td>
+                <td><div title="@item.Remarks" style="width:120px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.Remarks</div></td>
+                <td>@item.AddDate.ToString("yyy-MM-dd HH:mm:ss")</td>
+                <td><a href="/Vip/PrizeOrderDetail/@item.Id">详情</a>@*&nbsp;|&nbsp;<a href="/Vip/PrizeOrderDelete/@item.Id" onclick="javascript:return confirm('确认要删除？')">删除</a>*@</td>
+            </tr>
+        }
+    </table>
+    @Html.Pager(Model, new PagerOptions
+{
+    PageIndexParameterName = "id",
+    FirstPageText = "首页",
+    LastPageText = "尾页",
+    PrevPageText = "上一页",
+    NextPageText = "下一页",
+    SeparatorHtml = "",
+    CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
+}, new { @class = "diggpager" })
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#prizelist table tr:odd").addClass("odd-tr");
+            $("#prizelist table tr:even").addClass("even-tr");
+        });
+    </script>
+}

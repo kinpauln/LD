@@ -97,7 +97,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 {
                     Id = p.Id,
                     RevealTypeNum = p.RevealTypeNum,
-                    //RevealState = p.RevealState,
+                    RevealStateNum = p.RevealStateNum,
                     LaunchTime = p.Extend.LaunchTime,
                     MinLuckyCount = p.Extend.MinLuckyCount,
                     LuckyCount = p.Extend.LuckyCount,
@@ -107,8 +107,56 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     AddDate = p.AddDate
                 }).FirstOrDefault();
             if (model == null)
-                ViewBag.Message = string.Format("不存在Id为{0}的奖单",id);
+                ViewBag.Message = string.Format("不存在Id为{0}的奖单", id);
             return View(model);
+        }
+
+        /// <summary>
+        ///  奖单列表
+        /// </summary>
+        public ActionResult PrizeOrderList(Guid? pid, int? id)
+        {
+            int userid = this.UserId ?? 0;
+            int pageIndex = id ?? 1;
+            int total;
+            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
+
+            var query = PrizeOrderContract.PrizeOrders.Where(p => !p.IsDeleted && p.Prize.Member.Id == userid);
+            if (pid != null)
+            {
+                query = query.Where(p => p.Prize.Id == pid);
+            }
+            var rlist = query.Where<PrizeOrder, Guid>(m => true, pageIndex, this.PageSize, out total, sortConditions)
+            .OrderByDescending(p => p.AddDate)
+            .Select(p => new PrizeOrderView()
+            {
+                Id = p.Id,
+                RevealTypeNum = p.RevealTypeNum,
+                RevealState = p.RevealState,
+                LaunchTime = p.Extend.LaunchTime,
+                MinLuckyCount = p.Extend.MinLuckyCount,
+                LuckyCount = p.Extend.LuckyCount,
+                LuckyPercent = p.Extend.LuckyPercent,
+                PoolCount = p.Extend.PoolCount,
+                Remarks = p.Extend.Remarks,
+                AddDate = p.AddDate
+            });
+
+            PagedList<PrizeOrderView> model = new PagedList<PrizeOrderView>(rlist, pageIndex, this.PageSize, total);
+
+            if (model == null)
+                ViewBag.Message = string.Format("不存在Id为{0}的奖单", id);
+            return View(model);
+        }
+
+        public ActionResult MyBettingList(int? id)
+        { 
+            int userid = this.UserId ?? 0;
+            int pageIndex = id ?? 1;
+            int total;
+            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
+
+            return View();
         }
 
         #region 发起抽奖

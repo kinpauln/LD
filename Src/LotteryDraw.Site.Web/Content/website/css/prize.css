@@ -1,0 +1,25 @@
+﻿@charset "utf-8";
+
+table.prize-list {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 12px;
+}
+
+    table.prize-list th, table td {
+        border: solid 1px #ccc;
+        padding: 2px;
+        text-align: center;
+    }
+
+    table.prize-list th {
+        background-color: #7EA9CC;
+        color: #fff;
+    }
+
+    table.prize-list tr.even-tr {
+        background-color: #ebebeb;
+    }
+/*table.prize-list tr:hover {
+                background-color:#ccc;
+            }*/

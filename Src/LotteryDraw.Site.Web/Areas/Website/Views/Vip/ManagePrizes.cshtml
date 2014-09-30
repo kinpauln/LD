@@ -14,30 +14,8 @@
     <label>奖品管理</label>
 }
 @section styles{
-    <style type="text/css">
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            font-size: 12px;
-        }
-
-            table th, table td {
-                border: solid 1px #ccc;
-                padding: 2px;
-                text-align: center;
-            }
-
-            table th {
-                background-color: #7EA9CC;
-                color: #fff;
-            }
-
-            table tr.even-tr {
-                background-color: #ebebeb;
-            }
-        /*table tr:hover {
-                background-color:#ccc;
-            }*/
+    <link href="~/Content/website/css/prize.css" rel="stylesheet" />
+    <style type="text/css">        
         #adv-list {
             position: relative;
             margin-bottom: 10px;
@@ -115,7 +93,7 @@
     {
         <div style="color: #f00;" class="error-info">@TempData["Message"]</div>
     }
-    <table>
+    <table class="prize-list">
         <tr>
             <th>名称</th>
             <th style="width: 110px;">图片</th>
@@ -136,7 +114,7 @@
                 <td><div title="@item.Description" style="width:120px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.Description</div></td>
                 <td>@item.AddDate.ToString("yyy-MM-dd HH:mm:ss")</td>
                 <td>@{string dateString = item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyy-MM-dd HH:mm:ss") : string.Empty;}@dateString</td>
-                <td><a href="/Vip/PrizeDetail/@item.Id">详情</a>&nbsp;|&nbsp;<a href="/Vip/PrizeEdit/@item.Id">编辑</a>&nbsp;|&nbsp;<a href="/Vip/PrizeDelete/@item.Id" onclick="javascript:return confirm('确认要删除？')">删除</a</td>
+                <td><a href="/Vip/PrizeDetail/@item.Id">详情</a>&nbsp;|&nbsp;<a href="/Vip/PrizeEdit/@item.Id">编辑</a>&nbsp;|&nbsp;<a href="/Vip/PrizeDelete/@item.Id" onclick="javascript:return confirm('确认要删除？')">删除</a>&nbsp;|&nbsp;<a href="/Vip/PrizeOrderList?pid=@item.Id">奖单</a></td>
             </tr>
         }
     </table>
