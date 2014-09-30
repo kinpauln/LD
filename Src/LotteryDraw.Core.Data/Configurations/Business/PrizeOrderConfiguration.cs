@@ -34,7 +34,8 @@ namespace LotteryDraw.Core.Data.Configurations.Business
         partial void PrizeOrderConfigurationAppend()
         {
             HasRequired(po => po.Prize)
-                .WithMany(p=>p.PrizeOrders);
+                .WithMany(p=>p.PrizeOrders)
+                .WillCascadeOnDelete(true);
                 //.HasForeignKey(n => n.Prize_Id);
         }
     }

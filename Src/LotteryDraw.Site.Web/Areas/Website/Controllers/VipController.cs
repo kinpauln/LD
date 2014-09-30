@@ -86,6 +86,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         }
         #endregion
 
+        #region 奖单
         /// <summary>
         ///  奖单详情
         /// </summary>
@@ -148,6 +149,24 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 ViewBag.Message = string.Format("不存在Id为{0}的奖单", id);
             return View(model);
         }
+
+        /// <summary>
+        ///  删除奖单
+        /// </summary>
+        /// <param name="id"></param>
+        public ActionResult PrizeOrderDelete(Guid id)
+        {
+            OperationResult result = PrizeOrderSiteContract.Delete(id);
+            string msg = result.Message ?? result.ResultType.ToDescription();
+            if (result.ResultType == OperationResultType.Success)
+            {
+                TempData["Message"] = "奖单删除成功。<br /><a href='/Vip/PrizeOrderList'>返回</a>奖单管理页";
+                return RedirectToAction("InfoPage");
+            }
+            TempData["Message"] = msg;
+            return RedirectToAction("PrizeOrderList");
+        }
+        #endregion
 
         public ActionResult MyBettingList(int? id)
         { 

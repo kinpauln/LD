@@ -42,7 +42,7 @@
                 <td>@item.RevealState.ToDescription()</td>
                 <td><div title="@item.Remarks" style="width:120px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.Remarks</div></td>
                 <td>@item.AddDate.ToString("yyy-MM-dd HH:mm:ss")</td>
-                <td><a href="/Vip/PrizeOrderDetail/@item.Id">详情</a>@*&nbsp;|&nbsp;<a href="/Vip/PrizeOrderDelete/@item.Id" onclick="javascript:return confirm('确认要删除？')">删除</a>*@</td>
+                <td><a href="/Vip/PrizeOrderDetail/@item.Id">详情</a>&nbsp;|&nbsp;<a href="/Vip/PrizeOrderDelete/@item.Id" onclick="javascript:return confirm('确认要删除？')">删除</a></td>
             </tr>
         }
     </table>
