@@ -117,21 +117,30 @@ padding: 0px 7px 0px 8px;background:url(../bg.png) no-repeat -408px -1277px; zoo
 
 #features-index{ position:relative;margin-bottom:10px;zoom:1}
 
-#features-index a{cursor:pointer; width:311px;  display:inline-block; margin:20px 20px 0px 0px; background:#ebebeb url(../pic-bg.jpg) repeat-x 0 0;padding:0;}
+#features-index a{cursor:pointer; display:inline-block; margin:20px 20px 0px 0px; background:#ebebeb url(../pic-bg.jpg) repeat-x 0 0;padding:0;}
 
-#features-index a span{float:right;width: 179px;padding:12px 16px 0px 0px;overflow:hidden;}
+#features-index a span{ margin-left: 110px;padding:12px 16px 0px 10px;overflow:hidden;height:127px;}
+#features-index a div.ph{ margin-left: 110px !important;margin-left: 110px;padding:12px 16px 0px 10px;overflow:hidden;height:127px;}
 
-#features-index a img{ float: left;width:100px;padding-top: 6px;padding-left:4px; min-height:126px;}
+#features-index a img{ float: left;width:100px;padding-top: 6px;padding-left:4px; min-height:127px;}
+/*#features-index a img{ float: left;width:100px;padding-top: 6px;padding-left:4px;}*/
 
 #features-index a span h4{ font-size:14px; font-weight:bold;line-height:18px; margin-bottom:5px; margin-top:5px; }
+#features-index a div h4{ font-size:14px; font-weight:bold;line-height:18px; margin-bottom:5px; margin-top:5px; }
 
-#features-index a span p{ font-family:"simsun";font-size:12px;line-height: 20px;color: #555;}
+#features-index a span p{ font-family:"simsun";font-size:12px;line-height: 20px;color: #555; /*text-overflow:ellipsis;overflow: hidden; white-space: nowrap;*/ }
+#features-index a div p{ font-family:"simsun";font-size:12px;line-height: 20px;color: #555; /*text-overflow:ellipsis;overflow: hidden; white-space: nowrap;*/ }
 
 #features-index a span h4.c_blue{ color:#3686ab;}
+#features-index a div h4.c_blue{ color:#3686ab;}
 
 #features-index a span h4.c_orange{color:#F4AF74;}
+#features-index a div h4.c_orange{color:#F4AF74;}
 
 #features-index a span h4.c_green{color:#629C39;}
+#features-index a div h4.c_green{color:#629C39;}
+#features-index a h3{width:75px;float:left;background:url(../bg.png) no-repeat -745px -1335px;height:40px;line-height:36px;overflow: hidden;}
+#features-index a h5{background:#f5f5f5 url(../bg.png) no-repeat -23px -1278px;}
 
 #features-index a.last{ margin-right:0;}
 
@@ -139,7 +148,7 @@ padding: 0px 7px 0px 8px;background:url(../bg.png) no-repeat -408px -1277px; zoo
 #features-index .a1, #features-index .a2, #features-index .a3{ float:left;}
 
 
-.bound {width: 1000px;overflow: hidden;margin: 0 auto;position: relative;}
+.bound {width: 98%;overflow: hidden;margin: 0 auto;position: relative;}
 
 .index-link{word-wrap: break-word;padding: 0px 20px 10px;overflow: hidden;}
 
