@@ -136,5 +136,15 @@ namespace LotteryDraw.Core.Impl
                 return new OperationResult(OperationResultType.Warning, "注册失败。");
             }
         }
+
+        public OperationResult GetMember(int userid)
+        {
+            Member member = MemberRepository.Entities.SingleOrDefault(m => m.Id == userid);
+            if (member == null)
+            {
+                return new OperationResult(OperationResultType.QueryNull, string.Format("Id为{0}用户不存在。",userid.ToString()));
+            }
+            return new OperationResult(OperationResultType.Success, "获取用户信息成功。", member);
+        }
     }
 }

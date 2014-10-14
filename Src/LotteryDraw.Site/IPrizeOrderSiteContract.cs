@@ -29,7 +29,7 @@ namespace LotteryDraw.Site
         /// <summary>
         ///     添加奖单
         /// </summary>
-        /// <param name="prizeorder">奖单信息</param>
+        /// <param name="prizebetting">奖单信息</param>
         /// <returns>业务操作结果</returns>
         OperationResult Add(PrizeOrderView prizeorder);
 
@@ -46,5 +46,11 @@ namespace LotteryDraw.Site
         /// <param name="member">奖单信息</param>
         /// <returns>业务操作结果</returns>
         OperationResult Delete(Guid guid);
+
+        /// <summary>
+        ///     获取奖单
+        /// </summary>
+        /// <returns>奖单信息结果集</returns>
+        OperationResult GetTopPrizeOrders();
     }
 }

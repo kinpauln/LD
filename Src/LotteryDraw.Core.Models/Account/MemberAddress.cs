@@ -8,16 +8,21 @@ namespace LotteryDraw.Core.Models.Account
     /// </summary>
     public class MemberAddress
     {
-        [StringLength(10)]
+        //[StringLength(10)]
         public string Province { get; set; }
 
-        [StringLength(20)]
+        //[StringLength(20)]
         public string City { get; set; }
 
-        [StringLength(20)]
+        //[StringLength(20)]
         public string County { get; set; }
 
-        [StringLength(60, MinimumLength = 5)]
+        //[StringLength(60)]
         public string Street { get; set; }
+        
+        public override string ToString()
+        {
+            return Province + City + County + Street;
+        }
     }
 }

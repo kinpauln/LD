@@ -20,6 +20,7 @@ using LotteryDraw.Core.Models.Account;
 using LotteryDraw.Core.Models.Security;
 using LotteryDraw.Core.Data.Repositories.Business;
 using LotteryDraw.Core.Models.Business;
+using System.Data;
 
 
 namespace LotteryDraw.Core.Impl
@@ -59,7 +60,7 @@ namespace LotteryDraw.Core.Impl
         /// <summary>
         ///     添加奖品
         /// </summary>
-        /// <param name="prizeorder">奖品信息</param>
+        /// <param name="prizebetting">奖品信息</param>
         /// <returns>业务操作结果</returns>
         public OperationResult Add(PrizeOrder prizeorder) {
             int rcount = PrizeOrderRepository.Insert(prizeorder);
@@ -106,6 +107,22 @@ namespace LotteryDraw.Core.Impl
             else
             {
                 return new OperationResult(OperationResultType.Warning, "删除奖单失败。");
+            }
+        }
+
+        /// <summary>
+        ///     获取奖单
+        /// </summary>
+        /// <returns>奖单信息结果集</returns>
+        public OperationResult GetTopPrizeOrders() {
+            try
+            {
+                DataSet ds = PrizeOrderRepository.ExecProcdureReturnDataSet("sp_getTopPrizeOrders", null);
+                return new OperationResult(OperationResultType.Success, "获取Top奖单成功。", ds);
+            }
+            catch (System.Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
             }
         }
     }

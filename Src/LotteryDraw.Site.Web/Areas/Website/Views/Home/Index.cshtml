@@ -2,6 +2,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Website/Views/Shared/_Layout.cshtml";
 }
+
+@using System.Data;
+
 @section scripts{
     <script type="text/javascript">
         $(function () {
@@ -138,100 +141,77 @@
             </div>
             <div id="top-prizes-container">
                 <div class="left">
-                    <a href="http://www.wuliubang.net/demo/met093/354/service/">
-                        <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                        <div class="ph">
-                            <h4 class="c_blue">猎头服务</h4>
-                            <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
-                        </div>
-                        <p>
-                        <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" /></p>
-                    </a>
-                    
-                    <a href="http://www.wuliubang.net/demo/met093/354/service/" style="position:relative;">
-                        <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                        <div class="ph">
-                            <h4 class="c_blue">猎头服务</h4>
-                            <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
-                        </div>
-                        <p>
-                        <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" /></p>
-                    </a>
-                    <a href="http://www.wuliubang.net/demo/met093/354/service/" style="position:relative;">
-                        <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                        <div class="ph">
-                            <h4 class="c_blue">猎头服务</h4>
-                            <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
-                        </div>
-                        <p>
-                        <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" /></p>
-                    </a>
+                    @{
+                        DataRow[] arrayDR = (DataRow[])ViewBag.TopTimingPrizeOrders;
+                        if (arrayDR != null)
+                        {
+                            foreach (DataRow dr in arrayDR)
+                            {
+                                string poid = dr["Id"].ToString();
+                        <a href="#">
+                            <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
+                            <div class="ph">
+                                <h4 class="c_blue">猎头服务</h4>
+                                <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
+                            </div>
+                            <p>
+                                <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" onclick="javascript: location.href = '/Vip/PrizeBetting?poId=@poid'" />
+                            </p>
+                        </a>
+                            }
+                        }
+                    }
                     <div class="clear"></div>
                 </div>
                 <div class="right">
-                     <a href="http://www.wuliubang.net/demo/met093/354/service/">
-                        <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                        <div class="ph">
-                            <h4 class="c_blue">猎头服务</h4>
-                            <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
-                        </div>
-                        <p>
-                        <input type="button" value="抽奖" style="width:200px;height:30px;" /></p>
-                    </a>
-                    
-                     <a href="http://www.wuliubang.net/demo/met093/354/service/" style="position:relative;">
-                        <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                        <div class="ph">
-                            <h4 class="c_orange">猎头服务</h4>
-                            <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
-                        </div>
-                        <p>
-                        <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" /></p>
-                    </a>
-                    <a href="http://www.wuliubang.net/demo/met093/354/service/" style="position:relative;">
-                        <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                        <div class="ph">
-                            <h4 class="c_orange">猎头服务</h4>
-                            <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
-                        </div>
-                        <p>
-                        <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" /></p>
-                    </a>
+                    @{
+                        arrayDR = (DataRow[])ViewBag.TopQuotaPrizeOrders;
+                        if (arrayDR != null)
+                        {
+                            foreach (DataRow dr in arrayDR)
+                            {
+                                string poid = dr["Id"].ToString();
+                        <a href="#">
+                            <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
+                            <div class="ph">
+                                <h4 class="c_blue">猎头服务</h4>
+                                <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
+                            </div>
+                            <p>
+                                <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" onclick="javascript: location.href = '/Vip/PrizeBetting?poId=@poid    '" />
+                            </p>
+                        </a>
+                            }
+                        }
+                    }
                     <div class="clear"></div>
                 </div>
                 <div class="middle">
-                    <a href="http://www.wuliubang.net/demo/met093/354/service/" style="position:relative;">
-                        <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                        <div class="ph">
-                            <h4 class="c_green">猎头服务</h4>
-                            <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
-                        </div>
-                        <p>
-                        <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" /></p>
-                    </a>
-                    <a href="http://www.wuliubang.net/demo/met093/354/service/" style="position:relative;">
-                        <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                        <div class="ph">
-                            <h4 class="c_green">猎头服务</h4>
-                            <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
-                        </div>
-                        <p>
-                        <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" /></p>
-                    </a>
-                    <a href="http://www.wuliubang.net/demo/met093/354/service/" style="position:relative;">
-                        <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                        <div class="ph">
-                            <h4 class="c_green">猎头服务</h4>
-                            <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
-                        </div>
-                        <p>
-                        <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" /></p>
-                    </a>
+                    @{
+                        arrayDR = (DataRow[])ViewBag.TopAnswerPrizeOrders;
+                        if (arrayDR != null)
+                        {
+                            foreach (DataRow dr in arrayDR)
+                            {
+                                string poid = dr["Id"].ToString();
+                        <a href="#">
+                            <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
+                            <div class="ph">
+                                <h4 class="c_blue">猎头服务</h4>
+                                <p>与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！与时俱进的发展战略：“汇聚精英，选贤任能，多元互补，同谋共嬴”；聚集各领域理论与实战相结合的国内外知名专家！</p>
+                            </div>
+                            <p>
+                                <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" onclick="javascript: location.href = '/Vip/PrizeBetting?poId=@poid    '" />
+                            </p>
+                        </a>
+                            }
+                        }
+                    }
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
-                <div class="clear"></div>
+            <div class="clear"></div>
         </div>
     </div>
 

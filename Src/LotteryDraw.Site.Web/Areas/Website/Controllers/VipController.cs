@@ -12,6 +12,7 @@ using LotteryDraw.Core.Models.Business;
 using System.IO;
 using LotteryDraw.Site.Extentions;
 using LotteryDraw.Component.Utility;
+using LotteryDraw.Core.Models.Account;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
@@ -31,12 +32,56 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
         [Import]
         protected IPrizeContract PrizeContract { get; set; }
+
+        [Import]
+        public IAccountContract AccountContract { get; set; }
+
+        [Import]
+        protected IPrizeBettingSiteContract PrizeBettingSiteContract { get; set; }
+
         #endregion
         #endregion
 
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult PrizeBetting(Guid poId)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else {
+                PrizeBettingView model = new PrizeBettingView() { PrizeOrderId = poId };
+                int userid = this.UserId ?? 0;
+                model.UserId = userid;
+                OperationResult result = AccountContract.GetMember(userid);
+                if (result.ResultType == OperationResultType.Success) {
+                    Member member = (Member)result.AppendData;
+                    model.Phone = member.Extend.Tel;
+                    model.Address = member.Extend.Address.ToString();
+                }
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult PrizeBetting(PrizeBettingView model)
+        {
+            ViewBag.IsPostBack = true;
+
+            OperationResult result = PrizeBettingSiteContract.Add(model);
+            string msg = result.Message ?? result.ResultType.ToDescription();
+            if (result.ResultType == OperationResultType.Success)
+            {
+                TempData["Message"] = "参与抽奖成功。<br /><a href='#'>奖池状况<a>";
+                return RedirectToAction("InfoPage");
+            }
+            //ModelState.AddModelError("", msg);
+            ViewBag.Message = msg;
+            return View(model);
         }
 
         #region 发布奖品

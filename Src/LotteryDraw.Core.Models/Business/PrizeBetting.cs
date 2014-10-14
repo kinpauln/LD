@@ -27,12 +27,21 @@ namespace LotteryDraw.Core.Models.Business
     [Description("奖品投注")]
     public class PrizeBetting : EntityBase<Guid>
     {
+        public PrizeBetting()
+        {
+            Id = CombHelper.NewComb();
+        }
+
         public virtual Member Member { get; set; }
 
         /// <summary>
         /// 获取或设置 开奖信息
         /// </summary>
         public PrizeOrder PrizeOrder { get; set; }
+
+        public string Phone { get; set; }
+
+        public string Address { get; set; }
 
         /// <summary>
         ///  是否中奖

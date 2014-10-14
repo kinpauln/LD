@@ -65,6 +65,8 @@ namespace LotteryDraw.Core
         /// <returns>业务操作结果</returns>
         OperationResult Register(Member member);
 
+        OperationResult GetMember(int userid);
+
         #endregion
     }
 }

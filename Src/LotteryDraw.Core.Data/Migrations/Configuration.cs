@@ -46,9 +46,9 @@ namespace LotteryDraw.Core.Data.Migrations
 
             List<Member> members = new List<Member>
             {
-                new Member { UserName = "admin", Password = "123456", Email = "admin@wuliubang.net", Name = "管理员" },
-                new Member { UserName = "whl", Password = "123456", Email = "hl.wang@wuliubang.net", Name = "王宏利" },
-                new Member { UserName = "wjp", Password = "123456", Email = "jp.wang@wuliubang.net", Name = "王金鹏" }
+                new Member { UserName = "admin", Password = "123456", Email = "admin@wuliubang.net", Name = "管理员",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ County="中国", Province="山东省", City="青岛市",Street="香港中路" }} },
+                new Member { UserName = "whl", Password = "123456", Email = "hl.wang@wuliubang.net", Name = "王宏利",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ County="中国", Province="山东省", City="青岛市",Street="香港中路" }} },
+                new Member { UserName = "wjp", Password = "123456", Email = "jp.wang@wuliubang.net", Name = "王金鹏",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ County="中国", Province="山东省", City="青岛市",Street="香港中路" }} }
             };
 
             //for (int i = 0; i < 11; i++)

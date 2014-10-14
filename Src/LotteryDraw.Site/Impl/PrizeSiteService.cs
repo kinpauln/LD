@@ -44,7 +44,7 @@ namespace LotteryDraw.Site.Impl
         /// <summary>
         ///     添加奖品
         /// </summary>
-        /// <param name="prizeorder">奖品信息</param>
+        /// <param name="prizebetting">奖品信息</param>
         /// <returns>业务操作结果</returns>
         public OperationResult Add(PrizeView pvmodel)
         {

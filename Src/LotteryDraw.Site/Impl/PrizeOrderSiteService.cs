@@ -25,6 +25,7 @@ using LotteryDraw.Site.Models;
 using LotteryDraw.Core.Models.Security;
 using LotteryDraw.Core.Models.Business;
 using LotteryDraw.Core;
+using System.Data;
 
 
 namespace LotteryDraw.Site.Impl
@@ -44,7 +45,7 @@ namespace LotteryDraw.Site.Impl
         /// <summary>
         ///     添加奖品
         /// </summary>
-        /// <param name="prizeorder">奖品信息</param>
+        /// <param name="prizebetting">奖品信息</param>
         /// <returns>业务操作结果</returns>
         public OperationResult Add(PrizeOrderView povmodel)
         {
@@ -142,6 +143,16 @@ namespace LotteryDraw.Site.Impl
             {
                 return new OperationResult(OperationResultType.Error, ex.Message);
             }
+        }
+
+        
+        /// <summary>
+        ///     获取Top奖单
+        /// </summary>
+        /// <returns>奖单信息结果集</returns>
+        public OperationResult GetTopPrizeOrders() {
+            OperationResult result = PrizeOrderContract.GetTopPrizeOrders();
+            return result;
         }
     }
 }

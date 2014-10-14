@@ -40,23 +40,29 @@ namespace LotteryDraw.Core
         /// <summary>
         ///     添加奖单
         /// </summary>
-        /// <param name="prizeorder">奖单信息</param>
+        /// <param name="prizebetting">奖单信息</param>
         /// <returns>业务操作结果</returns>
         OperationResult Add(PrizeOrder prizeorder);
 
         /// <summary>
         ///     更新奖单
         /// </summary>
-        /// <param name="prizeorder">奖单信息</param>
+        /// <param name="prizebetting">奖单信息</param>
         /// <returns>业务操作结果</returns>
         OperationResult Update(PrizeOrder prizeorder);
 
         /// <summary>
         ///     删除奖单
         /// </summary>
-        /// <param name="prizeorder">奖单信息</param>
+        /// <param name="prizebetting">奖单信息</param>
         /// <returns>业务操作结果</returns>
         OperationResult Delete(PrizeOrder prizeorder);
+
+        /// <summary>
+        ///     获取奖单
+        /// </summary>
+        /// <returns>奖单信息结果集</returns>
+        OperationResult GetTopPrizeOrders();
 
         #endregion
     }
