@@ -128,8 +128,8 @@ padding: 0px 7px 0px 8px;background:url(../bg.png) no-repeat -408px -1277px; zoo
 #features-index a span h4{ font-size:14px; font-weight:bold;line-height:18px; margin-bottom:5px; margin-top:5px; }
 #features-index a div h4{ font-size:14px; font-weight:bold;line-height:18px; margin-bottom:5px; margin-top:5px; }
 
-#features-index a span p{ font-family:"simsun";font-size:12px;line-height: 20px;color: #555; /*text-overflow:ellipsis;overflow: hidden; white-space: nowrap;*/ }
-#features-index a div p{ font-family:"simsun";font-size:12px;line-height: 20px;color: #555; /*text-overflow:ellipsis;overflow: hidden; white-space: nowrap;*/ }
+#features-index a span p{ font-family:"simsun";font-size:12px;line-height: 20px;color: #555; /*min-width: 169.65625px;*/ /*text-overflow:ellipsis;overflow: hidden; white-space: nowrap;*/ }
+#features-index a div p{ font-family:"simsun";font-size:12px;line-height: 20px;color: #555; min-width: 169.65625px; /*text-overflow:ellipsis;overflow: hidden; white-space: nowrap;*/ }
 
 #features-index a span h4.c_blue{ color:#3686ab;}
 #features-index a div h4.c_blue{ color:#3686ab;}
