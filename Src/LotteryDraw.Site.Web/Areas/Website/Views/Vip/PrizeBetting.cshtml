@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Betting";
+    Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
+}
+@model LotteryDraw.Site.Models.PrizeBettingView
+
+@section  LeftMenuItems{
+    @Html.Partial("VipNavPartial")
+}
+
+@section  BreadCrumbs{
+    &gt;
+    <label>领奖信息</label>
+}
+<h2>@ViewBag.PrizeOrderId</h2>
+@using (Html.BeginForm("PrizeBetting", "Vip", FormMethod.Post, new { id = "prizeBettingForm" }))
+{
+    @Html.HiddenFor(model => model.PrizeOrderId)
+    @Html.HiddenFor(model => model.UserId)
+    <table class="message_table">
+        <tbody>
+            @if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
+            {
+                <tr>
+                    <td colspan="2" style="text-align: center; color: #f00;">@ViewBag.Message</td>
+                </tr>
+            }
+            <tr>
+                <td class="text">领奖电话：</td>
+                <td class="input">
+                    @Html.TextBoxFor(model => model.Phone, new { @class = "input-text", placeholder = "联系电话" })
+                    <span class="info">*</span>
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Phone)
+                </td>
+            </tr>
+            <tr>
+                <td class="text">奖品邮寄地址：</td>
+                <td class="input">
+                    @Html.TextAreaFor(model => model.Address, new { @class = "textarea-text", cols = "50", rows = "6", placeholder = "奖品邮件地址" })
+                    <span class="info">*</span>
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td class="text"></td>
+                <td class="submint">
+                    <input type="submit" value="确认" class="submit button orange"></td>
+            </tr>
+        </tbody>
+    </table>
+}
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.maskedinput.min.js"></script>
+    <script src="~/Scripts/jquery.previewimage.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#prizeBettingForm").validate({
+                errorElement: 'span',
+                errorClass: 'error-info',
+                focusInvalid: false,
+                rules: {
+                    Phone: {
+                        required: true
+                    },
+                    Address: {
+                        required: true
+                    }
+                },
+
+                messages: {
+                    Phone: {
+                        required: "领奖电话不能为空"
+                    },
+                    Address: {
+                        required: "奖品邮寄地址不能为空"
+                    }
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit   
+                    //$('.alert-danger', $('.login-form')).show();
+                },
+                highlight: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                },
+                /* 验证通过时的处理 */
+                success: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+                    //$(e).remove();
+                },
+                /* 错误信息的显示位置 */
+                errorPlacement: function (error, element) {
+                    //element.parent().append("<br />");
+                    error.appendTo(element.parent());
+                },
+                /*执行ajaxsubmit*/
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
+}
