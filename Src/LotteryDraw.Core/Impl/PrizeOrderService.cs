@@ -75,6 +75,24 @@ namespace LotteryDraw.Core.Impl
         }
 
         /// <summary>
+        ///  批量添加奖单
+        /// </summary>
+        /// <param name="prizeorders">奖单集合</param>
+        /// <returns></returns>
+        public OperationResult Add(IEnumerable<PrizeOrder> prizeorders)
+        {
+            int rcount = PrizeOrderRepository.Insert(prizeorders);
+            if (rcount > 0)
+            {
+                return new OperationResult(OperationResultType.Success, "批量添加奖单成功。");
+            }
+            else
+            {
+                return new OperationResult(OperationResultType.Warning, "批量添加奖单成功。");
+            }
+        }
+
+        /// <summary>
         ///     更新奖品
         /// </summary>
         /// <param name="member">奖品信息</param>

@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DFF536D8-C4B2-4FC6-9CD2-7A8CA17C478A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RevealTest</RootNamespace>
+    <AssemblyName>RevealTest</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LotteryDraw.Component.Data\LotteryDraw.Component.Data.csproj">
+      <Project>{01d263c6-97d8-496f-9e95-ca338f597747}</Project>
+      <Name>LotteryDraw.Component.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LotteryDraw.Component.Tools\LotteryDraw.Component.Tools.csproj">
+      <Project>{a6dfe374-fd47-482a-b733-852c6d840d34}</Project>
+      <Name>LotteryDraw.Component.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LotteryDraw.Core.Data\LotteryDraw.Core.Data.csproj">
+      <Project>{761686f6-93a6-4313-94d5-29dc65492ec0}</Project>
+      <Name>LotteryDraw.Core.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LotteryDraw.Core.Models\LotteryDraw.Core.Models.csproj">
+      <Project>{cd4a2973-b3c1-4397-8855-a007428b760c}</Project>
+      <Name>LotteryDraw.Core.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LotteryDraw.Core\LotteryDraw.Core.csproj">
+      <Project>{b9fe21d8-fea9-4360-aaf4-b7e0417b5956}</Project>
+      <Name>LotteryDraw.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LotteryDraw.Site.Models\LotteryDraw.Site.Models.csproj">
+      <Project>{4bc52a24-a10e-4255-83d6-bdb028773122}</Project>
+      <Name>LotteryDraw.Site.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LotteryDraw.Site\LotteryDraw.Site.csproj">
+      <Project>{e2a9dd75-367e-4081-8b2b-f736154439b5}</Project>
+      <Name>LotteryDraw.Site</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

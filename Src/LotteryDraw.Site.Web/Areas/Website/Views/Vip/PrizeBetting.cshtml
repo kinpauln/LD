@@ -56,13 +56,18 @@
     <script src="~/Scripts/jquery.previewimage.js"></script>
     <script type="text/javascript">
         $(function () {
+            jQuery.validator.addMethod("phone", function (value, element) {
+                return this.optional(element) || /^(13[0-9]|15[0|3|6|7|8|9]|18[8|9])\d{8}$/.test(value);
+            }, "请输入合法的手机号码.");
+
             $("#prizeBettingForm").validate({
                 errorElement: 'span',
                 errorClass: 'error-info',
                 focusInvalid: false,
                 rules: {
                     Phone: {
-                        required: true
+                        required: true,
+                        phone: 'required'
                     },
                     Address: {
                         required: true
@@ -71,7 +76,8 @@
 
                 messages: {
                     Phone: {
-                        required: "领奖电话不能为空"
+                        required: "领奖电话不能为空",
+                        phone: '手机号码不合法'
                     },
                     Address: {
                         required: "奖品邮寄地址不能为空"

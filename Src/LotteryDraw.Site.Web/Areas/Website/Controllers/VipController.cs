@@ -71,7 +71,21 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         public ActionResult PrizeBetting(PrizeBettingView model)
         {
             ViewBag.IsPostBack = true;
-
+            if (string.IsNullOrEmpty(model.Phone.Trim()))
+            {
+                ViewBag.Message = "领奖电话不能为空";
+                return View(model);
+            }
+            if (!LotteryDraw.Component.Utility.RegExp.IsMobileNo(model.Phone.Trim()))
+            {
+                ViewBag.Message = "手机号码不合法";
+                return View(model);
+            }
+            if (string.IsNullOrEmpty(model.Address.Trim()))
+            {
+                ViewBag.Message = "奖品邮寄地址不能为空";
+                return View(model);
+            }
             OperationResult result = PrizeBettingSiteContract.Add(model);
             string msg = result.Message ?? result.ResultType.ToDescription();
             if (result.ResultType == OperationResultType.Success)

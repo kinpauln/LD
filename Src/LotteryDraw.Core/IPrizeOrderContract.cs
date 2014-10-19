@@ -17,6 +17,7 @@ using LotteryDraw.Core.Models;
 using LotteryDraw.Core.Models.Account;
 using LotteryDraw.Core.Models.Security;
 using LotteryDraw.Core.Models.Business;
+using System.Collections.Generic;
 
 
 namespace LotteryDraw.Core
@@ -43,6 +44,13 @@ namespace LotteryDraw.Core
         /// <param name="prizebetting">奖单信息</param>
         /// <returns>业务操作结果</returns>
         OperationResult Add(PrizeOrder prizeorder);
+
+        /// <summary>
+        ///  批量添加奖单
+        /// </summary>
+        /// <param name="prizeorders">奖单集合</param>
+        /// <returns></returns>
+        OperationResult Add(IEnumerable<PrizeOrder> prizeorders);
 
         /// <summary>
         ///     更新奖单

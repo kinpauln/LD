@@ -78,5 +78,23 @@ namespace LotteryDraw.Core.Impl
                 return new OperationResult(OperationResultType.Warning, "奖单投注失败。");
             }
         }
+
+        /// <summary>
+        ///     批量添加投注
+        /// </summary>
+        /// <param name="prizebetting">投注信息集合</param>
+        /// <returns>业务操作结果</returns>
+        public OperationResult Add(IEnumerable<PrizeBetting> prizebettings)
+        {
+            int rcount = PrizeBettingRepository.Insert(prizebettings);
+            if (rcount > 0)
+            {
+                return new OperationResult(OperationResultType.Success, "批量奖单投注成功。");
+            }
+            else
+            {
+                return new OperationResult(OperationResultType.Warning, "批量奖单投注失败。");
+            }
+        }
     }
 }
