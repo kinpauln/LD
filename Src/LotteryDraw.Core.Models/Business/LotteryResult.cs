@@ -24,10 +24,10 @@ namespace LotteryDraw.Core.Models.Business
     /// <summary>
     ///     实体类——奖品信息
     /// </summary>
-    [Description("奖品投注")]
-    public class PrizeBetting : EntityBase<Guid>
+    [Description("开奖结果")]
+    public class LotteryResult : EntityBase<Guid>
     {
-        public PrizeBetting()
+        public LotteryResult()
         {
             Id = CombHelper.NewComb();
         }
@@ -38,9 +38,5 @@ namespace LotteryDraw.Core.Models.Business
         /// 获取或设置 开奖信息
         /// </summary>
         public PrizeOrder PrizeOrder { get; set; }
-
-        public string Phone { get; set; }
-
-        public string Address { get; set; }
     }
 }

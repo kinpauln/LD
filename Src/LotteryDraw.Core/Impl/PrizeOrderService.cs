@@ -21,6 +21,7 @@ using LotteryDraw.Core.Models.Security;
 using LotteryDraw.Core.Data.Repositories.Business;
 using LotteryDraw.Core.Models.Business;
 using System.Data;
+using System.Data.SqlClient;
 
 
 namespace LotteryDraw.Core.Impl
@@ -62,7 +63,8 @@ namespace LotteryDraw.Core.Impl
         /// </summary>
         /// <param name="prizebetting">奖品信息</param>
         /// <returns>业务操作结果</returns>
-        public OperationResult Add(PrizeOrder prizeorder) {
+        public OperationResult Add(PrizeOrder prizeorder)
+        {
             int rcount = PrizeOrderRepository.Insert(prizeorder);
             if (rcount > 0)
             {
@@ -132,11 +134,34 @@ namespace LotteryDraw.Core.Impl
         ///     获取奖单
         /// </summary>
         /// <returns>奖单信息结果集</returns>
-        public OperationResult GetTopPrizeOrders() {
+        public OperationResult GetTopPrizeOrders()
+        {
             try
             {
                 DataSet ds = PrizeOrderRepository.ExecProcdureReturnDataSet("sp_getTopPrizeOrders", null);
                 return new OperationResult(OperationResultType.Success, "获取Top奖单成功。", ds);
+            }
+            catch (System.Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+
+        public OperationResult RevealLottery(out string errorString)
+        {
+            errorString = string.Empty;
+            try
+            {
+                List<SqlParameter> paramList = new List<SqlParameter>();
+
+                SqlParameter paramErrorString = new SqlParameter("@errorString", SqlDbType.VarChar,-1); //-1代表max
+                paramErrorString.Direction = ParameterDirection.Output;
+                paramList.Add(paramErrorString);
+
+                SqlCommand command = new SqlCommand();
+                DataSet ds = PrizeOrderRepository.ExecProcdureReturnDataSet("sp_revealLottery", out command, paramList.ToArray());
+                errorString = command.Parameters["@errorString"].Value.ToString();
+                return new OperationResult(OperationResultType.Success, "开奖过程数据库操作顺利。", ds);
             }
             catch (System.Exception ex)
             {

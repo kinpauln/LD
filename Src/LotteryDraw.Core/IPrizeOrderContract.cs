@@ -72,6 +72,12 @@ namespace LotteryDraw.Core
         /// <returns>奖单信息结果集</returns>
         OperationResult GetTopPrizeOrders();
 
+        /// <summary>
+        ///  开奖
+        /// </summary>
+        /// <returns>业务操作结果</returns>
+        OperationResult RevealLottery(out string errorString);
+
         #endregion
     }
 }

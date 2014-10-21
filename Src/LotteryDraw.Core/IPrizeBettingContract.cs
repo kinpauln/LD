@@ -51,7 +51,6 @@ namespace LotteryDraw.Core
         /// <param name="prizebetting">投注信息集合</param>
         /// <returns>业务操作结果</returns>
         OperationResult Add(IEnumerable<PrizeBetting> prizebettings);
-
         #endregion
     }
 }

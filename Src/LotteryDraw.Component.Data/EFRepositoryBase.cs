@@ -233,6 +233,18 @@ namespace LotteryDraw.Component.Data
         /// <returns>数据集</returns>
         public DataSet ExecProcdureReturnDataSet(string pname, params SqlParameter[] parameters)
         {
+            SqlCommand command = new SqlCommand();
+            return ExecProcdureReturnDataSet(pname, out command, parameters);
+        }
+
+        /// <summary>
+        /// 执行存储过程,返回DataSet对象
+        /// </summary>
+        /// <param name="pname">存储过程名字</param>
+        /// <param name="parameters">存储过程参数</param>
+        /// <returns>数据集</returns>
+        public DataSet ExecProcdureReturnDataSet(string pname, out SqlCommand command, params SqlParameter[] parameters)
+        {
             Database db = EFContext.DbContext.Database;
             using (SqlConnection conn = new SqlConnection(db.Connection.ConnectionString))
             {
@@ -246,6 +258,7 @@ namespace LotteryDraw.Component.Data
                         userCommand.Parameters.Add(parm);
                 }
 
+                command = userCommand;
                 SqlDataAdapter adapter = new SqlDataAdapter(userCommand);
                 DataSet ds = new DataSet();
                 adapter.Fill(ds);

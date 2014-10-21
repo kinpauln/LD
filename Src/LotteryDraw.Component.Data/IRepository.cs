@@ -130,6 +130,14 @@ namespace LotteryDraw.Component.Data
         DataSet ExecProcdureReturnDataSet(string pname, params SqlParameter[] parameters);
 
         /// <summary>
+        /// 执行存储过程,返回DataSet对象
+        /// </summary>
+        /// <param name="pname">存储过程名字</param>
+        /// <param name="parameters">存储过程参数</param>
+        /// <returns>数据集</returns>
+        DataSet ExecProcdureReturnDataSet(string pname, out SqlCommand command, params SqlParameter[] parameters);
+
+        /// <summary>
         /// 执行存储过程,影响的行数
         /// </summary>
         /// <param name="pname">存储过程名字</param>

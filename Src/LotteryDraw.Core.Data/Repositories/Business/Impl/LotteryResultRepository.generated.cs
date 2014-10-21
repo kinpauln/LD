@@ -6,7 +6,7 @@
 //	   如存在本生成代码外的新需求，请在相同命名空间下创建同名分部类进行实现。
 // </auto-generated>
 //
-// <copyright file="LoginLogRepository.generated.cs">
+// <copyright file="LotteryResultRepository.generated.cs">
 //		Copyright(c)2013 Kingdon.All rights reserved.
 //		CLR版本：4.0.30319.239
 //		开发组织：王金鹏@中国
@@ -21,15 +21,15 @@ using System.ComponentModel.Composition;
 using System.Linq;
 
 using LotteryDraw.Component.Data;
-using LotteryDraw.Core.Models.Account;
+using LotteryDraw.Core.Models.Business;
 
 
-namespace LotteryDraw.Core.Data.Repositories.Account.Impl
+namespace LotteryDraw.Core.Data.Repositories.Business.Impl
 {
 	/// <summary>
-    ///   仓储操作层实现——登录记录信息
+    ///   仓储操作层实现——开奖结果
     /// </summary>
-    [Export(typeof(ILoginLogRepository))]
-    public partial class LoginLogRepository : EFRepositoryBase<LoginLog, Guid>, ILoginLogRepository
+    [Export(typeof(ILotteryResultRepository))]
+    public partial class LotteryResultRepository : EFRepositoryBase<LotteryResult, Guid>, ILotteryResultRepository
     { }
 }

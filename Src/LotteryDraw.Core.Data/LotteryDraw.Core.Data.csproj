@@ -59,6 +59,7 @@
     <Compile Include="Configurations\Account\LoginLogConfiguration.cs" />
     <Compile Include="Configurations\Account\MemberAddressConfiguration.cs" />
     <Compile Include="Configurations\Account\MemberExtendConfiguration.cs" />
+    <Compile Include="Configurations\Business\LotteryResultConfiguration.generated.cs" />
     <Compile Include="Configurations\Business\PrizeBettingConfiguration.cs" />
     <Compile Include="Configurations\Business\PrizeBettingConfiguration.generated.cs" />
     <Compile Include="Configurations\Business\PrizeOrderExtendConfiguration.cs" />
@@ -82,6 +83,8 @@
     <Compile Include="Repositories\Account\Impl\LoginLogRepository.generated.cs" />
     <Compile Include="Repositories\Account\Impl\MemberExtendRepository.generated.cs" />
     <Compile Include="Repositories\Account\Impl\MemberRepository.generated.cs" />
+    <Compile Include="Repositories\Business\ILotteryResultRepository.generated.cs" />
+    <Compile Include="Repositories\Business\Impl\LotteryResultRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeBettingRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeOrderExtendRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeOrderRepository.generated.cs" />
@@ -112,6 +115,7 @@
 ..\Configurations\Account\LoginLogConfiguration.generated.cs
 ..\Configurations\Account\MemberConfiguration.generated.cs
 ..\Configurations\Account\MemberExtendConfiguration.generated.cs
+..\Configurations\Business\LotteryResultConfiguration.generated.cs
 ..\Configurations\Business\PrizeBettingConfiguration.generated.cs
 ..\Configurations\Business\PrizeConfiguration.generated.cs
 ..\Configurations\Business\PrizeOrderConfiguration.generated.cs
@@ -125,6 +129,8 @@
 ..\Repositories\Account\Impl\LoginLogRepository.generated.cs
 ..\Repositories\Account\Impl\MemberExtendRepository.generated.cs
 ..\Repositories\Account\Impl\MemberRepository.generated.cs
+..\Repositories\Business\ILotteryResultRepository.generated.cs
+..\Repositories\Business\Impl\LotteryResultRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeBettingRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeOrderExtendRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeOrderRepository.generated.cs

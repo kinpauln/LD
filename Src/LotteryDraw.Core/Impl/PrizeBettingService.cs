@@ -63,7 +63,7 @@ namespace LotteryDraw.Core.Impl
         /// <returns>业务操作结果</returns>
         public OperationResult Add(PrizeBetting prizebetting)
         {
-            var entity = PrizeBettingRepository.Entities.SingleOrDefault(pb => pb.Member.Id == prizebetting.Member.Id && pb.PrizeOrder.Id == prizebetting.PrizeOrder.Id && !pb.IsDeleted && !pb.IsLucky);
+            var entity = PrizeBettingRepository.Entities.SingleOrDefault(pb => pb.Member.Id == prizebetting.Member.Id && pb.PrizeOrder.Id == prizebetting.PrizeOrder.Id && !pb.IsDeleted);
             if (entity != null)
             {
                 return new OperationResult(OperationResultType.Warning, "您只能抽奖一次，请勿重复抽奖。", prizebetting);
