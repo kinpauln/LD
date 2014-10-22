@@ -66,18 +66,31 @@ namespace LotteryDraw.Site.Impl
                 case RevealType.Timing:
                     pmodel.Extend.LaunchTime = povmodel.LaunchTime;
                     pmodel.Extend.MinLuckyCount = povmodel.MinLuckyCount;
-                    pmodel.Extend.LuckyPercent = povmodel.LuckyPercent;
                     pmodel.Extend.LuckyCount = povmodel.LuckyCount;
+                    //pmodel.Extend.LuckyPercent = povmodel.LuckyPercent;
                     break;
                 case RevealType.Quota:
                     pmodel.Extend.PoolCount = povmodel.PoolCount;
-                    pmodel.Extend.LuckyPercent = povmodel.LuckyPercent;
+                    pmodel.Extend.MinLuckyCount = povmodel.MinLuckyCount;
+                    pmodel.Extend.LuckyCount = povmodel.LuckyCount;
+                    //pmodel.Extend.LuckyPercent = povmodel.LuckyPercent;
                     break;
                 case RevealType.Answer:
                     pmodel.Extend.PrizeAsking.Question = povmodel.Question;
                     pmodel.Extend.PrizeAsking.Answer = povmodel.Answer;
                     pmodel.Extend.MinLuckyCount = povmodel.MinLuckyCount;
-                    pmodel.Extend.LuckyPercent = povmodel.LuckyPercent;
+                    pmodel.Extend.LuckyCount = povmodel.LuckyCount;
+
+                    pmodel.Extend.AnswerRevealConditionTypeNum = (int)povmodel.AnswerRevealConditionType;
+                    if (povmodel.AnswerRevealConditionType == AnswerRevealConditionType.Timing)
+                    {
+                        pmodel.Extend.LaunchTime = povmodel.LaunchTime;
+                    }
+                    else if (povmodel.AnswerRevealConditionType == AnswerRevealConditionType.Quota)
+                    {
+                        pmodel.Extend.PoolCount = povmodel.PoolCount;
+                    }
+                    //pmodel.Extend.LuckyPercent = povmodel.LuckyPercent;
                     break;
                 case RevealType.Scene:
                     break;
@@ -145,12 +158,13 @@ namespace LotteryDraw.Site.Impl
             }
         }
 
-        
+
         /// <summary>
         ///     获取Top奖单
         /// </summary>
         /// <returns>奖单信息结果集</returns>
-        public OperationResult GetTopPrizeOrders() {
+        public OperationResult GetTopPrizeOrders()
+        {
             OperationResult result = PrizeOrderContract.GetTopPrizeOrders();
             return result;
         }

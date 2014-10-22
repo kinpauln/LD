@@ -25,6 +25,7 @@ namespace LotteryDraw.Site.Models
 
         public int RevealTypeNum { get; set; }
 
+        
         /// <summary>
         /// 开奖状态
         /// </summary>
@@ -36,6 +37,18 @@ namespace LotteryDraw.Site.Models
         }
 
         public int RevealStateNum { get; set; }
+
+        /// <summary>
+        /// 答案开奖开奖条件类型
+        /// </summary>
+        [Display(Name = "答案开奖开奖条件类型")]
+        public AnswerRevealConditionType AnswerRevealConditionType
+        {
+            get { return (AnswerRevealConditionType)AnswerRevealConditionTypeNum; }
+            set { AnswerRevealConditionTypeNum = (int)value; }
+        }
+
+        public int AnswerRevealConditionTypeNum { get; set; }
 
         [Display(Name = "备注")]
         public string Remarks { get; set; }
@@ -52,24 +65,28 @@ namespace LotteryDraw.Site.Models
         ///  中奖最低人数
         /// </summary>
         [Display(Name = "中奖最低人数")]
+        [DefaultValue(1)]
         public int MinLuckyCount { get; set; }
 
         /// <summary>
         ///  开奖率
         /// </summary>
         [Display(Name = "开奖率")]
+        [DefaultValue(1)]
         public float? LuckyPercent { get; set; }
 
         /// <summary>
         ///  奖池大小
         /// </summary>
         [Display(Name = "奖池大小")]
+        [DefaultValue(100)]
         public int? PoolCount { get; set; }
 
         /// <summary>
         ///  中奖人数
         /// </summary>
         [Display(Name = "中奖人数")]
+        [DefaultValue(5)]
         public int? LuckyCount { get; set; }
 
         [Display(Name = "问题")]

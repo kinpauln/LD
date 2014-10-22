@@ -88,7 +88,7 @@ namespace RevealTest
                                 LaunchTime = DateTime.Now.AddMinutes(10),
                                 MinLuckyCount = 1,
                                 LuckyCount = 5,
-                                LuckyPercent = 2
+                                //,LuckyPercent = 2
                             };
                             break;
                         case (int)RevealType.Answer:
@@ -97,16 +97,26 @@ namespace RevealTest
                                 PrizeAsking = new PrizeAsking() { Question = "好声音冠军是谁？", Answer = "梁博" },
                                 MinLuckyCount = 1,
                                 LuckyCount = 5,
-                                LuckyPercent = 2
+                                AnswerRevealConditionTypeNum = rnd.Next(2) + 1,
+                                //,LuckyPercent = 2
                             };
+                            switch (prizeOrder.Extend.AnswerRevealConditionTypeNum)
+                            {
+                                case (int)AnswerRevealConditionType.Timing:
+                                    prizeOrder.Extend.LaunchTime = DateTime.Now.AddMinutes(10);
+                                    break;
+                                case (int)AnswerRevealConditionType.Quota:
+                                    prizeOrder.Extend.PoolCount = 50;
+                                    break;
+                            }
                             break;
                         case (int)RevealType.Quota:
                             prizeOrder.Extend = new PrizeOrderExtend()
                             {
                                 PoolCount = 10,
                                 MinLuckyCount = 1,
-                                LuckyCount = 5,
-                                LuckyPercent = 1
+                                LuckyCount = 5
+                                //,LuckyPercent = 2
                             };
                             break;
                     }

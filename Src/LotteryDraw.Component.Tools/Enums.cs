@@ -60,4 +60,16 @@ namespace LotteryDraw.Component.Tools
         [Description("取消")]
         Canceled = 4
     }
+
+    /// <summary>
+    /// 答案开奖开奖条件类型
+    /// </summary>
+    [Description("答案开奖开奖条件类型")]
+    public enum AnswerRevealConditionType
+    {
+        [Description("定时")]
+        Timing = 1,
+        [Description("定员")]
+        Quota = 2
+    }
 }

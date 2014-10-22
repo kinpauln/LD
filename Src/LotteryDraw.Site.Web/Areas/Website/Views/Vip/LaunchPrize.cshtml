@@ -59,13 +59,14 @@
     {
         <input type="hidden" name="RevealType" />
         @Html.HiddenFor(m => m.RevealTypeNum);
+        @Html.HiddenFor(m => m.AnswerRevealConditionTypeNum);
         @Html.HiddenFor(model => model.PrizeId)
         <table class="message_table">
             <tbody>
                 <tr>
                     <td class="text">开奖日期：</td>
                     <td class="input">
-                        @Html.TextBoxFor(m => m.LaunchTime, new { @class = "input-text", id = "txtLaunchTime", @readonly = "readonly" })<span class="info">*</span>
+                        @Html.TextBoxFor(m => m.LaunchTime, new { @class = "input-text launchtime", id = "txtLaunchTime", @readonly = "readonly" })<span class="info">*</span>
                     </td>
                 </tr>
                 <tr>
@@ -80,12 +81,12 @@
                         @Html.TextBoxFor(m => m.LuckyCount, new { @class = "input-text num" })<span class="info">*</span>
                     </td>
                 </tr>
-                <tr>
+                @*<tr>
                     <td class="text">开奖率：</td>
                     <td class="input">
                         @Html.TextBoxFor(m => m.LuckyPercent, new { @class = "input-text num" })<span>%</span><span class="info">*</span>
                     </td>
-                </tr>
+                </tr>*@
                 <tr>
                     <td class="text"></td>
                     <td class="submint">
@@ -102,21 +103,34 @@
     {
         <input type="hidden" name="RevealType" />
         @Html.HiddenFor(m => m.RevealTypeNum);
+        @Html.HiddenFor(m => m.AnswerRevealConditionTypeNum);
         @Html.HiddenFor(model => model.PrizeId)
         <table class="message_table">
             <tbody>
                 <tr>
-                    <td class="text">奖池大小：</td>
+                    <td class="text">中奖最低人数：</td>
                     <td class="input">
-                        @Html.TextBoxFor(m => m.PoolCount, new { @class = "input-text num" })
+                        @Html.TextBoxFor(m => m.MinLuckyCount, new { @class = "input-text num" })<span class="info">*</span>
                     </td>
                 </tr>
                 <tr>
+                    <td class="text">中奖人数：</td>
+                    <td class="input">
+                        @Html.TextBoxFor(m => m.LuckyCount, new { @class = "input-text num" })<span class="info">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text">奖池大小：</td>
+                    <td class="input">
+                        @Html.TextBoxFor(m => m.PoolCount, new { @class = "input-text num" })<span class="info">*</span>
+                    </td>
+                </tr>
+                @*<tr>
                     <td class="text">开奖率：</td>
                     <td class="input">
                         @Html.TextBoxFor(m => m.LuckyPercent, new { @class = "input-text num" })<span>%</span>
                     </td>
-                </tr>
+                </tr>*@
                 <tr>
                     <td class="text"></td>
                     <td class="submint">
@@ -133,6 +147,7 @@
     {
         <input type="hidden" name="RevealType" />
         @Html.HiddenFor(m => m.RevealTypeNum);
+        @Html.HiddenFor(m => m.AnswerRevealConditionTypeNum);
         @Html.HiddenFor(model => model.PrizeId)
         <table class="message_table">
             <tbody>
@@ -151,15 +166,44 @@
                 <tr>
                     <td class="text">中奖最低人数：</td>
                     <td class="input">
-                        @Html.TextBoxFor(m => m.MinLuckyCount, new { @class = "input-text num" })
+                        @Html.TextBoxFor(m => m.MinLuckyCount, new { @class = "input-text num" })<span class="info">*</span>
                     </td>
                 </tr>
                 <tr>
+                    <td class="text">中奖人数：</td>
+                    <td class="input">
+                        @Html.TextBoxFor(m => m.LuckyCount, new { @class = "input-text num" })<span class="info">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text">开奖条件：</td>
+                    <td class="input">
+                        @*@Html.DropDownList("slLauchType",(SelectList)ViewBag.RevealTypeList)*@
+                        <select id="slAnswerLauchType">
+                            <option value="-1" selected>请选择</option>
+                            <option value="1" trid="trLaunchTime">定时</option>
+                            <option value="2" trid="trPoolCount">定员</option>
+                        </select><span class="info">*</span>
+                    </td>
+                </tr>
+                <tr id="trLaunchTime" class="dynamic-tr" style="display: none;">
+                    <td class="text">开奖日期：</td>
+                    <td class="input">
+                        @Html.TextBoxFor(m => m.LaunchTime, new { @class = "input-text launchtime", id = "txtLaunchTime", @readonly = "readonly" })<span class="info">*</span>
+                    </td>
+                </tr>
+                <tr id="trPoolCount" class="dynamic-tr" style="display: none;">
+                    <td class="text">奖池大小：</td>
+                    <td class="input">
+                        @Html.TextBoxFor(m => m.PoolCount, new { @class = "input-text num" })<span class="info">*</span>
+                    </td>
+                </tr>
+                @*<tr>
                     <td class="text">开奖率：</td>
                     <td class="input">
                         @Html.TextBoxFor(m => m.LuckyPercent, new { @class = "input-text num" })<span>%</span>
                     </td>
-                </tr>
+                </tr>*@
                 <tr>
                     <td class="text"></td>
                     <td class="submint">
@@ -176,21 +220,34 @@
     {
         <input type="hidden" name="RevealType" />
         @Html.HiddenFor(m => m.RevealTypeNum);
+        @Html.HiddenFor(m => m.AnswerRevealConditionTypeNum);
         @Html.HiddenFor(model => model.PrizeId)
         <table class="message_table">
             <tbody>
                 <tr>
                     <td class="text">中奖最低人数：</td>
                     <td class="input">
-                        @Html.TextBoxFor(m => m.MinLuckyCount, new { @class = "input-text num" })
+                        @Html.TextBoxFor(m => m.MinLuckyCount, new { @class = "input-text num" })<span class="info">*</span>
                     </td>
                 </tr>
                 <tr>
+                    <td class="text">中奖人数：</td>
+                    <td class="input">
+                        @Html.TextBoxFor(m => m.LuckyCount, new { @class = "input-text num" })<span class="info">*</span>
+                    </td>
+                </tr>
+                <tr class="dynamic-tr">
+                    <td class="text">奖池大小：</td>
+                    <td class="input">
+                        @Html.TextBoxFor(m => m.PoolCount, new { @class = "input-text num" })<span class="info">*</span>
+                    </td>
+                </tr>
+                @*<tr>
                     <td class="text">开奖率：</td>
                     <td class="input">
                         @Html.TextBoxFor(m => m.LuckyPercent, new { @class = "input-text num" })<span>%</span>
                     </td>
-                </tr>
+                </tr>*@
                 <tr>
                     <td class="text"></td>
                     <td class="submint">
@@ -209,7 +266,7 @@
     <script type="text/javascript">
         $(function () {
             //初始化日期选择控件
-            $("#txtLaunchTime").focus(function () {
+            $(".launchtime").focus(function () {
                 WdatePicker({ dateFmt: 'yyyy-MM-dd' })
             });
 
@@ -265,6 +322,19 @@
                 var containerid = $opobj.attr("containerid");
                 $("div.tab").hide();
                 $("#" + containerid).show();
+            });
+
+            $("#slAnswerLauchType").change(function () {
+                if ($(this).val() == -1) {
+                    $("form[class='answer'] tr.dynamic-tr").hide();
+                }
+                $("input:hidden[name='AnswerRevealConditionTypeNum']").val($(this).val());
+                var $opobj = $(this).find("option:selected");
+                var trid = $opobj.attr("trid");
+                $("form[class='answer'] tr.dynamic-tr").hide();
+                if ($(this).val() != -1) {
+                    $("#" + trid).show();
+                }
             });
         });
 

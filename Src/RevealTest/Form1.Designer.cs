@@ -40,9 +40,10 @@
             // 
             // btnCreateData
             // 
-            this.btnCreateData.Location = new System.Drawing.Point(12, 3);
+            this.btnCreateData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCreateData.Location = new System.Drawing.Point(431, 8);
             this.btnCreateData.Name = "btnCreateData";
-            this.btnCreateData.Size = new System.Drawing.Size(75, 23);
+            this.btnCreateData.Size = new System.Drawing.Size(76, 61);
             this.btnCreateData.TabIndex = 0;
             this.btnCreateData.Text = "构造数据";
             this.btnCreateData.UseVisualStyleBackColor = true;
@@ -51,7 +52,7 @@
             // btnOpenLottery
             // 
             this.btnOpenLottery.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnOpenLottery.Location = new System.Drawing.Point(12, 31);
+            this.btnOpenLottery.Location = new System.Drawing.Point(12, 8);
             this.btnOpenLottery.Name = "btnOpenLottery";
             this.btnOpenLottery.Size = new System.Drawing.Size(76, 61);
             this.btnOpenLottery.TabIndex = 1;
@@ -70,13 +71,13 @@
             this.txtInfo.Name = "txtInfo";
             this.txtInfo.ReadOnly = true;
             this.txtInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtInfo.Size = new System.Drawing.Size(524, 229);
+            this.txtInfo.Size = new System.Drawing.Size(524, 247);
             this.txtInfo.TabIndex = 2;
             // 
             // btnStopReveal
             // 
             this.btnStopReveal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnStopReveal.Location = new System.Drawing.Point(102, 31);
+            this.btnStopReveal.Location = new System.Drawing.Point(102, 8);
             this.btnStopReveal.Name = "btnStopReveal";
             this.btnStopReveal.Size = new System.Drawing.Size(76, 61);
             this.btnStopReveal.TabIndex = 3;
@@ -92,16 +93,16 @@
             this.plContainerTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.plContainerTop.Location = new System.Drawing.Point(0, 0);
             this.plContainerTop.Name = "plContainerTop";
-            this.plContainerTop.Size = new System.Drawing.Size(524, 95);
+            this.plContainerTop.Size = new System.Drawing.Size(524, 77);
             this.plContainerTop.TabIndex = 4;
             // 
             // plContainerBottom
             // 
             this.plContainerBottom.Controls.Add(this.txtInfo);
             this.plContainerBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.plContainerBottom.Location = new System.Drawing.Point(0, 95);
+            this.plContainerBottom.Location = new System.Drawing.Point(0, 77);
             this.plContainerBottom.Name = "plContainerBottom";
-            this.plContainerBottom.Size = new System.Drawing.Size(524, 229);
+            this.plContainerBottom.Size = new System.Drawing.Size(524, 247);
             this.plContainerBottom.TabIndex = 5;
             // 
             // Form1

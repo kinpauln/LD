@@ -65,6 +65,8 @@ namespace LotteryDraw.Core.Models.Business
         /// </summary>
         public int? SortOrder { get; set; }
 
+        public DateTime? RevealDate { get; set; }
+
         /// <summary>
         /// 获取或设置 该奖单下的所有用户投注
         /// </summary>

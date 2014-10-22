@@ -245,7 +245,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             PrizeOrderView model = new PrizeOrderView()
             {
-                PrizeId = id
+                PrizeId = id,
+                MinLuckyCount = 1
             };
             ViewBag.RevealTypeList = model.RevealType.ToDescriptionSelectList();
             return View(model);
