@@ -210,13 +210,14 @@
                             <div class="dropdown">
                             </div>
                         </div>
+                        @Html.Hidden("AddedAnswerOptions")
                     </td>
                 </tr>
                 <tr>
                     <td class="text">开奖答案：</td>
                     <td class="input">
-                        <select id="slAnswer">
-                            <option value="">请选择</option>
+                        <select id="slAnswer" name="slAnswer">
+                            <option value="" selected>请选择</option>
                         </select><span class="info">*</span><input type="button" class="button orange" value="重置" id="btnResetAnswerOption" />
                     </td>
                 </tr>
@@ -236,8 +237,8 @@
                     <td class="text">开奖条件：</td>
                     <td class="input">
                         @*@Html.DropDownList("slLauchType",(SelectList)ViewBag.RevealTypeList)*@
-                        <select id="slAnswerLauchType">
-                            <option value="-1" selected>请选择</option>
+                        <select id="slAnswerLauchType" name="AnswerLauchType">
+                            <option value="" selected>请选择</option>
                             <option value="1" trid="trLaunchTime">定时</option>
                             <option value="2" trid="trPoolCount">定员</option>
                         </select><span class="info">*</span>
@@ -266,7 +267,7 @@
                     <td>
                         @*@Html.Partial("LaunchPageButtonsPartial")*@
                         <input type="button" value="发起抽奖" class="button orange" id="btnAnswerReveal" />
-<input type="button" value="返回" onclick="javascript: history.go(-1);" class="button orange" />
+                        <input type="button" value="返回" onclick="javascript: history.go(-1);" class="button orange" />
                     </td>
                 </tr>
             </tbody>
@@ -373,23 +374,97 @@
                     //form.submit();
                 }
             });
+            //自定义验证
+            $.validator.addMethod("isAddedAnswerOptions", function (value, element) {
+                var answerLength = $("#slAnswer option[class='answer']").length;
+                return answerLength >= 2;
+            }, "至少设置2个答案选项");
+
+            //答案开奖，验证开奖日期是否设置
+            $.validator.addMethod("requiredLaunchTimeOfAnswerType", function (value, element) {
+                var type = $("#slAnswerLauchType").val();
+                if (type == 1) {
+                    var $text = $("form[class='answer'] input[name='LaunchTime']:eq(0)");
+                    if ($text!=null && $.trim($text.val()) == "")
+                        return false;
+                }
+                return true;
+            }, "开奖日期必须设置");
+
+            //答案开奖，验证奖池大小是否设置
+            $.validator.addMethod("requiredPoolCountTimeOfAnswerType", function (value, element) {
+                var type = $("#slAnswerLauchType").val();
+                if (type == 2) {
+                    var $text = $("form[class='answer'] input[name='PoolCount']:eq(0)");
+                    if ($text != null && ($.trim($text.val()) == ""))
+                        return false;
+                }
+                return true;
+            }, "必须输入整数");
 
             $("form[class='answer']").validate({
                 errorElement: 'span',
                 errorClass: 'error-info',
+                ignore: "",
                 //focusCleanup: true,
                 focusInvalid: false,
                 //onfocusout: false,//失去焦点时不验证
                 //onkeyup: false, //在keyup时不验证
                 //debug:true,
                 rules: {
+                    Question: {
+                        required: true
+                    },
+                    AddedAnswerOptions: {
+                        isAddedAnswerOptions: "required"
+                    },
+                    slAnswer: {
+                        required: true
+                    },
                     MinLuckyCount: {
+                        required: true,
                         digits: true
+                    },
+                    LuckyCount: {
+                        required: true,
+                        digits: true
+                    },
+                    AnswerLauchType: {
+                        required: true
+                    },
+                    LaunchTime: {
+                        requiredLaunchTimeOfAnswerType: "required"
+                    },
+                    PoolCount: {
+                        requiredPoolCountTimeOfAnswerType: "required"
                     }
                 },
                 messages: {
+                    Question: {
+                        required: "必须输入"
+                    },
+                    AddedAnswerOptions: {
+                        isAddedAnswerOptions: "至少设置2个答案选项"
+                    },
+                    slAnswer: {
+                        required: "必须选择"
+                    },
                     MinLuckyCount: {
+                        required: "必须输入",
                         digits: "必须输入整数"
+                    },
+                    LuckyCount: {
+                        required: "必须输入",
+                        digits: "必须输入整数"
+                    },
+                    AnswerLauchType: {
+                        required: "必须选择"
+                    },
+                    LaunchTime: {
+                        requiredLaunchTimeOfAnswerType: "必须设置开奖日期"
+                    },
+                    PoolCount: {
+                        requiredPoolCountTimeOfAnswerType: "必须设置奖池大小"
                     }
                 },
                 invalidHandler: function (event, validator) { //display error alert on form submit   
@@ -406,12 +481,23 @@
                 /* 错误信息的显示位置 */
                 errorPlacement: function (error, element) {
                     //element.parent().append("<br />");
+                    //if (element.attr("name") == "Answer") {
+                    //    error.insertAfter(element);
+                    //}
                     error.appendTo(element.parent());
                 },
                 ///*执行ajaxsubmit*/
                 //submitHandler: function (form) {
                 //}
             });
+
+            //限制文本框只能输入数字
+            $(".num").live("keyup", function () {
+                $(this).val( $(this).val().replace(/\D/g, ''));
+            }).live("afterpaste",function () {
+                $(this).val($(this).val().replace(/\D/g,''));
+            });
+
             $("#btnAnswerReveal").click(function () {
                 var $form = $("form[class='answer']");
                 $form.validate();
