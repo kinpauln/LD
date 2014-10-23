@@ -1,5 +1,6 @@
 ﻿@charset "utf-8";
 
+body { behavior:url("csshover.htc"); }/* 别忘记csshover.htc，使用时候注意路径 */ 
 table.prize-list {
     border-collapse: collapse;
     width: 100%;

@@ -15,6 +15,10 @@
 
 @section  styles{
     <style type="text/css">
+        body {
+            behavior: url("../../../Content/website/css/csshover.htc");
+        }
+
         div.row-container {
         }
 
@@ -25,6 +29,41 @@
         input[type=text].num {
             width: 30px;
         }
+
+        /*发起抽奖页面*/
+        div.dropdown {
+            height: 200px;
+            width: 200px;
+            overflow-y: scroll;
+            border: solid 1px silver;
+            padding: 5px;
+        }
+
+            div.dropdown .dropdown-item {
+                cursor: pointer;
+                position: relative;
+            }
+
+                div.dropdown .dropdown-item:hover {
+                    background: #C6D7EF;
+                    color: #000;
+                }
+
+            div.dropdown span {
+                position: absolute;
+                right: 5px;
+                display: none;
+            }
+
+                div.dropdown span:hover {
+                    color: #f00;
+                    font-weight: bold;
+                }
+
+            div.dropdown .selected {
+                background: #C6D7EF;
+                color: #000;
+            }
     </style>
 }
 
@@ -148,6 +187,7 @@
         <input type="hidden" name="RevealType" />
         @Html.HiddenFor(m => m.RevealTypeNum);
         @Html.HiddenFor(m => m.AnswerRevealConditionTypeNum);
+        @Html.HiddenFor(m => m.Answer);
         @Html.HiddenFor(model => model.PrizeId)
         <table class="message_table">
             <tbody>
@@ -158,9 +198,25 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="text">答案选项：</td>
+                    <td class="input">
+                        <div style="float: left;">
+                            @*@Html.TextAreaFor(m => m.Answer, new { @class = "textarea-text", cols = "50", rows = "3" })*@
+                            <input type="text" class="input-text" id="txtAnswerOption" />
+                            <input type="button" class="" value="&nbsp;>>&nbsp;" id="btnAddAnswerOption" />
+                        </div>
+                        <div style="float: left;">
+                            <div class="dropdown">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td class="text">开奖答案：</td>
                     <td class="input">
-                        @Html.TextAreaFor(m => m.Answer, new { @class = "textarea-text", cols = "50", rows = "6" })<span class="info">*</span>
+                        <select id="slAnswer">
+                            <option value="">请选择</option>
+                        </select><span class="info">*</span><input type="button" class="button orange" value="重置" id="btnResetAnswerOption" />
                     </td>
                 </tr>
                 <tr>
@@ -336,6 +392,64 @@
                     $("#" + trid).show();
                 }
             });
+
+            $("#btnAddAnswerOption").click(function () {
+                if ($("#txtAnswerOption").val() == "") {
+                    alert("答案不能为空");
+                    return;
+                }
+
+                //数字转字母
+                var opcount = $("#slAnswer option[class='answer']").length;
+                var opvalue = String.fromCharCode((opcount) + 65);
+                var optionString = "<option class=\"answer\" value=" + opvalue + ">" + $("#txtAnswerOption").val() + "</option>"
+                $("#listAnswerOptions").append(optionString)
+                $("#slAnswer").append(optionString);
+                $('.dropdown').append("<div class=\"dropdown-item\" value=" + opvalue + ">" + opvalue+":"+$("#txtAnswerOption").val() + "<span>X</span></div>");
+                $("#txtAnswerOption").val("");
+            });
+
+            $("#btnResetAnswerOption").click(function () {
+                $("#slAnswer option[class='answer']").remove();
+                $("div.dropdown div.dropdown-item").remove();
+            });
+
+            $("div.dropdown-item").live("hover", function (event) {
+                if (event.type == 'mouseenter') {
+                    $(this).addClass("selected");
+                    $(this).find("span").show();
+                } else {
+                    $(this).removeClass("selected");
+                    $(this).find("span").hide();
+                }
+            });
+
+            $("div.dropdown-item span").live("click", function () {
+                var value = $(this).parent().attr("value");
+                $(this).parent().remove();
+                $("#slAnswer option[value=" + value + "]").remove();
+
+                $('.dropdown div.dropdown-item').remove();
+                var icounter = 0;
+                $("#slAnswer option[class='answer']").each(function () {
+                    //数字转字母
+                    var opvalue = String.fromCharCode((icounter++) + 65);
+                    $(this).attr("value", opvalue);
+                    var divOPString = "<div class=\"dropdown-item\" value=" + opvalue + ">" + opvalue + ":" + $(this).html() + "<span>X</span></div>";
+                    $('.dropdown').append(divOPString);
+                });
+            });
+
+            //$('.dropdown-item').bind("mousedown", function (event) {
+            //    //if (event.button == 0) {  // 鼠标左键
+            //    //    if (event.ctrlKey) { //  ctrl
+            //    //        $(this).addClass("selected");
+            //    //    } else {
+            //    //        $(".dropdown-item").removeClass("selected");
+            //    //        $(this).addClass("selected");
+            //    //    }
+            //    //}
+            //});
         });
 
         function dateCompare(startdate, enddate) {
