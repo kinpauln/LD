@@ -199,62 +199,15 @@ namespace RevealTest
                         if (ds != null && ds.Tables.Count > 0)
                         {
                             #region 定时
-                            DataRow[] timingRows = ds.Tables[0].Select("RevealType=" + (int)RevealType.Timing);
-                            if (timingRows != null && timingRows.Count() > 0)
-                            {
-                                DataRow row = timingRows[0];
-                                int revealCount = int.Parse(row["RevealCount"].ToString());
-                                string succeededOrders = row["SucceededOrders"].ToString();
-                                string failedOrders = row["FailedOrders"].ToString();
-                            }
+                            Notice(ds.Tables[0], "定时开奖");
                             #endregion
 
                             #region 定员
-                            DataRow[] quotaRows = ds.Tables[0].Select("RevealType=" + (int)RevealType.Quota);
-                            if (quotaRows != null && quotaRows.Count() > 0)
-                            {
-                                DataRow row = quotaRows[0];
-                                int revealCount = int.Parse(row["RevealCount"].ToString());
-                                if (revealCount > 0)
-                                {
-                                    txtInfo.Text += string.Format("本次【定员开奖】{0}次！", revealCount.ToString()) + Environment.NewLine;
-                                    string succeededOrders = row["SucceededOrders"].ToString();
-                                    if (!string.IsNullOrEmpty(succeededOrders))
-                                    {
-                                        string[] poids = succeededOrders.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                                        txtInfo.Text += string.Format("本次【定员开奖】成功{0}次，所涉及的奖单ID为：{1}", poids.Length.ToString(), succeededOrders) + Environment.NewLine;
-                                    }
-                                    else
-                                    {
-                                        txtInfo.Text += "本次【定员开奖】无一成功！" + Environment.NewLine;
-                                    }
-                                    string failedOrders = row["FailedOrders"].ToString();
-                                    if (!string.IsNullOrEmpty(failedOrders))
-                                    {
-                                        string[] poids = failedOrders.Split(',');
-                                        txtInfo.Text += string.Format("本次【定员开奖】失败{0}次，所涉及的奖单ID为{1}", poids.Length.ToString(), failedOrders) + Environment.NewLine;
-                                    }
-                                    else
-                                    {
-                                        txtInfo.Text += "本次【定员开奖】全部成功！" + Environment.NewLine;
-                                    }
-                                }
-                                else
-                                {
-                                    txtInfo.Text += "本次没有需要开奖的【定员开奖】" + Environment.NewLine;
-                                }
-                            }
+                            Notice(ds.Tables[1], "定员开奖");
                             #endregion
 
                             #region 答案
-                            DataRow[] answerRows = ds.Tables[0].Select("RevealType=" + (int)RevealType.Answer);
-                            if (answerRows != null && answerRows.Count() > 0)
-                            {
-                                DataRow row = answerRows[0];
-                                int revealCount = int.Parse(row["RevealCount"].ToString());
-                                string succeededOrders = row["SucceededOrders"].ToString();
-                                string failedOrders = row["FailedOrders"].ToString();
-                            }
+                            Notice(ds.Tables[2], "答案开奖");
                             #endregion
                         }
                     }
@@ -266,6 +219,43 @@ namespace RevealTest
 
                 }));
                 Thread.Sleep(inteval * 1000);
+            }
+        }
+
+        private void Notice(DataTable dt, string lotteryName)
+        {
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                DataRow row = dt.Rows[0];
+                int revealCount = int.Parse(row["RevealCount"].ToString());
+                if (revealCount > 0)
+                {
+                    txtInfo.Text += string.Format("本次【{1}】{0}次！", revealCount.ToString(), lotteryName) + Environment.NewLine;
+                    string succeededOrders = row["SucceededOrders"].ToString();
+                    if (!string.IsNullOrEmpty(succeededOrders))
+                    {
+                        string[] poids = succeededOrders.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        txtInfo.Text += string.Format("本次【{2}】成功{0}次，所涉及的奖单ID为：{1}", poids.Length.ToString(), succeededOrders, lotteryName) + Environment.NewLine;
+                    }
+                    else
+                    {
+                        txtInfo.Text += string.Format("本次【{0}】无一成功！", lotteryName) + Environment.NewLine;
+                    }
+                    string failedOrders = row["FailedOrders"].ToString();
+                    if (!string.IsNullOrEmpty(failedOrders))
+                    {
+                        string[] poids = failedOrders.Split(',');
+                        txtInfo.Text += string.Format("本次【{2}】失败{0}次，所涉及的奖单ID为{1}", poids.Length.ToString(), failedOrders, lotteryName) + Environment.NewLine;
+                    }
+                    else
+                    {
+                        txtInfo.Text += string.Format("本次【{0}】全部成功！", lotteryName) + Environment.NewLine;
+                    }
+                }
+                else
+                {
+                    txtInfo.Text += string.Format("本次没有需要开奖的【{0}】", lotteryName) + Environment.NewLine;
+                }
             }
         }
 
