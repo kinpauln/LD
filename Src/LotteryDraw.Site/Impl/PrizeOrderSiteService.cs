@@ -77,6 +77,7 @@ namespace LotteryDraw.Site.Impl
                     break;
                 case RevealType.Answer:
                     pmodel.Extend.PrizeAsking.Question = povmodel.Question;
+                    pmodel.Extend.PrizeAsking.AnswerOptions = povmodel.AnswerOptions;
                     pmodel.Extend.PrizeAsking.Answer = povmodel.Answer;
                     pmodel.Extend.MinLuckyCount = povmodel.MinLuckyCount;
                     pmodel.Extend.LuckyCount = povmodel.LuckyCount;

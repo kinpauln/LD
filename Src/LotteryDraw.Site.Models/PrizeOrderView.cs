@@ -92,6 +92,9 @@ namespace LotteryDraw.Site.Models
         [Display(Name = "问题")]
         public string Question { get; set; }
 
+        [Display(Name = "答案选项")]
+        public string AnswerOptions { get; set; }
+
         [Display(Name = "答案")]
         public string Answer { get; set; }
                 

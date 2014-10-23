@@ -37,7 +37,7 @@ namespace LotteryDraw.Core.Data.Configurations.Business
             //.WithOptional(po => po.Extend);
             .WithRequiredDependent(po => po.Extend);
             Property(poe => poe.Id).HasColumnName("PrizeOrder_Id");
-
+            Property(poe => poe.PrizeAsking.AnswerOptions).HasColumnName("AnswerOptions");
             //HasRequired(poe => poe.PrizeOrder)
             //    .WithMany()
             //    .HasForeignKey(po => po.PrizeOrder_Id);

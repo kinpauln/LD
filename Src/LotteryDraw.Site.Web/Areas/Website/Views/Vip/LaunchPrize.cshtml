@@ -182,12 +182,13 @@
     <div class="clear"></div>
 </div>
 <div class="row-container formdata tab" id="answer-container">
-    @using (Html.BeginForm("LaunchPrize", "Vip", FormMethod.Post, new { @class = "answer" }))
+    @using (Html.BeginForm("LaunchPrize", "Vip", FormMethod.Post, new { @class = "answer", enctype = "multipart/form-data" }))
     {
         <input type="hidden" name="RevealType" />
         @Html.HiddenFor(m => m.RevealTypeNum);
         @Html.HiddenFor(m => m.AnswerRevealConditionTypeNum);
         @Html.HiddenFor(m => m.Answer);
+        @Html.HiddenFor(m => m.AnswerOptions);
         @Html.HiddenFor(model => model.PrizeId)
         <table class="message_table">
             <tbody>
@@ -262,8 +263,10 @@
                 </tr>*@
                 <tr>
                     <td class="text"></td>
-                    <td class="submint">
-                        @Html.Partial("LaunchPageButtonsPartial")
+                    <td>
+                        @*@Html.Partial("LaunchPageButtonsPartial")*@
+                        <input type="button" value="发起抽奖" class="button orange" id="btnAnswerReveal" />
+<input type="button" value="返回" onclick="javascript: history.go(-1);" class="button orange" />
                     </td>
                 </tr>
             </tbody>
@@ -339,14 +342,14 @@
                 errorClass: 'error-info',
                 focusInvalid: false,
                 rules: {
-                    Name: {
+                    MinLuckyCount: {
                         required: true
                     }
                 },
 
                 messages: {
-                    Name: {
-                        required: "奖品名称不能为空"
+                    MinLuckyCount: {
+                        required: "中奖最低人数不能为空"
                     }
                 },
                 invalidHandler: function (event, validator) { //display error alert on form submit   
@@ -367,8 +370,70 @@
                 },
                 /*执行ajaxsubmit*/
                 submitHandler: function (form) {
-                    form.submit();
+                    //form.submit();
                 }
+            });
+
+            $("form[class='answer']").validate({
+                errorElement: 'span',
+                errorClass: 'error-info',
+                //focusCleanup: true,
+                focusInvalid: false,
+                //onfocusout: false,//失去焦点时不验证
+                //onkeyup: false, //在keyup时不验证
+                //debug:true,
+                rules: {
+                    MinLuckyCount: {
+                        digits: true
+                    }
+                },
+                messages: {
+                    MinLuckyCount: {
+                        digits: "必须输入整数"
+                    }
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit   
+                    //$('.alert-danger', $('.login-form')).show();
+                },
+                highlight: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                },
+                /* 验证通过时的处理 */
+                success: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+                    //$(e).remove();
+                },
+                /* 错误信息的显示位置 */
+                errorPlacement: function (error, element) {
+                    //element.parent().append("<br />");
+                    error.appendTo(element.parent());
+                },
+                ///*执行ajaxsubmit*/
+                //submitHandler: function (form) {
+                //}
+            });
+            $("#btnAnswerReveal").click(function () {
+                var $form = $("form[class='answer']");
+                $form.validate();
+                if ($form.valid()) {
+                    var options = "";
+                    $("#slAnswer option[class='answer']").each(function () {
+                        var value = $(this).val();
+                        var text = $(this).html();
+                        options += value + ":" + text + "|||";
+                    });
+                    if (options != "") {
+                        options = options.substring(0, options.length - 3);
+                    }
+                    $("input:hidden[name='AnswerOptions']").val(options);
+                    $("input:hidden[name='Answer']").val($("#slAnswer").val());
+                    $form.submit();
+                }
+            });
+
+            $("form[class='answer']").submit(function () {
+                return true;
+                //return false; //此处必须返回false，阻止常规的form提交
             });
 
             $("#slLauchType").change(function () {
@@ -405,13 +470,20 @@
                 var optionString = "<option class=\"answer\" value=" + opvalue + ">" + $("#txtAnswerOption").val() + "</option>"
                 $("#listAnswerOptions").append(optionString)
                 $("#slAnswer").append(optionString);
-                $('.dropdown').append("<div class=\"dropdown-item\" value=" + opvalue + ">" + opvalue+":"+$("#txtAnswerOption").val() + "<span>X</span></div>");
+                $('.dropdown').append("<div class=\"dropdown-item\" value=" + opvalue + ">" + opvalue + ":" + $("#txtAnswerOption").val() + "<span>X</span></div>");
                 $("#txtAnswerOption").val("");
             });
 
             $("#btnResetAnswerOption").click(function () {
                 $("#slAnswer option[class='answer']").remove();
                 $("div.dropdown div.dropdown-item").remove();
+            });
+
+            $("#txtAnswerOption").keypress(function (event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    $("#btnAddAnswerOption").trigger("click");
+                }
             });
 
             $("div.dropdown-item").live("hover", function (event) {
