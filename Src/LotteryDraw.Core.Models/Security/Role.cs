@@ -24,11 +24,10 @@ namespace LotteryDraw.Core.Models.Security
     ///     实体类——角色信息
     /// </summary>
     [Description("角色信息")]
-    public class Role : EntityBase<Guid>
+    public class Role : EntityBase<Int64>
     {
         public Role()
         {
-            Id = CombHelper.NewComb();
         }
 
         [Required]

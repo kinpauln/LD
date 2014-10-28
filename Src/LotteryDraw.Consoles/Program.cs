@@ -170,7 +170,7 @@ namespace LotteryDraw.Consoles
             IMemberRepository memberRepository = _container.GetExportedValue<IMemberRepository>();
             PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("AddDate", ListSortDirection.Descending), new PropertySortCondition("UserName") };
             int total;
-            var members = memberRepository.Entities.Where<Member, int>(m => true, 1, 15, out total, sortConditions).ToList();
+            var members = memberRepository.Entities.Where<Member, Int64>(m => true, 1, 15, out total, sortConditions).ToList();
             foreach (var member in members)
             {
                 Console.WriteLine(member.Name);

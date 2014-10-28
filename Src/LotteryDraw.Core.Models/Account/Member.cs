@@ -16,6 +16,7 @@ using System.ComponentModel.DataAnnotations;
 using LotteryDraw.Component.Tools;
 using LotteryDraw.Core.Models.Security;
 using LotteryDraw.Core.Models.Business;
+using System;
 
 
 namespace LotteryDraw.Core.Models.Account
@@ -24,7 +25,7 @@ namespace LotteryDraw.Core.Models.Account
     ///     实体类——用户信息
     /// </summary>
     [Description("用户信息")]
-    public class Member : EntityBase<int>
+    public class Member : EntityBase<Int64>
     {
         public Member()
         {

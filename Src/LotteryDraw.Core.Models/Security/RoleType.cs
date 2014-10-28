@@ -10,15 +10,21 @@ namespace LotteryDraw.Core.Models.Security
     public enum RoleType
     {
         /// <summary>
-        /// 用户类型
+        /// 个人类型
         /// </summary>
-        [Description("用户角色")]
-        User = 0,
+        [Description("个人")]
+        Personal = 0,
+
+        /// <summary>
+        /// 企业类型
+        /// </summary>
+        [Description("企业")]
+        Enterprise = 1,
 
         /// <summary>
         /// 管理员类型
         /// </summary>
-        [Description("管理角色")]
-        Admin = 1
+        [Description("管理员")]
+        Admin = 2
     }
 }

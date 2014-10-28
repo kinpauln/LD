@@ -12,7 +12,7 @@
 //		开发组织：王金鹏@中国
 //		公司网站：http://www.wuliubang.net/
 //		所属工程：LotteryDraw.Core.Data
-//		生成时间：2014-10-22 10:14
+//		生成时间：2014-10-28 17:44
 // </copyright>
 //------------------------------------------------------------------------------
 
@@ -30,6 +30,6 @@ namespace LotteryDraw.Core.Data.Repositories.Account.Impl
     ///   仓储操作层实现——用户信息
     /// </summary>
     [Export(typeof(IMemberRepository))]
-    public partial class MemberRepository : EFRepositoryBase<Member, Int32>, IMemberRepository
+    public partial class MemberRepository : EFRepositoryBase<Member, Int64>, IMemberRepository
     { }
 }

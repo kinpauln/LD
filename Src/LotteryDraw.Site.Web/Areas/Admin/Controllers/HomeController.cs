@@ -31,7 +31,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             const int pageSize = 20;
             PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
             int total;
-            var memberViews = AccountContract.Members.Where<Member, int>(m => true, pageIndex, pageSize, out total, sortConditions).Select(m => new MemberView
+            var memberViews = AccountContract.Members.Where<Member, Int64>(m => true, pageIndex, pageSize, out total, sortConditions).Select(m => new MemberView
             {
                 UserName = m.UserName,
                 Name = m.Name,

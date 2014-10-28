@@ -12,7 +12,7 @@
 //		开发组织：王金鹏@中国
 //		公司网站：http://www.wuliubang.net/
 //		所属工程：LotteryDraw.Core.Data
-//		生成时间：2014-10-22 10:14
+//		生成时间：2014-10-28 17:44
 // </copyright>
 //------------------------------------------------------------------------------
 
@@ -27,6 +27,6 @@ namespace LotteryDraw.Core.Data.Repositories.Account
 	/// <summary>
     ///   仓储操作层接口——用户信息
     /// </summary>
-    public partial interface IMemberRepository : IRepository<Member, Int32>
+    public partial interface IMemberRepository : IRepository<Member, Int64>
     { }
 }

@@ -37,8 +37,8 @@ namespace LotteryDraw.Core.Data.Migrations
             List<Role> roles = new List<Role>
             {
                 new Role{ Name = "系统管理", Description = "系统管理角色，拥有整个系统的管理权限。", RoleType = RoleType.Admin},
-                new Role{ Name = "企业用户", Description = "企业用户", RoleType = RoleType.User},
-                new Role{ Name = "个人用户", Description = "个人用户", RoleType = RoleType.User}
+                new Role{ Name = "企业用户", Description = "企业用户", RoleType = RoleType.Enterprise},
+                new Role{ Name = "个人用户", Description = "个人用户", RoleType = RoleType.Personal}
             };
             DbSet<Role> roleSet = context.Set<Role>();
             roleSet.AddOrUpdate(m => new { m.Name }, roles.ToArray());
