@@ -15,7 +15,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin
         public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
-                "Admin_default1",
+                "Admin_default",
                 "Admin/{controller}/{action}/{id}",
                 new { controller = "Account", action = "Login", id = UrlParameter.Optional }
                 , new string[] { "LotteryDraw.Site.Web.Areas.Admin.Controllers" }
