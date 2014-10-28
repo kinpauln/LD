@@ -343,14 +343,83 @@
                 errorClass: 'error-info',
                 focusInvalid: false,
                 rules: {
-                    MinLuckyCount: {
+                    LaunchTime: {
                         required: true
+                    },
+                    MinLuckyCount: {
+                        required: true,
+                        digits: true
+                    },
+                    LuckyCount: {
+                        required: true,
+                        digits: true
                     }
                 },
+                messages: {
+                    LaunchTime: {
+                        required: "不能为空"
+                    },
+                    MinLuckyCount: {
+                        required: "中奖最低人数不能为空",
+                        digits: "必须输入整数"
+                    },
+                    LuckyCount: {
+                        required: "必须输入",
+                        digits: "必须输入整数"
+                    }
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit   
+                    //$('.alert-danger', $('.login-form')).show();
+                },
+                highlight: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                },
+                /* 验证通过时的处理 */
+                success: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+                    //$(e).remove();
+                },
+                /* 错误信息的显示位置 */
+                errorPlacement: function (error, element) {
+                    //element.parent().append("<br />");
+                    error.appendTo(element.parent());
+                },
+                /*执行ajaxsubmit*/
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
 
+            $("form[class='quota']").validate({
+                errorElement: 'span',
+                errorClass: 'error-info',
+                focusInvalid: false,
+                rules: {
+                    MinLuckyCount: {
+                        required: true,
+                        digits: true
+                    },
+                    LuckyCount: {
+                        required: true,
+                        digits: true
+                    },
+                    PoolCount: {
+                        required: true,
+                        digits: true
+                    },
+                },
                 messages: {
                     MinLuckyCount: {
-                        required: "中奖最低人数不能为空"
+                        required: "中奖最低人数不能为空",
+                        digits: "必须输入整数"
+                    },
+                    LuckyCount: {
+                        required: "必须输入",
+                        digits: "必须输入整数"
+                    },
+                    PoolCount: {
+                        required: "必须输入",
+                        digits: "必须输入整数"
                     }
                 },
                 invalidHandler: function (event, validator) { //display error alert on form submit   
