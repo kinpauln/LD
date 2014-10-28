@@ -58,7 +58,9 @@ namespace LotteryDraw.Component.Tools
         [Description("开奖结束")]
         Drawn = 3,
         [Description("取消")]
-        Canceled = 4
+        Canceled = 4,
+        [Description("开奖失败")]
+        Failed = 5
     }
 
     /// <summary>

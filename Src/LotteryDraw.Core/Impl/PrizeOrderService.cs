@@ -147,16 +147,27 @@ namespace LotteryDraw.Core.Impl
             }
         }
 
-        public OperationResult RevealLottery(out string errorString)
+        /// <summary>
+        ///  开奖
+        /// </summary>
+        /// <param name="interval">访问数据库频率</param>
+        /// <param name="errorString">错误信息</param>
+        /// <returns>业务操作结果</returns>
+        public OperationResult RevealLottery(int interval, out string errorString)
         {
             errorString = string.Empty;
             try
             {
                 List<SqlParameter> paramList = new List<SqlParameter>();
 
+                SqlParameter paramInterval = new SqlParameter("@interval", SqlDbType.Int);
+                paramInterval.Value = interval;
+                paramList.Add(paramInterval);
+
                 SqlParameter paramErrorString = new SqlParameter("@errorString", SqlDbType.VarChar,-1); //-1代表max
                 paramErrorString.Direction = ParameterDirection.Output;
                 paramList.Add(paramErrorString);
+
 
                 SqlCommand command = new SqlCommand();
                 DataSet ds = PrizeOrderRepository.ExecProcdureReturnDataSet("sp_revealLottery", out command, paramList.ToArray());

@@ -75,8 +75,10 @@ namespace LotteryDraw.Core
         /// <summary>
         ///  开奖
         /// </summary>
+        /// <param name="interval">访问数据库频率</param>
+        /// <param name="errorString">错误信息</param>
         /// <returns>业务操作结果</returns>
-        OperationResult RevealLottery(out string errorString);
+        OperationResult RevealLottery(int interval,out string errorString);
 
         #endregion
     }

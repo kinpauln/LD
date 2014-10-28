@@ -181,14 +181,17 @@ namespace RevealTest
 
         private void RevealLottery()
         {
-            int inteval = 10;
+            int interval = 10;
+            string splitLine = "****************************************************************************";
+            string subSplitLine = "---------------------------------------------------------------";
             while (!_revealWatchingStopped)
             {
                 this.Invoke(new Action(() =>
                 {
+                    txtInfo.Text += splitLine + Environment.NewLine;
                     txtInfo.Text += string.Format("尝试新一次的开奖...【{0}】",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) + Environment.NewLine;
                     string errorString = string.Empty;
-                    OperationResult result = PrizeOrderContract.RevealLottery(out errorString);
+                    OperationResult result = PrizeOrderContract.RevealLottery(interval,out errorString);
                     if (result.ResultType == OperationResultType.Success)
                     {
                         DataSet ds = (DataSet)result.AppendData;
@@ -199,15 +202,19 @@ namespace RevealTest
                         if (ds != null && ds.Tables.Count > 0)
                         {
                             #region 定时
+                            txtInfo.Text += subSplitLine + Environment.NewLine;
                             Notice(ds.Tables[0], "定时开奖");
                             #endregion
 
                             #region 定员
+                            txtInfo.Text += subSplitLine + Environment.NewLine;
                             Notice(ds.Tables[1], "定员开奖");
                             #endregion
 
                             #region 答案
+                            txtInfo.Text += subSplitLine + Environment.NewLine;
                             Notice(ds.Tables[2], "答案开奖");
+                            txtInfo.Text += subSplitLine + Environment.NewLine;
                             #endregion
                         }
                     }
@@ -215,10 +222,11 @@ namespace RevealTest
                     {
                         txtInfo.Text += "出错了，错误信息：" + result.Message + Environment.NewLine;
                     }
-                    txtInfo.Text += "本次开奖结束！" + Environment.NewLine + Environment.NewLine;
+                    txtInfo.Text += "本次开奖结束！" + Environment.NewLine;
+                    txtInfo.Text += splitLine + Environment.NewLine + Environment.NewLine;
 
                 }));
-                Thread.Sleep(inteval * 1000);
+                Thread.Sleep(interval * 1000);
             }
         }
 
@@ -230,11 +238,12 @@ namespace RevealTest
                 int revealCount = int.Parse(row["RevealCount"].ToString());
                 if (revealCount > 0)
                 {
-                    txtInfo.Text += string.Format("本次【{1}】{0}次！", revealCount.ToString(), lotteryName) + Environment.NewLine;
+                    txtInfo.Text += string.Format("本次【{1}】共{0}次！", revealCount.ToString(), lotteryName) + Environment.NewLine;
                     string succeededOrders = row["SucceededOrders"].ToString();
                     if (!string.IsNullOrEmpty(succeededOrders))
                     {
                         string[] poids = succeededOrders.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        succeededOrders = succeededOrders.EndsWith(",") ? succeededOrders.Substring(0, succeededOrders.Length - 1) : succeededOrders;
                         txtInfo.Text += string.Format("本次【{2}】成功{0}次，所涉及的奖单ID为：{1}", poids.Length.ToString(), succeededOrders, lotteryName) + Environment.NewLine;
                     }
                     else
@@ -244,7 +253,8 @@ namespace RevealTest
                     string failedOrders = row["FailedOrders"].ToString();
                     if (!string.IsNullOrEmpty(failedOrders))
                     {
-                        string[] poids = failedOrders.Split(',');
+                        string[] poids = failedOrders.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        failedOrders = failedOrders.EndsWith(",") ? failedOrders.Substring(0, failedOrders.Length - 1) : failedOrders;
                         txtInfo.Text += string.Format("本次【{2}】失败{0}次，所涉及的奖单ID为{1}", poids.Length.ToString(), failedOrders, lotteryName) + Environment.NewLine;
                     }
                     else
