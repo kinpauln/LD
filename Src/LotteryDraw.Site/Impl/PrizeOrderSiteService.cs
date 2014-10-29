@@ -169,5 +169,23 @@ namespace LotteryDraw.Site.Impl
             OperationResult result = PrizeOrderContract.GetTopPrizeOrders();
             return result;
         }
+
+
+        /// <summary>
+        ///  取奖单
+        /// </summary>
+        /// <param name="pageSize">每页输出的记录数</param>
+        /// <param name="pageIndex">当前页数</param>
+        /// <param name="orderbyString">排序字符串</param>
+        /// <param name="totalCount">返回总记录</param>
+        /// <param name="totalPageCount">返回总页数</param>
+        /// <param name="revealtype">开奖类型</param>
+        /// <param name="revealstate">奖单状态</param>
+        /// <returns></returns>
+        public OperationResult GetLotteries(int pageSize, int pageIndex, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0, int revealstate = 0)
+        {
+            OperationResult result = PrizeOrderContract.GetLotteries(pageSize, pageIndex, orderbyString, out totalCount, out totalPageCount, revealtype = 0, revealstate = 0);
+            return result;
+        }
     }
 }
