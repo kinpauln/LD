@@ -186,13 +186,14 @@ namespace LotteryDraw.Core.Impl
         /// </summary>
         /// <param name="pageSize">每页输出的记录数</param>
         /// <param name="pageIndex">当前页数</param>
+        /// <param name="whereString">条件字符串</param>
         /// <param name="orderbyString">排序字符串</param>
         /// <param name="totalCount">返回总记录</param>
         /// <param name="totalPageCount">返回总页数</param>
         /// <param name="revealtype">开奖类型</param>
         /// <param name="revealstate">奖单状态</param>
         /// <returns></returns>
-        public OperationResult GetLotteries(int pageSize, int pageIndex, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0, int revealstate = 0)
+        public OperationResult GetLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0, int revealstate = 0)
         {
             totalCount = 0;
             totalPageCount = 0;
@@ -216,6 +217,10 @@ namespace LotteryDraw.Core.Impl
                 SqlParameter paramPI = new SqlParameter("@PageIndex", SqlDbType.Int);
                 paramPI.Value = pageIndex;
                 paramList.Add(paramPI);
+                //排序字符串
+                SqlParameter paramWhere = new SqlParameter("@Where", SqlDbType.VarChar, 2000);
+                paramWhere.Value = whereString;
+                paramList.Add(paramWhere);
                 //排序字符串
                 SqlParameter paramOrder = new SqlParameter("@Order", SqlDbType.VarChar, 1000);
                 paramOrder.Value = orderbyString;

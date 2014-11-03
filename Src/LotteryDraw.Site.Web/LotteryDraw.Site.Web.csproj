@@ -41,9 +41,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MvcPager3, Version=1.5.0.0, Culture=neutral, PublicKeyToken=f6872c5a09aed72c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\LotteryDraw\Lib\MvcPager3.dll</HintPath>
+    <Reference Include="MvcPager">
+      <HintPath>..\..\Lib\MvcPager.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -294,6 +293,7 @@
     <Content Include="Content\admin\assets\js\jquery.hotkeys.min.js" />
     <Content Include="Content\admin\assets\js\jquery.inputlimiter.1.3.1.min.js" />
     <Content Include="Content\admin\assets\js\jquery.knob.min.js" />
+    <Content Include="Content\admin\assets\js\jquery.maskedinput.min.js" />
     <Content Include="Content\website\css\csshover.htc" />
     <Content Include="Content\website\css\prize.css" />
     <Content Include="Content\website\js\My97DatePicker\calendar.js" />
@@ -456,6 +456,7 @@
     <Content Include="Areas\Website\Views\Vip\PrizeOrderList.cshtml" />
     <Content Include="Areas\Website\Views\Vip\MyBettingList.cshtml" />
     <Content Include="Areas\Website\Views\Vip\PrizeBetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Business\_AjaxLoading.cshtml" />
     <None Include="Properties\PublishProfiles\LotteryDraw.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />

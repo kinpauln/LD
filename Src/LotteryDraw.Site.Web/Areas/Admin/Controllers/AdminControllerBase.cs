@@ -18,7 +18,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
         {
             get
             {
-                return 12;
+                return 2;
             }
         }
         public override ActionResult InfoPage() {

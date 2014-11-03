@@ -55,6 +55,8 @@ namespace LotteryDraw.Site.Models
 
         public Guid PrizeId { get; set; }
 
+        public int SortOrder { get; set; }
+
         /// <summary>
         ///  开奖时间
         /// </summary>
