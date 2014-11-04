@@ -18,6 +18,9 @@ using LotteryDraw.Core.Data.Repositories.Account;
 using LotteryDraw.Core.Data.Repositories.Security;
 using LotteryDraw.Core.Models.Account;
 using LotteryDraw.Core.Models.Security;
+using System.Data.SqlClient;
+using System.Data;
+using System;
 
 
 namespace LotteryDraw.Core.Impl
@@ -145,6 +148,63 @@ namespace LotteryDraw.Core.Impl
                 return new OperationResult(OperationResultType.QueryNull, string.Format("Id为{0}用户不存在。",userid.ToString()));
             }
             return new OperationResult(OperationResultType.Success, "获取用户信息成功。", member);
+        }
+
+
+        /// <summary>
+        ///  取用户
+        /// </summary>
+        /// <param name="pageSize">每页输出的记录数</param>
+        /// <param name="pageIndex">当前页数</param>
+        /// <param name="whereString">条件字符串</param>
+        /// <param name="orderbyString">排序字符串</param>
+        /// <param name="totalCount">返回总记录</param>
+        /// <param name="totalPageCount">返回总页数</param>
+        /// <param name="revealtype">开奖类型</param>
+        /// <param name="revealstate">奖单状态</param>
+        /// <returns></returns>
+        public OperationResult GetUsers(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount) {
+            totalCount = 0;
+            totalPageCount = 0;
+            try
+            {
+                List<SqlParameter> paramList = new List<SqlParameter>();
+
+                //每页输出的记录数
+                SqlParameter paramPS = new SqlParameter("@PageSize", SqlDbType.Int);
+                paramPS.Value = pageSize;
+                paramList.Add(paramPS);
+                //当前页数
+                SqlParameter paramPI = new SqlParameter("@PageIndex", SqlDbType.Int);
+                paramPI.Value = pageIndex;
+                paramList.Add(paramPI);
+                //排序字符串
+                SqlParameter paramWhere = new SqlParameter("@Where", SqlDbType.VarChar, 2000);
+                paramWhere.Value = whereString;
+                paramList.Add(paramWhere);
+                //排序字符串
+                SqlParameter paramOrder = new SqlParameter("@Order", SqlDbType.VarChar, 1000);
+                paramOrder.Value = orderbyString;
+                paramList.Add(paramOrder);
+
+                SqlParameter paramtc = new SqlParameter("@TotalCount", SqlDbType.Int);
+                paramtc.Direction = ParameterDirection.Output;
+                paramList.Add(paramtc);
+                SqlParameter paramtpc = new SqlParameter("@TotalPageCount", SqlDbType.Int);
+                paramtpc.Direction = ParameterDirection.Output;
+                paramList.Add(paramtpc);
+
+
+                SqlCommand command = new SqlCommand();
+                DataSet ds = MemberRepository.ExecProcdureReturnDataSet("sp_getUsers", out command, paramList.ToArray());
+                totalCount = Convert.ToInt32(command.Parameters["@TotalCount"].Value);
+                totalPageCount = Convert.ToInt32(command.Parameters["@TotalPageCount"].Value);
+                return new OperationResult(OperationResultType.Success, "模糊查询用户操作顺利。", ds);
+            }
+            catch (System.Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
         }
     }
 }

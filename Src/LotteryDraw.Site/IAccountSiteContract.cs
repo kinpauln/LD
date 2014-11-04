@@ -44,5 +44,19 @@ namespace LotteryDraw.Site
         /// <param name="model">登录模型信息</param>
         /// <returns>业务操作结果</returns>
         OperationResult Register(MemberView model);
+        
+        /// <summary>
+        ///  取用户
+        /// </summary>
+        /// <param name="pageSize">每页输出的记录数</param>
+        /// <param name="pageIndex">当前页数</param>
+        /// <param name="whereString">条件字符串</param>
+        /// <param name="orderbyString">排序字符串</param>
+        /// <param name="totalCount">返回总记录</param>
+        /// <param name="totalPageCount">返回总页数</param>
+        /// <param name="revealtype">开奖类型</param>
+        /// <param name="revealstate">奖单状态</param>
+        /// <returns></returns>
+        OperationResult GetUsers(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount);
     }
 }

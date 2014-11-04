@@ -9,6 +9,9 @@ using System.Web;
 using System.Web.Mvc;
 using LotteryDraw.Site.Extentions;
 using Webdiyer.WebControls.Mvc;
+//添加引用
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
 {

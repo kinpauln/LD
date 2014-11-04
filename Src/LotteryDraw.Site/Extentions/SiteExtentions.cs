@@ -69,5 +69,29 @@ namespace LotteryDraw.Site.Extentions
 
             return rlist;
         }
+
+
+        public static IEnumerable<MemberView> ToMemberViewList(this DataTable dt)
+        {
+            if (dt == null || dt.Rows.Count == 0)
+                return null;
+            List<MemberView> rlist = new List<MemberView>();
+            foreach (DataRow row in dt.Rows)
+            {
+                rlist.Add(new MemberView()
+                {
+                    Id = int.Parse(row["MemberId"].ToString()),
+                    Name = row["Name"].ToString(),
+                    UserName = row["UserName"].ToString(),
+                    Email = row["Email"].ToString(),
+                    Tel = row["Tel"].ToString(),
+                    AddDate = Convert.ToDateTime(row["AddDate"]),
+                    //LoginLogCount = int.Parse(row["PrizeOrderId"].ToString()),
+                    //MemberType = row["PrizeOrderId"].ToString()                     
+                });
+            }
+
+            return rlist;
+        }
     }
 }
