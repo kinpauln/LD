@@ -91,11 +91,12 @@ namespace LotteryDraw.Site.Web.Controllers
 
         //后台数据库分页
         [HttpPost]
-        public JsonResult li()
+        public JsonResult GetUsers()
         {
             //取数据
             int userid = this.UserId ?? 0;
             int pageIndex = int.Parse(Request["pagenumber"].ToString());
+            int pageSize = string.IsNullOrEmpty(Request["pageSize"].ToString()) ? this.PageSize : int.Parse(Request["pageSize"].ToString());
             string keywords = Request["kword"].ToString();
             Response.ContentType = "text/plain";
             PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("MemberId") };
@@ -106,8 +107,8 @@ namespace LotteryDraw.Site.Web.Controllers
             string whereString = string.Empty;
             whereString = GetUserWhereString(keywords);
 
-            IEnumerable<PrizeOrderDetailView> rlist = null;
-            OperationResult result = AccountContract.GetUsers(this.PageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount);
+            IEnumerable<MemberView> rlist = null;
+            OperationResult result = AccountContract.GetUsers(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount);
             ViewBag.TotalCount = totalCount;
             ViewBag.PageIndex = pageIndex;
             ViewBag.PageCount = totalPageCount;
@@ -118,13 +119,13 @@ namespace LotteryDraw.Site.Web.Controllers
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     DataTable dt = ds.Tables[0];
-
+                    rlist = dt.ToMemberViewList();
                     if (dt != null)
                     {
                         //Response.Write(JsonConvert.SerializeObject(dt, new DataTableConverter()));
                         string jsonString = JsonConvert.SerializeObject(new { PageCount = totalPageCount, Data = dt });
                         //Response.Write(jsonString);
-                        return Json(new { PageCount = totalPageCount, Data = dt.ToMemberViewList() },JsonRequestBehavior.AllowGet);
+                        return Json(new { PageCount = totalPageCount, Data = rlist }, JsonRequestBehavior.AllowGet);
                     }
                 }
             }
@@ -137,25 +138,6 @@ namespace LotteryDraw.Site.Web.Controllers
             if (string.IsNullOrEmpty(keywords))
                 return null;
             return string.Format("(UserName like '%{0}%' or Name like '%{0}%' or Email like '%{0}%')", keywords);
-        }
-        //记录总数
-        [HttpGet]
-        public ActionResult count()
-        {
-            Response.ContentType = "text/plain";
-            string sql = "select count(id) as count from Members";
-            //DataTable tb = DB.DBHelper.GetDataSet(sql);
-            int pagecount = 50;
-            if (pagecount % this.PageSize == 0)
-            {
-                pagecount = pagecount / this.PageSize;
-            }
-            else
-            {
-                pagecount = pagecount / this.PageSize + 1;
-            }
-            Response.Write("[{count:" + pagecount + "}]");
-            return null;
         }
     }
 }
