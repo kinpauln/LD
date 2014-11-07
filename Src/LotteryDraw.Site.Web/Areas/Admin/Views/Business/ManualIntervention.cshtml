@@ -95,12 +95,11 @@
                                 <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">发布者</th>
                                 <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 180px;"><i class="icon-time bigger-110 hidden-480"></i>发布日期</th>
                                 <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 80px;">排序</th>
+                                <th style="display: none;">PrizeOrderId</th>
                                 <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 80px;">操作</th>
                                 <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="" style="width: 120px;"></th>
                             </tr>
                         </thead>
-
-
                         <tbody role="alert" aria-live="polite" aria-relevant="all">
                             @{
                         bool isOdd = true;
@@ -132,6 +131,7 @@
                                     <td class=" ">@item.MemberView.Name</td>
                                     <td class=" ">@item.PrizeOrderView.AddDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
                                     <td class=" ">@item.PrizeOrderView.SortOrder</td>
+                                    <td style="display: none;">@item.PrizeOrderView.Id</td>
                                     <td class=" ">
                                         @*<button class="btn bootbox-regular" >干预</button>*@
                                         <a href="#modal-form" data-toggle="modal" class="intervention">干预</a>
@@ -276,29 +276,7 @@
                                     <option value="AR">Arkansas</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="space-4"></div>
-
-                        <div class="form-group">
-                            <label for="form-field-username">Username</label>
-
-                            <div>
-                                <input class="input-large" type="text" id="form-field-username" placeholder="Username" value="alexdoe" />
-                            </div>
-                        </div>
-
-                        <div class="space-4"></div>
-
-                        <div class="form-group">
-                            <label for="form-field-first">Name</label>
-
-                            <div>
-                                <input class="input-medium" type="text" id="form-field-first" placeholder="First Name" value="Alex" />
-                                <input class="input-medium" type="text" id="form-field-last" placeholder="Last Name" value="Doe" />
-                            </div>
-                        </div>
-                        <div class="space-4"></div>*@
+                        </div>*@
 
                         <div class="form-group">
                             <table>
@@ -356,13 +334,15 @@
                         <div class="space-4"></div>
                         <div class="form-group">
                             <div style="float: left;">
-                                <input class="input-medium" type="text" id="txtFuzzyUserInfo" placeholder="用户名/姓名/昵称" />
+                                <input type="hidden" id="hidnPOId" />
+                                <input class="input-medium" type="text" id="txtFuzzyUserInfo" placeholder="用户名/昵称/Email" />
                                 <input class="button" type="button" id="btnSearchUser" value="查找" />
                             </div>
-                            <h3 class="icon-loading" style="float: left;display:none; width: 28px; padding: 0px; line-height: 10px; height: 28px; margin: 0px;">
+                            <h3 class="icon-loading" style="float: left; display: none; width: 28px; padding: 0px; line-height: 10px; height: 28px; margin: 0px;">
                                 <i class="icon-spinner icon-spin orange bigger-125"></i>
                             </h3>
-                            <div class="clear"></div>
+                            <div style="clear: both;"></div>
+                            <div id="errorContainer" style="display: none;"></div>
                         </div>
 
                         <div class="space-4"></div>
@@ -491,6 +471,8 @@
                 var uname = $row.find("td").eq(4).html();
                 var publisher = $row.find("td").eq(5).html();
                 var publishdate = $row.find("td").eq(6).html();
+                var sortOrder = $row.find("td").eq(7).html();
+                var prizeorderId = $row.find("td").eq(8).html();
                 console.log(rt)
                 console.log(rs)
                 console.log(pname)
@@ -498,6 +480,9 @@
                 console.log(uname)
                 console.log(publisher)
                 console.log(publishdate)
+                console.log(sortOrder)
+                console.log(prizeorderId)
+                $("#hidnPOId").val(prizeorderId);
             });
 
             $("#btnSearchUser").click(function () {
@@ -508,7 +493,9 @@
 
         function initUiBeforeSearchUsers() {
             $('#userTbBody>tr').remove();
-            $("#userlist-container").hide();
+            $("#userlist-container").fadeOut();
+            $("#errorContainer").html("");
+            $("#errorContainer").hide();
         }
 
         //处理时间
@@ -524,16 +511,23 @@
             var pager = arguments[1] ? arguments[1] : false;
             $.ajax({
                 type: 'POST',
-                url: '../Account/GetUsers',
+                url: 'GetPagedListOfMemberView',
                 cache: false,
                 data: {
                     pagenumber: pageclickednumber,
-                    pageSize:3,
-                    kword: $("#txtFuzzyUserInfo").val()
+                    pageSize: 3,
+                    kword: $("#txtFuzzyUserInfo").val(),
+                    prizeorderId: $("#hidnPOId").val()
                 },
                 success: function (data) {
                     if (data == null)
                         return;
+                    var errorString = data.ErrorString;
+                    if (errorString != "" && errorString != null) {
+                        $("#errorContainer").html(errorString);
+                        $("#errorContainer").show();
+                        return;
+                    }
                     var pagecount = data.PageCount;
                     if (pager) {
                         GeneratePager(pagecount);
@@ -552,13 +546,14 @@
                         "</tr>"
                         );
                     });
+
+                    $("#userlist-container").fadeIn();
                 },
                 beforeSend: function () {
                     $("h3.icon-loading").show();
                     initUiBeforeSearchUsers();
                 },
                 complete: function () {
-                    $("#userlist-container").show();
                     $("h3.icon-loading").hide();
                 },
                 dataType: "json"

@@ -110,8 +110,6 @@ namespace LotteryDraw.Site.Impl
         /// <param name="orderbyString">排序字符串</param>
         /// <param name="totalCount">返回总记录</param>
         /// <param name="totalPageCount">返回总页数</param>
-        /// <param name="revealtype">开奖类型</param>
-        /// <param name="revealstate">奖单状态</param>
         /// <returns></returns>
         public OperationResult GetUsers(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount)
         {

@@ -21,6 +21,9 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
         [Import]
         protected IPrizeOrderSiteContract PrizeOrderSiteContract { get; set; }
 
+        [Import]
+        protected IWhiteListSiteContract WhiteListSiteContract { get; set; }
+
         public ActionResult Advertisements()
         {
             return View();
@@ -46,7 +49,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             return View(model);
         }
 
-        private PagedList<PrizeOrderDetailView> GetPagedListOfPrizeOrderDetailView(int pageIndex, string keywords = null)
+        public PagedList<PrizeOrderDetailView> GetPagedListOfPrizeOrderDetailView(int pageIndex, string keywords = null)
         {
             PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("SortOrder") };
 
@@ -54,7 +57,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             int totalCount;
             int totalPageCount;
             string whereString = string.Empty;
-            whereString = GetWhereString(keywords);
+            whereString = GetWhereStringOfPrizeOrderDetail(keywords);
 
             IEnumerable<PrizeOrderDetailView> rlist = null;
             OperationResult result = PrizeOrderSiteContract.GetLotteries(this.PageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount, 0, (int)RevealState.UnDrawn);
@@ -81,12 +84,72 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             return null;
         }
 
-        private string GetWhereString(string keywords)
+        private string GetWhereStringOfPrizeOrderDetail(string keywords)
         {
             if (string.IsNullOrEmpty(keywords))
                 return null;
             return string.Format("(PrizeName like '%{0}%' or PrizeDescription like '%{0}%' or UserNickName like '%{0}%' or UserName like '%{0}%')", keywords);
         }
+
+        private string GetWhereStringOfMember(string keywords)
+        {
+            if (string.IsNullOrEmpty(keywords))
+                return null;
+            return string.Format("(UserName like '%{0}%' or Name like '%{0}%' or Email like '%{0}%')", keywords);
+        }
+
+        [HttpPost]
+        public JsonResult GetPagedListOfMemberView()
+        {
+            //取数据
+            int userid = this.UserId ?? 0;
+            int pageIndex = int.Parse(Request["pagenumber"].ToString());
+            int pageSize = string.IsNullOrEmpty(Request["pageSize"].ToString()) ? this.PageSize : int.Parse(Request["pageSize"].ToString());
+            string prizeOrderIdString = Request["prizeorderId"].ToString();
+            if (string.IsNullOrEmpty(Request["prizeorderId"]))
+            {
+                return Json(new { ErrorString = "prizeorder Id 为空" }, JsonRequestBehavior.AllowGet);
+            }
+            Guid prizeOrderId = new Guid(prizeOrderIdString);
+            string keywords = Request["kword"].ToString();
+            Response.ContentType = "text/plain";
+            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("MemberId") };
+
+            string orderbyString = "";
+            int totalCount;
+            int totalPageCount;
+            string whereString = string.Empty;
+            whereString = GetWhereStringOfMember(keywords);
+
+            IEnumerable<MemberView> rlist = null;
+            OperationResult result = WhiteListSiteContract.GetUsers(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount, prizeOrderId);
+            ViewBag.TotalCount = totalCount;
+            ViewBag.PageIndex = pageIndex;
+            ViewBag.PageCount = totalPageCount;
+            if (result.ResultType == OperationResultType.Success)
+            {
+                DataSet ds = (DataSet)result.AppendData;
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    rlist = dt.ToMemberViewList();
+                    if (dt != null)
+                    {
+                        //Response.Write(JsonConvert.SerializeObject(dt, new DataTableConverter()));
+                        string jsonString = JsonConvert.SerializeObject(new { PageCount = totalPageCount, Data = dt });
+                        //Response.Write(jsonString);
+                        return Json(new { PageCount = totalPageCount, Data = rlist, ErrorString = "" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                return Json(new { ErrorString = "没有符合条件的用户" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { ErrorString = result.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         public ActionResult Search(int id = 1, string kword = null)
         {
