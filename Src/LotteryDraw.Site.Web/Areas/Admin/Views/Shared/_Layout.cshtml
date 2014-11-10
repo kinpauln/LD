@@ -504,6 +504,11 @@
             $('.accordion').on('show', function (e) {
                 $(e.target).prev().children(0).removeClass('collapsed');
             })
+
+            // 分页控件添加disabled样式
+            $("div.paging_bootstrap a[disabled='disabled']").each(function () {
+                $(this).parent().addClass("disabled");
+            });
         });
     </script>
     <div style="display: none">

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LotteryDraw.Site.Extentions;
+using Webdiyer.WebControls.Mvc;
 
 namespace LotteryDraw.Site.Web.Controllers
 {
@@ -21,7 +22,7 @@ namespace LotteryDraw.Site.Web.Controllers
         #region 属性
 
         [Import]
-        public IAccountSiteContract AccountContract { get; set; }
+        public IAccountSiteContract AccountSiteContract { get; set; }
 
         #endregion
 
@@ -50,7 +51,7 @@ namespace LotteryDraw.Site.Web.Controllers
             ViewBag.IsPostBack = true;
             try
             {
-                OperationResult result = AccountContract.Login(model);
+                OperationResult result = AccountSiteContract.Login(model);
                 string msg = result.Message ?? result.ResultType.ToDescription();
                 if (result.ResultType == OperationResultType.Success)
                 {
@@ -81,17 +82,16 @@ namespace LotteryDraw.Site.Web.Controllers
             }
             if (User.Identity.IsAuthenticated)
             {
-                AccountContract.Logout();
+                AccountSiteContract.Logout();
             }
             return Redirect(returnUrl);
         }
 
         #endregion
 
-
         //后台数据库分页
         [HttpPost]
-        public JsonResult GetUsers()
+        public JsonResult AjaxGettingUsers()
         {
             //取数据
             int userid = this.UserId ?? 0;
@@ -107,8 +107,48 @@ namespace LotteryDraw.Site.Web.Controllers
             string whereString = string.Empty;
             whereString = GetUserWhereString(keywords);
 
+            OperationResult result = AccountSiteContract.GetUsers(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount);
+            ViewBag.TotalCount = totalCount;
+            ViewBag.PageIndex = pageIndex;
+            ViewBag.PageCount = totalPageCount;
+            IEnumerable<MemberView> rlist = GettingUsersLogic(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount);
+            if (result.ResultType == OperationResultType.Success)
+            {
+                DataSet ds = (DataSet)result.AppendData;
+                if (rlist != null)
+                {
+                    return Json(new { PageCount = totalPageCount, Data = rlist }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return null;
+        }
+
+        //后台数据库分页
+        protected ActionResult UserList(int? id, string keywords)
+        {
+            //取数据
+            int userid = this.UserId ?? 0;
+            int pageIndex = id ?? 1;
+            int pageSize = this.PageSize;
+            Response.ContentType = "text/plain";
+            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("MemberId") };
+
+            string orderbyString = "";
+            int totalCount;
+            int totalPageCount;
+            string whereString = string.Empty;
+            whereString = GetUserWhereString(keywords);
+
+            IEnumerable<MemberView> rlist = GettingUsersLogic(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount);
+
+            PagedList<MemberView> model = new PagedList<MemberView>(rlist, pageIndex, pageSize, totalPageCount);
+            return View(model);
+        }
+
+        private IEnumerable<MemberView> GettingUsersLogic(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount)
+        {
             IEnumerable<MemberView> rlist = null;
-            OperationResult result = AccountContract.GetUsers(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount);
+            OperationResult result = AccountSiteContract.GetUsers(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount);
             ViewBag.TotalCount = totalCount;
             ViewBag.PageIndex = pageIndex;
             ViewBag.PageCount = totalPageCount;
@@ -120,18 +160,10 @@ namespace LotteryDraw.Site.Web.Controllers
                 {
                     DataTable dt = ds.Tables[0];
                     rlist = dt.ToMemberViewList();
-                    if (dt != null)
-                    {
-                        //Response.Write(JsonConvert.SerializeObject(dt, new DataTableConverter()));
-                        string jsonString = JsonConvert.SerializeObject(new { PageCount = totalPageCount, Data = dt });
-                        //Response.Write(jsonString);
-                        return Json(new { PageCount = totalPageCount, Data = rlist }, JsonRequestBehavior.AllowGet);
-                    }
                 }
             }
-            return null;
+            return rlist;
         }
-
 
         private string GetUserWhereString(string keywords)
         {

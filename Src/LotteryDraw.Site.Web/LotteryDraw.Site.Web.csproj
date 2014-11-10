@@ -481,6 +481,7 @@
     <Content Include="Areas\Website\Views\Vip\PrizeBetting.cshtml" />
     <Content Include="Areas\Admin\Views\Business\_AjaxLoading.cshtml" />
     <Content Include="Areas\Admin\Views\Test\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\UserList.cshtml" />
     <None Include="Properties\PublishProfiles\LotteryDraw.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />

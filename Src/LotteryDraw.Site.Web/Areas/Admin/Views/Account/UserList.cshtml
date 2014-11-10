@@ -2,7 +2,7 @@
 @using LotteryDraw.Component.Tools;
 @model PagedList<LotteryDraw.Site.Models.MemberView>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "UserList";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section Breadcrumb{
@@ -43,10 +43,11 @@
                     <div class="col-sm-6">
                         <div class="dataTables_filter" id="sample-table-2_filter">
                             <label>
-                                @using (Html.BeginForm("Search", "Business", new RouteValueDictionary { { "id", "" } }, FormMethod.Get))
+                                @using (Html.BeginForm("UserList", "Account", new RouteValueDictionary { { "id", "" } }, FormMethod.Get))
                                 {
                                 
-                                    <span>搜索关键字:</span><input type="text" name="kword" aria-controls="sample-table-2" style="width:200px;" value="@Request.QueryString["kword"]" placeholder="用户名/昵称/Email" /><input type="submit" value="搜索(S)" accesskey="S" />
+                                    <span>搜索关键字:</span><input type="text" name="kword" aria-controls="sample-table-2" style="width:200px;" value="@ViewBag.Keywords" placeholder="用户名/昵称/Email" />
+                                    <input type="submit" value="搜索(S)" accesskey="S" />
                                 }
                             </label>
                         </div>
@@ -66,15 +67,15 @@
                     <table id="sample-table-2" class="table table-striped table-bordered table-hover dataTable" aria-describedby="sample-table-2_info">
                         <thead>
                             <tr role="row">
-            <th>用户名</th>
-            <th>昵称</th>
-            <th>Email</th>
-            <th>
-                <i class="icon-time bigger-110 hidden-480"></i>
-                注册日期</th>
-            <th>登录次数</th>
-            <th>拥有角色</th>
-            <th></th>
+                                <th>用户名</th>
+                                <th>昵称</th>
+                                <th>Email</th>
+                                <th>
+                                    <i class="icon-time bigger-110 hidden-480"></i>
+                                    注册日期</th>
+                                <th>登录次数</th>
+                                <th>拥有角色</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -88,69 +89,69 @@
                                 classString = "even";
                             }
                                 <tr class="@classString">
-                                    
-                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                <td>@Html.DisplayFor(modelItem => item.AddDate)</td>
-                <td style="text-align: center;">
-                    @Html.DisplayFor(modelItem => item.LoginLogCount)
-                </td>
-                <td>@item.RoleNames.ExpandAndToString(",")</td>
-                <!--buttons-->
-                <td>
-                    <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
-                        <button class="btn btn-xs btn-success">
-                            <i class="icon-ok bigger-120"></i>
-                        </button>
 
-                        <button class="btn btn-xs btn-info">
-                            <i class="icon-edit bigger-120"></i>
-                        </button>
+                                    <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.AddDate)</td>
+                                    <td style="text-align: center;">
+                                        @Html.DisplayFor(modelItem => item.LoginLogCount)
+                                    </td>
+                                    <td>@item.RoleNames.ExpandAndToString(",")</td>
+                                    <!--buttons-->
+                                    <td>
+                                        <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+                                            <button class="btn btn-xs btn-success">
+                                                <i class="icon-ok bigger-120"></i>
+                                            </button>
 
-                        <button class="btn btn-xs btn-danger">
-                            <i class="icon-trash bigger-120"></i>
-                        </button>
+                                            <button class="btn btn-xs btn-info">
+                                                <i class="icon-edit bigger-120"></i>
+                                            </button>
 
-                        <button class="btn btn-xs btn-warning">
-                            <i class="icon-flag bigger-120"></i>
-                        </button>
-                    </div>
+                                            <button class="btn btn-xs btn-danger">
+                                                <i class="icon-trash bigger-120"></i>
+                                            </button>
 
-                    <div class="visible-xs visible-sm hidden-md hidden-lg">
-                        <div class="inline position-relative">
-                            <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon-cog icon-only bigger-110"></i>
-                            </button>
+                                            <button class="btn btn-xs btn-warning">
+                                                <i class="icon-flag bigger-120"></i>
+                                            </button>
+                                        </div>
 
-                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-                                <li>
-                                    <a href="#" class="tooltip-info" data-rel="tooltip" title="" data-original-title="View">
-                                        <span class="blue">
-                                            <i class="icon-zoom-in bigger-120"></i>
-                                        </span>
-                                    </a>
-                                </li>
+                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                            <div class="inline position-relative">
+                                                <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                    <i class="icon-cog icon-only bigger-110"></i>
+                                                </button>
 
-                                <li>
-                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Edit">
-                                        <span class="green">
-                                            <i class="icon-edit bigger-120"></i>
-                                        </span>
-                                    </a>
-                                </li>
+                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+                                                    <li>
+                                                        <a href="#" class="tooltip-info" data-rel="tooltip" title="" data-original-title="View">
+                                                            <span class="blue">
+                                                                <i class="icon-zoom-in bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
 
-                                <li>
-                                    <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
-                                        <span class="red">
-                                            <i class="icon-trash bigger-120"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
+                                                    <li>
+                                                        <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Edit">
+                                                            <span class="green">
+                                                                <i class="icon-edit bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
+                                                            <span class="red">
+                                                                <i class="icon-trash bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             isOdd = !isOdd;
                         }
@@ -176,7 +177,7 @@
            NumericPagerItemCount = 5, //获取或设置每页显示的数字页索引索引分页导航元素的数目
            PagerItemWrapperFormatString = "<li>{0}</li>",
            CurrentPagerItemWrapperFormatString = "<li class=\"active\"><a href=\"#\">{0}</a></li>"
-       }, new {@class="pagination" })
+       }, new { @class = "pagination" })
                                 @*@Ajax.Pager(Model, new PagerOptions
        {
            PageIndexParameterName = "PrizeOrderId",

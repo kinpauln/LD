@@ -62,7 +62,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
             try
             {
-                OperationResult result = AccountContract.Register(model);
+                OperationResult result = AccountSiteContract.Register(model);
                 string msg = result.Message ?? result.ResultType.ToDescription();
                 if (result.ResultType == OperationResultType.Success)
                 {

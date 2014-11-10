@@ -21,6 +21,9 @@ using LotteryDraw.Site.Helper.Logging;
 using LotteryDraw.Site.Impl;
 using LotteryDraw.Site.Models;
 using LotteryDraw.Site.Web.Controllers;
+using Webdiyer.WebControls.Mvc;
+using LotteryDraw.Core;
+using LotteryDraw.Core.Models.Account;
 
 
 namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
@@ -34,11 +37,49 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             base._areaName = "Admin";
         }
 
+        [Import]
+        public IAccountContract AccountContract { get; set; }
+
         #endregion
 
         public override ActionResult InfoPage()
         {
             return View("~/Areas/Admin/Views/Shared/InfoPage.cshtml");
+        }
+
+        //public new ActionResult UserList(int? id, string keywords)
+        //{
+        //    return base.UserList(id,keywords);
+        //}
+
+        public new ActionResult UserList(int? id, string kword)
+        {
+            int pageIndex = id ?? 1;
+            int pageSize = 10;
+            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
+            int total;
+            
+            var query = AccountContract.Members;
+            if (!string.IsNullOrEmpty(kword))
+            {
+                query = query.Where(m => m.UserName.Contains(kword) || m.Name.Contains(kword) || m.Email.Contains(kword));
+            }
+            var memberViews = query.Where<Member, Int64>(m => true, pageIndex, pageSize, out total, sortConditions).Select(m => new MemberView
+            {
+                UserName = m.UserName,
+                Name = m.Name,
+                Email = m.Email,
+                IsDeleted = m.IsDeleted,
+                AddDate = m.AddDate,
+                LoginLogCount = m.LoginLogs.Count,
+                RoleNames = m.Roles.Select(n => n.Name)
+            });
+            ViewBag.Keywords = kword;
+            ViewBag.TotalCount = total;
+            ViewBag.PageIndex = pageIndex;
+            ViewBag.PageCount = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
+            PagedList<MemberView> model = new PagedList<MemberView>(memberViews, pageIndex, pageSize, total);
+            return View(model);
         }
     }
 }
