@@ -614,11 +614,11 @@
                     $("#userlist-container").fadeIn();
                 },
                 beforeSend: function () {
-                    $("h3.icon-loading").show();
+                    showLoading(true);
                     initUiBeforeSearchUsers();
                 },
                 complete: function () {
-                    $("h3.icon-loading").hide();
+                    showLoading(false);
                 },
                 dataType: "json"
             });
