@@ -29,6 +29,15 @@
     <link rel="stylesheet" href="~/Content/admin/assets/css/daterangepicker.css" />
     <link rel="stylesheet" href="~/Content/admin/assets/css/colorpicker.css" />*@
     <link href="~/Content/Pager.css" rel="stylesheet" />
+    <style type="text/css">
+        .tb-pod-detail td {
+            color:#0094ff;
+        }
+        .tb-pod-detail td > label {
+            /*font-weight:bold;*/
+            color:#000;
+        }
+    </style>
 }
 <div class="row">
     <div class="col-xs-12">
@@ -61,7 +70,7 @@
                                 @using (Html.BeginForm("Search", "Business", new RouteValueDictionary { { "id", "" } }, FormMethod.Get))
                                 {
                                 
-                                    <span>搜索关键字:</span><input type="text" name="kword" aria-controls="sample-table-2" value="@Request.QueryString["kword"]" style="width:120px"/><input type="submit" value="搜索(S)" accesskey="S" />
+                                    <span>搜索关键字:</span><input type="text" name="kword" aria-controls="sample-table-2" style="width:300px;" value="@Request.QueryString["kword"]" placeholder="奖品名称/奖品描述/发布者用户名/发布者昵称" style="width:120px"/><input type="submit" value="搜索(S)" accesskey="S" />
                                 }
                             </label>
                         </div>
@@ -87,15 +96,15 @@
                                     <span class="lbl"></span>
                                 </label>
                             </th>*@
-                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Domain: activate to sort column ascending" style="width: 112px;">开奖类型</th>
-                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">开奖状态</th>
                                 <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">奖品名称</th>
                                 <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">奖品描述</th>
                                 <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">用户名</th>
                                 <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">发布者</th>
                                 <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 180px;"><i class="icon-time bigger-110 hidden-480"></i>发布日期</th>
-                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 80px;">排序</th>
-                                <th style="display: none;">PrizeOrderId</th>
+                                <th class="sorting hidden" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Domain: activate to sort column ascending" style="width: 112px;">开奖类型</th>
+                                <th class="sorting hidden" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">开奖状态</th>
+                                <th class="sorting hidden" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 80px;">排序</th>
+                                <th class="hidden">PrizeOrderId</th>
                                 <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 80px;">操作</th>
                                 <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="" style="width: 120px;"></th>
                             </tr>
@@ -118,9 +127,6 @@
                                     </label>
                                 </td>*@
 
-                                    <td class=" ">@item.PrizeOrderView.RevealType.ToDescription()
-                                    </td>
-                                    <td class=" ">@item.PrizeOrderView.RevealState.ToDescription()</td>
                                     <td class=" ">
                                         <div title="@item.PrizeView.Name" style="width:120px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.PrizeView.Name</div>
                                     </td>
@@ -130,15 +136,18 @@
                                     <td class=" ">@item.MemberView.UserName</td>
                                     <td class=" ">@item.MemberView.Name</td>
                                     <td class=" ">@item.PrizeOrderView.AddDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                                    <td class=" ">@item.PrizeOrderView.SortOrder</td>
-                                    <td style="display: none;">@item.PrizeOrderView.Id</td>
+                                    <td class="hidden">@item.PrizeOrderView.RevealType.ToDescription()
+                                    </td>
+                                    <td class="hidden">@item.PrizeOrderView.RevealState.ToDescription()</td>
+                                    <td class="hidden">@item.PrizeOrderView.SortOrder</td>
+                                    <td class="hidden">@item.PrizeOrderView.Id</td>
                                     <td class=" ">
                                         @*<button class="btn bootbox-regular" >干预</button>*@
                                         <a href="#modal-form" data-toggle="modal" class="intervention">干预</a>
                                     </td>
                                     <td class=" ">
                                         <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                            <a class="blue" href="#">
+                                            <a class="blue view-detail" href="#modal-pod-detail" data-toggle="modal">
                                                 <i class="icon-zoom-in bigger-130"></i>
                                             </a>
 
@@ -242,10 +251,81 @@
                     </div>}
                 }
             </div>
+        
         </div>
     </div>
 </div>
 
+<div id="modal-pod-detail" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="blue bigger">奖单·详情</h4>
+            </div>
+
+            <div class="modal-body overflow-visible">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <table class="tb-pod-detail">
+                                <tr>
+                                    <td style="width:100px;">
+                                        <label>开奖类型</label>
+                                    </td>
+                                    <td id="tdRT" style="width:100px;"></td>
+                                    <td>
+                                        <label>开奖状态</label>
+                                    </td>
+                                    <td id="tdRS"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>发布者用户名</label>
+                                    </td>
+                                    <td id="tdPbUserName"></td>
+                                    <td>
+                                        <label>发布者昵称</label>
+                                    </td>
+                                    <td id="tdPbNickName"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>发布者姓名</label>
+                                    </td>
+                                    <td id="tdPbName"></td>
+                                    <td>
+                                        <label>发布日期</label>
+                                    </td>
+                                    <td id="tdPbDate"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>奖品名称</label>
+                                    </td>
+                                    <td colspan="3" id="tdPName"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>奖品描述</label>
+                                    </td>
+                                    <td colspan="3" id="tdPDesc"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-sm" data-dismiss="modal">
+                    <i class="icon-remove"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="modal-form" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -277,60 +357,6 @@
                                 </select>
                             </div>
                         </div>*@
-
-                        <div class="form-group">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <label>开奖类型</label>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <label>开奖状态</label>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label>奖品名称</label>
-                                    </td>
-                                    <td colspan="3"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label>奖品描述</label>
-                                    </td>
-                                    <td colspan="3"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label>发布者用户名</label>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <label>发布者昵称</label>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label>发布者姓名</label>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <label>发布日期</label>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                </tr>
-                            </table>
-                        </div>
-
                         <div class="space-4"></div>
                         <div class="form-group">
                             <div style="float: left;">
@@ -461,30 +487,34 @@
                 initUiBeforeSearchUsers();
                 $("h3.icon-loading").hide();
                 $("#txtFuzzyUserInfo").val("");
-                var $row = $(this).parent().parent();
-                var rt = $row.find("td").eq(0).html();
-                var rs = $row.find("td").eq(1).html();
-                var pnamehtml = $row.find("td").eq(2).html();
-                var pname = $(pnamehtml).html();
-                var pdeshtml = $row.find("td").eq(3).html();
-                var pdes = $(pnamehtml).html();
-                var uname = $row.find("td").eq(4).html();
-                var publisher = $row.find("td").eq(5).html();
-                var publishdate = $row.find("td").eq(6).html();
-                var sortOrder = $row.find("td").eq(7).html();
+                var $row = $(this).parent().parent().parent();
                 var prizeorderId = $row.find("td").eq(8).html();
-                console.log(rt)
-                console.log(rs)
-                console.log(pname)
-                console.log(pdes)
-                console.log(uname)
-                console.log(publisher)
-                console.log(publishdate)
-                console.log(sortOrder)
-                console.log(prizeorderId)
                 $("#hidnPOId").val(prizeorderId);
             });
 
+            $("a[class*='view-detail']").on("click", function (e) {
+                var $row = $(this).parent().parent().parent();
+                var pnamehtml = $row.find("td").eq(0).html();
+                var pname = $(pnamehtml).html();
+                var pdeshtml = $row.find("td").eq(1).html();
+                var pdes = $(pnamehtml).html();
+                var uname = $row.find("td").eq(2).html();
+                var publisher = $row.find("td").eq(3).html();
+                var publishdate = $row.find("td").eq(4).html();
+                var rt = $row.find("td").eq(5).html();
+                var rs = $row.find("td").eq(6).html();
+                var sortOrder = $row.find("td").eq(7).html();
+                var prizeorderId = $row.find("td").eq(8).html();
+                $("#tdRT").html(rt);
+                $("#tdRS").html(rs);
+                $("#tdPName").html(pname);
+                $("#tdPDesc").html(pdes);
+                $("#tdPbUserName").html(uname);
+                $("#tdPbName").html(publisher);
+                $("#tdPbDate").html(publishdate);
+                $("#hidnPOId").val(prizeorderId);
+                e.preventDefault();
+            });
             $("#btnSearchUser").click(function () {
                 //GeneratePager();
                 GetListData(1, true);
