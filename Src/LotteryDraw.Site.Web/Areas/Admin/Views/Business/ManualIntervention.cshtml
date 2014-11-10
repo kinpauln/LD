@@ -96,17 +96,16 @@
                                     <span class="lbl"></span>
                                 </label>
                             </th>*@
-                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">奖品名称</th>
-                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">奖品描述</th>
-                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">用户名</th>
-                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">发布者</th>
-                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 180px;"><i class="icon-time bigger-110 hidden-480"></i>发布日期</th>
+                                <th class="sorting" style="width: 112px;">奖品名称</th>
+                                <th class="sorting" style="width: 112px;">奖品描述</th>
+                                <th class="sorting" style="width: 112px;">用户名</th>
+                                <th class="sorting" style="width: 112px;">发布者</th>
+                                <th class="sorting" style="width: 85px;"><i class="icon-time bigger-110 hidden-480"></i>发布日期</th>
                                 <th class="sorting hidden" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Domain: activate to sort column ascending" style="width: 112px;">开奖类型</th>
-                                <th class="sorting hidden" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 112px;">开奖状态</th>
-                                <th class="sorting hidden" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 80px;">排序</th>
+                                <th class="sorting hidden" style="width: 112px;">开奖状态</th>
+                                <th class="sorting hidden" style="width: 80px;">排序</th>
                                 <th class="hidden">PrizeOrderId</th>
-                                <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 80px;">操作</th>
-                                <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="" style="width: 120px;"></th>
+                                <th class="sorting_disabled" style="width: 155px;"></th>
                             </tr>
                         </thead>
                         <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -142,11 +141,7 @@
                                     <td class="hidden">@item.PrizeOrderView.SortOrder</td>
                                     <td class="hidden">@item.PrizeOrderView.Id</td>
                                     <td class=" ">
-                                        @*<button class="btn bootbox-regular" >干预</button>*@
-                                        <a href="#modal-form" data-toggle="modal" class="intervention">干预</a>
-                                    </td>
-                                    <td class=" ">
-                                        <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                                        <div class="visible-lg action-buttons" style="float:left;width:75px;">
                                             <a class="blue view-detail" href="#modal-pod-detail" data-toggle="modal">
                                                 <i class="icon-zoom-in bigger-130"></i>
                                             </a>
@@ -158,41 +153,10 @@
                                             <a class="red" href="#">
                                                 <i class="icon-trash bigger-130"></i>
                                             </a>
-                                        </div>
-
-                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                            <div class="inline position-relative">
-                                                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
-                                                    <i class="icon-caret-down icon-only bigger-120"></i>
-                                                </button>
-
-                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-                                                    <li>
-                                                        <a href="#" class="tooltip-info" data-rel="tooltip" title="" data-original-title="View">
-                                                            <span class="blue">
-                                                                <i class="icon-zoom-in bigger-120"></i>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Edit">
-                                                            <span class="green">
-                                                                <i class="icon-edit bigger-120"></i>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
-                                                            <span class="red">
-                                                                <i class="icon-trash bigger-120"></i>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                                        </div><span>|</span>
+                                        <a href="#modal-form" data-toggle="modal" class="intervention">人工干预</a>
+                                        <span>|</span>
+                                        <a href="#" data-toggle="modal" class="set2top">置顶</a>
                                     </td>
                                 </tr>
                             isOdd = !isOdd;
