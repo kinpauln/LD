@@ -51,15 +51,10 @@ namespace LotteryDraw.Site.Impl
         /// <returns>业务操作结果</returns>
         public OperationResult Add(WhiteListView pvmodel)
         {
-            PublicHelper.CheckArgument(pvmodel, "pvmodel");
-            WhiteList pmodel = new WhiteList
-            {
-                PrizeOrder = PrizeOrderContract.PrizeOrders.SingleOrDefault(m => m.Id == pvmodel.PrizeOrderId),
-                Member = AccountContract.Members.SingleOrDefault(m => m.Id.Equals(pvmodel.MemberId))
-            };
+            //PublicHelper.CheckArgument(pvmodel, "pvmodel");
             try
             {
-                return WhiteListContract.Add(pmodel);
+                return WhiteListContract.Add(pvmodel.MemberId,pvmodel.PrizeOrderId);
             }
             catch (Exception ex)
             {

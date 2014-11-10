@@ -150,7 +150,31 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult AddToWhiteList()
+        {
+            int memberid = int.Parse(Request["memberid"].ToString());
 
+            string prizeOrderIdString = Request["prizeorderId"].ToString();
+            if (string.IsNullOrEmpty(Request["prizeorderId"]))
+            {
+                return Json(new { ErrorString = "prizeorder Id 为空" }, JsonRequestBehavior.AllowGet);
+            }
+            Guid prizeOrderId = new Guid(prizeOrderIdString);
+
+            OperationResult result = WhiteListSiteContract.Add(
+                new WhiteListView(){ PrizeOrderId = prizeOrderId,MemberId =memberid});
+
+            if (result.ResultType == OperationResultType.Success)
+            {
+                return Json(new { ErrorString = "" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { ErrorString = result.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        
         public ActionResult Search(int id = 1, string kword = null)
         {
             int pageIndex = id;

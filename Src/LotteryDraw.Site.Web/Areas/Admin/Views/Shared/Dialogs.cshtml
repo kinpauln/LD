@@ -1,5 +1,5 @@
-﻿<link rel="stylesheet" href="/content/admin/assets/css/jquery-ui-1.10.3.full.min.css" />
-<script src="/content/admin/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+﻿@*<link rel="stylesheet" href="/content/admin/assets/css/jquery-ui-1.10.3.full.min.css" />
+<script src="/content/admin/assets/js/jquery-ui-1.10.3.full.min.js"></script>*@
 <div id="dialog-message" class="hide">
     <p id="infoMsg">
         This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.
@@ -17,24 +17,101 @@
         Are you sure?
     </p>
 </div>
+
+<button id="bootbox-confirm" style="display: none;">Ace Confirm</button>
 <!-- #dialog-message -->
 <script>
-    function AceAlert(message) {
-        //$("#dialog-message>p:first").html(message);
+    $(function () {
+        //override dialog's title function to allow for HTML titles
+        $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
+            _title: function (title) {
+                var $title = this.options.title || '&nbsp;'
+                if (("title_html" in this.options) && this.options.title_html == true)
+                    title.html($title);
+                else title.text($title);
+            }
+        }));
+        $("#bootbox-confirm").on(ace.click_event, function () {
+            bootbox.confirm("确定?", function (result) {
+                if (result) {
+                    //
+                    console.debug(result);
+                }
+            });
+        });
+        $("#bootbox-regular").on(ace.click_event, function () {
+            bootbox.prompt("What is your name?", function (result) {
+                if (result === null) {
+                    //Example.show("Prompt dismissed");
+                } else {
+                    //Example.show("Hi <b>"+result+"</b>");
+                }
+            });
+        });
+
+        $("#bootbox-confirm").on(ace.click_event, function () {
+            bootbox.confirm("Are you sure?", function (result) {
+                if (result) {
+                    //
+                }
+            });
+        });
+
+        $("#bootbox-options").on(ace.click_event, function () {
+            bootbox.dialog({
+                message: "<span class='bigger-110'>I am a custom dialog with smaller buttons</span>",
+                buttons:
+                {
+                    "success":
+                     {
+                         "label": "<i class='icon-ok'></i> Success!",
+                         "className": "btn-sm btn-success",
+                         "callback": function () {
+                             //Example.show("great success");
+                         }
+                     },
+                    "danger":
+                    {
+                        "label": "Danger!",
+                        "className": "btn-sm btn-danger",
+                        "callback": function () {
+                            //Example.show("uh oh, look out!");
+                        }
+                    },
+                    "click":
+                    {
+                        "label": "Click ME!",
+                        "className": "btn-sm btn-primary",
+                        "callback": function () {
+                            //Example.show("Primary button");
+                        }
+                    },
+                    "button":
+                    {
+                        "label": "Just a button...",
+                        "className": "btn-sm"
+                    }
+                }
+            });
+        });
+
+    });
+    function JqUIAlert(message) {
+        $("#dialog-message>p:first").html(message);
         var dialog = $("#dialog-message").removeClass('hide').dialog({
             modal: true,
-            title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='icon-ok'></i> jQuery UI Dialog</h4></div>",
+            title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='icon-ok'></i> 消息</h4></div>",
             title_html: true,
             buttons: [
                 {
-                    text: "Cancel",
+                    text: "取消",
                     "class": "btn btn-xs",
                     click: function () {
                         $(this).dialog("close");
                     }
                 },
                 {
-                    text: "OK",
+                    text: "确定",
                     "class": "btn btn-primary btn-xs",
                     click: function () {
                         $(this).dialog("close");
@@ -43,16 +120,16 @@
             ]
         });
     }
-    function AceConfirm(message) {
+    function JqUIConfirm(message) {
         $("#dialog-confirm>div:first").html(message);
         $("#dialog-confirm").removeClass('hide').dialog({
             resizable: false,
             modal: true,
-            title: "<div class='widget-header'><h4 class='smaller'><i class='icon-warning-sign red'></i> Empty the recycle bin?</h4></div>",
+            title: "<div class='widget-header'><h4 class='smaller'><i class='icon-warning-sign red'></i> 确认?</h4></div>",
             title_html: true,
             buttons: [
                 {
-                    html: "<i class='icon-trash bigger-110'></i>&nbsp; Delete all items",
+                    html: "<i class='icon-trash bigger-110'></i>&nbsp; 确定",
                     "class": "btn btn-danger btn-xs",
                     click: function () {
                         $(this).dialog("close");
@@ -60,13 +137,70 @@
                 }
                 ,
                 {
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel",
+                    html: "<i class='icon-remove bigger-110'></i>&nbsp; 取消",
                     "class": "btn btn-xs",
                     click: function () {
                         $(this).dialog("close");
                     }
                 }
             ]
+        });
+    }
+    function BootboxConfirm(message, successCallback, cancelCallback) {
+        bootbox.confirm(message, function (result) {
+            //
+            if (result) {
+                successCallback();
+            } else {
+                cancelCallback();
+            }
+        });
+    }
+    function BootboxRegular(title, successCallback, cancelCallback) {
+        bootbox.prompt(title, function (result) {
+            if (result === null) {
+                cancelCallback();
+            } else {
+                successCallback();
+            }
+        });
+    }
+
+    function BootboxOptions(message, successCallback, dangerCallback, clickCallback) {
+        bootbox.dialog({
+            message: "<span class='bigger-110'>" + message + "</span>",
+            buttons:
+            {
+                "success":
+                 {
+                     "label": "<i class='icon-ok'></i> Success!",
+                     "className": "btn-sm btn-success",
+                     "callback": function () {
+                         successCallback();
+                     }
+                 },
+                "danger":
+                {
+                    "label": "Danger!",
+                    "className": "btn-sm btn-danger",
+                    "callback": function () {
+                        dangerCallback();
+                    }
+                },
+                "click":
+                {
+                    "label": "Click ME!",
+                    "className": "btn-sm btn-primary",
+                    "callback": function () {
+                        clickCallback();
+                    }
+                },
+                "button":
+                {
+                    "label": "Just a button...",
+                    "className": "btn-sm"
+                }
+            }
         });
     }
 </script>

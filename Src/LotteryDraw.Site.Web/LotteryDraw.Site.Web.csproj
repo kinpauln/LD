@@ -296,6 +296,7 @@
     <Content Include="Content\admin\assets\js\jquery.knob.min.js" />
     <Content Include="Content\admin\assets\js\jquery.maskedinput.min.js" />
     <Content Include="Content\Pager.css" />
+    <Content Include="Content\ui.css" />
     <Content Include="Content\website\css\csshover.htc" />
     <Content Include="Content\website\css\prize.css" />
     <Content Include="Content\website\js\My97DatePicker\calendar.js" />
@@ -312,6 +313,26 @@
     <Content Include="Content\website\js\My97DatePicker\skin\whyGreen\datepicker.css" />
     <Content Include="Content\website\js\My97DatePicker\skin\whyGreen\img.gif" />
     <Content Include="Content\website\js\My97DatePicker\WdatePicker.js" />
+    <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\bg.gif" />
+    <Content Include="Images\confirm.gif" />
+    <Content Include="Images\error.gif" />
+    <Content Include="Images\info.gif" />
+    <Content Include="Images\s.gif" />
+    <Content Include="Images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Images\ui-icons_222222_256x240.png" />
+    <Content Include="Images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Images\ui-icons_ffffff_256x240.png" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Content\admin\assets\js\jquery.mobile.custom.min.js" />
     <Content Include="Content\admin\assets\js\jquery.nestable.min.js" />
@@ -478,6 +499,7 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\ui.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

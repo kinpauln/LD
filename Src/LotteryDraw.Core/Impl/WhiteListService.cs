@@ -64,16 +64,49 @@ namespace LotteryDraw.Core.Impl
         /// </summary>
         /// <param name="prizebetting">奖品信息</param>
         /// <returns>业务操作结果</returns>
-        public OperationResult Add(WhiteList wl)
+        public OperationResult Add(int memberid, Guid poid)
         {
-            int rcount = WhiteListRepository.Insert(wl);
-            if (rcount > 0)
+            try
             {
-                return new OperationResult(OperationResultType.Success, "添加白名单成功。", wl);
+                List<SqlParameter> paramList = new List<SqlParameter>();
+
+                //用户ID
+                SqlParameter paramMemberId = new SqlParameter("@MemberId", SqlDbType.Int);
+                paramMemberId.Value = memberid;
+                paramList.Add(paramMemberId);
+                //PrizeOrder Id
+                SqlParameter paramPI = new SqlParameter("@PrizeOrderId", SqlDbType.VarChar, 100);
+                paramPI.Value = poid.ToString();
+                paramList.Add(paramPI);
+
+                SqlParameter paramerrorcode = new SqlParameter("@ErrorCode", SqlDbType.VarChar, 10);
+                paramerrorcode.Direction = ParameterDirection.Output;
+                paramList.Add(paramerrorcode);
+
+                SqlCommand command = new SqlCommand();
+                DataSet ds = WhiteListRepository.ExecProcdureReturnDataSet("sp_addToWhiteList", out command, paramList.ToArray());
+
+                string errorCode = command.Parameters["@ErrorCode"].Value.ToString();
+                if (string.IsNullOrEmpty(errorCode))
+                {
+                    return new OperationResult(OperationResultType.Success, "添加白名单成功。", null);
+                }
+                else
+                {
+                    switch (errorCode)
+                    {
+                        case "Error_01":
+                            return new OperationResult(OperationResultType.Warning, "白名单数目不能超过中奖人数。", null);
+                        case "Error_02":
+                            return new OperationResult(OperationResultType.Warning, "该用户已在白名单中，不能重复添加。", null);
+                        default:
+                            return new OperationResult(OperationResultType.Warning, "出错了。", null);
+                    }
+                }
             }
-            else
+            catch (System.Exception ex)
             {
-                return new OperationResult(OperationResultType.Warning, "添加白名单失败。");
+                return new OperationResult(OperationResultType.Error, ex.Message);
             }
         }
 
@@ -94,7 +127,7 @@ namespace LotteryDraw.Core.Impl
                 return new OperationResult(OperationResultType.Warning, "删除白名单失败。");
             }
         }
-        
+
         /// <summary>
         ///  取待添加至白名单的用户
         /// </summary>
@@ -106,7 +139,7 @@ namespace LotteryDraw.Core.Impl
         /// <param name="totalPageCount">返回总页数</param>
         /// <param name="revealstate">奖单ID</param>
         /// <returns></returns>
-        public OperationResult GetUsers(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, Guid poid) 
+        public OperationResult GetUsers(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, Guid poid)
         {
             totalCount = 0;
             totalPageCount = 0;
@@ -141,7 +174,7 @@ namespace LotteryDraw.Core.Impl
                 SqlParameter paramtpc = new SqlParameter("@TotalPageCount", SqlDbType.Int);
                 paramtpc.Direction = ParameterDirection.Output;
                 paramList.Add(paramtpc);
-                SqlParameter paramerrorcode = new SqlParameter("@ErrorCode", SqlDbType.VarChar,10);
+                SqlParameter paramerrorcode = new SqlParameter("@ErrorCode", SqlDbType.VarChar, 10);
                 paramerrorcode.Direction = ParameterDirection.Output;
                 paramList.Add(paramerrorcode);
 
@@ -155,8 +188,10 @@ namespace LotteryDraw.Core.Impl
                     totalPageCount = Convert.ToInt32(command.Parameters["@TotalPageCount"].Value);
                     return new OperationResult(OperationResultType.Success, "模糊查询用户操作顺利。", ds);
                 }
-                else {
-                    switch (errorCode) {
+                else
+                {
+                    switch (errorCode)
+                    {
                         case "Error_01":
                             return new OperationResult(OperationResultType.Warning, "白名单数目不能超过中奖人数。", null);
                         default:

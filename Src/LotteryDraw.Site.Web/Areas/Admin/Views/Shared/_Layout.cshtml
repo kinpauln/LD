@@ -18,8 +18,7 @@
 
     <!-- page specific plugin styles -->
 
-    <link rel="stylesheet" href="/content/admin/assets/css/jquery-ui-1.10.3.custom.min.css" />
-    @RenderSection("styles", required: false)
+    <link rel="stylesheet" href="/content/admin/assets/css/jquery-ui-1.10.3.full.min.css" />
 
     <!-- fonts -->
 
@@ -32,6 +31,7 @@
     <link rel="stylesheet" href="/content/admin/assets/css/ace-rtl.min.css" />
     <link rel="stylesheet" href="/content/admin/assets/css/ace-skins.min.css" />
 
+    @RenderSection("styles", required: false)
     <!--[if lte IE 8]>
 		  <link rel="stylesheet" href="/content/admin/assets/css/ace-ie.min.css" />
 		<![endif]-->
@@ -86,6 +86,7 @@
     <!-- page specific plugin scripts -->
 
     <script src="/content/admin/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/content/admin/assets/js/jquery-ui-1.10.3.full.min.js"></script>
     <script src="/content/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
     <script src="/content/admin/assets/js/jquery.slimscroll.min.js"></script>
 
@@ -93,6 +94,8 @@
 
     <script src="/content/admin/assets/js/ace-elements.min.js"></script>
     <script src="/content/admin/assets/js/ace.min.js"></script>
+    <!-- custom scripts -->
+    <script src="~/Scripts/ui.js"></script>
 </head>
 <body>
     <div class="navbar navbar-default" id="navbar">
@@ -508,5 +511,15 @@
     </div>
     @*@Scripts.Render("~/bundles/jquery")*@
     @RenderSection("scripts", required: false)
+    @*<input type="button" class="add-to-white-list" value="加入白名单" />*@
+    @Html.Partial("Dialogs")
+    <link href="~/Content/ui.css" rel="stylesheet" />
+        
+    @*<div id="loadingOverlay" class="ui-widget-overlay hidden"></div>
+    <div id="loadingShadow" class="ui-widget-shadow ui-corner-all "></div>
+    <div id="loading" class="ui-state-highlight ui-corner-all"><span class="icon"></span>正在处理，请稍候……</div>*@
+    <div id="loading">
+        <span>请稍候……</span>
+    </div>
 </body>
 </html>

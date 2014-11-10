@@ -42,7 +42,7 @@ namespace LotteryDraw.Core
         /// </summary>
         /// <param name="prizebetting">奖品信息</param>
         /// <returns>业务操作结果</returns>
-        OperationResult Add(WhiteList wl);
+        OperationResult Add(int memberid, Guid poid);
 
         /// <summary>
         ///     删除白名单
