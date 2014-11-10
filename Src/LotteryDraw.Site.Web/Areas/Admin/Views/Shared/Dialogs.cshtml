@@ -103,15 +103,15 @@
             title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='icon-ok'></i> 消息</h4></div>",
             title_html: true,
             buttons: [
+                //{
+                //    text: "取消",
+                //    "class": "btn btn-xs",
+                //    click: function () {
+                //        $(this).dialog("close");
+                //    }
+                //},
                 {
-                    text: "取消",
-                    "class": "btn btn-xs",
-                    click: function () {
-                        $(this).dialog("close");
-                    }
-                },
-                {
-                    text: "确定",
+                    text: "关闭",
                     "class": "btn btn-primary btn-xs",
                     click: function () {
                         $(this).dialog("close");
@@ -120,12 +120,13 @@
             ]
         });
     }
-    function JqUIConfirm(message) {
+    function JqUIConfirm(message,okCallback,cancelCallback) {
         $("#dialog-confirm>div:first").html(message);
+        $("p.bigger-110").remove();
         $("#dialog-confirm").removeClass('hide').dialog({
             resizable: false,
             modal: true,
-            title: "<div class='widget-header'><h4 class='smaller'><i class='icon-warning-sign red'></i> 确认?</h4></div>",
+            title: "<div class='widget-header'><h4 class='smaller'><i class='icon-warning-sign red'></i> 确定?</h4></div>",
             title_html: true,
             buttons: [
                 {
@@ -133,6 +134,9 @@
                     "class": "btn btn-danger btn-xs",
                     click: function () {
                         $(this).dialog("close");
+                        if (okCallback != null) {
+                            okCallback();
+                        }
                     }
                 }
                 ,
@@ -141,6 +145,9 @@
                     "class": "btn btn-xs",
                     click: function () {
                         $(this).dialog("close");
+                        if (cancelCallback != null) {
+                            cancelCallback();
+                        }
                     }
                 }
             ]

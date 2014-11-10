@@ -31,12 +31,13 @@
     <link href="~/Content/Pager.css" rel="stylesheet" />
     <style type="text/css">
         .tb-pod-detail td {
-            color:#0094ff;
+            color: #0094ff;
         }
-        .tb-pod-detail td > label {
-            /*font-weight:bold;*/
-            color:#000;
-        }
+
+            .tb-pod-detail td > label {
+                /*font-weight:bold;*/
+                color: #000;
+            }
     </style>
 }
 <div class="row">
@@ -141,7 +142,7 @@
                                     <td class="hidden">@item.PrizeOrderView.SortOrder</td>
                                     <td class="hidden">@item.PrizeOrderView.Id</td>
                                     <td class=" ">
-                                        <div class="visible-lg action-buttons" style="float:left;width:75px;">
+                                        <div class="visible-lg action-buttons" style="float: left; width: 75px;">
                                             <a class="blue view-detail" href="#modal-pod-detail" data-toggle="modal">
                                                 <i class="icon-zoom-in bigger-130"></i>
                                             </a>
@@ -153,10 +154,11 @@
                                             <a class="red" href="#">
                                                 <i class="icon-trash bigger-130"></i>
                                             </a>
-                                        </div><span>|</span>
+                                        </div>
+                                        <span>|</span>
                                         <a href="#modal-form" data-toggle="modal" class="intervention">人工干预</a>
                                         <span>|</span>
-                                        <a href="#" data-toggle="modal" class="set2top">置顶</a>
+                                        <a href="#" data-toggle="modal" class="set2top" poid="@item.PrizeOrderView.Id">置顶</a>
                                     </td>
                                 </tr>
                             isOdd = !isOdd;
@@ -215,7 +217,7 @@
                     </div>}
                 }
             </div>
-        
+
         </div>
     </div>
 </div>
@@ -234,10 +236,10 @@
                         <div class="form-group">
                             <table class="tb-pod-detail">
                                 <tr>
-                                    <td style="width:100px;">
+                                    <td style="width: 100px;">
                                         <label>开奖类型</label>
                                     </td>
-                                    <td id="tdRT" style="width:100px;"></td>
+                                    <td id="tdRT" style="width: 100px;"></td>
                                     <td>
                                         <label>开奖状态</label>
                                     </td>
@@ -485,6 +487,17 @@
                 //JqUIConfirm("asdf");
             });
 
+            $("a[class*='set2top']").on("click", function (e) {
+                var $aobj = $(this);
+                JqUIConfirm("置顶该奖单？", function () {
+                    //确定
+                    var poid = $aobj.attr("poid");
+                    Set2Top(poid);
+                }, function () {
+                    //取消
+                });
+                e.preventDefault();
+            });
 
             $(".add-to-white-list").on({
                 click: function () {
@@ -492,6 +505,32 @@
                 }
             });
         });
+
+        function Set2Top(poid) {
+            $.ajax({
+                type: 'POST',
+                url: 'Set2Top',
+                cache: false,
+                data: {
+                    prizeorderIdString: poid
+                },
+                success: function (data) {
+                    var errorString = data.ErrorString;
+                    if (errorString != "" && errorString != null) {
+                        JqUIAlert(errorString);
+                        return;
+                    }
+                    JqUIAlert("置顶成功");
+                },
+                beforeSend: function () {
+                    showLoading(true);
+                },
+                complete: function () {
+                    showLoading(false);
+                }
+                , dataType: "json"
+            });
+        }
 
         function AddToWHList(memberid) {
             //JqUIConfirm("确定加入白名单？");
@@ -541,7 +580,7 @@
                 complete: function () {
                     showLoading(false);
                 }
-                ,dataType: "json"
+                , dataType: "json"
             });
         }
 
@@ -590,8 +629,7 @@
                         GeneratePager(pagecount);
                     }
                     data = eval(data.Data);
-                    if (data == null)
-                    {
+                    if (data == null) {
                         $("#errorContainer").html("没有检索到匹配的用户");
                         $("#errorContainer").show();
                         return;

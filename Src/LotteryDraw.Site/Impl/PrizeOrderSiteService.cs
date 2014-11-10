@@ -188,5 +188,15 @@ namespace LotteryDraw.Site.Impl
             OperationResult result = PrizeOrderContract.GetLotteries(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount, revealtype, revealstate);
             return result;
         }
+
+        /// <summary>
+        ///  置顶
+        /// </summary>
+        /// <param name="poid">奖单ID</param>
+        public OperationResult Set2Top(Guid poid)
+        {
+            OperationResult result = PrizeOrderContract.Set2Top(poid);
+            return result;
+        }        
     }
 }

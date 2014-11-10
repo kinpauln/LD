@@ -18,6 +18,7 @@ using LotteryDraw.Core.Models.Account;
 using LotteryDraw.Core.Models.Security;
 using LotteryDraw.Core.Models.Business;
 using System.Collections.Generic;
+using System;
 
 
 namespace LotteryDraw.Core
@@ -93,7 +94,13 @@ namespace LotteryDraw.Core
         /// <param name="revealstate">½±µ¥×´Ì¬</param>
         /// <returns></returns>
         OperationResult GetLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0, int revealstate = 0);
-        
+
+        /// <summary>
+        ///  ÖÃ¶¥
+        /// </summary>
+        /// <param name="poid">½±µ¥ID</param>
+        OperationResult Set2Top(Guid poid);
+
         #endregion
     }
 }

@@ -39,6 +39,30 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
         }
 
         /// <summary>
+        ///  置頂
+        /// </summary>
+        [HttpPost]
+        public JsonResult Set2Top(string prizeorderIdString)
+        {
+            if (string.IsNullOrEmpty(prizeorderIdString))
+            {
+                return Json(new { ErrorString = "prizeorder Id 为空" }, JsonRequestBehavior.AllowGet);
+            }
+            Guid prizeOrderId = new Guid(prizeorderIdString);
+
+            OperationResult result = PrizeOrderSiteContract.Set2Top(prizeOrderId);
+
+            if (result.ResultType == OperationResultType.Success)
+            {
+                return Json(new { ErrorString = "" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { ErrorString = result.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        /// <summary>
         ///  人工干預
         /// </summary>
         public ActionResult ManualIntervention(int? id)

@@ -245,5 +245,50 @@ namespace LotteryDraw.Core.Impl
                 return new OperationResult(OperationResultType.Error, ex.Message);
             }
         }
+
+        /// <summary>
+        ///  ÖÃ¶¥
+        /// </summary>
+        /// <param name="poid">½±µ¥ID</param>
+        public OperationResult Set2Top(Guid poid)
+        {
+            try
+            {
+                List<SqlParameter> paramList = new List<SqlParameter>();
+                //ÅÅÐò×Ö·û´®
+                SqlParameter paramPoId = new SqlParameter("@PrizeOrderId", SqlDbType.VarChar, 100);
+                paramPoId.Value = poid.ToString();
+                paramList.Add(paramPoId);
+
+                SqlParameter paramec = new SqlParameter("@ErrorCode", SqlDbType.VarChar,10);
+                paramec.Direction = ParameterDirection.Output;
+                paramList.Add(paramec);
+
+                SqlCommand command = new SqlCommand();
+                DataSet ds = PrizeOrderRepository.ExecProcdureReturnDataSet("sp_set2Top", out command, paramList.ToArray());
+
+                string errorCode = command.Parameters["@ErrorCode"].Value.ToString();
+                if (string.IsNullOrEmpty(errorCode))
+                {
+                    return new OperationResult(OperationResultType.Success, "½±µ¥ÖÃ¶¥³É¹¦¡£", null);
+                }
+                else
+                {
+                    switch (errorCode)
+                    {
+                        case "Error_01":
+                            return new OperationResult(OperationResultType.Warning, "sdf", null);
+                        case "Error_02":
+                            return new OperationResult(OperationResultType.Warning, "sfd", null);
+                        default:
+                            return new OperationResult(OperationResultType.Warning, "³ö´íÁË¡£", null);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }    
     }
 }

@@ -66,6 +66,11 @@ namespace LotteryDraw.Site
         /// <param name="revealstate">奖单状态</param>
         /// <returns></returns>
         OperationResult GetLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0, int revealstate = 0);
-        
+                
+        /// <summary>
+        ///  置顶
+        /// </summary>
+        /// <param name="poid">奖单ID</param>
+        OperationResult Set2Top(Guid poid);
     }
 }
