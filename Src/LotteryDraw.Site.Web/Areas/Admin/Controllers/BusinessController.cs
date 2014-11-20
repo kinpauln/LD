@@ -67,7 +67,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
         /// </summary>
         public ActionResult ManualIntervention(int? id)
         {
-            int userid = this.UserId ?? 0;
+            long userid = this.UserId ?? 0;
             int pageIndex = id ?? 1;
             PagedList<PrizeOrderDetailView> model = GetPagedListOfPrizeOrderDetailView(pageIndex);
             return View(model);
@@ -126,7 +126,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
         public JsonResult GetPagedListOfMemberView()
         {
             //取数据
-            int userid = this.UserId ?? 0;
+            long userid = this.UserId ?? 0;
             int pageIndex = int.Parse(Request["pagenumber"].ToString());
             int pageSize = string.IsNullOrEmpty(Request["pageSize"].ToString()) ? this.PageSize : int.Parse(Request["pageSize"].ToString());
             string prizeOrderIdString = Request["prizeorderId"].ToString();

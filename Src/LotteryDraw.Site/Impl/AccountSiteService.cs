@@ -58,8 +58,10 @@ namespace LotteryDraw.Site.Impl
                 DateTime expiration = model.IsRememberLogin
                     ? DateTime.Now.AddDays(7)
                     : DateTime.Now.Add(FormsAuthentication.Timeout);
+                string useridString = member.Id.ToString();
+                string roleIdString = member.Roles == null ? string.Empty : string.Join(",", member.Roles.Select(r => r.RoleTypeNum.ToString()));
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, member.UserName, DateTime.Now, expiration,
-                    true, member.Id.ToString(), FormsAuthentication.FormsCookiePath);
+                    true, string.Join("|", new string[] { useridString, roleIdString }), FormsAuthentication.FormsCookiePath);
                 HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
                 if (model.IsRememberLogin)
                 {
@@ -121,7 +123,7 @@ namespace LotteryDraw.Site.Impl
         ///  免审核
         /// </summary>
         /// <param name="memberid">用户Id</param>
-        public OperationResult NoAudit(long memberid) 
+        public OperationResult NoAudit(long memberid)
         {
             try
             {

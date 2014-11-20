@@ -72,6 +72,13 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
                 return;
             }
 
+            // 非管理员不能登录后台
+            if (this.UserRoles == null || !this.UserRoles.Contains((int)LotteryDraw.Core.Models.Security.RoleType.Admin))
+            {
+                filterContext.Result = RedirectToAction("Index", "Home", new { Area = "Website" });
+                return;
+            }
+
             //bool hasPermission = true;
             //var permissionAttributes = filterContext.ActionDescriptor.ControllerDescriptor.GetCustomAttributes(typeof(PermissionAttribute), false).Cast<PermissionAttribute>();
             //permissionAttributes = filterContext.ActionDescriptor.GetCustomAttributes(typeof(PermissionAttribute), false).Cast<PermissionAttribute>().Union(permissionAttributes);

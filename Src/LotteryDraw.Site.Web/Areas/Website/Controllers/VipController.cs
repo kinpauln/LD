@@ -55,7 +55,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
             else {
                 PrizeBettingView model = new PrizeBettingView() { PrizeOrderId = poId };
-                int userid = this.UserId ?? 0;
+                long userid = this.UserId ?? 0;
                 model.UserId = userid;
                 OperationResult result = AccountContract.GetMember(userid);
                 if (result.ResultType == OperationResultType.Success) {
@@ -176,7 +176,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// </summary>
         public ActionResult PrizeOrderList(Guid? pid, int? id)
         {
-            int userid = this.UserId ?? 0;
+            long userid = this.UserId ?? 0;
             int pageIndex = id ?? 1;
             int total;
             PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
@@ -229,7 +229,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
         public ActionResult MyBettingList(int? id)
         { 
-            int userid = this.UserId ?? 0;
+            long userid = this.UserId ?? 0;
             int pageIndex = id ?? 1;
             int total;
             PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
@@ -339,7 +339,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// </summary>
         public ActionResult ManagePrizes(int? id)
         {
-            int userid = this.UserId ?? 0;
+            long userid = this.UserId ?? 0;
 
             int pageIndex = id ?? 1;
             int total;

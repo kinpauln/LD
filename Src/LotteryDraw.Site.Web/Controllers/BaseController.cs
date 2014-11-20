@@ -18,15 +18,52 @@ namespace LotteryDraw.Site.Web.Controllers
             get { return 10; }
         }
 
-        public int? UserId {
+        public long? UserId {
             get
             {
                 var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
                 var ticket = FormsAuthentication.Decrypt(cookie.Value);
-                string uid = ticket.UserData;
-                if (string.IsNullOrEmpty(uid))
+                string dataString = ticket.UserData;
+                if (string.IsNullOrEmpty(dataString))
                     return null;
-                return Int32.Parse(uid);
+
+                string uidString = dataString.Split('|')[0];
+                long userid = 0;
+                bool result = Int64.TryParse(uidString, out userid);
+                if (result)
+                {
+                    return userid;
+                }
+                return null;
+            }
+        }
+
+        public int[] UserRoles
+        {
+            get
+            {
+                var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                string dataString = ticket.UserData;
+                if (string.IsNullOrEmpty(dataString))
+                    return null;
+                string[] stringArray =  dataString.Split('|');
+                if(stringArray!=null && stringArray.Length>1){
+                    string roleString = stringArray[1];
+                    try
+                    {
+                        return roleString.Split(',').Select(rid => { 
+                            int currRid = 0;
+                            bool result = int.TryParse(rid, out currRid);
+                            return currRid; 
+                        }).ToArray();
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+                }
+                return null;
             }
         }
 

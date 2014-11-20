@@ -94,7 +94,7 @@ namespace LotteryDraw.Site.Web.Controllers
         public JsonResult AjaxGettingUsers()
         {
             //取数据
-            int userid = this.UserId ?? 0;
+            long userid = this.UserId ?? 0;
             int pageIndex = int.Parse(Request["pagenumber"].ToString());
             int pageSize = string.IsNullOrEmpty(Request["pageSize"].ToString()) ? this.PageSize : int.Parse(Request["pageSize"].ToString());
             string keywords = Request["kword"].ToString();
@@ -127,7 +127,7 @@ namespace LotteryDraw.Site.Web.Controllers
         protected ActionResult UserList(int? id, string keywords)
         {
             //取数据
-            int userid = this.UserId ?? 0;
+            long userid = this.UserId ?? 0;
             int pageIndex = id ?? 1;
             int pageSize = this.PageSize;
             Response.ContentType = "text/plain";

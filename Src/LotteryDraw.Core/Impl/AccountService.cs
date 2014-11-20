@@ -140,7 +140,7 @@ namespace LotteryDraw.Core.Impl
             }
         }
 
-        public OperationResult GetMember(int userid)
+        public OperationResult GetMember(long userid)
         {
             Member member = MemberRepository.Entities.SingleOrDefault(m => m.Id == userid);
             if (member == null)

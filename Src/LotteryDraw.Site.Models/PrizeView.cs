@@ -32,7 +32,7 @@ namespace LotteryDraw.Site.Models
         [Display(Name = "描述")]
         public string Description { get; set; }
 
-        public int MemberId { get; set; }
+        public long MemberId { get; set; }
 
         public DateTime? UpdateDate { get; set; }
     }
