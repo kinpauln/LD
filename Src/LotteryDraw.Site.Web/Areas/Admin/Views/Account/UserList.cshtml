@@ -16,11 +16,11 @@
                                 </small>
     </h1>
 }
+@section styles{
+    <link href="~/Content/Modal-UI.css" rel="stylesheet" />
+}
 <div class="row">
     <div class="col-xs-12">
-        <div id="loadingDiv" style="display: none;">
-            <img src="~/Content/admin/assets/css/images/loading.gif" /><h3>正在加载数据，请稍候...</h3>
-        </div>
         <div class="table-header">
             用户信息列表
         </div>
@@ -75,7 +75,10 @@
                                     注册日期</th>
                                 <th>登录次数</th>
                                 <th>拥有角色</th>
-                                <th style="width:130px;"></th>
+                                <th class="hidden"></th>
+                                <th></th>
+                                <th></th>
+                                <th style="width: 130px;"></th>
                             </tr>
                         </thead>
                         <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -98,24 +101,24 @@
                                         @Html.DisplayFor(modelItem => item.LoginLogCount)
                                     </td>
                                     <td>@item.RoleNames.ExpandAndToString(",")</td>
+                                    <td class="hidden">@item.Id</td>
+                                    <td></td>
+                                    <td></td>
                                     <!--buttons-->
                                     <td>
                                         <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
-                                            <button class="btn btn-xs btn-success">
+                                            <a class="btn btn-xs btn-success" href="#">
                                                 <i class="icon-ok bigger-120"></i>
-                                            </button>
-
-                                            <button class="btn btn-xs btn-info">
+                                            </a>
+                                            <a class="blue edit btn btn-xs btn-info" href="#modal-member-detail" data-toggle="modal">
                                                 <i class="icon-edit bigger-120"></i>
-                                            </button>
-
-                                            <button class="btn btn-xs btn-danger">
+                                            </a>
+                                            <a class="btn btn-xs btn-danger" href="#">
                                                 <i class="icon-trash bigger-120"></i>
-                                            </button>
-
-                                            <button class="btn btn-xs btn-warning">
+                                            </a>
+                                            <a class="btn btn-xs btn-warning" href="#">
                                                 <i class="icon-flag bigger-120"></i>
-                                            </button>
+                                            </a>
                                         </div>
 
                                         <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -178,44 +181,6 @@
            PagerItemWrapperFormatString = "<li>{0}</li>",
            CurrentPagerItemWrapperFormatString = "<li class=\"active\"><a href=\"#\">{0}</a></li>"
        }, new { @class = "pagination" })
-                                @*@Ajax.Pager(Model, new PagerOptions
-       {
-           PageIndexParameterName = "PrizeOrderId",
-           ContainerTagName = "ul",
-           FirstPageText = "首页",
-           LastPageText = "尾页",
-           PrevPageText = "<<",
-           NextPageText = ">>",
-           PagerItemsSeperator = "",
-           NumericPagerItemCount = 5, //获取或设置每页显示的数字页索引索引分页导航元素的数目
-           PagerItemWrapperFormatString = "<li>{0}</li>",
-           CurrentPagerItemWrapperFormatString = "<li class=\"active\"><a href=\"#\">{0}</a></li>"
-       },
-                           new MvcAjaxOptions
-                           {
-                               UpdateTargetId = "sample-table-2_wrapper",
-                               LoadingElementId = "loadingDiv",
-                               OnBegin = "$('#sample-table-2_wrapper').fadeOut('slow')",
-                               OnComplete = "$('#sample-table-2_wrapper').fadeIn('slow')",
-                               EnablePartialLoading = true
-                           }, new { @class = "pagination" })*@
-
-                                @*@Ajax.Pager(Model, new PagerOptions
-       {
-           PageIndexParameterName = "Id",
-           ShowPageIndexBox = true,
-           NumericPagerItemCount = 5, //获取或设置每页显示的数字页索引索引分页导航元素的数目
-           PageIndexBoxType = PageIndexBoxType.DropDownList,
-           ShowGoButton = false
-       },
-    new MvcAjaxOptions
-    {
-        UpdateTargetId = "sample-table-2_wrapper",
-        EnablePartialLoading = true
-        //,LoadingElementId = "loadingDiv",
-        //OnBegin = "$('#sample-table-2_wrapper').fadeOut('slow')",
-        //OnComplete = "$('#sample-table-2_wrapper').fadeIn('slow')"
-    })*@
                             </div>
                         </div>
                     </div>}
@@ -225,3 +190,171 @@
         </div>
     </div>
 </div>
+
+<div id="modal-member-detail" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="blue bigger">用户·编辑</h4>
+            </div>
+
+            <div class="modal-body overflow-visible">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <input type="hidden" id="hidnUserId" />
+                            <table class="modal-tb">
+                                <tr>
+                                    <td>
+                                        <label>用户名</label>
+                                    </td>
+                                    <td id="tdUserName" style="width: 100px;"></td>
+                                    <td>
+                                        <label>昵称</label>
+                                    </td>
+                                    <td id="tdNickName"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>Email</label>
+                                    </td>
+                                    <td id="tdEmail"></td>
+                                    <td>
+                                        <label>注册日期</label>
+                                    </td>
+                                    <td id="tdRegDate"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>角色</label>
+                                    </td>
+                                    <td id="tdRoles" colspan="3"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-sm" data-dismiss="modal">
+                    <i class="icon-remove"></i>
+                    关闭
+                </button>
+                <button data-bb-handler="click" type="button" class="btn btn-sm btn-primary">重置密码</button>
+                <button data-bb-handler="success" type="button" class="btn btn-sm btn-success"><i class="icon-ok"></i>Success!</button>
+                <button data-bb-handler="danger" type="button" class="btn btn-sm btn-danger">Danger!</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @{Html.RegisterMvcPagerScriptResource();}
+    <script src="~/Content/admin/assets/js/bootbox.min.js"></script>
+    <script src="~/Content/admin/assets/js/jquery.gritter.min.js"></script>
+    <script src="~/Content/admin/assets/js/chosen.jquery.min.js"></script>
+
+    <script src="~/Content/admin/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="~/Content/admin/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/jquery.pager.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            //$(".chosen-select").chosen();
+            //$('#chosen-multiple-style').on('click', function (e) {
+            //    var target = $(e.target).find('input[type=radio]');
+            //    var which = parseInt(target.val());
+            //    if (which == 2) $('#form-field-select-4').addClass('tag-input-style');
+            //    else $('#form-field-select-4').removeClass('tag-input-style');
+            //});
+
+
+            //chosen plugin inside a modal will have a zero width because the select element is originally hidden
+            //and its width cannot be determined.
+            //so we set the width after modal is show
+            $('#modal-form').on('shown.bs.modal', function () {
+                $(this).find('.chosen-container').each(function () {
+                    $(this).find('a:first-child').css('width', '210px');
+                    $(this).find('.chosen-drop').css('width', '210px');
+                    $(this).find('.chosen-search input').css('width', '200px');
+                });
+            })
+            /**
+            //or you can activate the chosen plugin after modal is shown
+            //this way select element becomes visible with dimensions and chosen works as expected
+            $('#modal-form').on('shown', function () {
+                $(this).find('.modal-chosen').chosen();
+            })
+            */
+
+            $("a[class='intervention']").click(function () {
+                initUiBeforeSearchUsers();
+                $("h3.icon-loading").hide();
+                $("#txtFuzzyUserInfo").val("");
+                var $row = $(this).parent().parent().parent();
+                var prizeorderId = $row.find("td").eq(8).html();
+                $("#hidnPOId").val(prizeorderId);
+            });
+
+            $("a[class*='edit']").on("click", function (e) {
+                var $row = $(this).parent().parent().parent();
+                var username = $row.find("td").eq(0).html();
+                var nickname = $row.find("td").eq(1).html();
+                var email = $row.find("td").eq(2).html();
+                var regdate = $row.find("td").eq(3).html();
+                var logtimes = $row.find("td").eq(4).html();
+                var roles = $row.find("td").eq(5).html();
+                var hidden1 = $row.find("td").eq(6).html();
+                var hidden2 = $row.find("td").eq(7).html();
+                var hidden3 = $row.find("td").eq(8).html();
+                $("#tdUserName").html(username);
+                $("#tdNickName").html(nickname);
+                $("#tdEmail").html(email);
+                $("#tdRegDate").html(regdate);
+                $("#tdRoles").html(roles);
+                $("#tdPbName").html(hidden1);
+                $("#tdPbDate").html(hidden2);
+                $("#hidnUserId").val(hidden3);
+                e.preventDefault();
+            });
+
+            $("a[class*='set2top']").on("click", function (e) {
+                var $aobj = $(this);
+                JqUIConfirm("置顶该奖单？", function () {
+                    //确定
+                    var poid = $aobj.attr("poid");
+                    Set2Top(poid);
+                }, function () {
+                    //取消
+                });
+                e.preventDefault();
+            });
+        });
+
+        function Set2Top(poid) {
+            $.ajax({
+                type: 'POST',
+                url: 'Set2Top',
+                cache: false,
+                data: {
+                    prizeorderIdString: poid
+                },
+                success: function (data) {
+                    var errorString = data.ErrorString;
+                    if (errorString != "" && errorString != null) {
+                        JqUIAlert(errorString);
+                        return;
+                    }
+                    JqUIAlert("置顶成功");
+                },
+                beforeSend: function () {
+                    showLoading(true);
+                },
+                complete: function () {
+                    showLoading(false);
+                }
+                , dataType: "json"
+            });
+        }
+    </script>
+}

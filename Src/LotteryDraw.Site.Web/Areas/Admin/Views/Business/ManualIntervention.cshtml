@@ -23,6 +23,7 @@
     </h1>
 }
 @section styles{
+    <link href="~/Content/Modal-UI.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/admin/assets/css/chosen.css" />
     @*<link rel="stylesheet" href="~/Content/admin/assets/css/datepicker.css" />
     <link rel="stylesheet" href="~/Content/admin/assets/css/bootstrap-timepicker.css" />
@@ -30,14 +31,6 @@
     <link rel="stylesheet" href="~/Content/admin/assets/css/colorpicker.css" />*@
     <link href="~/Content/Pager.css" rel="stylesheet" />
     <style type="text/css">
-        .tb-pod-detail td {
-            color: #0094ff;
-        }
-
-            .tb-pod-detail td > label {
-                /*font-weight:bold;*/
-                color: #000;
-            }
     </style>
 }
 <div class="row">
@@ -234,7 +227,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="form-group">
-                            <table class="tb-pod-detail">
+                            <table class="modal-tb">
                                 <tr>
                                     <td style="width: 100px;">
                                         <label>开奖类型</label>

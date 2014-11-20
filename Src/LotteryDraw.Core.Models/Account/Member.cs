@@ -69,6 +69,17 @@ namespace LotteryDraw.Core.Models.Account
         public virtual MemberExtend Extend { get; set; }
 
         /// <summary>
+        ///  可发布奖品的次数
+        /// </summary>
+        [DefaultValue(0)]
+        public int PubishingEnableTimes { get; set; }
+
+        /// <summary>
+        /// 获取或设置 充值历史
+        /// </summary>
+        public virtual ICollection<RechargeHistory> RechargeHistories { get; set; }
+
+        /// <summary>
         /// 获取或设置 用户下的奖品
         /// </summary>
         public virtual ICollection<Prize> Prizes { get; set; }

@@ -22,12 +22,12 @@ using LotteryDraw.Core.Models.Account;
 namespace LotteryDraw.Core.Models.Business
 {
     /// <summary>
-    ///     实体类——奖品信息
+    ///     实体类——会员充值历史
     /// </summary>
-    [Description("开奖结果")]
-    public class LotteryResult : EntityBase<Guid>
+    [Description("会员充值历史")]
+    public class RechargeHistory : EntityBase<Guid>
     {
-        public LotteryResult()
+        public RechargeHistory()
         {
             Id = CombHelper.NewComb();
         }
@@ -35,11 +35,20 @@ namespace LotteryDraw.Core.Models.Business
         public virtual Member Member { get; set; }
 
         /// <summary>
-        /// 获取或设置 开奖信息
+        ///  充值金额
         /// </summary>
-        public PrizeOrder PrizeOrder { get; set; }
+        public double MoneyValue { get; set; }
 
+        /// <summary>
+        ///  发布次数
+        /// </summary>
         [DefaultValue(0)]
-        public int State { get; set; }
+        public int PubTimes { get; set; }
+
+        /// <summary>
+        ///  充值操作者
+        /// </summary>
+        [DefaultValue(0)]
+        public Member Operator { get; set; }
     }
 }

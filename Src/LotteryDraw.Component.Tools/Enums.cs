@@ -74,4 +74,16 @@ namespace LotteryDraw.Component.Tools
         [Description("定员")]
         Quota = 2
     }
+
+    /// <summary>
+    /// 答案开奖开奖条件类型
+    /// </summary>
+    [Description("开奖结果状态")]
+    public enum LotteryResultState
+    {
+        [Description("默认")]
+        Default = 0,
+        [Description("已通知")]
+        Noticed = 1
+    }
 }
