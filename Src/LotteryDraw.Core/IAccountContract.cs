@@ -80,6 +80,12 @@ namespace LotteryDraw.Core
         /// <param name="revealstate">Ω±µ•◊¥Ã¨</param>
         /// <returns></returns>
         OperationResult GetUsers(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount);
+
+        /// <summary>
+        ///  √‚…Û∫À
+        /// </summary>
+        /// <param name="memberid">”√ªßId</param>
+        bool NoAudit(long memberid);
         #endregion
     }
 }

@@ -116,5 +116,25 @@ namespace LotteryDraw.Site.Impl
             OperationResult result = AccountContract.GetUsers(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount);
             return result;
         }
+
+        public OperationResult NoAudit(long memberid) 
+        {
+            try
+            {
+                bool result = AccountContract.NoAudit(memberid);
+                if (result)
+                {
+                    return new OperationResult(OperationResultType.Success, "免审核成功");
+                }
+                else
+                {
+                    return new OperationResult(OperationResultType.Error, "免审核失败");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
     }
 }

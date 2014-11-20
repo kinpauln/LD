@@ -56,5 +56,11 @@ namespace LotteryDraw.Site
         /// <param name="totalPageCount">返回总页数</param>
         /// <returns></returns>
         OperationResult GetUsers(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount);
+
+        /// <summary>
+        ///  免审核
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        OperationResult NoAudit(long memberid);
     }
 }

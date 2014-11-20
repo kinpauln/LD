@@ -76,9 +76,9 @@
                                 <th>登录次数</th>
                                 <th>拥有角色</th>
                                 <th class="hidden"></th>
-                                <th></th>
-                                <th></th>
-                                <th style="width: 130px;"></th>
+                                <th class="hidden"></th>
+                                <th class="hidden"></th>
+                                <th style="width: 70px;"></th>
                             </tr>
                         </thead>
                         <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -102,34 +102,19 @@
                                     </td>
                                     <td>@item.RoleNames.ExpandAndToString(",")</td>
                                     <td class="hidden">@item.Id</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td class="hidden"></td>
+                                    <td class="hidden"></td>
                                     <!--buttons-->
                                     <td>
-                                        <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
-                                            <a class="btn btn-xs btn-success" href="#">
-                                                <i class="icon-ok bigger-120"></i>
-                                            </a>
-                                            <a class="blue edit btn btn-xs btn-info" href="#modal-member-detail" data-toggle="modal">
-                                                <i class="icon-edit bigger-120"></i>
-                                            </a>
-                                            <a class="btn btn-xs btn-danger" href="#">
-                                                <i class="icon-trash bigger-120"></i>
-                                            </a>
-                                            <a class="btn btn-xs btn-warning" href="#">
-                                                <i class="icon-flag bigger-120"></i>
-                                            </a>
-                                        </div>
-
-                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                        <div style="float: left; margin-right: 1px;">
                                             <div class="inline position-relative">
-                                                <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" title="设置">
                                                     <i class="icon-cog icon-only bigger-110"></i>
                                                 </button>
 
                                                 <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
                                                     <li>
-                                                        <a href="#" class="tooltip-info" data-rel="tooltip" title="" data-original-title="View">
+                                                        <a href="#modal-member-detail" data-toggle="modal" class="tooltip-info detail" data-rel="tooltip" title="" data-original-title="View">
                                                             <span class="blue">
                                                                 <i class="icon-zoom-in bigger-120"></i>
                                                             </span>
@@ -137,7 +122,7 @@
                                                     </li>
 
                                                     <li>
-                                                        <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Edit">
+                                                        <a href="#modal-member-edit" data-toggle="modal" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Edit">
                                                             <span class="green">
                                                                 <i class="icon-edit bigger-120"></i>
                                                             </span>
@@ -153,6 +138,20 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                        </div>
+                                        <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+                                            @*<a class="btn btn-xs btn-success" href="#">
+                                                <i class="icon-ok bigger-120"></i>
+                                            </a>
+                                            <a class="blue edit btn btn-xs btn-info" href="#modal-member-detail" data-toggle="modal">
+                                                <i class="icon-edit bigger-120"></i>
+                                            </a>
+                                            <a class="btn btn-xs btn-danger" href="#">
+                                                <i class="icon-trash bigger-120"></i>
+                                            </a>*@
+                                            <a class="btn btn-xs btn-warning no-audit" href="#" title="免审核" memberid="@item.Id">
+                                                <i class="icon-flag bigger-120"></i>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -196,7 +195,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="blue bigger">用户·编辑</h4>
+                <h4 class="blue bigger">用户·详情</h4>
             </div>
 
             <div class="modal-body overflow-visible">
@@ -249,6 +248,65 @@
         </div>
     </div>
 </div>
+
+<div id="modal-member-edit" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="blue bigger">用户·编辑</h4>
+            </div>
+
+            <div class="modal-body overflow-visible">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <input type="hidden" id="hidnUserId_Edit" />
+                            <table class="modal-tb">
+                                <tr>
+                                    <td>
+                                        <label>用户名</label>
+                                    </td>
+                                    <td id="tdUserName_Edit" style="width: 100px;"></td>
+                                    <td>
+                                        <label>昵称</label>
+                                    </td>
+                                    <td id="tdNickName_Edit"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>Email</label>
+                                    </td>
+                                    <td id="tdEmail_Edit"></td>
+                                    <td>
+                                        <label>注册日期</label>
+                                    </td>
+                                    <td id="tdRegDate_Edit"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>角色</label>
+                                    </td>
+                                    <td id="tdRoles_Edit" colspan="3"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-sm" data-dismiss="modal">
+                    <i class="icon-remove"></i>
+                    关闭
+                </button>
+                <button data-bb-handler="click" type="button" class="btn btn-sm btn-primary">重置密码</button>
+                <button data-bb-handler="success" type="button" class="btn btn-sm btn-success"><i class="icon-ok"></i>Success!</button>
+                <button data-bb-handler="danger" type="button" class="btn btn-sm btn-danger">Danger!</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts{
     @{Html.RegisterMvcPagerScriptResource();}
     <script src="~/Content/admin/assets/js/bootbox.min.js"></script>
@@ -259,7 +317,7 @@
     <script src="~/Content/admin/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
     <script src="~/Scripts/jquery.pager.js"></script>
     <script type="text/javascript">
-        $(function(){
+        $(function () {
             //$(".chosen-select").chosen();
             //$('#chosen-multiple-style').on('click', function (e) {
             //    var target = $(e.target).find('input[type=radio]');
@@ -298,23 +356,13 @@
 
             $("a[class*='edit']").on("click", function (e) {
                 var $row = $(this).parent().parent().parent();
-                var username = $row.find("td").eq(0).html();
-                var nickname = $row.find("td").eq(1).html();
-                var email = $row.find("td").eq(2).html();
-                var regdate = $row.find("td").eq(3).html();
-                var logtimes = $row.find("td").eq(4).html();
-                var roles = $row.find("td").eq(5).html();
-                var hidden1 = $row.find("td").eq(6).html();
-                var hidden2 = $row.find("td").eq(7).html();
-                var hidden3 = $row.find("td").eq(8).html();
-                $("#tdUserName").html(username);
-                $("#tdNickName").html(nickname);
-                $("#tdEmail").html(email);
-                $("#tdRegDate").html(regdate);
-                $("#tdRoles").html(roles);
-                $("#tdPbName").html(hidden1);
-                $("#tdPbDate").html(hidden2);
-                $("#hidnUserId").val(hidden3);
+                initUIFromDataRow($row);
+                e.preventDefault();
+            });
+
+            $("a[class*='detail']").on("click", function (e) {
+                var $row = $(this).parent().parent().parent().parent().parent().parent();
+                initUIFromDataRow($row);
                 e.preventDefault();
             });
 
@@ -329,8 +377,25 @@
                 });
                 e.preventDefault();
             });
+
+            //免审核
+            $("a[class*='no-audit']").click(function (e) {
+                var mid = $(this).attr("memberid");
+                if (mid == null || mid == 0) {
+                    JqUIAlert("用户Id不合法。");
+                    return;
+                }
+                JqUIConfirm("确认要免审核该用户？", function () {
+                    //确定
+                    NoAudit(mid);
+                }, function () {
+                    //取消
+                });
+                e.preventDefault();
+            });
         });
 
+        // 置顶
         function Set2Top(poid) {
             $.ajax({
                 type: 'POST',
@@ -355,6 +420,54 @@
                 }
                 , dataType: "json"
             });
+        }
+
+        // 免审核
+        function NoAudit(memberid) {
+            $.ajax({
+                type: 'POST',
+                url: 'NoAudit',
+                cache: false,
+                data: {
+                    memberid: memberid
+                },
+                success: function (data) {
+                    var errorString = data.ErrorString;
+                    if (errorString != "" && errorString != null) {
+                        JqUIAlert(errorString);
+                        return;
+                    }
+                    JqUIAlert("免审核成功");
+                },
+                beforeSend: function () {
+                    showLoading(true);
+                },
+                complete: function () {
+                    showLoading(false);
+                }
+                , dataType: "json"
+            });
+        }
+
+        function initUIFromDataRow(row) {
+            var $row = row;
+            var username = $row.find("td").eq(0).html();
+            var nickname = $row.find("td").eq(1).html();
+            var email = $row.find("td").eq(2).html();
+            var regdate = $row.find("td").eq(3).html();
+            var logtimes = $row.find("td").eq(4).html();
+            var roles = $row.find("td").eq(5).html();
+            var hidden1 = $row.find("td").eq(6).html();
+            var hidden2 = $row.find("td").eq(7).html();
+            var hidden3 = $row.find("td").eq(8).html();
+            $("#tdUserName").html(username);
+            $("#tdNickName").html(nickname);
+            $("#tdEmail").html(email);
+            $("#tdRegDate").html(regdate);
+            $("#tdRoles").html(roles);
+            $("#tdPbName").html(hidden1);
+            $("#tdPbDate").html(hidden2);
+            $("#hidnUserId").val(hidden3);
         }
     </script>
 }

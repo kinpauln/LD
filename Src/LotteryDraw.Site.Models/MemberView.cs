@@ -9,7 +9,7 @@ namespace LotteryDraw.Site.Models
 {
     public class MemberView : ModelBase
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required(ErrorMessage = "{0}不能为空！")]
         [Display(Name = "登录账号")]

@@ -145,7 +145,7 @@ namespace LotteryDraw.Core.Impl
             Member member = MemberRepository.Entities.SingleOrDefault(m => m.Id == userid);
             if (member == null)
             {
-                return new OperationResult(OperationResultType.QueryNull, string.Format("Id为{0}用户不存在。",userid.ToString()));
+                return new OperationResult(OperationResultType.QueryNull, string.Format("Id为{0}用户不存在。", userid.ToString()));
             }
             return new OperationResult(OperationResultType.Success, "获取用户信息成功。", member);
         }
@@ -163,7 +163,8 @@ namespace LotteryDraw.Core.Impl
         /// <param name="revealtype">开奖类型</param>
         /// <param name="revealstate">奖单状态</param>
         /// <returns></returns>
-        public OperationResult GetUsers(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount) {
+        public OperationResult GetUsers(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount)
+        {
             totalCount = 0;
             totalPageCount = 0;
             try
@@ -204,6 +205,36 @@ namespace LotteryDraw.Core.Impl
             catch (System.Exception ex)
             {
                 return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///  免审核
+        /// </summary>
+        /// <param name="memberid">用户ID</param>
+        public bool NoAudit(long memberid)
+        {
+            try
+            {
+                Member member = MemberRepository.Entities.SingleOrDefault(m => m.Id == memberid);
+                if (member == null)
+                {
+                    throw new BusinessException(string.Format("Id为{0}用户不存在。", memberid.ToString()));
+                }
+                member.PubishingEnableTimes = int.MaxValue;
+                int rcount = MemberRepository.Update(member);
+                if (rcount > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new BusinessException("更新操作影响的行数为0");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

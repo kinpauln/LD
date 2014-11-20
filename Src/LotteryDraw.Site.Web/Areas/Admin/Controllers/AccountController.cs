@@ -40,6 +40,9 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
         [Import]
         public IAccountContract AccountContract { get; set; }
 
+        [Import]
+        public IAccountSiteContract AccountSiteContract { get; set; }
+
         #endregion
 
         public override ActionResult InfoPage()
@@ -66,6 +69,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             }
             var memberViews = query.Where<Member, Int64>(m => true, pageIndex, pageSize, out total, sortConditions).Select(m => new MemberView
             {
+                Id = m.Id,
                 UserName = m.UserName,
                 Name = m.Name,
                 Email = m.Email,
@@ -80,6 +84,29 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             ViewBag.PageCount = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
             PagedList<MemberView> model = new PagedList<MemberView>(memberViews, pageIndex, pageSize, total);
             return View(model);
+        }
+
+        /// <summary>
+        ///  免审核
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        public JsonResult NoAudit(long memberid)
+        {
+            if (memberid==0)
+            {
+                return Json(new { ErrorString = "用户Id不合法" }, JsonRequestBehavior.AllowGet);
+            }
+
+            OperationResult result = AccountSiteContract.NoAudit(memberid);
+
+            if (result.ResultType == OperationResultType.Success)
+            {
+                return Json(new { ErrorString = "" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { ErrorString = result.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
