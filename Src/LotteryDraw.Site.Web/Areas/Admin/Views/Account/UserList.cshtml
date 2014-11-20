@@ -365,7 +365,7 @@
 
             $("a[class*='set2top']").on("click", function (e) {
                 var $aobj = $(this);
-                JqUIConfirm("置顶该奖单？", function () {
+                JqUIConfirm("【置顶】该奖单？", function () {
                     //确定
                     var poid = $aobj.attr("poid");
                     Set2Top(poid);
@@ -382,7 +382,7 @@
                     JqUIAlert("用户Id不合法。");
                     return;
                 }
-                JqUIConfirm("确认要免审核该用户？", function () {
+                JqUIConfirm("【免审核】该用户？", function () {
                     //确定
                     NoAudit(mid);
                 }, function () {
@@ -398,7 +398,7 @@
                     JqUIAlert("用户Id不合法。");
                     return;
                 }
-                JqUIConfirm("确认要删除该用户？", function () {
+                JqUIConfirm("【删除】该用户？", function () {
                     //确定
                     DeleteUser(mid);
                 }, function () {

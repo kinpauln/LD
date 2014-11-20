@@ -99,7 +99,7 @@
                                 <th class="sorting hidden" style="width: 112px;">开奖状态</th>
                                 <th class="sorting hidden" style="width: 80px;">排序</th>
                                 <th class="hidden">PrizeOrderId</th>
-                                <th class="sorting_disabled" style="width: 155px;"></th>
+                                <th class="sorting_disabled" style="width: 80px;"></th>
                             </tr>
                         </thead>
                         <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -135,18 +135,39 @@
                                     <td class="hidden">@item.PrizeOrderView.SortOrder</td>
                                     <td class="hidden">@item.PrizeOrderView.Id</td>
                                     <td class=" ">
-                                        <div class="visible-lg action-buttons" style="float: left; width: 75px;">
-                                            <a class="blue view-detail" href="#modal-pod-detail" data-toggle="modal">
-                                                <i class="icon-zoom-in bigger-130"></i>
-                                            </a>
+                                        
+                                        <div class="visible-lg action-buttons" style="float: left; width: 25px;">
+                                            <div class="inline position-relative">
+                                                <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" title="设置">
+                                                    <i class="icon-cog icon-only bigger-110"></i>
+                                                </button>
 
-                                            <a class="green" href="#">
-                                                <i class="icon-pencil bigger-130"></i>
-                                            </a>
+                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+                                                    <li>
+                                                        <a href="#modal-pod-detail" data-toggle="modal" class="tooltip-info view-detail" data-rel="tooltip" title="" data-original-title="View">
+                                                            <span class="blue">
+                                                                <i class="icon-zoom-in bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
 
-                                            <a class="red" href="#">
-                                                <i class="icon-trash bigger-130"></i>
-                                            </a>
+                                                    <li>
+                                                        <a href="#modal-member-edit" data-toggle="modal" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Edit">
+                                                            <span class="green">
+                                                                <i class="icon-edit bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#" class="tooltip-error delete" data-rel="tooltip" title="" data-original-title="Delete">
+                                                            <span class="red">
+                                                                <i class="icon-trash bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                         <span>|</span>
                                         <a href="#modal-form" data-toggle="modal" class="intervention">人工干预</a>
@@ -447,7 +468,7 @@
             });
 
             $("a[class*='view-detail']").on("click", function (e) {
-                var $row = $(this).parent().parent().parent();
+                var $row = $(this).parent().parent().parent().parent().parent().parent();
                 var pnamehtml = $row.find("td").eq(0).html();
                 var pname = $(pnamehtml).html();
                 var pdeshtml = $row.find("td").eq(1).html();
