@@ -237,5 +237,65 @@ namespace LotteryDraw.Core.Impl
                 throw ex;
             }
         }
+
+        /// <summary>
+        ///  免审核
+        /// </summary>
+        /// <param name="memberid">用户ID</param>
+        public bool Delete(long memberid)
+        {
+            try
+            {
+                Member member = MemberRepository.Entities.SingleOrDefault(m => m.Id == memberid);
+                if (member == null)
+                {
+                    throw new BusinessException(string.Format("Id为{0}用户不存在。", memberid.ToString()));
+                }
+                member.IsDeleted = true;
+                int rcount = MemberRepository.Update(member);
+                if (rcount > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new BusinessException("更新操作影响的行数为0");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        ///  重置密码
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        public bool ResetPassword(long memberid)
+        {
+            try
+            {
+                Member member = MemberRepository.Entities.SingleOrDefault(m => m.Id == memberid);
+                if (member == null)
+                {
+                    throw new BusinessException(string.Format("Id为{0}用户不存在。", memberid.ToString()));
+                }
+                member.Password = "123456";
+                int rcount = MemberRepository.Update(member);
+                if (rcount > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new BusinessException("更新操作影响的行数为0");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

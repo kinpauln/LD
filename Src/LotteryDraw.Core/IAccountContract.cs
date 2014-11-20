@@ -86,6 +86,19 @@ namespace LotteryDraw.Core
         /// </summary>
         /// <param name="memberid">用户Id</param>
         bool NoAudit(long memberid);
+
+        /// <summary>
+        ///  删除
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        bool Delete(long memberid);
+
+        /// <summary>
+        ///  重置密码
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        bool ResetPassword(long memberid);
+
         #endregion
     }
 }

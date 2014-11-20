@@ -62,5 +62,17 @@ namespace LotteryDraw.Site
         /// </summary>
         /// <param name="memberid">用户Id</param>
         OperationResult NoAudit(long memberid);
+
+        /// <summary>
+        ///  删除
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        OperationResult Delete(long memberid);
+
+        /// <summary>
+        ///  重置密码
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        OperationResult ResetPassword(long memberid);
     }
 }

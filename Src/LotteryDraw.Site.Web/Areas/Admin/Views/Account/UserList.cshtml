@@ -130,7 +130,7 @@
                                                     </li>
 
                                                     <li>
-                                                        <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
+                                                        <a href="#" class="tooltip-error delete" data-rel="tooltip" title="" data-original-title="Delete" memberid="@item.Id">
                                                             <span class="red">
                                                                 <i class="icon-trash bigger-120"></i>
                                                             </span>
@@ -241,9 +241,6 @@
                     <i class="icon-remove"></i>
                     关闭
                 </button>
-                <button data-bb-handler="click" type="button" class="btn btn-sm btn-primary">重置密码</button>
-                <button data-bb-handler="success" type="button" class="btn btn-sm btn-success"><i class="icon-ok"></i>Success!</button>
-                <button data-bb-handler="danger" type="button" class="btn btn-sm btn-danger">Danger!</button>
             </div>
         </div>
     </div>
@@ -393,6 +390,22 @@
                 });
                 e.preventDefault();
             });
+
+            //删除
+            $("a[class*='delete']").click(function (e) {
+                var mid = $(this).attr("memberid");
+                if (mid == null || mid == 0) {
+                    JqUIAlert("用户Id不合法。");
+                    return;
+                }
+                JqUIConfirm("确认要删除该用户？", function () {
+                    //确定
+                    DeleteUser(mid);
+                }, function () {
+                    //取消
+                });
+                e.preventDefault();
+            });
         });
 
         // 置顶
@@ -438,6 +451,33 @@
                         return;
                     }
                     JqUIAlert("免审核成功");
+                },
+                beforeSend: function () {
+                    showLoading(true);
+                },
+                complete: function () {
+                    showLoading(false);
+                }
+                , dataType: "json"
+            });
+        }
+
+        // 删除用户
+        function DeleteUser(memberid) {
+            $.ajax({
+                type: 'POST',
+                url: 'Delete',
+                cache: false,
+                data: {
+                    memberid: memberid
+                },
+                success: function (data) {
+                    var errorString = data.ErrorString;
+                    if (errorString != "" && errorString != null) {
+                        JqUIAlert(errorString);
+                        return;
+                    }
+                    JqUIAlert("删除成功");
                 },
                 beforeSend: function () {
                     showLoading(true);

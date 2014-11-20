@@ -117,6 +117,10 @@ namespace LotteryDraw.Site.Impl
             return result;
         }
 
+        /// <summary>
+        ///  免审核
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
         public OperationResult NoAudit(long memberid) 
         {
             try
@@ -129,6 +133,54 @@ namespace LotteryDraw.Site.Impl
                 else
                 {
                     return new OperationResult(OperationResultType.Error, "免审核失败");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///  删除
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        public OperationResult Delete(long memberid)
+        {
+            try
+            {
+                bool result = AccountContract.Delete(memberid);
+                if (result)
+                {
+                    return new OperationResult(OperationResultType.Success, "用户删除成功");
+                }
+                else
+                {
+                    return new OperationResult(OperationResultType.Error, "用户删除失败");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///  重置密码
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        public OperationResult ResetPassword(long memberid)
+        {
+            try
+            {
+                bool result = AccountContract.ResetPassword(memberid);
+                if (result)
+                {
+                    return new OperationResult(OperationResultType.Success, "重置密码成功");
+                }
+                else
+                {
+                    return new OperationResult(OperationResultType.Error, "重置密码失败");
                 }
             }
             catch (Exception ex)

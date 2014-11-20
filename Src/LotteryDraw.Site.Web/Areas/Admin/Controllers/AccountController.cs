@@ -39,10 +39,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
 
         [Import]
         public IAccountContract AccountContract { get; set; }
-
-        [Import]
-        public IAccountSiteContract AccountSiteContract { get; set; }
-
+        
         #endregion
 
         public override ActionResult InfoPage()
@@ -67,7 +64,9 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             {
                 query = query.Where(m => m.UserName.Contains(kword) || m.Name.Contains(kword) || m.Email.Contains(kword));
             }
-            var memberViews = query.Where<Member, Int64>(m => true, pageIndex, pageSize, out total, sortConditions).Select(m => new MemberView
+            var memberViews = query
+                .Where(m=>!m.IsDeleted)
+                .Where<Member, Int64>(m => true, pageIndex, pageSize, out total, sortConditions).Select(m => new MemberView
             {
                 Id = m.Id,
                 UserName = m.UserName,
@@ -98,6 +97,29 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             }
 
             OperationResult result = AccountSiteContract.NoAudit(memberid);
+
+            if (result.ResultType == OperationResultType.Success)
+            {
+                return Json(new { ErrorString = "" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { ErrorString = result.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        /// <summary>
+        ///  删除
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        public JsonResult Delete(long memberid)
+        {
+            if (memberid==0)
+            {
+                return Json(new { ErrorString = "用户Id不合法" }, JsonRequestBehavior.AllowGet);
+            }
+
+            OperationResult result = AccountSiteContract.Delete(memberid);
 
             if (result.ResultType == OperationResultType.Success)
             {
