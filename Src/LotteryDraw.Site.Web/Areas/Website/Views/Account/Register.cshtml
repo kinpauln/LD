@@ -116,9 +116,9 @@
                             <tr>
                                 <td class="text">地址</td>
                                 <td class="input">
-                                    <select name="loc_province" style="width: 80px;"></select>
-                                    <select name="loc_city" style="width: 100px;"></select>
-                                    <select name="loc_town" style="width: 120px;"></select>
+                                    <select name="loc_province" class="select" style="width: 80px;"></select>
+                                    <select name="loc_city" class="select" style="width: 100px;"></select>
+                                    <select name="loc_town" class="select" style="width: 120px;"></select>
                                     <input type="hidden" name="location_id" />
                                     <input name="pname" type="text" class="input-text" />
                                 </td>
@@ -176,9 +176,9 @@
                             <tr>
                                 <td class="text">公司地址</td>
                                 <td class="input">
-                                    <select name="loc_province" style="width: 80px;"></select>
-                                    <select name="loc_city" style="width: 100px;"></select>
-                                    <select name="loc_town" style="width: 120px;"></select>
+                                    <select name="loc_province" class="select" style="width: 80px;"></select>
+                                    <select name="loc_city" class="select" style="width: 100px;"></select>
+                                    <select name="loc_town" class="select" style="width: 120px;"></select>
                                     <input type="hidden" name="location_id" />
                                     <input name="pname" type="text" class="input-text" />
                                 </td>
@@ -283,6 +283,15 @@
                     },
                     Tel: {
                         phone: 'required'
+                    },
+                    loc_province: {
+                        required: true
+                    },
+                    loc_city: {
+                        required: true
+                    },
+                    loc_town: {
+                        required: true
                     }
                 },
 
@@ -303,6 +312,15 @@
                     },
                     Tel: {
                         phone: "手机号码不合法"
+                    },
+                    loc_province: {
+                        required: "【省份】必须选择"
+                    },
+                    loc_city: {
+                        required: "【地级市】必须选择"
+                    },
+                    loc_town: {
+                        required: "【县、市、区】必须选择"
                     }
                 },
                 invalidHandler: function (event, validator) { //display error alert on form submit   
@@ -312,13 +330,24 @@
                     //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
                 },
                 /* 验证通过时的处理 */
-                success: function (e) {
+                success: function (e,element) {
                     //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
                     //$(e).remove();
+                    var $element = $(element);
+                    if ($element.is('.select')) {
+                        var slname = $element.attr("name"); console.log(slname);
+                        var errorSpan = $("span[for=" + slname + "]:eq(0)");
+                        var br = errorSpan.prev("br");
+                        if (br != null) {
+                            br.remove();
+                        }
+                    }
                 },
                 /* 错误信息的显示位置 */
                 errorPlacement: function (error, element) {
-                    //element.parent().append("<br />");
+                    if (element.is('.select')) {
+                        element.parent().append("<br />");
+                    }
                     error.appendTo(element.parent());
                 },
                 /*执行ajaxsubmit*/
@@ -356,6 +385,15 @@
                     },
                     Tel: {
                         phone: 'required'
+                    },
+                    loc_province: {
+                        required: true
+                    },
+                    loc_city: {
+                        required: true
+                    },
+                    loc_town: {
+                        required: true
                     }
                 },
 
@@ -379,6 +417,15 @@
                     },
                     Tel: {
                         phone: "手机号码不合法"
+                    },
+                    loc_province: {
+                        required: "【省份】必须选择"
+                    },
+                    loc_city: {
+                        required: "【地级市】必须选择"
+                    },
+                    loc_town: {
+                        required: "【县、市、区】必须选择"
                     }
                 },
                 invalidHandler: function (event, validator) { //display error alert on form submit   
@@ -391,10 +438,21 @@
                 success: function (e) {
                     //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
                     //$(e).remove();
+                    var $element = $(element);
+                    if ($element.is('.select')) {
+                        var slname = $element.attr("name"); console.log(slname);
+                        var errorSpan = $("span[for=" + slname + "]:eq(0)");
+                        var br = errorSpan.prev("br");
+                        if (br != null) {
+                            br.remove();
+                        }
+                    }
                 },
                 /* 错误信息的显示位置 */
                 errorPlacement: function (error, element) {
-                    //element.parent().append("<br />");
+                    if (element.is('.select')) {
+                        element.parent().append("<br />");
+                    }
                     error.appendTo(element.parent());
                 },
                 /*执行ajaxsubmit*/
