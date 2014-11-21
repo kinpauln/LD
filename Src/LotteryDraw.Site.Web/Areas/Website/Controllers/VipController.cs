@@ -60,8 +60,11 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 OperationResult result = AccountContract.GetMember(userid);
                 if (result.ResultType == OperationResultType.Success) {
                     Member member = (Member)result.AppendData;
-                    model.Phone = member.Extend.Tel;
-                    model.Address = member.Extend.Address.ToString();
+                    if (member.Extend != null)
+                    {
+                        model.Phone = member.Extend.Tel;
+                        model.Address = member.Extend.Address.ToString();
+                    }
                 }
                 return View(model);
             }
