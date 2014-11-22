@@ -330,13 +330,13 @@
                     //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
                 },
                 /* 验证通过时的处理 */
-                success: function (e,element) {
+                success: function (e, element) {
                     //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
                     //$(e).remove();
                     var $element = $(element);
                     if ($element.is('.select')) {
-                        var slname = $element.attr("name"); console.log(slname);
-                        var errorSpan = $("span[for=" + slname + "]:eq(0)");
+                        var slname = $element.attr("name");
+                        var errorSpan = $("form[name='regform-psnl'] span[for=" + slname + "]:eq(0)");
                         var br = errorSpan.prev("br");
                         if (br != null) {
                             br.remove();
@@ -435,13 +435,13 @@
                     //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
                 },
                 /* 验证通过时的处理 */
-                success: function (e) {
+                success: function (e, element) {
                     //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
                     //$(e).remove();
                     var $element = $(element);
                     if ($element.is('.select')) {
-                        var slname = $element.attr("name"); console.log(slname);
-                        var errorSpan = $("span[for=" + slname + "]:eq(0)");
+                        var slname = $element.attr("name");
+                        var errorSpan = $("form[name='regform-ent'] span[for=" + slname + "]:eq(0)");
                         var br = errorSpan.prev("br");
                         if (br != null) {
                             br.remove();
