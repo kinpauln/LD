@@ -197,6 +197,20 @@ namespace LotteryDraw.Site.Impl
         {
             OperationResult result = PrizeOrderContract.Set2Top(poid);
             return result;
-        }        
+        }
+
+        public OperationResult GetPrizeAsking(Guid poid)
+        {
+            OperationResult result = PrizeOrderContract.GetPrizeOrderById(poid);
+            if (result.ResultType == OperationResultType.Success) {
+                PrizeOrder pomodel = (PrizeOrder)result.AppendData;
+                result.AppendData = new PrizeOrderView()
+                {
+                    Question = pomodel.Extend.PrizeAsking.Question,
+                    AnswerOptions = pomodel.Extend.PrizeAsking.AnswerOptions
+                };
+            }
+            return result;
+        }
     }
 }

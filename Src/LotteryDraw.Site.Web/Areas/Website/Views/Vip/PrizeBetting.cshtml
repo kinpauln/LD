@@ -25,6 +25,36 @@
                     <td colspan="2" style="text-align: center; color: #f00;">@ViewBag.Message</td>
                 </tr>
             }
+            @if (Request.QueryString["RevealType"] != null && Request.QueryString["RevealType"] == "3")
+            {
+                <tr>
+                    <td class="text">题目：</td>
+                    <td class="input">@ViewBag.Question</td>
+                </tr>
+                <tr>
+                    <td class="text">答案选项：</td>
+                    <td class="input">
+                        @{
+                if (ViewBag.AnswerOptions != null)
+                { 
+                            <select name="answer">
+                                <option value="">请选择</option>
+                                @foreach (string option in ViewBag.AnswerOptions)
+                                {
+                                    if (string.IsNullOrEmpty(option))
+                                    {
+                                        continue;
+                                    }
+                                    string value = option.Split(':')[0];
+                                    string text = option.Split(':')[1];
+                                    <option value="@value">@text</option>
+                                }
+                            </select>
+                }
+                        }
+                    </td>
+                </tr>
+            }
             <tr>
                 <td class="text">领奖电话：</td>
                 <td class="input">

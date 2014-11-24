@@ -101,6 +101,11 @@ namespace LotteryDraw.Core
         /// <param name="poid">奖单ID</param>
         OperationResult Set2Top(Guid poid);
 
+        /// <summary>
+        ///  获取奖单实体
+        /// </summary>
+        /// <param name="poid">奖单ID</param>
+        OperationResult GetPrizeOrderById(Guid poid);
         #endregion
     }
 }

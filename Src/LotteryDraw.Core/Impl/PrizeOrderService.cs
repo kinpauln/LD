@@ -289,6 +289,22 @@ namespace LotteryDraw.Core.Impl
             {
                 return new OperationResult(OperationResultType.Error, ex.Message);
             }
-        }    
+        }
+
+        /// <summary>
+        ///  获取奖单实体
+        /// </summary>
+        /// <param name="poid">奖单ID</param>
+        public OperationResult GetPrizeOrderById(Guid poid) {
+            try
+            {
+                var model = PrizeOrderRepository.Entities.Where(po => po.Id == poid && !po.IsDeleted).FirstOrDefault();
+                return new OperationResult(OperationResultType.Success, "奖单获取成功。", model);
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
     }
 }

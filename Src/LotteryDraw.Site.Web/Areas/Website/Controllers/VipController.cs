@@ -53,12 +53,32 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            else {
+            else
+            {
                 PrizeBettingView model = new PrizeBettingView() { PrizeOrderId = poId };
+                int rtvalue = int.Parse(Request.QueryString["RevealType"]);
+                if ((int)RevealType.Answer == rtvalue)
+                {
+                    OperationResult innerresult = PrizeOrderSiteContract.GetPrizeAsking(poId);
+                    if (innerresult != null)
+                    {
+                        PrizeOrderView pov = (PrizeOrderView)innerresult.AppendData;
+                        if (pov != null)
+                        {
+                            ViewBag.Question = pov.Question;
+                            if (!string.IsNullOrEmpty(pov.AnswerOptions))
+                            {
+                                string[] options = pov.AnswerOptions.Split(new string[] { "|||" }, StringSplitOptions.RemoveEmptyEntries);
+                                ViewBag.AnswerOptions = options;
+                            }
+                        }
+                    }
+                }
                 long userid = this.UserId ?? 0;
                 model.UserId = userid;
                 OperationResult result = AccountContract.GetMember(userid);
-                if (result.ResultType == OperationResultType.Success) {
+                if (result.ResultType == OperationResultType.Success)
+                {
                     Member member = (Member)result.AppendData;
                     if (member.Extend != null)
                     {
@@ -231,7 +251,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         #endregion
 
         public ActionResult MyBettingList(int? id)
-        { 
+        {
             long userid = this.UserId ?? 0;
             int pageIndex = id ?? 1;
             int total;

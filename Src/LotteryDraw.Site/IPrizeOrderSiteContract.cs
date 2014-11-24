@@ -72,5 +72,7 @@ namespace LotteryDraw.Site
         /// </summary>
         /// <param name="poid">奖单ID</param>
         OperationResult Set2Top(Guid poid);
+
+        OperationResult GetPrizeAsking(Guid poid);
     }
 }
