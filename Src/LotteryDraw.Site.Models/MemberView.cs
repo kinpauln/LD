@@ -26,6 +26,21 @@ namespace LotteryDraw.Site.Models
 
         public string Tel { get; set; }
 
+        public string Province { get; set; }
+
+        public string City { get; set; }
+
+        public string Town { get; set; }
+
+        public string AddrSuffix { get; set; }
+
+        public string Address { 
+            get 
+            { 
+                return Province + (City.Equals(City) ? string.Empty : City) + Town + AddrSuffix; 
+            } 
+        }
+
         public int LoginLogCount { get; set; }
 
         public IEnumerable<string> RoleNames { get; set; }

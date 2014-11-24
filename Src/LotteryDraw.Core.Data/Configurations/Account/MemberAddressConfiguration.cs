@@ -17,8 +17,8 @@ namespace LotteryDraw.Core.Data.Configurations
         {
             Property(m => m.Province).HasColumnName("Province");
             Property(m => m.City).HasColumnName("City");
-            Property(m => m.County).HasColumnName("County");
-            Property(m => m.Street).HasColumnName("Street");
+            Property(m => m.Town).HasColumnName("Town");
+            Property(m => m.Suffix).HasColumnName("Suffix");
         }
 
         public void RegistTo(ConfigurationRegistrar configurations)

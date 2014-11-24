@@ -62,6 +62,14 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
             try
             {
+                string province = Request.Form["hidn_province"].ToString();
+                string city = Request.Form["hidn_city"].ToString();
+                string town = Request.Form["hidn_town"].ToString();
+                string suffix = Request.Form["addr_suffix"].ToString();
+                model.Province = province;
+                model.City = city;
+                model.Town = town;
+                model.AddrSuffix = suffix;
                 OperationResult result = AccountSiteContract.Register(model);
                 string msg = result.Message ?? result.ResultType.ToDescription();
                 if (result.ResultType == OperationResultType.Success)

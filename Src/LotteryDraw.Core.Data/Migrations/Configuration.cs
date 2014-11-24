@@ -46,9 +46,9 @@ namespace LotteryDraw.Core.Data.Migrations
 
             List<Member> members = new List<Member>
             {
-                new Member { UserName = "admin", Password = "123456", Email = "admin@wuliubang.net", Name = "管理员",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ County="中国", Province="山东省", City="青岛市",Street="香港中路" }} },
-                new Member { UserName = "whl", Password = "123456", Email = "hl.wang@wuliubang.net", Name = "王宏利",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ County="中国", Province="山东省", City="青岛市",Street="山东路" }} },
-                new Member { UserName = "wjp", Password = "123456", Email = "jp.wang@wuliubang.net", Name = "王金鹏",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ County="中国", Province="山东省", City="青岛市",Street="南京路" }} }
+                new Member { UserName = "admin", Password = "123456", Email = "admin@wuliubang.net", Name = "管理员",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="市南区", Province="山东省", City="青岛市",Suffix="香港中路" }} },
+                new Member { UserName = "whl", Password = "123456", Email = "hl.wang@wuliubang.net", Name = "王宏利",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="四方区", Province="山东省", City="青岛市",Suffix="山东路" }} },
+                new Member { UserName = "wjp", Password = "123456", Email = "jp.wang@wuliubang.net", Name = "王金鹏",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="南京路" }} }
             };
 
             for (int i = 0; i < 30; i++)

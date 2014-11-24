@@ -88,14 +88,24 @@ namespace LotteryDraw.Site.Impl
         /// <returns>业务操作结果</returns>
         public OperationResult Register(MemberView model)
         {
-            PublicHelper.CheckArgument(model, "model");
+            //PublicHelper.CheckArgument(model, "model");
             Member member = new Member
             {
                 UserName = model.UserName,
                 Password = model.Password,
                 Email = model.Email,
                 Name = model.Name,
-                Extend = new MemberExtend() { Tel = model.Tel },
+                Extend = new MemberExtend()
+                {
+                    Tel = model.Tel,
+                    Address = new MemberAddress()
+                    {
+                        Province = model.Province,
+                        City = model.City,
+                        Town = model.Town,
+                        Suffix = model.AddrSuffix
+                    }
+                },
                 //Roles = new Role[]{new Role(){ RoleType= RoleType.User,Description = ""}},
                 MemberTypeNum = (int)model.MemberType
             };

@@ -129,6 +129,12 @@ namespace LotteryDraw.Core.Impl
         public OperationResult Register(Member member)
         {
             //PublicHelper.CheckArgument(member, "member");
+            //校验是否重复注册（用户名和邮箱是否已被注册过）
+            OperationResult fresult = CheckRegisteringMember(member.UserName, member.Email);
+
+            if (fresult.ResultType != OperationResultType.Success)
+                return fresult;
+
             int rcount = MemberRepository.Insert(member);
             if (rcount > 0)
             {
@@ -137,6 +143,59 @@ namespace LotteryDraw.Core.Impl
             else
             {
                 return new OperationResult(OperationResultType.Warning, "注册失败。");
+            }
+        }
+
+        /// <summary>
+        ///     校验用户名和邮箱是否已存在
+        /// </summary>
+        /// <param name="prizebetting">奖品信息</param>
+        /// <returns>业务操作结果</returns>
+        public OperationResult CheckRegisteringMember(string username, string email)
+        {
+            try
+            {
+                List<SqlParameter> paramList = new List<SqlParameter>();
+
+                //用户名
+                SqlParameter paramUserName = new SqlParameter("@UserName", SqlDbType.NVarChar,20);
+                paramUserName.Value = username;
+                paramList.Add(paramUserName);
+                //邮箱
+                SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 50);
+                paramEmail.Value = email;
+                paramList.Add(paramEmail);
+
+                SqlParameter paramerrorcode = new SqlParameter("@ErrorCode", SqlDbType.VarChar, 10);
+                paramerrorcode.Direction = ParameterDirection.Output;
+                paramList.Add(paramerrorcode);
+
+                SqlCommand command = new SqlCommand();
+                DataSet ds = MemberRepository.ExecProcdureReturnDataSet("Sp_checkregistermember", out command, paramList.ToArray());
+
+                string errorCode = command.Parameters["@ErrorCode"].Value.ToString();
+                if (string.IsNullOrEmpty(errorCode))
+                {
+                    return new OperationResult(OperationResultType.Success, "校验成功。", null);
+                }
+                else
+                {
+                    switch (errorCode)
+                    {
+                        case "Error_01":
+                            return new OperationResult(OperationResultType.Warning, "用户名已存在", null);
+                        case "Error_02":
+                            return new OperationResult(OperationResultType.Warning, "邮箱已存在", null);
+                        case "Error_03":
+                            return new OperationResult(OperationResultType.Warning, "用户名和邮箱都已存在", null);
+                        default:
+                            return new OperationResult(OperationResultType.Warning, "出错了。", null);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
             }
         }
 

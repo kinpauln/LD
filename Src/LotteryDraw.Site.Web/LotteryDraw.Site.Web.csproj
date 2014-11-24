@@ -297,6 +297,10 @@
     <Content Include="Content\admin\assets\js\jquery.maskedinput.min.js" />
     <Content Include="Content\Pager.css" />
     <Content Include="Content\ui.css" />
+    <Content Include="Content\website\address\area.js" />
+    <Content Include="Content\website\address\area_id.js" />
+    <Content Include="Content\website\address\location.js" />
+    <Content Include="Content\website\address\location_id.js" />
     <Content Include="Content\website\css\csshover.htc" />
     <Content Include="Content\website\css\prize.css" />
     <Content Include="Content\website\js\My97DatePicker\calendar.js" />

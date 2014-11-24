@@ -72,6 +72,9 @@
             <div class="ct">
                 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { name = "regform-psnl" }))
                 {
+                                    <input type="hidden" name="hidn_province" />
+                                    <input type="hidden" name="hidn_city" />
+                                    <input type="hidden" name="hidn_town" />
                     <table class="message_table">
                         <tbody>
                             <tr>
@@ -120,7 +123,7 @@
                                     <select name="loc_city" class="select" style="width: 100px;"></select>
                                     <select name="loc_town" class="select" style="width: 120px;"></select>
                                     <input type="hidden" name="location_id" />
-                                    <input name="pname" type="text" class="input-text" />
+                                    <input name="addr_suffix" type="text" class="input-text" />
                                 </td>
                             </tr>
                             <tr>
@@ -140,6 +143,9 @@
             <div class="ct">
                 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { name = "regform-ent" }))
                 {
+                                    <input type="hidden" name="hidn_province" />
+                                    <input type="hidden" name="hidn_city" />
+                                    <input type="hidden" name="hidn_town" />
                     <table class="message_table">
                         <tbody>
                             <tr>
@@ -180,7 +186,7 @@
                                     <select name="loc_city" class="select" style="width: 100px;"></select>
                                     <select name="loc_town" class="select" style="width: 120px;"></select>
                                     <input type="hidden" name="location_id" />
-                                    <input name="pname" type="text" class="input-text" />
+                                    <input name="addr_suffix" type="text" class="input-text" />
                                 </td>
                             </tr>
                             <tr>
@@ -352,6 +358,12 @@
                 },
                 /*执行ajaxsubmit*/
                 submitHandler: function (form) {
+                    var provincename = $("form[name='regform-psnl'] select[name='loc_province']:eq(0)").find("option:selected").text();
+                    $("form[name='regform-psnl'] input[name='hidn_province']:eq(0)").val(provincename);
+                    var cityname = $("form[name='regform-psnl'] select[name='loc_city']:eq(0)").find("option:selected").text();
+                    $("form[name='regform-psnl'] input[name='hidn_city']:eq(0)").val(cityname);
+                    var townname = $("form[name='regform-psnl'] select[name='loc_town']:eq(0)").find("option:selected").text();
+                    $("form[name='regform-psnl'] input[name='hidn_town']:eq(0)").val(townname);
                     form.submit();
                 }
             });
@@ -457,6 +469,12 @@
                 },
                 /*执行ajaxsubmit*/
                 submitHandler: function (form) {
+                    var provincename = $("form[name='regform-ent'] select[name='loc_province']:eq(0)").find("option:selected").text();
+                    $("form[name='regform-ent'] input[name='hidn_province']:eq(0)").val(provincename);
+                    var cityname = $("form[name='regform-ent'] select[name='loc_city']:eq(0)").find("option:selected").text();
+                    $("form[name='regform-ent'] input[name='hidn_city']:eq(0)").val(cityname);
+                    var townname = $("form[name='regform-ent'] select[name='loc_town']:eq(0)").find("option:selected").text();
+                    $("form[name='regform-ent'] input[name='hidn_town']:eq(0)").val(townname);
                     form.submit();
                 }
             });

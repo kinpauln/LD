@@ -15,14 +15,14 @@ namespace LotteryDraw.Core.Models.Account
         public string City { get; set; }
 
         //[StringLength(20)]
-        public string County { get; set; }
+        public string Town { get; set; }
 
         //[StringLength(60)]
-        public string Street { get; set; }
+        public string Suffix { get; set; }
         
         public override string ToString()
         {
-            return Province + City + County + Street;
+            return Province + City + Town + Suffix;
         }
     }
 }
