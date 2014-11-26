@@ -60,20 +60,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 ViewBag.RevealType = rtvalue;
                 if ((int)RevealType.Answer == rtvalue)
                 {
-                    OperationResult innerresult = PrizeOrderSiteContract.GetPrizeAsking(poId);
-                    if (innerresult != null)
-                    {
-                        PrizeOrderView pov = (PrizeOrderView)innerresult.AppendData;
-                        if (pov != null)
-                        {
-                            ViewBag.Question = pov.Question;
-                            if (!string.IsNullOrEmpty(pov.AnswerOptions))
-                            {
-                                string[] options = pov.AnswerOptions.Split(new string[] { "|||" }, StringSplitOptions.RemoveEmptyEntries);
-                                ViewBag.AnswerOptions = options;
-                            }
-                        }
-                    }
+                    InitAnswerOptions(poId);
                 }
                 long userid = this.UserId ?? 0;
                 model.UserId = userid;
@@ -95,6 +82,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         public ActionResult PrizeBetting(PrizeBettingView model)
         {
             ViewBag.IsPostBack = true;
+            int rtype = int.Parse(Request.Form["RevealType"]);
+            ViewBag.RevealType = rtype;
             if (string.IsNullOrEmpty(model.Phone.Trim()))
             {
                 ViewBag.Message = "领奖电话不能为空";
@@ -110,6 +99,17 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 ViewBag.Message = "奖品邮寄地址不能为空";
                 return View(model);
             }
+            // 答案开奖的话需要验证是否选择了答案
+            if ((int)RevealType.Answer == rtype)
+            {
+                if (string.IsNullOrEmpty(model.AnswerOption))
+                {
+                    ViewBag.Message = "答案必须选择";
+                    InitAnswerOptions(model.PrizeOrderId.Value);
+                    return View(model);
+                }
+            }
+
             OperationResult result = PrizeBettingSiteContract.Add(model);
             string msg = result.Message ?? result.ResultType.ToDescription();
             if (result.ResultType == OperationResultType.Success)
@@ -120,6 +120,24 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             //ModelState.AddModelError("", msg);
             ViewBag.Message = msg;
             return View(model);
+        }
+
+        private void InitAnswerOptions(Guid poId)
+        {
+            OperationResult innerresult = PrizeOrderSiteContract.GetPrizeAsking(poId);
+            if (innerresult != null)
+            {
+                PrizeOrderView pov = (PrizeOrderView)innerresult.AppendData;
+                if (pov != null)
+                {
+                    ViewBag.Question = pov.Question;
+                    if (!string.IsNullOrEmpty(pov.AnswerOptions))
+                    {
+                        string[] options = pov.AnswerOptions.Split(new string[] { "|||" }, StringSplitOptions.RemoveEmptyEntries);
+                        ViewBag.AnswerOptions = options;
+                    }
+                }
+            }
         }
 
         #region 发布奖品

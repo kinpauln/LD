@@ -6,13 +6,13 @@
 //	   如存在本生成代码外的新需求，请在相同命名空间下创建同名分部类进行实现。
 // </auto-generated>
 //
-// <copyright file="MemberPublishRepository.generated.cs">
+// <copyright file="RechargeHistoryRepository.generated.cs">
 //		Copyright(c)2013 Kingdon.All rights reserved.
 //		CLR版本：4.0.30319.239
 //		开发组织：王金鹏@中国
 //		公司网站：http://www.wuliubang.net/
 //		所属工程：LotteryDraw.Core.Data
-//		生成时间：2014-11-19 20:11
+//		生成时间：2014-11-26 10:41
 // </copyright>
 //------------------------------------------------------------------------------
 
@@ -27,9 +27,9 @@ using LotteryDraw.Core.Models.Business;
 namespace LotteryDraw.Core.Data.Repositories.Business.Impl
 {
 	/// <summary>
-    ///   仓储操作层实现——奖品信息
+    ///   仓储操作层实现——会员充值历史
     /// </summary>
-    [Export(typeof(IMemberPublishRepository))]
-    public partial class MemberPublishRepository : EFRepositoryBase<RechargeHistory, Guid>, IMemberPublishRepository
+    [Export(typeof(IRechargeHistoryRepository))]
+    public partial class RechargeHistoryRepository : EFRepositoryBase<RechargeHistory, Guid>, IRechargeHistoryRepository
     { }
 }

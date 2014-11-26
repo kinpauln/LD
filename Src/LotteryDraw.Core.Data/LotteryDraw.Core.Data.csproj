@@ -87,18 +87,18 @@
     <Compile Include="Repositories\Account\Impl\MemberExtendRepository.generated.cs" />
     <Compile Include="Repositories\Account\Impl\MemberRepository.generated.cs" />
     <Compile Include="Repositories\Business\ILotteryResultRepository.generated.cs" />
-    <Compile Include="Repositories\Business\IMemberPublishRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\LotteryResultRepository.generated.cs" />
-    <Compile Include="Repositories\Business\Impl\MemberPublishRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeBettingRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeOrderExtendRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeOrderRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeRepository.generated.cs" />
+    <Compile Include="Repositories\Business\Impl\RechargeHistoryRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\WhiteListRepository.generated.cs" />
     <Compile Include="Repositories\Business\IPrizeBettingRepository.generated.cs" />
     <Compile Include="Repositories\Business\IPrizeOrderExtendRepository.generated.cs" />
     <Compile Include="Repositories\Business\IPrizeOrderRepository.generated.cs" />
     <Compile Include="Repositories\Business\IPrizeRepository.generated.cs" />
+    <Compile Include="Repositories\Business\IRechargeHistoryRepository.generated.cs" />
     <Compile Include="Repositories\Business\IWhiteListRepository.generated.cs" />
     <Compile Include="Repositories\Security\Impl\RoleRepository.generated.cs" />
     <Compile Include="Repositories\Security\IRoleRepository.generated.cs" />
@@ -121,11 +121,11 @@
 ..\Configurations\Account\MemberConfiguration.generated.cs
 ..\Configurations\Account\MemberExtendConfiguration.generated.cs
 ..\Configurations\Business\LotteryResultConfiguration.generated.cs
-..\Configurations\Business\MemberPublishConfiguration.generated.cs
 ..\Configurations\Business\PrizeBettingConfiguration.generated.cs
 ..\Configurations\Business\PrizeConfiguration.generated.cs
 ..\Configurations\Business\PrizeOrderConfiguration.generated.cs
 ..\Configurations\Business\PrizeOrderExtendConfiguration.generated.cs
+..\Configurations\Business\RechargeHistoryConfiguration.generated.cs
 ..\Configurations\Business\WhiteListConfiguration.generated.cs
 ..\Configurations\Security\RoleConfiguration.generated.cs
 ..\Configurations\Systems\LogInfoConfiguration.generated.cs
@@ -136,18 +136,18 @@
 ..\Repositories\Account\Impl\MemberExtendRepository.generated.cs
 ..\Repositories\Account\Impl\MemberRepository.generated.cs
 ..\Repositories\Business\ILotteryResultRepository.generated.cs
-..\Repositories\Business\IMemberPublishRepository.generated.cs
 ..\Repositories\Business\Impl\LotteryResultRepository.generated.cs
-..\Repositories\Business\Impl\MemberPublishRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeBettingRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeOrderExtendRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeOrderRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeRepository.generated.cs
+..\Repositories\Business\Impl\RechargeHistoryRepository.generated.cs
 ..\Repositories\Business\Impl\WhiteListRepository.generated.cs
 ..\Repositories\Business\IPrizeBettingRepository.generated.cs
 ..\Repositories\Business\IPrizeOrderExtendRepository.generated.cs
 ..\Repositories\Business\IPrizeOrderRepository.generated.cs
 ..\Repositories\Business\IPrizeRepository.generated.cs
+..\Repositories\Business\IRechargeHistoryRepository.generated.cs
 ..\Repositories\Business\IWhiteListRepository.generated.cs
 ..\Repositories\Security\Impl\RoleRepository.generated.cs
 ..\Repositories\Security\IRoleRepository.generated.cs

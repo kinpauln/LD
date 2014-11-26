@@ -17,6 +17,8 @@
 {
     @Html.HiddenFor(model => model.PrizeOrderId)
     @Html.HiddenFor(model => model.UserId)
+    <input type="hidden" name="RevealType" value="@ViewBag.RevealType" />
+    @Html.HiddenFor(model => model.AnswerOption)
     <table class="message_table">
         <tbody>
             @if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
@@ -135,7 +137,7 @@
                     if (rtype == 3) {
                         var $slanswer = $("select[name='answer']:eq(0)");
                         if ($slanswer != null && $slanswer.val() != "") {
-                            //form.submit();
+                            form.submit();
                         } else {
                             var $errorinfos = $slanswer.parent().find("span.error-info");
                             if ($errorinfos.length == 0) {
@@ -145,12 +147,13 @@
                             }
                         }
                     } else {
-                        //form.submit();
+                        form.submit();
                     }
                 }
             });
 
             $("select[name='answer']").change(function () {
+                $("input:hidden[name='AnswerOption']").val($(this).val());
                 var $errorinfos = $(this).parent().find("span.error-info");
                 if ($(this).val() != "") {
                     if ($errorinfos.length > 0) {

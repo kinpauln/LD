@@ -14,7 +14,7 @@ namespace LotteryDraw.Core.Data.Configurations.Business
     /// </summary>    
     internal partial class RechargeHistoryConfiguration
     {
-        partial void MemberPublishSettingConfigurationAppend()
+        partial void RechargeHistoryConfigurationAppend()
         {
             HasRequired(m => m.Member)
                 .WithMany(n => n.RechargeHistories)
