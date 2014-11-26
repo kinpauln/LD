@@ -25,7 +25,7 @@
                     <td colspan="2" style="text-align: center; color: #f00;">@ViewBag.Message</td>
                 </tr>
             }
-            @if (Request.QueryString["RevealType"] != null && Request.QueryString["RevealType"] == "3")
+            @if (ViewBag.RevealType != null && ViewBag.RevealType == 3)
             {
                 <tr>
                     <td class="text">题目：</td>
@@ -131,7 +131,38 @@
                 },
                 /*执行ajaxsubmit*/
                 submitHandler: function (form) {
-                    form.submit();
+                    var rtype = '@ViewBag.RevealType';
+                    if (rtype == 3) {
+                        var $slanswer = $("select[name='answer']:eq(0)");
+                        if ($slanswer != null && $slanswer.val() != "") {
+                            //form.submit();
+                        } else {
+                            var $errorinfos = $slanswer.parent().find("span.error-info");
+                            if ($errorinfos.length == 0) {
+                                $('<br/><span class="error-info">答案必须选择</span>').appendTo($slanswer.parent());
+                            } else {
+                                $errorinfos.show();
+                            }
+                        }
+                    } else {
+                        //form.submit();
+                    }
+                }
+            });
+
+            $("select[name='answer']").change(function () {
+                var $errorinfos = $(this).parent().find("span.error-info");
+                if ($(this).val() != "") {
+                    if ($errorinfos.length > 0) {
+                        var $error = $errorinfos.eq(0);
+                        var $br = $error.prev("br");
+                        $br.remove();
+                        $error.remove();
+                    }
+                } else {
+                    if ($errorinfos.length == 0) {
+                        $('<br/><span class="error-info">答案必须选择</span>').appendTo($(this).parent());
+                    }
                 }
             });
         });

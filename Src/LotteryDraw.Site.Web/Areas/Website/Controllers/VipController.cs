@@ -57,6 +57,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             {
                 PrizeBettingView model = new PrizeBettingView() { PrizeOrderId = poId };
                 int rtvalue = int.Parse(Request.QueryString["RevealType"]);
+                ViewBag.RevealType = rtvalue;
                 if ((int)RevealType.Answer == rtvalue)
                 {
                     OperationResult innerresult = PrizeOrderSiteContract.GetPrizeAsking(poId);
