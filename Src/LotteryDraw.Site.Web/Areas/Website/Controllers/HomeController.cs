@@ -46,6 +46,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 }
             }
 
+            GetTopLuckies();
+
             if (User.Identity.IsAuthenticated) {
                 long userid = UserId ?? 0;
                 ViewBag.NoticeCount = LotteryResultContract.LotteryResults.Where(lr => 
@@ -54,6 +56,14 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     && lr.State == (int)LotteryResultState.Default).Count();
             }
             return View();
+        }
+
+        private void GetTopLuckies() {
+            int luckyCount = 10;
+            var topLuckies = LotteryResultContract.LotteryResults.Where(lr =>
+                    !lr.IsDeleted)
+                    .OrderByDescending(lr => lr.AddDate).Take(luckyCount);
+            ViewBag.TopLuckies = topLuckies;
         }
 
         public override ActionResult InfoPage()
