@@ -41,5 +41,7 @@ namespace LotteryDraw.Core.Models.Business
 
         [DefaultValue(0)]
         public int State { get; set; }
+
+        public DateTime? UpdateDate { get; set; }
     }
 }
