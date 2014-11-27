@@ -41,3 +41,23 @@
     </div>
 
 </nav>
+<script type="text/javascript">
+    $(function () {
+        var controllerName = '@ViewContext.RouteData.Values["controller"]';
+        var actionName = '@ViewContext.RouteData.Values["action"]';
+        var currurl = window.location.href;
+        $("ul.list-none li").removeClass("navdown");
+        $("ul.list-none li").each(function () {
+            var $li = $(this);
+            $(this).find("a").each(function () {
+                var ahref = $(this).attr("href");
+                if (ahref.indexOf(controllerName + "/" + actionName) != -1) {
+                    $li.addClass("navdown");
+                } else {
+                    $(this).addClass("nav");
+                }
+            }
+            );
+        });
+    });
+</script>
