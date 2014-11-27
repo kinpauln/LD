@@ -108,20 +108,30 @@
 <div class="index">
     <div id="News">
         <div class="inner">
-            <h3><span>新闻咨询</span></h3>
+            <h3><span>中奖信息</span></h3>
             <ul>
                 <div class="soroll">
                     <ol class="list-none metlist" style="margin-top: 0px;">
-                        <li class="list "><a href="http://www.wuliubang.net/" title="2014新春动员大会" target="_self">2014新春动员大会</a></li>
-                        <li class="list top"><a href="http://www.wuliubang.net/" title="反浪费不等于反对发展高端餐饮" target="_self">反浪费不等于反对发展高端餐饮</a></li>
-                        <li class="list "><a href="http://www.wuliubang.net/" title="反浪费不等于反对发展高端餐饮" target="_self">反浪费不等于反对发展高端餐饮</a></li>
-                        <li class="list "><a href="http://www.wuliubang.net/" title="物业管理行业引入企业优化管理" target="_self">物业管理行业引入企业优化管理</a></li>
-                        <li class="list "><a href="http://www.wuliubang.net/" title="物业管理行业引入企业优化管理" target="_self">物业管理行业引入企业优化管理</a></li>
-                        <li class="list "><a href="http://www.wuliubang.net/" title="浦东工委召开高端物业管理企业人才需求研讨会" target="_self">浦东工委召开高端物业管理企业人才需求研讨会</a></li>
-                        <li class="list "><a href="http://www.wuliubang.net/" title="浦东工委召开高端物业管理企业人才需求研讨会" target="_self">浦东工委召开高端物业管理企业人才需求研讨会</a></li>
-                        <li class="list "><a href="http://www.wuliubang.net/" title="市物业协会召开行业开源节流工作研讨会" target="_self">市物业协会召开行业开源节流工作研讨会</a></li>
-                        <li class="list "><a href="http://www.wuliubang.net/" title="市物业协会召开行业开源节流工作研讨会" target="_self">市物业协会召开行业开源节流工作研讨会</a></li>
-                        <li class="list "><a href="http://www.wuliubang.net/" title="2014新春动员大会" target="_self">2014新春动员大会</a></li>
+                        @{
+                            var topluckies = ViewBag.TopLuckies;
+                            if (topluckies != null)
+                            {
+                                foreach (var item in topluckies)
+                                {
+                            <li class="list "><a href="http://www.wuliubang.net/" title="@item.MemberView.UserName" target="_self">@item.MemberView.UserName &nbsp; &nbsp; &nbsp; &nbsp;@item.MemberView.Tel</a></li>
+                                }
+                            }
+                        }
+                        @*<li class="list "><a href="#" title="2014新春动员大会" target="_self">2014新春动员大会</a></li>
+                        <li class="list top"><a href="#" title="反浪费不等于反对发展高端餐饮" target="_self">反浪费不等于反对发展高端餐饮</a></li>
+                        <li class="list "><a href="#" title="反浪费不等于反对发展高端餐饮" target="_self">反浪费不等于反对发展高端餐饮</a></li>
+                        <li class="list "><a href="#" title="物业管理行业引入企业优化管理" target="_self">物业管理行业引入企业优化管理</a></li>
+                        <li class="list "><a href="#" title="物业管理行业引入企业优化管理" target="_self">物业管理行业引入企业优化管理</a></li>
+                        <li class="list "><a href="#" title="浦东工委召开高端物业管理企业人才需求研讨会" target="_self">浦东工委召开高端物业管理企业人才需求研讨会</a></li>
+                        <li class="list "><a href="#" title="浦东工委召开高端物业管理企业人才需求研讨会" target="_self">浦东工委召开高端物业管理企业人才需求研讨会</a></li>
+                        <li class="list "><a href="#" title="市物业协会召开行业开源节流工作研讨会" target="_self">市物业协会召开行业开源节流工作研讨会</a></li>
+                        <li class="list "><a href="#" title="市物业协会召开行业开源节流工作研讨会" target="_self">市物业协会召开行业开源节流工作研讨会</a></li>
+                        <li class="list "><a href="#" title="2014新春动员大会" target="_self">2014新春动员大会</a></li>*@
                     </ol>
                 </div>
             </ul>
@@ -182,7 +192,7 @@
                                 <p>@prizeDescription</p>
                             </div>
                             <p>
-                                <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" onclick="javascript: location.href = '/Vip/PrizeBetting?revealType=2&poId=@poid'" />
+                                <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" onclick="javascript: location.href = '/Vip/PrizeBetting?revealType=2&poId=@poid    '" />
                             </p>
                         </a>
                             }
@@ -207,7 +217,7 @@
                                 <p>@prizeDescription</p>
                             </div>
                             <p>
-                                <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" onclick="javascript: location.href = '/Vip/PrizeBetting?revealType=3&poId=@poid'" />
+                                <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" onclick="javascript: location.href = '/Vip/PrizeBetting?revealType=3&poId=@poid    '" />
                             </p>
                         </a>
                             }

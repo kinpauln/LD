@@ -1,5 +1,6 @@
 ﻿using LotteryDraw.Component.Tools;
 using LotteryDraw.Core;
+using LotteryDraw.Site.Models;
 using LotteryDraw.Site.Web.Controllers;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,14 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             int luckyCount = 10;
             var topLuckies = LotteryResultContract.LotteryResults.Where(lr =>
                     !lr.IsDeleted)
-                    .OrderByDescending(lr => lr.AddDate).Take(luckyCount);
+                    .OrderByDescending(lr => lr.AddDate).Take(luckyCount).Select(lr => new LotteryResultView
+                    { 
+                        MemberView = new MemberView(){
+                        UserName =lr.Member.UserName,
+                        Name = lr.Member.Name,
+                        Tel = lr.Member.Extend.Tel
+                    }
+                    }).ToList();
             ViewBag.TopLuckies = topLuckies;
         }
 

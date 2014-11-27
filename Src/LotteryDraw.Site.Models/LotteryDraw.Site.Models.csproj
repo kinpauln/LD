@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LotteryResultView.cs" />
     <Compile Include="WhiteListView.cs" />
     <Compile Include="PrizeOrderDetailView.cs" />
     <Compile Include="PrizeBettingView.cs" />
