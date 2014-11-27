@@ -175,7 +175,9 @@
                             string pid = dr["Prize_Id"].ToString();
                             string prizeName = dr["PrizeName"].ToString();
                             string prizeDescription = dr["PrizeDescription"].ToString();
-                            string addDate = DateTime.Parse(dr["AddDate"].ToString()).ToString("yyyy-MM-dd");
+                            // 发起抽奖日期
+                            string addDate = DateTime.Parse(dr["RaiseTime"].ToString()).ToString("yyyy-MM-dd");
+                            string username = dr["UserName"].ToString(); //发起抽奖者
                             int rtype = int.Parse(dr["RevealType"].ToString());
                             string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
                         
@@ -197,14 +199,14 @@
                                 <span>@rtstring</span>
                             </div>
                             <p class="rmn-item">
-                                <em>导演 :</em>
-                                <span>
+                                <em>抽奖发起者 :</em>
+                                <span style="width:auto;">
                                     <nobr>
-                               <a href="#" target="_blank"> 詹姆斯·古恩 </a>
+                               <a href="#" target="_blank"> @username </a>
                                 </nobr>
                                 </span>
                             </p>
-                            <p class="rmn-item">
+                            @*<p class="rmn-item">
                                 <em>主演 :</em>
                                 <span>
                                     <nobr>
@@ -223,7 +225,7 @@
                                         <a href="#" target="_blank">凯伦·吉兰</a>
                                 </nobr>
                                 </span>
-                            </p>
+                            </p>*@
                             <p class="rmn-item">
                                 <em>类型 :</em>
                                 <span>
@@ -240,16 +242,31 @@
                                 </nobr>
                                 </span>
                             </p>
+                            <p class="rmn-item">
+                                <em>已抽奖 :</em>
+                                <span>1556人
+                                </span>
+                            </p>
+                            <p class="rmn-item">
+                                <em>距开奖还差 :</em>
+                                <span>154445人
+                                </span>
+                            </p>
+                            <p class="rmn-item">
+                                <em>距开奖还差 :</em>
+                                <span>2天3小时20分8秒
+                                </span>
+                            </p>
                             <div class="clear"></div>
-                            <div class="rmn-item clearfix">
+                            @*<div class="rmn-item clearfix">
                                 <ul>
-                                    <li>播放 :
+                                    <li>已抽奖 :
                                
-                                <span class="">1655633次</span>
+                                <span class="">1556人</span>
                                     </li>
-                                    <li>评论 :
+                                    <li>距开奖还差 :
                                
-                                <span class="">1585条</span>
+                                <span class="">154445人</span>
                                     </li>
                                 </ul>
                                 <ul>
@@ -262,7 +279,7 @@
                                 <span class="">87个</span>
                                     </li>
                                 </ul>
-                            </div>
+                            </div>*@
                             <div class="r-play-con">
                                 <a class="r-play-button" target="_self" href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
                             </div>

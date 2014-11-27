@@ -75,7 +75,7 @@
 .ranking-show-time{line-height: 24px;text-align: center;font-size: 12px;color: #fff;}
 .rmn-item{line-height: 26px;font-size: 12px;color:#333;font-style: normal;display: block;padding-right: 2px;}
 p.rmn-item{height: 26px;overflow: hidden;}
-.rmn-item span{display: inline-block;width: 222px;overflow: hidden;float: left;text-overflow:ellipsis;}
+.rmn-item span{display: inline-block;/*width: 222px;*/width: auto;overflow: hidden;float: left;text-overflow:ellipsis;}
 .rmn-item em{font-style: normal;color: #999;display: inline-block;float: left;}
 .rmn-item a{color: #333}
 .rmn-item ul{color: #999;padding-left:0px;}
