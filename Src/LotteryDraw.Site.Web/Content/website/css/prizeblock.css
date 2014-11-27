@@ -1,0 +1,100 @@
+﻿
+.feature-container {
+	text-align: left;
+	margin: 0 auto;
+	font: 12px/18px Arial,"宋体",Helvetica,sans-serif;
+	color: #4d4d4d;
+	/*background: url(../images/skinbg.jpg) no-repeat top center #2091cb*/
+    background-color:#2091cb;
+}
+
+.feature-container input {
+	font: 10pt Verdana,Arial,Helvetica,sans-serif,"宋体";
+	color: #999
+}
+
+
+
+.feature-container a {
+	/*color: #37779a;*/
+	text-decoration: none
+}
+
+.feature-container a:hover {
+	text-decoration: underline
+}
+
+.feature-container * {
+	margin: 0;
+	padding: 0
+}
+
+.fl {
+	float: left
+}
+
+
+.feature-container .clear {
+	height: 0;
+	clear: both;
+	overflow: hidden
+}
+
+
+.clearfix:after {
+	content: "\0020";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden
+}
+.wrap {
+	width: 982px;
+	margin: auto;
+}
+
+/*排行榜内容*/
+.ranking-web-content{padding: 0 0 0 30px;}
+.ranking-web-content .classify{line-height: 25px;padding: 20px 0 22px;font-size: 13px;}
+.ranking-web-content .classify a{padding: 0 6px;display: inline-block;margin:0 17px 8px 0;color: #999;height: 21px;line-height: 21px;}
+.ranking-web-content .classify a.show-now{background-color: #2191cb;color: #fff}
+.ranking-web-content .classify a:hover{background-color:#2191cb;text-decoration: none; color: #fff}
+.ranking-movie-list{height: 236px;overflow: hidden;width: 445px;font-family: "微软雅黑";margin-bottom: 50px;padding-right: 30px;}
+.ranking-movie-list img{width: 100%;height: 100%;}
+.ranking-movie-list dt{width: 170px; height:236px;overflow: hidden;position: relative;}
+.ranking-movie-list dt span{display: block;position: absolute;left: 0;top: 0;height: 30px;line-height: 30px;padding: 0 9px;background-color: #dd013c;font-size: 25px;font-family: arial;color: #fff;text-align: center;}
+.ranking-movie-list dt span.more-than-twth{background-color: #666;}
+.ranking-movie-list dd{padding-left:20px;width: 255px;overflow: hidden;position: relative;height: 100%;}
+.ranking-movie-name{line-height: 40px;}
+.ranking-movie-name h3{font-size: 27px;color: #333;overflow: hidden;display: inline-block;font-weight: normal;*display: inline;*zoom:0;max-width: 223px;white-space: nowrap;text-overflow:ellipsis;float: left;}
+.ranking-movie-name h3 a{color: #333;}
+.ranking-movie-name h3 a:hover{text-decoration: none;color: #333;}
+.ranking-movie-name span{margin:11px 0 11px 4px;vertical-align: super;display: inline-block;height:18px;line-height: 18px;background-color: #666;border-radius: 3px;color: #fff;padding: 0 2px;*display: inline;*zoom:0;float: left;}
+.ranking-pic{position: absolute;height: 24px;bottom: 0;left: 0;width: 170px;line-height: 24px;}
+.ranking-pic-back{background-color: #000;opacity: 0.8;filter:alpha(opacity=80);}
+.ranking-show-time{line-height: 24px;text-align: center;font-size: 12px;color: #fff;}
+.rmn-item{line-height: 26px;font-size: 12px;color:#333;font-style: normal;display: block;padding-right: 2px;}
+p.rmn-item{height: 26px;overflow: hidden;}
+.rmn-item span{display: inline-block;width: 222px;overflow: hidden;float: left;text-overflow:ellipsis;}
+.rmn-item em{font-style: normal;color: #999;display: inline-block;float: left;}
+.rmn-item a{color: #333}
+.rmn-item ul{color: #999;padding-left:0px;}
+.rmn-item ul li{float: left;width: 110px;display: inline-block;_display:inline;_zoom:0;_height:26px;}
+.rmn-item ul span{color: #333;padding-left: 2px;display: inline;float: none;*width:45px;*overflow: hidden;*height: 16px;*line-height: 16px;*vertical-align: baseline; }
+.r-play-con{position: absolute;left: 20px;top: 190px;}
+.r-play-button{position: relative;display: inline-block;background-color: #e9486a; float: left;width: 80px;padding-left: 50px;height:40px;line-height: 40px;border-radius: 4px;margin-right: 10px;color: #fff;font-size: 18px;font-family: "微软雅黑"; }
+.r-play-button-gray{background-color: #999}
+.r-play-button:hover{text-decoration: none}
+.r-play-button i{position: absolute;left: 0;top: 0;width: 50px;height: 40px;background: url(../images/ddyp.png) 30px -1091px no-repeat;}
+.r-play-con .watch,.r-play-con .watched{position: relative;font-size: 15px;color:#2191cb;line-height: 40px;cursor: pointer;}
+.r-play-con .watch-plus{font-size: 19px;font-style: normal;}
+.r-play-con .plus-one-cartoon{display: none;position: absolute;left: 10px;top: -25px; font-size: 15px;color: #dd013c;font-family: arial;font-style: normal; }
+
+/*筛选结果*/
+.seach-result-content{background: #fff;padding: 0 0 0 30px;font-family: "微软雅黑";/*border:solid 0px blue;*/}
+.ranking-web-content .sr-classify{line-height: 27px;height: 27px;}
+.ranking-web-content .sr-classify a,.ranking-web-content .sr-classify a.show-now{line-height: 27px;height: 27px;font-size: 17px;}
+.ranking-movie-list dt .assessment-zan{background: url(../images/icon_zan.png) no-repeat #08090a;display: block;height: 26px;line-height: 26px;color: #fff;font-size: 15px;font-family: arial;padding: 0 4px 0 23px;_background-color: #08090a}
+.ranking-movie-list dt .assessment-zan.up{background-position: -173px -226px;}
+.ranking-movie-list dt .assessment-zan.down{background-position: -231px -225px;}
+

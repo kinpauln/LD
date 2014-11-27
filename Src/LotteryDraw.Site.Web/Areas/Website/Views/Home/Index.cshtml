@@ -4,6 +4,7 @@
 }
 
 @using System.Data;
+@using LotteryDraw.Component.Tools;
 
 @section scripts{
     <script type="text/javascript">
@@ -21,8 +22,9 @@
         });</script>
 }
 @section styles{
+    <link href="~/Content/website/css/prizeblock.css" rel="stylesheet" />
     <style type="text/css">
-        #prize-results-container {
+        /*#prize-results-container {
             float: right;
             width: 250px;
             height: 500px;
@@ -33,6 +35,13 @@
             margin-right: 255px !important;
             margin-right: 255px;
             height: auto;
+            border:solid 1px blue;
+        }*/
+
+        #top-prizes-container {
+            width: 1440px;
+            height: auto;
+            border: solid 1px blue;
         }
 
             #top-prizes-container .left {
@@ -122,113 +131,160 @@
                                 }
                             }
                         }
-                        @*<li class="list "><a href="#" title="2014新春动员大会" target="_self">2014新春动员大会</a></li>
-                        <li class="list top"><a href="#" title="反浪费不等于反对发展高端餐饮" target="_self">反浪费不等于反对发展高端餐饮</a></li>
-                        <li class="list "><a href="#" title="反浪费不等于反对发展高端餐饮" target="_self">反浪费不等于反对发展高端餐饮</a></li>
-                        <li class="list "><a href="#" title="物业管理行业引入企业优化管理" target="_self">物业管理行业引入企业优化管理</a></li>
-                        <li class="list "><a href="#" title="物业管理行业引入企业优化管理" target="_self">物业管理行业引入企业优化管理</a></li>
-                        <li class="list "><a href="#" title="浦东工委召开高端物业管理企业人才需求研讨会" target="_self">浦东工委召开高端物业管理企业人才需求研讨会</a></li>
-                        <li class="list "><a href="#" title="浦东工委召开高端物业管理企业人才需求研讨会" target="_self">浦东工委召开高端物业管理企业人才需求研讨会</a></li>
-                        <li class="list "><a href="#" title="市物业协会召开行业开源节流工作研讨会" target="_self">市物业协会召开行业开源节流工作研讨会</a></li>
-                        <li class="list "><a href="#" title="市物业协会召开行业开源节流工作研讨会" target="_self">市物业协会召开行业开源节流工作研讨会</a></li>
-                        <li class="list "><a href="#" title="2014新春动员大会" target="_self">2014新春动员大会</a></li>*@
                     </ol>
                 </div>
             </ul>
-            <div id="productsearch" class="data-valuez=&#39;&#39;">
+            @*<div id="productsearch" class="data-valuez=&#39;&#39;">
                 <span><i style="float: left;"></i></span><span>
                     <form method="POST" name="myform1" action="http://www.wuliubang.net/" target="_self">
                         <input type="hidden" name="lang" value="cn">&nbsp;<input type="hidden" name="searchtype" value="0">&nbsp;<span class="navsearch_input"><input type="text" name="searchword" size="20"></span>&nbsp;<input class="searchimage" type="image" src="~/content/website/images/index_btn.gif">
                     </form>
                 </span>
-            </div>
+            </div>*@
         </div>
     </div>
-    <div class="clear"></div>
-    <div id="features-index">
-        <div class="bound">
+    @*<div class="clear"></div>*@
+    <div class="feature-container">
+
+        <!-- main start -->
+        <div class="wrap">
+            <!-- 影片 start-->
+            <div class="ranking-web-content seach-result-content clearfix">
+                <div class="classify sr-classify">
+                    <a class="show-now" href="#">所有</a>
+                    <a href="#">定员抽奖</a>
+                    <a href="#">定时抽奖</a>
+                    <a href="#">答案抽奖</a>
+                    <a href="#">现场抽奖</a>
+                </div>
+
+                @{
+                    DataRow[] arrayDR = (DataRow[])ViewBag.TopTimingPrizeOrders;
+                    if (arrayDR != null)
+                    {
+                        foreach (DataRow dr in arrayDR)
+                        {
+                            string poid = dr["Id"].ToString();
+                            string pid = dr["Prize_Id"].ToString();
+                            string prizeName = dr["PrizeName"].ToString();
+                            string prizeDescription = dr["PrizeDescription"].ToString();
+                            string addDate = DateTime.Parse(dr["AddDate"].ToString()).ToString("yyyy-MM-dd");
+                            int rtype = int.Parse(dr["RevealType"].ToString());
+                            string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖","");
+                        
+                    <dl class="clearfix ranking-movie-list fl">
+                        <dt class="fl">
+                            <a href="/Vip/PrizeDetail/@pid" target="_self">
+                                <img src="~/Content/website/images/test/thumb_0_230_322_20141009100901826484.jpg" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+                                <span class="assessment-zan up dpngIcon pngIcon">93%</span>
+
+                                <p class="ranking-pic-back ranking-pic"></p>
+                                <p class="ranking-show-time ranking-pic">发起抽奖时间：@addDate</p>
+                            </a>
+                        </dt>
+                        <dd class="fl">
+                            <div class="ranking-movie-name clearfix">
+                                <h3>
+                                    <div style="width:200px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;"><a href="#" title="@prizeName" target="_blank">@prizeName</a></div>
+                                </h3>
+                                <span>@rtstring</span>
+                            </div>
+                            <p class="rmn-item">
+                                <em>导演 :</em>
+                                <span>
+                                    <nobr>
+                               <a href="#" target="_blank"> 詹姆斯·古恩 </a>
+                                </nobr>
+                                </span>
+                            </p>
+                            <p class="rmn-item">
+                                <em>主演 :</em>
+                                <span>
+                                    <nobr>
+                                        <a href="#" target="_blank">克里斯·帕拉特</a>
+                                </nobr>
+                                    <nobr>
+                                        &nbsp;&nbsp;
+                                        <a href="#" target="_blank">佐伊·索尔达娜</a>
+                                </nobr>
+                                    <nobr>
+                                        &nbsp;&nbsp;
+                                        <a href="#" target="_blank">李·佩斯</a>
+                                </nobr>
+                                    <nobr>
+                                        &nbsp;&nbsp;
+                                        <a href="#" target="_blank">凯伦·吉兰</a>
+                                </nobr>
+                                </span>
+                            </p>
+                            <p class="rmn-item">
+                                <em>类型 :</em>
+                                <span>
+                                    <nobr>
+                                    <a href="#" target="_blank">动作</a>
+                                </nobr>
+                                    <nobr>
+                                    &nbsp;&nbsp;
+                                    <a href="#" target="_blank">科幻</a>
+                                </nobr>
+                                    <nobr>
+                                    &nbsp;&nbsp;
+                                    <a href="#" target="_blank">冒险</a>
+                                </nobr>
+                                </span>
+                            </p>
+                            <div class="clear"></div>
+                            <div class="rmn-item clearfix">
+                                <ul>
+                                    <li>播放 :
+                               
+                                <span class="">1655633次</span>
+                                    </li>
+                                    <li>评论 :
+                               
+                                <span class="">1585条</span>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>高清视频 :
+                               
+                                <span class="">3个</span>
+                                    </li>
+                                    <li>预告/花絮:
+                               
+                                <span class="">87个</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="r-play-con">
+                                <a class="r-play-button" target="_self" href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
+                            </div>
+                        </dd>
+                    </dl>
+                        }
+                    }
+                }
+                <div class="clear"></div>
+            </div>
+        </div>
+        <!-- main end -->
+        @*<div class="bound">
             <div id="prize-results-container">
             </div>
             <div id="top-prizes-container">
                 <div class="left">
-                    @{
-                        DataRow[] arrayDR = (DataRow[])ViewBag.TopTimingPrizeOrders;
-                        if (arrayDR != null)
-                        {
-                            foreach (DataRow dr in arrayDR)
-                            {
-                                string poid = dr["Id"].ToString();
-                                string prizeName = dr["PrizeName"].ToString();
-                                string prizeDescription = dr["PrizeDescription"].ToString();
-                        <a href="#">
-                            <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                            <div class="ph">
-                                <h4 class="c_blue">@prizeName</h4>
-                                <p>@prizeDescription</p>
-                            </div>
-                            <p>
-                                <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" onclick="javascript: location.href = '/Vip/PrizeBetting?revealType=1&poId=@poid    '" />
-                            </p>
-                        </a>
-                            }
-                        }
-                    }
                     <div class="clear"></div>
                 </div>
                 <div class="right">
-                    @{
-                        arrayDR = (DataRow[])ViewBag.TopQuotaPrizeOrders;
-                        if (arrayDR != null)
-                        {
-                            foreach (DataRow dr in arrayDR)
-                            {
-                                string prizeName = dr["PrizeName"].ToString();
-                                string prizeDescription = dr["PrizeDescription"].ToString();
-                                string poid = dr["Id"].ToString();
-                        <a href="#">
-                            <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                            <div class="ph">
-                                <h4 class="c_blue">@prizeName</h4>
-                                <p>@prizeDescription</p>
-                            </div>
-                            <p>
-                                <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" onclick="javascript: location.href = '/Vip/PrizeBetting?revealType=2&poId=@poid    '" />
-                            </p>
-                        </a>
-                            }
-                        }
-                    }
                     <div class="clear"></div>
                 </div>
                 <div class="middle">
-                    @{
-                        arrayDR = (DataRow[])ViewBag.TopAnswerPrizeOrders;
-                        if (arrayDR != null)
-                        {
-                            foreach (DataRow dr in arrayDR)
-                            {
-                                string prizeName = dr["PrizeName"].ToString();
-                                string prizeDescription = dr["PrizeDescription"].ToString();
-                                string poid = dr["Id"].ToString();
-                        <a href="#">
-                            <img src="~/content/website/images/1405492353.jpg" alt="猎头服务" class="ph">
-                            <div class="ph">
-                                <h4 class="c_blue">@prizeName</h4>
-                                <p>@prizeDescription</p>
-                            </div>
-                            <p>
-                                <input type="button" value="抽奖" style="float:right;margin-right:10px;width:200px;height:30px;" onclick="javascript: location.href = '/Vip/PrizeBetting?revealType=3&poId=@poid    '" />
-                            </p>
-                        </a>
-                            }
-                        }
-                    }
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
             <div class="clear"></div>
-        </div>
+        </div>*@
     </div>
 
 
