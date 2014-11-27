@@ -52,7 +52,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         ///  获取前N个最新中奖用户
         /// </summary>
         private void GetTopLuckies() {
-            int luckyCount = 10;
+            int luckyCount = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TopCountOfLuckyMember"]);
             var topLuckies = LotteryResultContract.LotteryResults.Where(lr =>
                     !lr.IsDeleted)
                     .OrderByDescending(lr => lr.AddDate).Take(luckyCount).Select(lr => new LotteryResultView
@@ -71,7 +71,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// </summary>
         private void GetGetTopPrizeOrders(int? rtype)
         {
-            int topCount = 20;
+            int topCount = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TopCountOfPrizeOrder"]);
             OperationResult result = PrizeOrderSiteContract.GetTopPrizeOrders(topCount,rtype);
             if (result.ResultType == OperationResultType.Success)
             {

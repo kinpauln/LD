@@ -167,7 +167,7 @@
 
                 @{
                     DataRow[] arrayDR = (DataRow[])ViewBag.AllPrizeOrders;
-                    if (arrayDR != null)
+                    if (arrayDR != null && arrayDR.Count() > 0)
                     {
                         foreach (DataRow dr in arrayDR)
                         {
