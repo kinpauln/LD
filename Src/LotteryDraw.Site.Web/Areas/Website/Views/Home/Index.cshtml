@@ -9,6 +9,12 @@
 @section scripts{
     <script type="text/javascript">
         $(function () {
+            var rtype = '@Request.QueryString["rtype"]';
+            if (rtype != null && rtype != "") {
+                $(".classify a").removeClass("show-now");
+                $(".classify a[href*='rtype=" + rtype + "']:eq(0)").addClass("show-now");
+            }
+
             var marginright = parseInt($("#top-prizes-container").css("margin-right").replace("px", ""));
             $("#top-prizes-container").width($(".bound").width() - (marginright + 5));
             var pwidth = $("#top-prizes-container").width();
@@ -19,6 +25,7 @@
             //$("#top-prizes-container .middle").css("margin", "0 " + margin.toString() + "px !important");
             $("#top-prizes-container .middle").css("margin-left", margin.toString() + "px");
             $("#top-prizes-container .middle").css("margin-right", margin.toString() + "px");
+
         });</script>
 }
 @section styles{
@@ -151,15 +158,15 @@
             <!-- 影片 start-->
             <div class="ranking-web-content seach-result-content clearfix">
                 <div class="classify sr-classify">
-                    <a class="show-now" href="#">所有</a>
-                    <a href="#">定员抽奖</a>
-                    <a href="#">定时抽奖</a>
-                    <a href="#">答案抽奖</a>
-                    <a href="#">现场抽奖</a>
+                    <a class="show-now" href="/">所有</a>
+                    <a href="/Home/Index?rtype=@RevealType.Quota.ToInt()">定员抽奖</a>
+                    <a href="/Home/Index?rtype=@RevealType.Timing.ToInt()">定时抽奖</a>
+                    <a href="/Home/Index?rtype=@RevealType.Answer.ToInt()">答案抽奖</a>
+                    <a href="/Home/Index?rtype=@RevealType.Scene.ToInt()">现场抽奖</a>
                 </div>
 
                 @{
-                    DataRow[] arrayDR = (DataRow[])ViewBag.TopTimingPrizeOrders;
+                    DataRow[] arrayDR = (DataRow[])ViewBag.AllPrizeOrders;
                     if (arrayDR != null)
                     {
                         foreach (DataRow dr in arrayDR)
@@ -170,7 +177,7 @@
                             string prizeDescription = dr["PrizeDescription"].ToString();
                             string addDate = DateTime.Parse(dr["AddDate"].ToString()).ToString("yyyy-MM-dd");
                             int rtype = int.Parse(dr["RevealType"].ToString());
-                            string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖","");
+                            string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
                         
                     <dl class="clearfix ranking-movie-list fl">
                         <dt class="fl">
@@ -185,7 +192,7 @@
                         <dd class="fl">
                             <div class="ranking-movie-name clearfix">
                                 <h3>
-                                    <div style="width:200px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;"><a href="#" title="@prizeName" target="_blank">@prizeName</a></div>
+                                    <div style="width: 200px; white-space: nowrap; text-overflow: ellipsis; -o-text-overflow: ellipsis; overflow: hidden;"><a href="#" title="@prizeName" target="_blank">@prizeName</a></div>
                                 </h3>
                                 <span>@rtstring</span>
                             </div>
@@ -262,6 +269,10 @@
                         </dd>
                     </dl>
                         }
+                    }
+                    else
+                    {
+                    <div style="font-weight: bold; text-align: center; font-size: 20px; padding: 20px 0;">暂时没有可抽的奖</div>
                     }
                 }
                 <div class="clear"></div>

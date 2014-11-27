@@ -26,28 +26,17 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         #endregion
         #endregion
 
-        public ActionResult Index()
+        public ActionResult Index(int? rtype)
         {
-            OperationResult result = PrizeOrderSiteContract.GetTopPrizeOrders();
-            if (result.ResultType == OperationResultType.Success)
-            {
-                DataSet ds = (DataSet)result.AppendData;
+            // 获取最新的可抽奖信息
+            GetGetTopPrizeOrders(rtype);
 
-                if (ds != null && ds.Tables.Count > 0)
-                {
-                    DataTable dt = ds.Tables[0];
-                    //DataRow[] arrayDR = dt.Select("RevealType=1");
-
-                    //定时
-                    ViewBag.TopTimingPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Timing);
-                    //定员
-                    ViewBag.TopQuotaPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Quota);
-                    //答案
-                    ViewBag.TopAnswerPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Answer);
-                }
-            }
-
+            // 获取前N个最新中奖用户
             GetTopLuckies();
+
+            if (rtype.HasValue) {
+                ViewBag.RTypeParam = rtype.Value;
+            }
 
             if (User.Identity.IsAuthenticated) {
                 long userid = UserId ?? 0;
@@ -59,6 +48,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             return View();
         }
 
+        /// <summary>
+        ///  获取前N个最新中奖用户
+        /// </summary>
         private void GetTopLuckies() {
             int luckyCount = 10;
             var topLuckies = LotteryResultContract.LotteryResults.Where(lr =>
@@ -72,6 +64,35 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     }
                     }).ToList();
             ViewBag.TopLuckies = topLuckies;
+        }
+
+        /// <summary>
+        ///  获取最新的可抽奖信息
+        /// </summary>
+        private void GetGetTopPrizeOrders(int? rtype)
+        {
+            int topCount = 20;
+            OperationResult result = PrizeOrderSiteContract.GetTopPrizeOrders(topCount,rtype);
+            if (result.ResultType == OperationResultType.Success)
+            {
+                DataSet ds = (DataSet)result.AppendData;
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    DataRow[] rowarray = new DataRow[dt.Rows.Count];
+                    dt.Rows.CopyTo(rowarray, 0);
+                    //所有
+                    ViewBag.AllPrizeOrders = rowarray;
+
+                    //定时
+                    ViewBag.TopTimingPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Timing);
+                    //定员
+                    ViewBag.TopQuotaPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Quota);
+                    //答案
+                    ViewBag.TopAnswerPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Answer);
+                }
+            }
         }
 
         public override ActionResult InfoPage()

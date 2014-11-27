@@ -164,9 +164,9 @@ namespace LotteryDraw.Site.Impl
         ///     获取Top奖单
         /// </summary>
         /// <returns>奖单信息结果集</returns>
-        public OperationResult GetTopPrizeOrders()
+        public OperationResult GetTopPrizeOrders(int topCount, int? rtype)
         {
-            OperationResult result = PrizeOrderContract.GetTopPrizeOrders();
+            OperationResult result = PrizeOrderContract.GetTopPrizeOrders(topCount, rtype);
             return result;
         }
 
@@ -202,7 +202,8 @@ namespace LotteryDraw.Site.Impl
         public OperationResult GetPrizeAsking(Guid poid)
         {
             OperationResult result = PrizeOrderContract.GetPrizeOrderById(poid);
-            if (result.ResultType == OperationResultType.Success) {
+            if (result.ResultType == OperationResultType.Success)
+            {
                 PrizeOrder pomodel = (PrizeOrder)result.AppendData;
                 result.AppendData = new PrizeOrderView()
                 {

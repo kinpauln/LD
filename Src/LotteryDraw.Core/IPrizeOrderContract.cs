@@ -71,7 +71,7 @@ namespace LotteryDraw.Core
         ///     获取奖单
         /// </summary>
         /// <returns>奖单信息结果集</returns>
-        OperationResult GetTopPrizeOrders();
+        OperationResult GetTopPrizeOrders(int topCount, int? rtype);
 
         /// <summary>
         ///  开奖
@@ -79,8 +79,8 @@ namespace LotteryDraw.Core
         /// <param name="interval">访问数据库频率</param>
         /// <param name="errorString">错误信息</param>
         /// <returns>业务操作结果</returns>
-        OperationResult RevealLottery(int interval,out string errorString);
-        
+        OperationResult RevealLottery(int interval, out string errorString);
+
         /// <summary>
         ///  取奖单
         /// </summary>

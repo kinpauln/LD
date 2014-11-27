@@ -51,7 +51,7 @@ namespace LotteryDraw.Site
         ///     获取奖单
         /// </summary>
         /// <returns>奖单信息结果集</returns>
-        OperationResult GetTopPrizeOrders();
+        OperationResult GetTopPrizeOrders(int topCount, int? rtype);
 
         /// <summary>
         ///  取奖单
@@ -66,7 +66,7 @@ namespace LotteryDraw.Site
         /// <param name="revealstate">奖单状态</param>
         /// <returns></returns>
         OperationResult GetLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0, int revealstate = 0);
-                
+
         /// <summary>
         ///  置顶
         /// </summary>

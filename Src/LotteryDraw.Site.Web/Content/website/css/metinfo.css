@@ -149,7 +149,7 @@ padding: 0px 7px 0px 8px;background:url(../bg.png) no-repeat -408px -1277px; zoo
 
 .bound {width: 98%;overflow: hidden;margin: 0 auto;position: relative;}
 
-.index-link{word-wrap: break-word;padding: 0px 20px 10px;overflow: hidden;}
+.index-link{word-wrap: break-word;padding: 10px;overflow: hidden;}
 
 .linkx h3.title{float: left;min-width: 57px;_width: 57px;display: inline;white-space: nowrap;color: #555;}
 

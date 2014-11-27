@@ -135,11 +135,21 @@ namespace LotteryDraw.Core.Impl
         ///     获取奖单
         /// </summary>
         /// <returns>奖单信息结果集</returns>
-        public OperationResult GetTopPrizeOrders()
+        public OperationResult GetTopPrizeOrders(int topCount, int? rtype)
         {
             try
             {
-                DataSet ds = PrizeOrderRepository.ExecProcdureReturnDataSet("sp_getTopPrizeOrders", null);
+                List<SqlParameter> paramList = new List<SqlParameter>();
+
+                SqlParameter paramTopCount = new SqlParameter("@topCount", SqlDbType.Int);
+                paramTopCount.Value = topCount;
+                paramList.Add(paramTopCount);
+
+                SqlParameter paramRType = new SqlParameter("@revealType", SqlDbType.Int);
+                paramRType.Value = rtype ?? 0;
+                paramList.Add(paramRType);
+
+                DataSet ds = PrizeOrderRepository.ExecProcdureReturnDataSet("sp_getTopPrizeOrders", paramList.ToArray());
                 return new OperationResult(OperationResultType.Success, "获取Top奖单成功。", ds);
             }
             catch (System.Exception ex)
@@ -260,7 +270,7 @@ namespace LotteryDraw.Core.Impl
                 paramPoId.Value = poid.ToString();
                 paramList.Add(paramPoId);
 
-                SqlParameter paramec = new SqlParameter("@ErrorCode", SqlDbType.VarChar,10);
+                SqlParameter paramec = new SqlParameter("@ErrorCode", SqlDbType.VarChar, 10);
                 paramec.Direction = ParameterDirection.Output;
                 paramList.Add(paramec);
 
@@ -295,7 +305,8 @@ namespace LotteryDraw.Core.Impl
         ///  获取奖单实体
         /// </summary>
         /// <param name="poid">奖单ID</param>
-        public OperationResult GetPrizeOrderById(Guid poid) {
+        public OperationResult GetPrizeOrderById(Guid poid)
+        {
             try
             {
                 var model = PrizeOrderRepository.Entities.Where(po => po.Id == poid && !po.IsDeleted).FirstOrDefault();
