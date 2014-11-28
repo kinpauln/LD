@@ -46,8 +46,9 @@ namespace LotteryDraw.Site.Impl
         ///     添加奖品
         /// </summary>
         /// <param name="prizebetting">奖品信息</param>
+        /// <param name="shouldMinus">是否该对用户的可发起抽奖次数减</param>
         /// <returns>业务操作结果</returns>
-        public OperationResult Add(PrizeOrderView povmodel)
+        public OperationResult Add(PrizeOrderView povmodel, bool shouldMinus = false)
         {
             PublicHelper.CheckArgument(povmodel, "povmodel");
             int? sortorder = PrizeOrderContract.PrizeOrders.Max(po => po.SortOrder);
@@ -98,7 +99,7 @@ namespace LotteryDraw.Site.Impl
             }
             try
             {
-                return PrizeOrderContract.Add(pmodel);
+                return PrizeOrderContract.Add(pmodel, shouldMinus);
             }
             catch (Exception ex)
             {

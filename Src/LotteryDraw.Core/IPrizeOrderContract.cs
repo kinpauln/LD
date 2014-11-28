@@ -43,8 +43,9 @@ namespace LotteryDraw.Core
         ///     添加奖单
         /// </summary>
         /// <param name="prizebetting">奖单信息</param>
+        /// <param name="shouldMinus">是否该对用户的可发起抽奖次数减</param>
         /// <returns>业务操作结果</returns>
-        OperationResult Add(PrizeOrder prizeorder);
+        OperationResult Add(PrizeOrder prizeorder, bool shouldMinus = false);
 
         /// <summary>
         ///  批量添加奖单

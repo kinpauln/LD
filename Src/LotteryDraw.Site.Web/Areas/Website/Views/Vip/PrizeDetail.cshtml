@@ -57,10 +57,8 @@
         <tr>
             <td class="text"></td>
             <td class="submint">
-                <a href="/Vip/LaunchPrize/@Model.Id">
-                    <input type="submit" value="发起抽奖" class="submit button orange"></a>
-                <a href="/Vip/ManagePrizes">
-                    <input type="button" value="返回" class="submit button orange" /></a>
+                <input type="button" id="btnLaunch" value="发起抽奖" pubtimes="@ViewBag.PublishEnableTimes" class="submit button orange">
+                <input type="button" value="返回" class="submit button orange" onclick="javascript: history.go(-1);" />
             </td>
         </tr>
     </tbody>
@@ -70,40 +68,13 @@
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            $("#prizeForm").validate({
-                errorElement: 'span',
-                errorClass: 'error-info',
-                focusInvalid: false,
-                rules: {
-                    Name: {
-                        required: true
-                    }
-                },
-
-                messages: {
-                    Name: {
-                        required: "奖品名称不能为空"
-                    }
-                },
-                invalidHandler: function (event, validator) { //display error alert on form submit   
-                    //$('.alert-danger', $('.login-form')).show();
-                },
-                highlight: function (e) {
-                    //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
-                },
-                /* 验证通过时的处理 */
-                success: function (e) {
-                    //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
-                    //$(e).remove();
-                },
-                /* 错误信息的显示位置 */
-                errorPlacement: function (error, element) {
-                    //element.parent().append("<br />");
-                    error.appendTo(element.parent());
-                },
-                /*执行ajaxsubmit*/
-                submitHandler: function (form) {
-                    form.submit();
+            $("#btnLaunch").click(function () {
+                var pubtimes = '@ViewBag.PublishEnableTimes';
+                if (pubtimes > 0) {
+                    var href = "/Vip/LaunchPrize/@Model.Id";
+                    location.href = href;
+                } else {
+                    alert("抱歉，您可发起抽奖的次数为0，请续费后再继续使用该功能。");
                 }
             });
         });

@@ -43,6 +43,9 @@ namespace LotteryDraw.Core.Impl
         [Import]
         protected IPrizeOrderRepository PrizeOrderRepository { get; set; }
 
+        [Import]
+        protected IMemberRepository MemberRepository { get; set; }
+
         #endregion
 
         #region 公共属性
@@ -63,12 +66,22 @@ namespace LotteryDraw.Core.Impl
         ///     添加奖品
         /// </summary>
         /// <param name="prizebetting">奖品信息</param>
+        /// <param name="shouldMinus">是否该对用户的可发起抽奖次数减</param>
         /// <returns>业务操作结果</returns>
-        public OperationResult Add(PrizeOrder prizeorder)
+        public OperationResult Add(PrizeOrder prizeorder, bool shouldMinus = false)
         {
             int rcount = PrizeOrderRepository.Insert(prizeorder);
             if (rcount > 0)
             {
+                if (shouldMinus)
+                {
+                    var member = MemberRepository.Entities.Where(m => m.Id == prizeorder.Prize.Member.Id).FirstOrDefault();
+                    if (member != null)
+                    {
+                        member.PubishingEnableTimes--;
+                        MemberRepository.Update(member);
+                    } 
+                }
                 return new OperationResult(OperationResultType.Success, "发布奖单成功。", prizeorder);
             }
             else

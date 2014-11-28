@@ -60,8 +60,9 @@ namespace LotteryDraw.Site.Impl
                     : DateTime.Now.Add(FormsAuthentication.Timeout);
                 string useridString = member.Id.ToString();
                 string roleIdString = member.Roles == null ? string.Empty : string.Join(",", member.Roles.Select(r => r.RoleTypeNum.ToString()));
+                string publishTimes = member.PubishingEnableTimes.ToString();
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, member.UserName, DateTime.Now, expiration,
-                    true, string.Join("|", new string[] { useridString, roleIdString }), FormsAuthentication.FormsCookiePath);
+                    true, string.Join("|", new string[] { useridString, roleIdString, publishTimes }), FormsAuthentication.FormsCookiePath);
                 HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
                 if (model.IsRememberLogin)
                 {

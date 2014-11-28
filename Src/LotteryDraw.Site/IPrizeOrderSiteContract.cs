@@ -30,8 +30,9 @@ namespace LotteryDraw.Site
         ///     添加奖单
         /// </summary>
         /// <param name="prizebetting">奖单信息</param>
+        /// <param name="shouldMinus">是否该对用户的可发起抽奖次数减</param>
         /// <returns>业务操作结果</returns>
-        OperationResult Add(PrizeOrderView prizeorder);
+        OperationResult Add(PrizeOrderView prizeorder, bool shouldMinus = false);
 
         /// <summary>
         ///     更新奖单

@@ -300,7 +300,13 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         [HttpPost]
         public ActionResult LaunchPrize(PrizeOrderView model)
         {
-            OperationResult result = PrizeOrderSiteContract.Add(model);
+            if (this.PubishingEnableTimes == 0)
+            {
+                ViewBag.Message = "您还可发起抽奖0次，请续费后再执行此功能。";
+                return View(model);
+            }
+            bool shouldMinus = this.PubishingEnableTimes < 1000000 ? true : false;
+            OperationResult result = PrizeOrderSiteContract.Add(model, shouldMinus);
             string msg = result.Message ?? result.ResultType.ToDescription();
             if (result.ResultType == OperationResultType.Success)
             {
@@ -427,6 +433,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// </summary>
         public ActionResult PrizeDetail(Guid id)
         {
+            // 可发起抽奖的次数
+            ViewBag.PublishEnableTimes = this.PubishingEnableTimes;
             PrizeView model = PrizeContract.Prizes
                 .Where(p => p.Id.Equals(id))
                 .Select(p => new PrizeView()
