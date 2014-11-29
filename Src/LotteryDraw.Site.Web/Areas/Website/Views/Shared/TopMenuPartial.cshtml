@@ -1,6 +1,6 @@
 ﻿<nav>
     <div class="inner">
-        <ul class="list-none">
+        <ul id="menu" class="list-none">
             <li style="width: 99px;" class="navdown">
                 <a href="/" title="首页" class="nav"><span>首页</span></a>
             </li>
@@ -43,11 +43,28 @@
 </nav>
 <script type="text/javascript">
     $(function () {
+        InitTopMenu();
+    });
+
+    function InitTopMenu() {
         var controllerName = '@ViewContext.RouteData.Values["controller"]';
         var actionName = '@ViewContext.RouteData.Values["action"]';
+        $("ul#menu li").removeClass("navdown");
+        if (controllerName.toLocaleLowerCase() == "home" && actionName.toLocaleLowerCase() == "index") {
+            $("ul#menu li").each(function (i) {
+                if (i == 0) {
+                    $(this).addClass("navdown");
+                    return true; // false时相当于break, 如果return true 就相当于continure。
+                }
+                if ($(this).has("a")) {
+                    $(this).addClass("nav");
+                }
+            });
+            return;
+        }
+
         var currurl = window.location.href;
-        $("ul.list-none li").removeClass("navdown");
-        $("ul.list-none li").each(function () {
+        $("ul#menu li").each(function () {
             var $li = $(this);
             $(this).find("a").each(function () {
                 var ahref = $(this).attr("href");
@@ -59,5 +76,5 @@
             }
             );
         });
-    });
+    }
 </script>
