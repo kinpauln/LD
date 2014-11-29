@@ -9,7 +9,7 @@
             <div class="search-contai">
                 @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "Business"))
                 {
-                    <input class="seach-content" type="text" name="search" placeholder="奖品名称/发布者" value="">
+                    <input class="seach-content" type="text" name="keywords" placeholder="奖品名称/奖品描述/发布者用户名/发布者昵称" value="@ViewBag.Keywords">
                     <input class="n-submit pngIcon" type="submit" value=" ">
                 }
             </div>

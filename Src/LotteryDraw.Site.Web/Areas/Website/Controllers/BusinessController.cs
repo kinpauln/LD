@@ -37,8 +37,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             int pageIndex = id ?? 1;
             //ViewBag.PageIndex = pageIndex;
-            //ViewBag.Keywords = keywords;
             //ViewBag.RevealType = RevealType.Quota.ToInt();
+            ViewBag.Keywords = keywords;
             var model = GetLotteries(RevealType.Quota.ToInt(), pageIndex, keywords);
             return View(model);
         }
@@ -50,8 +50,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             int pageIndex = id ?? 1;
             //ViewBag.PageIndex = pageIndex;
-            //ViewBag.Keywords = keywords;
-            //ViewBag.RevealType = RevealType.Timing.ToInt();
+            //ViewBag.RevealType = RevealType.Quota.ToInt();
+            ViewBag.Keywords = keywords;
             var model = GetLotteries(RevealType.Timing.ToInt(), pageIndex, keywords);
             return View(model);
         }
@@ -63,8 +63,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             int pageIndex = id ?? 1;
             //ViewBag.PageIndex = pageIndex;
-            //ViewBag.Keywords = keywords;
-            //ViewBag.RevealType = RevealType.Answer.ToInt();
+            //ViewBag.RevealType = RevealType.Quota.ToInt();
+            ViewBag.Keywords = keywords;
             var model = GetLotteries(RevealType.Answer.ToInt(), pageIndex, keywords);
             return View(model);
         }
@@ -76,8 +76,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             int pageIndex = id ?? 1;
             //ViewBag.PageIndex = pageIndex;
-            //ViewBag.Keywords = keywords;
-            //ViewBag.RevealType = RevealType.Scene.ToInt();
+            //ViewBag.RevealType = RevealType.Quota.ToInt();
+            ViewBag.Keywords = keywords;
             var model = GetLotteries(RevealType.Scene.ToInt(), pageIndex, keywords);
             return View(model);
         }
