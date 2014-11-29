@@ -53,6 +53,78 @@
 	margin: auto;
 }
 
+.seach-content {
+    border: 0 none;
+    width: 364px;
+    font-size: 15px;
+    color: #666;
+    height: 38px;
+    line-height: 38px;
+    _line-height: 37px;
+    font-family: "微软雅黑";
+}
+.n-submit {
+display: block;
+float: right;
+width: 25px;
+position: absolute;
+cursor:pointer;
+right: 0px;
+top: 0px;
+height: 35px;
+background-color: transparent;
+background: url(../images/rankDefault.png) 5px -24px no-repeat;
+border: none;
+}.search-contai {
+position: relative;
+}.n-header-middle {
+padding: 0 5px;
+width: 440px;
+border: 1px solid #d4d4d4;
+height: 38px;
+background-color: #fff;
+line-height: 38px;
+}
+ .pageBox {
+padding: 30px 0;
+margin: 0 auto;
+text-align: center;
+}.pageBox strong, .pageBox .current {
+background: #4ebcca;
+padding: 0 10px;
+color: #fff;
+height: 28px;
+line-height: 28px;
+display: inline-block;
+vertical-align: middle;
+}
+ .pageBox a {
+display: inline-block;
+border: 1px #c5d1da solid;
+padding: 0 10px;
+margin: 0 5px;
+height: 26px;
+line-height: 26px;
+vertical-align: middle;
+color: #2191cb;
+text-decoration: none;
+}
+ .pageBox a:hover {
+display: inline-block;
+border: 1px #c5d1da solid;
+padding: 0 10px;
+margin: 0 5px;
+height: 26px;
+line-height: 26px;
+vertical-align: middle;
+color: #2191cb;
+text-decoration: none;
+}
+ .pageBox a[disabled] {
+     color:silver;
+     text-decoration:none;
+}
+
 /*排行榜内容*/
 .ranking-web-content{padding: 0 0 0 30px;}
 .ranking-web-content .classify{line-height: 25px;padding: 20px 0 22px;font-size: 13px;}

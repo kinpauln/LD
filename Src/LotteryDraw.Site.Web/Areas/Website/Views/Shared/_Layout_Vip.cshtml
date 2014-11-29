@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Areas/Website/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    @RenderSection("styles", required: false)
+}
+
+<div class="inner met_flash">
+    <div class="flash">
+        <img src="~/content/website/images/1405417163.jpg" width="1002" alt="" height="128">
+    </div>
+</div>
+
+<div class="sidebar inner" style="padding-bottom:10px;">
+
+    <div class="sb_nav">
+        <h3 class="title myCorner" data-corner="top 5px" style="border-top-left-radius: 5px; border-top-right-radius: 5px;"><span>@ViewBag.LeftTitleContent</span></h3>
+        <div class="active" id="sidebar" data-csnow="15" data-class3="0" data-jsok="2">
+            @RenderSection("LeftMenuItems", required: false)
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="sb_box sbbo">
+        <h3 class="title">
+            <div class="position">当前位置：<a href="/" title="网站首页">网站首页</a> &gt; <a href="/">@ViewBag.OptionName</a>@RenderSection("BreadCrumbs", required: false)</div>
+            <span>@ViewBag.OptionName</span> </h3>
+        <div class="clear"></div>
+        <div class="editor active" id="showtext">
+            <div>
+                @RenderBody()
+            </div>
+            @if (ViewBag.MetHitsVisible != null && (bool)ViewBag.MetHitsVisible)
+            {
+                @Html.Partial("MetHitsPartial")
+            }
+            <div class="clear"></div>
+        </div>
+
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#sidebar dl>dt").removeClass("on");
+            var controller = '@ViewContext.RouteData.Values["controller"]';
+            var action = '@ViewContext.RouteData.Values["action"]';
+            var url = controller + "/" + action;
+            $("#sidebar dl>dt>a[href $='" + url + "']").parent().addClass("on");
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+}

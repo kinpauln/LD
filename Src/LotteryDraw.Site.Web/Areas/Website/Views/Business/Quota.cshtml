@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Quota";
+    Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
+}
+@*@Html.RenderPartial("PrizeOrders", "Business",
+new
+{
+    revealType = ViewBag.RevealType,
+    pageIndex = ViewBag.PageIndex,
+    keywords = ViewBag.Keywords
+})*@
+@Html.Partial("PrizeOrders")

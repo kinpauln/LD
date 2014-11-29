@@ -1,0 +1,183 @@
+﻿@using LotteryDraw.Component.Tools;
+@using System.Data;
+@using LotteryDraw.Site.Models;
+@using Webdiyer.WebControls.Mvc;
+@model Webdiyer.WebControls.Mvc.PagedList<PrizeOrderDetailView>
+<div class="ranking-web-content seach-result-content clearfix">
+    <div class="classify">
+        <div class="n-header-middle fl">
+            <div class="search-contai">
+                @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "Business"))
+                {
+                    <input class="seach-content" type="text" name="search" placeholder="奖品名称/发布者" value="">
+                    <input class="n-submit pngIcon" type="submit" value=" ">
+                }
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    @Html.Pager(Model, new PagerOptions
+       {
+           PageIndexParameterName = "id",
+           ContainerTagName = "div",
+           FirstPageText = "首页",
+           LastPageText = "尾页",
+           PrevPageText = "上一页",
+           NextPageText = "下一页",
+           PagerItemsSeperator = "",
+           NumericPagerItemCount = 2, //获取或设置每页显示的数字页索引索引分页导航元素的数目
+           PagerItemWrapperFormatString = "{0}",
+           CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
+       }, new { @class = "pageBox" })
+    @{
+        //DataRow[] arrayDR = (DataRow[])ViewBag.AllPrizeOrders;
+        //if (arrayDR != null && arrayDR.Count() > 0)
+        //{
+        if (Model != null && Model.Count > 0)
+        {
+            foreach (PrizeOrderDetailView item in Model)
+            {
+                //string poid = dr["PrizeOrderId"].ToString();
+                //string pid = dr["PrizeId"].ToString();
+                //string prizeName = dr["PrizeName"].ToString();
+                //string prizeDescription = dr["PrizeDescription"].ToString();
+                //// 发起抽奖日期
+                //string addDate = DateTime.Parse(dr["RaiseTime"].ToString()).ToString("yyyy-MM-dd");
+                //string username = dr["UserName"].ToString(); //发起抽奖者
+                //int rtype = int.Parse(dr["RevealType"].ToString());
+                string poid = item.PrizeOrderView.Id.ToString();
+                string pid = item.PrizeView.Id.ToString();
+                string prizeName = item.PrizeView.Name.ToString();
+                string prizeDescription = item.PrizeView.Description.ToString();
+                // 发起抽奖日期
+                string addDate = item.PrizeOrderView.AddDate.ToString("yyyy-MM-dd");
+                string username = item.MemberView.UserName.ToString(); //发起抽奖者
+                int rtype = item.PrizeOrderView.RevealType.ToInt();
+                string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
+                        
+        <dl class="clearfix ranking-movie-list fl">
+            <dt class="fl">
+                <a href="/Vip/PrizeDetail/@pid" target="_self">
+                    <img src="~/Content/website/images/test/thumb_0_230_322_20141009100901826484.jpg" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+                    <span class="assessment-zan up dpngIcon pngIcon">93%</span>
+
+                    <p class="ranking-pic-back ranking-pic"></p>
+                    <p class="ranking-show-time ranking-pic">发起抽奖时间：@addDate</p>
+                </a>
+            </dt>
+            <dd class="fl">
+                <div class="ranking-movie-name clearfix">
+                    <h3>
+                        <div style="width: 200px; white-space: nowrap; text-overflow: ellipsis; -o-text-overflow: ellipsis; overflow: hidden;"><a href="#" title="@prizeName" target="_blank">@prizeName</a></div>
+                    </h3>
+                    <span>@rtstring</span>
+                </div>
+                <p class="rmn-item">
+                    <em>抽奖发起者 :</em>
+                    <span style="width: auto;">
+                        <nobr>
+                               <a href="#" target="_blank"> @username </a>
+                                </nobr>
+                    </span>
+                </p>
+                @*<p class="rmn-item">
+                                <em>主演 :</em>
+                                <span>
+                                    <nobr>
+                                        <a href="#" target="_blank">克里斯·帕拉特</a>
+                                </nobr>
+                                    <nobr>
+                                        &nbsp;&nbsp;
+                                        <a href="#" target="_blank">佐伊·索尔达娜</a>
+                                </nobr>
+                                    <nobr>
+                                        &nbsp;&nbsp;
+                                        <a href="#" target="_blank">李·佩斯</a>
+                                </nobr>
+                                    <nobr>
+                                        &nbsp;&nbsp;
+                                        <a href="#" target="_blank">凯伦·吉兰</a>
+                                </nobr>
+                                </span>
+                            </p>*@
+                <p class="rmn-item">
+                    <em>类型 :</em>
+                    <span>
+                        <nobr>
+                                    <a href="#" target="_blank">动作</a>
+                                </nobr>
+                        <nobr>
+                                    &nbsp;&nbsp;
+                                    <a href="#" target="_blank">科幻</a>
+                                </nobr>
+                        <nobr>
+                                    &nbsp;&nbsp;
+                                    <a href="#" target="_blank">冒险</a>
+                                </nobr>
+                    </span>
+                </p>
+                <p class="rmn-item">
+                    <em>已抽奖 :</em>
+                    <span>1556人
+                    </span>
+                </p>
+                <p class="rmn-item">
+                    <em>距开奖还差 :</em>
+                    <span>154445人
+                    </span>
+                </p>
+                <p class="rmn-item">
+                    <em>距开奖还差 :</em>
+                    <span>2天3小时20分8秒
+                    </span>
+                </p>
+                <div class="clear"></div>
+                @*<div class="rmn-item clearfix">
+                                <ul>
+                                    <li>已抽奖 :
+                               
+                                <span class="">1556人</span>
+                                    </li>
+                                    <li>距开奖还差 :
+                               
+                                <span class="">154445人</span>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>高清视频 :
+                               
+                                <span class="">3个</span>
+                                    </li>
+                                    <li>预告/花絮:
+                               
+                                <span class="">87个</span>
+                                    </li>
+                                </ul>
+                            </div>*@
+                <div class="r-play-con">
+                    <a class="r-play-button" target="_self" href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
+                </div>
+            </dd>
+        </dl>
+            }
+        }
+        else
+        {
+        <div style="font-weight: bold; text-align: center; font-size: 20px; padding: 20px 0;">暂时没有可抽的奖</div>
+        }
+    }
+    <div class="clear"></div>
+    @Html.Pager(Model, new PagerOptions
+       {
+           PageIndexParameterName = "id",
+           ContainerTagName = "div",
+           FirstPageText = "首页",
+           LastPageText = "尾页",
+           PrevPageText = "上一页",
+           NextPageText = "下一页",
+           PagerItemsSeperator = "",
+           NumericPagerItemCount = 2, //获取或设置每页显示的数字页索引索引分页导航元素的数目
+           PagerItemWrapperFormatString = "{0}",
+           CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
+       }, new { @class = "pageBox" })
+</div>
