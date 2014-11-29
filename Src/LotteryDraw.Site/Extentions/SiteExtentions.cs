@@ -54,9 +54,10 @@ namespace LotteryDraw.Site.Extentions
                         RevealTypeNum = int.Parse(row["RevealType"].ToString()),
                         RevealStateNum = int.Parse(row["RevealState"].ToString()),
                         SortOrder = int.Parse(row["SortOrder"].ToString()),
-                        AddDate = Convert.ToDateTime(row["AddDate"])
+                        AddDate = Convert.ToDateTime(row["RaiseTime"])
                     },
                     PrizeView = new PrizeView() {
+                        Id = new Guid(row["PrizeId"].ToString()),
                         Name = row["PrizeName"].ToString(),
                         Description = row["PrizeDescription"].ToString()
                     },

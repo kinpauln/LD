@@ -4,19 +4,21 @@
 @using Webdiyer.WebControls.Mvc;
 @model Webdiyer.WebControls.Mvc.PagedList<PrizeOrderDetailView>
 <div class="ranking-web-content seach-result-content clearfix">
-    <div class="classify">
-        <div class="n-header-middle fl">
-            <div class="search-contai">
-                @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "Business"))
-                {
-                    <input class="seach-content" type="text" name="keywords" placeholder="奖品名称/奖品描述/发布者用户名/发布者昵称" value="@ViewBag.Keywords">
-                    <input class="n-submit pngIcon" type="submit" value=" ">
-                }
+    @{if (Model != null && Model.Count > 0)
+      {
+        <div class="classify">
+            <div class="n-header-middle fl">
+                <div class="search-contai">
+                    @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "Business"))
+                    {
+                        <input class="seach-content" type="text" name="keywords" placeholder="奖品名称/奖品描述/发布者用户名/发布者昵称" value="@ViewBag.Keywords">
+                        <input class="n-submit pngIcon" type="submit" value=" ">
+                    }
+                </div>
             </div>
+            <div class="clear"></div>
         </div>
-        <div class="clear"></div>
-    </div>
-    @Html.Pager(Model, new PagerOptions
+        @Html.Pager(Model, new PagerOptions
        {
            PageIndexParameterName = "id",
            ContainerTagName = "div",
@@ -29,31 +31,28 @@
            PagerItemWrapperFormatString = "{0}",
            CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
        }, new { @class = "pageBox" })
-    @{
-        //DataRow[] arrayDR = (DataRow[])ViewBag.AllPrizeOrders;
-        //if (arrayDR != null && arrayDR.Count() > 0)
-        //{
-        if (Model != null && Model.Count > 0)
-        {
-            foreach (PrizeOrderDetailView item in Model)
-            {
-                //string poid = dr["PrizeOrderId"].ToString();
-                //string pid = dr["PrizeId"].ToString();
-                //string prizeName = dr["PrizeName"].ToString();
-                //string prizeDescription = dr["PrizeDescription"].ToString();
-                //// 发起抽奖日期
-                //string addDate = DateTime.Parse(dr["RaiseTime"].ToString()).ToString("yyyy-MM-dd");
-                //string username = dr["UserName"].ToString(); //发起抽奖者
-                //int rtype = int.Parse(dr["RevealType"].ToString());
-                string poid = item.PrizeOrderView.Id.ToString();
-                string pid = item.PrizeView.Id.ToString();
-                string prizeName = item.PrizeView.Name.ToString();
-                string prizeDescription = item.PrizeView.Description.ToString();
-                // 发起抽奖日期
-                string addDate = item.PrizeOrderView.AddDate.ToString("yyyy-MM-dd");
-                string username = item.MemberView.UserName.ToString(); //发起抽奖者
-                int rtype = item.PrizeOrderView.RevealType.ToInt();
-                string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
+                    //DataRow[] arrayDR = (DataRow[])ViewBag.AllPrizeOrders;
+                    //if (arrayDR != null && arrayDR.Count() > 0)
+                    //{
+                    foreach (PrizeOrderDetailView item in Model)
+                    {
+                        //string poid = dr["PrizeOrderId"].ToString();
+                        //string pid = dr["PrizeId"].ToString();
+                        //string prizeName = dr["PrizeName"].ToString();
+                        //string prizeDescription = dr["PrizeDescription"].ToString();
+                        //// 发起抽奖日期
+                        //string addDate = DateTime.Parse(dr["RaiseTime"].ToString()).ToString("yyyy-MM-dd");
+                        //string username = dr["UserName"].ToString(); //发起抽奖者
+                        //int rtype = int.Parse(dr["RevealType"].ToString());
+                        string poid = item.PrizeOrderView.Id.ToString();
+                        string pid = item.PrizeView.Id.ToString();
+                        string prizeName = item.PrizeView.Name.ToString();
+                        string prizeDescription = item.PrizeView.Description.ToString();
+                        // 发起抽奖日期
+                        string addDate = item.PrizeOrderView.AddDate.ToString("yyyy-MM-dd");
+                        string username = item.MemberView.UserName.ToString(); //发起抽奖者
+                        int rtype = item.PrizeOrderView.RevealType.ToInt();
+                        string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
                         
         <dl class="clearfix ranking-movie-list fl">
             <dt class="fl">
@@ -64,6 +63,14 @@
                     <p class="ranking-pic-back ranking-pic"></p>
                     <p class="ranking-show-time ranking-pic">发起抽奖时间：@addDate</p>
                 </a>
+                @{
+                        if (item.PrizeOrderView.RevealStateNum != RevealState.UnDrawn.ToInt())
+                        {
+                    
+                    <div class="act_icon act_icon_03" style="position: absolute; left: 0; top: 0; font-size: 12px;">
+                        <span class="start">@item.PrizeOrderView.RevealState.GetDescription()</span>
+                    </div>}
+                }
             </dt>
             <dd class="fl">
                 <div class="ranking-movie-name clearfix">
@@ -159,12 +166,12 @@
                 </div>
             </dd>
         </dl>
-            }
-        }
-        else
-        {
-        <div style="font-weight: bold; text-align: center; font-size: 20px; padding: 20px 0;">暂时没有可抽的奖</div>
-        }
+                    }
+      }
+      else
+      {
+        <div style="font-weight: bold; text-align: center; font-size: 20px; padding: 20px 0; line-height: 200px;">暂时没有可抽的奖</div>
+      }
     }
     <div class="clear"></div>
     @Html.Pager(Model, new PagerOptions

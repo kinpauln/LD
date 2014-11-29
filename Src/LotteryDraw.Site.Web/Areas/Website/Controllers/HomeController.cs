@@ -72,7 +72,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         private void GetGetTopPrizeOrders(int? rtype)
         {
             int topCount = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TopCountOfPrizeOrder"]);
-            OperationResult result = PrizeOrderSiteContract.GetTopPrizeOrders(topCount,rtype);
+            //OperationResult result = PrizeOrderSiteContract.GetTopPrizeOrders(topCount,rtype);
+            OperationResult result = PrizeOrderSiteContract.GetTopPrizeOrders(topCount,null);
             if (result.ResultType == OperationResultType.Success)
             {
                 DataSet ds = (DataSet)result.AppendData;
@@ -85,12 +86,31 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     //所有
                     ViewBag.AllPrizeOrders = rowarray;
 
-                    //定时
-                    ViewBag.TopTimingPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Timing);
-                    //定员
-                    ViewBag.TopQuotaPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Quota);
-                    //答案
-                    ViewBag.TopAnswerPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Answer);
+                    if (rtype.HasValue)
+                    {
+                        //定时
+                        ViewBag.TopTimingPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Timing);
+                        //定员
+                        ViewBag.TopQuotaPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Quota);
+                        //答案
+                        ViewBag.TopAnswerPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Answer);
+                        //现场
+                        ViewBag.TopScenePrizeOrders = dt.Select("RevealType=" + (int)RevealType.Scene);
+                         switch(rtype){
+                             case (int)RevealType.Timing:
+                                 ViewBag.AllPrizeOrders = ViewBag.TopTimingPrizeOrders;
+                                 break;
+                             case (int)RevealType.Quota:
+                                 ViewBag.AllPrizeOrders = ViewBag.TopQuotaPrizeOrders;
+                                 break;
+                             case (int)RevealType.Answer:
+                                 ViewBag.AllPrizeOrders = ViewBag.TopAnswerPrizeOrders;
+                                 break;
+                             case (int)RevealType.Scene:
+                                 ViewBag.AllPrizeOrders = ViewBag.TopScenePrizeOrders;
+                                 break;
+                        }
+                    }
                 }
             }
         }

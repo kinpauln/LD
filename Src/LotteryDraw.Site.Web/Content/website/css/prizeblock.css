@@ -49,7 +49,7 @@
 	visibility: hidden
 }
 .wrap {
-	width: 982px;
+	width: 1002px;
 	margin: auto;
 }
 
@@ -124,6 +124,8 @@ text-decoration: none;
      color:silver;
      text-decoration:none;
 }
+ 
+
 
 /*排行榜内容*/
 .ranking-web-content{padding: 0 0 0 30px;}
@@ -131,7 +133,7 @@ text-decoration: none;
 .ranking-web-content .classify a{padding: 0 6px;display: inline-block;margin:0 17px 8px 0;color: #999;height: 21px;line-height: 21px;}
 .ranking-web-content .classify a.show-now{background-color: #2191cb;color: #fff}
 .ranking-web-content .classify a:hover{background-color:#2191cb;text-decoration: none; color: #fff}
-.ranking-movie-list{height: 236px;overflow: hidden;width: 445px;font-family: "微软雅黑";margin-bottom: 50px;padding-right: 30px;}
+.ranking-movie-list{height: 236px;overflow: hidden;width: 455px;font-family: "微软雅黑";margin-bottom: 50px;padding-right: 30px;}
 .ranking-movie-list img{width: 100%;height: 100%;}
 .ranking-movie-list dt{width: 170px; height:236px;overflow: hidden;position: relative;}
 .ranking-movie-list dt span{display: block;position: absolute;left: 0;top: 0;height: 30px;line-height: 30px;padding: 0 9px;background-color: #dd013c;font-size: 25px;font-family: arial;color: #fff;text-align: center;}
@@ -169,4 +171,43 @@ p.rmn-item{height: 26px;overflow: hidden;}
 .ranking-movie-list dt .assessment-zan{background: url(../images/icon_zan.png) no-repeat #08090a;display: block;height: 26px;line-height: 26px;color: #fff;font-size: 15px;font-family: arial;padding: 0 4px 0 23px;_background-color: #08090a}
 .ranking-movie-list dt .assessment-zan.up{background-position: -173px -226px;}
 .ranking-movie-list dt .assessment-zan.down{background-position: -231px -225px;}
+
+/*image top icon*/
+ .act_icon {
+position: absolute;
+left: 0;
+top: 0;
+height: 35px;
+width: 70px;
+}
+
+    .act_icon span {
+        position:relative;
+    }
+ .act_icon .start {
+display: block;
+height: 30px;
+line-height: 30px;
+/*width: 70px;*/
+background: #14b9d6;
+color: #fff;
+text-align: center;
+position: relative;
+z-index: 2;
+        font-size: 12px;
+}
+ .act_icon_03 .start {
+background-color: #526681;
+}
+ .act_icon .icon_01 {
+height: 20px;
+width: 0;
+border-right: 5px solid #0e778a;
+position: absolute;
+left: 0px;
+top: 10px;
+display: block;
+z-index: 1;
+border-bottom: 5px solid #fff;
+}
 
