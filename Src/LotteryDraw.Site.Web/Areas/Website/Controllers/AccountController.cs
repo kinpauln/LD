@@ -21,6 +21,7 @@ using LotteryDraw.Site.Helper.Logging;
 using LotteryDraw.Site.Impl;
 using LotteryDraw.Site.Models;
 using LotteryDraw.Site.Web.Controllers;
+using Webdiyer.WebControls.Mvc;
 
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
@@ -39,6 +40,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         #region 视图功能
 
         [AuthorizeIgnore]
+        //[OutputCache(Duration = 600, VaryByParam = "none", VaryByHeader = "none")]
         public ActionResult Register()
         {
             ViewBag.IsPostBack = false;
@@ -50,9 +52,21 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
         [HttpPost]
         [AuthorizeIgnore]
+        [ValidateMvcCaptcha]
         public ActionResult Register(MemberView model,string psnl,string ent)
         {
-            ViewBag.IsPostBack = true;
+            ViewBag.IsPostBack = true; 
+            if (ModelState.IsValid)
+            {
+                //验证码验证通过
+            }
+            else
+            {
+                //验证码验证失败
+                //ModelState.AddModelError("", e.Message);
+                ViewBag.Message = "验证码输入不正确";
+                return View(model);
+            }
             if (!string.IsNullOrEmpty(psnl)) {
                 model.MemberType = MemberType.Personal;
             }

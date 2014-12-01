@@ -59,7 +59,7 @@ namespace LotteryDraw.Site.Impl
                 Address = prizebetting.Address,
                 PrizeOrder = PrizeOrderContract.PrizeOrders.SingleOrDefault(m => m.Id==prizebetting.PrizeOrderId),
                 Member = AccountContract.Members.SingleOrDefault(m => m.Id == prizebetting.UserId),
-                AnswerOption = prizebetting.AnswerOption
+                AnswerOption = prizebetting.UserAnswer
             };
 
             try

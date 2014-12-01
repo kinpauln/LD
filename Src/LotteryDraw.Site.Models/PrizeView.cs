@@ -12,11 +12,11 @@ namespace LotteryDraw.Site.Models
     {
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "{0}不能为空！")]
+        //[Required(ErrorMessage = "{0}不能为空！")]
         [Display(Name = "奖品名称")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "{0}不能为空！")]
+        //[Required(ErrorMessage = "{0}不能为空！")]
         [Display(Name = "图片")]
         public byte[] Photo { get; set; }
 

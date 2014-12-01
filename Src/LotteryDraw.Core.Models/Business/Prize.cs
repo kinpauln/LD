@@ -39,7 +39,7 @@ namespace LotteryDraw.Core.Models.Business
         //[Required]
         public byte[] Photo { get; set; }
 
-        [Required]
+        //[Required]
         public string Description { get; set; }
 
         public DateTime? UpdateDate { get; set; }

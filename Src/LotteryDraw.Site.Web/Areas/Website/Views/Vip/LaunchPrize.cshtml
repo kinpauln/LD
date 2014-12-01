@@ -2,6 +2,7 @@
     ViewBag.Title = "发起抽奖";
     Layout = "~/Areas/Website/Views/Shared/_Layout_Vip.cshtml";
 }
+@using Webdiyer.WebControls.Mvc
 @model LotteryDraw.Site.Models.PrizeOrderView
 
 @section  LeftMenuItems{
@@ -67,10 +68,10 @@
     </style>
 }
 
-@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
+@*@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
 {
     <div class="row-container" style="text-align: center; color: #f00;">@ViewBag.Message</div>
-}
+}*@
 <div class="row-container">
     <table class="message_table">
         <tbody>
@@ -128,6 +129,21 @@
                 </tr>*@
                 <tr>
                     <td class="text"></td>
+                    <td class="input">
+                        @Html.MvcCaptcha(new MvcCaptchaOptions
+                               {
+                                   DelayLoad = false, //若要启用Ajax延迟加载验证码图片功能，则需要设置MvcCaptchaOptions属性的DelayLoad为true
+                                   ValidationInputBoxId = "captchaInput_timing", //验证码输入文本框的客户端ID
+                                   CaptchaImageContainerId = "imgContainer_timing" //包含验证码图片的容器元素的客户端ID
+                               })
+                        <span id="imgContainer_timing"></span>
+                        <br />
+                        <div>请输入上边图片中的文字：</div>
+                        <input type="text" class="input-text" name="_mvcCaptchaText" id="captchaInput_timing" data-val="true" data-val-required="验证码不能为空" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text"></td>
                     <td class="submint">
                         @Html.Partial("LaunchPageButtonsPartial")
                     </td>
@@ -170,6 +186,21 @@
                         @Html.TextBoxFor(m => m.LuckyPercent, new { @class = "input-text num" })<span>%</span>
                     </td>
                 </tr>*@
+                <tr>
+                    <td class="text"></td>
+                    <td class="input">
+                        @Html.MvcCaptcha(new MvcCaptchaOptions
+                               {
+                                   DelayLoad = false, //若要启用Ajax延迟加载验证码图片功能，则需要设置MvcCaptchaOptions属性的DelayLoad为true
+                                   ValidationInputBoxId = "captchaInput_quota", //验证码输入文本框的客户端ID
+                                   CaptchaImageContainerId = "imgContainer_quota" //包含验证码图片的容器元素的客户端ID
+                               })
+                        <span id="imgContainer_quota"></span>
+                        <br />
+                        <div>请输入上边图片中的文字：</div>
+                        <input type="text" class="input-text" name="_mvcCaptchaText" id="captchaInput_quota" data-val="true" data-val-required="验证码不能为空" />
+                    </td>
+                </tr>
                 <tr>
                     <td class="text"></td>
                     <td class="submint">
@@ -264,6 +295,21 @@
                 </tr>*@
                 <tr>
                     <td class="text"></td>
+                    <td class="input">
+                        @Html.MvcCaptcha(new MvcCaptchaOptions
+                               {
+                                   DelayLoad = false, //若要启用Ajax延迟加载验证码图片功能，则需要设置MvcCaptchaOptions属性的DelayLoad为true
+                                   ValidationInputBoxId = "captchaInput_answer", //验证码输入文本框的客户端ID
+                                   CaptchaImageContainerId = "imgContainer_answer" //包含验证码图片的容器元素的客户端ID
+                               })
+                        <span id="imgContainer_answer"></span>
+                        <br />
+                        <div>请输入上边图片中的文字：</div>
+                        <input type="text" class="input-text" name="_mvcCaptchaText" id="captchaInput_answer" data-val="true" data-val-required="验证码不能为空" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text"></td>
                     <td>
                         @*@Html.Partial("LaunchPageButtonsPartial")*@
                         <input type="button" value="发起抽奖" class="button orange" id="btnAnswerReveal" />
@@ -310,6 +356,21 @@
                 </tr>*@
                 <tr>
                     <td class="text"></td>
+                    <td class="input">
+                        @Html.MvcCaptcha(new MvcCaptchaOptions
+                               {
+                                   DelayLoad = false, //若要启用Ajax延迟加载验证码图片功能，则需要设置MvcCaptchaOptions属性的DelayLoad为true
+                                   ValidationInputBoxId = "captchaInput_scene", //验证码输入文本框的客户端ID
+                                   CaptchaImageContainerId = "imgContainer_scene" //包含验证码图片的容器元素的客户端ID
+                               })
+                        <span id="imgContainer_scene"></span>
+                        <br />
+                        <div>请输入上边图片中的文字：</div>
+                        <input type="text" class="input-text" name="_mvcCaptchaText" id="captchaInput_scene" data-val="true" data-val-required="验证码不能为空" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text"></td>
                     <td class="submint">
                         @Html.Partial("LaunchPageButtonsPartial")
                     </td>
@@ -320,14 +381,126 @@
     <div class="clear"></div>
 </div>
 @section scripts{
+    @Html.Partial("PostBackMessage")
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script src="~/Content/website/js/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript">
         $(function () {
+
             //初始化日期选择控件
             $(".launchtime").focus(function () {
                 WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })
+            });
+
+            //限制文本框只能输入数字
+            $(".num").live("keyup", function () {
+                $(this).val($(this).val().replace(/\D/g, ''));
+            }).live("afterpaste", function () {
+                $(this).val($(this).val().replace(/\D/g, ''));
+            });
+
+            $("#btnAnswerReveal").click(function () {
+                var $form = $("form[class='answer']");
+                $form.validate();
+                if ($form.valid()) {
+                    var options = "";
+                    $("#slAnswer option[class='answer']").each(function () {
+                        var value = $(this).val();
+                        var text = $(this).html();
+                        options += value + ":" + text + "|||";
+                    });
+                    if (options != "") {
+                        options = options.substring(0, options.length - 3);
+                    }
+                    $("input:hidden[name='AnswerOptions']").val(options);
+                    $("input:hidden[name='Answer']").val($("#slAnswer").val());
+                    $form.submit();
+                }
+            });
+
+            $("form[class='answer']").submit(function () {
+                return true;
+                //return false; //此处必须返回false，阻止常规的form提交
+            });
+
+            $("#slLauchType").change(function () {
+                console.log("222");
+                $("input:hidden[name='RevealType']").val($(this).val());
+                $("input:hidden[name='RevealTypeNum']").val($(this).val());
+                var $opobj = $(this).find("option:selected");
+                var containerid = $opobj.attr("containerid");
+                $("div.tab").hide();
+                $("#" + containerid).show();
+            });
+
+            locateSelect();
+
+            $("#slAnswerLauchType").change(function () {
+                if ($(this).val() == -1) {
+                    $("form[class='answer'] tr.dynamic-tr").hide();
+                }
+                $("input:hidden[name='AnswerRevealConditionTypeNum']").val($(this).val());
+                var $opobj = $(this).find("option:selected");
+                var trid = $opobj.attr("trid");
+                $("form[class='answer'] tr.dynamic-tr").hide();
+                if ($(this).val() != -1) {
+                    $("#" + trid).show();
+                }
+            });
+
+            $("#btnAddAnswerOption").click(function () {
+                if ($("#txtAnswerOption").val() == "") {
+                    alert("答案不能为空");
+                    return;
+                }
+
+                //数字转字母
+                var opcount = $("#slAnswer option[class='answer']").length;
+                var opvalue = String.fromCharCode((opcount) + 65);
+                var optionString = "<option class=\"answer\" value=" + opvalue + ">" + $("#txtAnswerOption").val() + "</option>"
+                $("#listAnswerOptions").append(optionString)
+                $("#slAnswer").append(optionString);
+                $('.dropdown').append("<div class=\"dropdown-item\" value=" + opvalue + ">" + opvalue + ":" + $("#txtAnswerOption").val() + "<span>X</span></div>");
+                $("#txtAnswerOption").val("");
+            });
+
+            $("#btnResetAnswerOption").click(function () {
+                $("#slAnswer option[class='answer']").remove();
+                $("div.dropdown div.dropdown-item").remove();
+            });
+
+            $("#txtAnswerOption").keypress(function (event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    $("#btnAddAnswerOption").trigger("click");
+                }
+            });
+
+            $("div.dropdown-item").live("hover", function (event) {
+                if (event.type == 'mouseenter') {
+                    $(this).addClass("selected");
+                    $(this).find("span").show();
+                } else {
+                    $(this).removeClass("selected");
+                    $(this).find("span").hide();
+                }
+            });
+
+            $("div.dropdown-item span").live("click", function () {
+                var value = $(this).parent().attr("value");
+                $(this).parent().remove();
+                $("#slAnswer option[value=" + value + "]").remove();
+
+                $('.dropdown div.dropdown-item').remove();
+                var icounter = 0;
+                $("#slAnswer option[class='answer']").each(function () {
+                    //数字转字母
+                    var opvalue = String.fromCharCode((icounter++) + 65);
+                    $(this).attr("value", opvalue);
+                    var divOPString = "<div class=\"dropdown-item\" value=" + opvalue + ">" + opvalue + ":" + $(this).html() + "<span>X</span></div>";
+                    $('.dropdown').append(divOPString);
+                });
             });
 
             //var startDate = $("#txtStartDate").val();
@@ -454,7 +627,7 @@
                 var type = $("#slAnswerLauchType").val();
                 if (type == 1) {
                     var $text = $("form[class='answer'] input[name='LaunchTime']:eq(0)");
-                    if ($text!=null && $.trim($text.val()) == "")
+                    if ($text != null && $.trim($text.val()) == "")
                         return false;
                 }
                 return true;
@@ -560,113 +733,6 @@
                 //}
             });
 
-            //限制文本框只能输入数字
-            $(".num").live("keyup", function () {
-                $(this).val( $(this).val().replace(/\D/g, ''));
-            }).live("afterpaste",function () {
-                $(this).val($(this).val().replace(/\D/g,''));
-            });
-
-            $("#btnAnswerReveal").click(function () {
-                var $form = $("form[class='answer']");
-                $form.validate();
-                if ($form.valid()) {
-                    var options = "";
-                    $("#slAnswer option[class='answer']").each(function () {
-                        var value = $(this).val();
-                        var text = $(this).html();
-                        options += value + ":" + text + "|||";
-                    });
-                    if (options != "") {
-                        options = options.substring(0, options.length - 3);
-                    }
-                    $("input:hidden[name='AnswerOptions']").val(options);
-                    $("input:hidden[name='Answer']").val($("#slAnswer").val());
-                    $form.submit();
-                }
-            });
-
-            $("form[class='answer']").submit(function () {
-                return true;
-                //return false; //此处必须返回false，阻止常规的form提交
-            });
-
-            $("#slLauchType").change(function () {
-                $("input:hidden[name='RevealType']").val($(this).val());
-                $("input:hidden[name='RevealTypeNum']").val($(this).val());
-                var $opobj = $(this).find("option:selected");
-                var containerid = $opobj.attr("containerid");
-                $("div.tab").hide();
-                $("#" + containerid).show();
-            });
-
-            $("#slAnswerLauchType").change(function () {
-                if ($(this).val() == -1) {
-                    $("form[class='answer'] tr.dynamic-tr").hide();
-                }
-                $("input:hidden[name='AnswerRevealConditionTypeNum']").val($(this).val());
-                var $opobj = $(this).find("option:selected");
-                var trid = $opobj.attr("trid");
-                $("form[class='answer'] tr.dynamic-tr").hide();
-                if ($(this).val() != -1) {
-                    $("#" + trid).show();
-                }
-            });
-
-            $("#btnAddAnswerOption").click(function () {
-                if ($("#txtAnswerOption").val() == "") {
-                    alert("答案不能为空");
-                    return;
-                }
-
-                //数字转字母
-                var opcount = $("#slAnswer option[class='answer']").length;
-                var opvalue = String.fromCharCode((opcount) + 65);
-                var optionString = "<option class=\"answer\" value=" + opvalue + ">" + $("#txtAnswerOption").val() + "</option>"
-                $("#listAnswerOptions").append(optionString)
-                $("#slAnswer").append(optionString);
-                $('.dropdown').append("<div class=\"dropdown-item\" value=" + opvalue + ">" + opvalue + ":" + $("#txtAnswerOption").val() + "<span>X</span></div>");
-                $("#txtAnswerOption").val("");
-            });
-
-            $("#btnResetAnswerOption").click(function () {
-                $("#slAnswer option[class='answer']").remove();
-                $("div.dropdown div.dropdown-item").remove();
-            });
-
-            $("#txtAnswerOption").keypress(function (event) {
-                var keycode = (event.keyCode ? event.keyCode : event.which);
-                if (keycode == '13') {
-                    $("#btnAddAnswerOption").trigger("click");
-                }
-            });
-
-            $("div.dropdown-item").live("hover", function (event) {
-                if (event.type == 'mouseenter') {
-                    $(this).addClass("selected");
-                    $(this).find("span").show();
-                } else {
-                    $(this).removeClass("selected");
-                    $(this).find("span").hide();
-                }
-            });
-
-            $("div.dropdown-item span").live("click", function () {
-                var value = $(this).parent().attr("value");
-                $(this).parent().remove();
-                $("#slAnswer option[value=" + value + "]").remove();
-
-                $('.dropdown div.dropdown-item').remove();
-                var icounter = 0;
-                $("#slAnswer option[class='answer']").each(function () {
-                    //数字转字母
-                    var opvalue = String.fromCharCode((icounter++) + 65);
-                    $(this).attr("value", opvalue);
-                    var divOPString = "<div class=\"dropdown-item\" value=" + opvalue + ">" + opvalue + ":" + $(this).html() + "<span>X</span></div>";
-                    $('.dropdown').append(divOPString);
-                });
-            });
-
             //$('.dropdown-item').bind("mousedown", function (event) {
             //    //if (event.button == 0) {  // 鼠标左键
             //    //    if (event.ctrlKey) { //  ctrl
@@ -693,6 +759,21 @@
             }
             else
                 return true;
+        }
+
+        function locateSelect() {
+            var rtype = '@ViewBag.RevealType';
+            console.log(rtype);
+            $("#slLauchType option").each(function () {
+                var $option = $(this);
+                var rtvalue = $option.val();
+                console.log(rtvalue);
+                if ($.trim(rtvalue) == rtype) {
+                    $option.attr("selected", true);
+                    $("#slLauchType").trigger("change");
+                    return false; // false时相当于break, 如果return true 就相当于continure。
+                }
+            });
         }
     </script>
 }

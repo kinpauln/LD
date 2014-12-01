@@ -11,6 +11,8 @@ namespace LotteryDraw.Site.Models
         public Guid? PrizeOrderId { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
-        public string AnswerOption { get; set; }
+        public string UserAnswer { get; set; }
+        public string Question { get; set; }
+        public string AnswerOptionsString { get; set; }
     }
 }

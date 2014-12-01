@@ -50,7 +50,9 @@ namespace LotteryDraw.Core.Data.Migrations
                 new Member { UserName = "whl", Password = "123456", Email = "hl.wang@wuliubang.net", Name = "王宏利",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="四方区", Province="山东省", City="青岛市",Suffix="山东路" }} },
                 new Member { UserName = "wjp", Password = "123456", Email = "jp.wang@wuliubang.net", Name = "王金鹏",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="南京路" }} }
             };
-
+            members[0].Roles.Add(roleSet.ToArray()[0]);
+            members[1].Roles.Add(roleSet.ToArray()[0]);
+            members[2].Roles.Add(roleSet.ToArray()[0]);
             for (int i = 0; i < 30; i++)
             {
                 Random rnd = new Random((int)DateTime.Now.Ticks + i);

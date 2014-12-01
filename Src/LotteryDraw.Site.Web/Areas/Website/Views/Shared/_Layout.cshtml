@@ -88,6 +88,33 @@
 <![endif]-->
     <script src="~/Content/website/js/banner.js"></script>
     @*<script src="~/Content/website/js/DD_belatedPNG_0.0.8a.js"></script>*@
+    <script src="~/Content/layer-v1.8.5/layer-v1.8.5/layer/layer.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //layer.alert('白菜级别前端攻城师贤心', 8);
+            //downloadBrowser();
+        });
+
+        function downloadBrowser() { 
+            //在这里面输入任何合法的js语句（以下将演示一个自定义风格的层）
+            $.layer({
+                type: 1,   //0-4的选择,（1代表page层）
+                area: ['500px', '300px'],
+                //shade: [0],  //不显示遮罩
+                border: [0], //不显示边框
+                title: [
+                    '你好，layer。',
+                    //自定义标题风格，如果不需要，直接title: '标题' 即可  #577DB7
+                    'border:none; background:#024D9E; color:#fff;'
+                ],
+                bgcolor: '#eee', //设置层背景色
+                page: {
+                    html: '<div style="padding:50px;">为了达到最佳浏览效果，请您使用<br><a href="#">IE8+</a><br><a href="#">Chrome</a><br><a href="#">Firefox</a><br>等主流浏览器</div>'
+                },
+                shift: 'top' //从上动画弹出
+            });
+        }
+    </script>
 </head>
 
 <!--[if lte IE 6]>
@@ -105,7 +132,7 @@
     @Html.Partial("TopMenuPartial")
 
     @RenderBody()
-    
+
     @Html.Partial("FooterPartial")
 
     <script src="~/content/website/js/fun.inc.js" type="text/javascript"></script>

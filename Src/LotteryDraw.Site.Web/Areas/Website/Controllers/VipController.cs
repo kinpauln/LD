@@ -58,9 +58,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 PrizeBettingView model = new PrizeBettingView() { PrizeOrderId = poId };
                 int rtvalue = int.Parse(Request.QueryString["RevealType"]);
                 ViewBag.RevealType = rtvalue;
-                if ((int)RevealType.Answer == rtvalue)
+                if (RevealType.Answer.ToInt() == rtvalue)
                 {
-                    InitAnswerOptions(poId);
+                    InitAnswerOptions(model);
                 }
                 long userid = this.UserId ?? 0;
                 model.UserId = userid;
@@ -79,11 +79,25 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateMvcCaptcha]
         public ActionResult PrizeBetting(PrizeBettingView model)
         {
             ViewBag.IsPostBack = true;
             int rtype = int.Parse(Request.Form["RevealType"]);
             ViewBag.RevealType = rtype;
+
+            if (ModelState.IsValid)
+            {
+                //验证码验证通过
+            }
+            else
+            {
+                //验证码验证失败
+                //ModelState.AddModelError("", e.Message);
+                ViewBag.Message = "验证码输入不正确";
+                return View(model);
+            }
+
             if (string.IsNullOrEmpty(model.Phone.Trim()))
             {
                 ViewBag.Message = "领奖电话不能为空";
@@ -102,10 +116,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             // 答案开奖的话需要验证是否选择了答案
             if ((int)RevealType.Answer == rtype)
             {
-                if (string.IsNullOrEmpty(model.AnswerOption))
+                if (string.IsNullOrEmpty(model.UserAnswer))
                 {
                     ViewBag.Message = "答案必须选择";
-                    InitAnswerOptions(model.PrizeOrderId.Value);
                     return View(model);
                 }
             }
@@ -114,7 +127,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             string msg = result.Message ?? result.ResultType.ToDescription();
             if (result.ResultType == OperationResultType.Success)
             {
-                TempData["Message"] = "参与抽奖成功。<br /><a href='#'>奖池状况<a>";
+                TempData["Message"] = "参与抽奖成功。";//<br /><a href='#'>奖池状况<a>";
                 return RedirectToAction("InfoPage");
             }
             //ModelState.AddModelError("", msg);
@@ -122,20 +135,17 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             return View(model);
         }
 
-        private void InitAnswerOptions(Guid poId)
+        private void InitAnswerOptions(PrizeBettingView model)
         {
-            OperationResult innerresult = PrizeOrderSiteContract.GetPrizeAsking(poId);
+            OperationResult innerresult = PrizeOrderSiteContract.GetPrizeAsking(model.PrizeOrderId.Value);
             if (innerresult != null)
             {
                 PrizeOrderView pov = (PrizeOrderView)innerresult.AppendData;
                 if (pov != null)
                 {
-                    ViewBag.Question = pov.Question;
-                    if (!string.IsNullOrEmpty(pov.AnswerOptions))
-                    {
-                        string[] options = pov.AnswerOptions.Split(new string[] { "|||" }, StringSplitOptions.RemoveEmptyEntries);
-                        ViewBag.AnswerOptions = options;
-                    }
+                    //ViewBag.Question = pov.Question;
+                    model.Question = pov.Question;
+                    model.AnswerOptionsString = pov.AnswerOptions;
                 }
             }
         }
@@ -157,9 +167,28 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         ///  发布奖品
         /// </summary>
         [HttpPost]
+        [ValidateMvcCaptcha]
         public ActionResult PublishPrize(PrizeView model)
         {
             ViewBag.IsPostBack = true;
+
+            if (ModelState.IsValid)
+            {
+                //验证码验证通过
+            }
+            else
+            {
+                //验证码验证失败
+                //ModelState.AddModelError("", e.Message);
+                ViewBag.Message = "验证码输入不正确";
+                return View(model);
+            }
+
+            if (string.IsNullOrEmpty(model.Name.Trim()))
+            {
+                ViewBag.Message = "奖品名称不能为空";
+                return View(model);
+            }
 
             if (Request.Files.Count == 0 || Request.Files[0].ContentLength == 0)
             {
@@ -168,6 +197,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
             Stream photoStrem = Request.Files[0].InputStream;
             model.Photo = StreamUtil.StreamToBytes(photoStrem);
+
 
             if (model.MemberId == 0)
             {
@@ -298,13 +328,31 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         ///  发起抽奖
         /// </summary>
         [HttpPost]
+        [ValidateMvcCaptcha]
         public ActionResult LaunchPrize(PrizeOrderView model)
         {
+            ViewBag.IsPostBack = true;
+            int rtype = int.Parse(Request.Form["RevealType"]);
+            ViewBag.RevealType = rtype;
+
             if (this.PubishingEnableTimes == 0)
             {
                 ViewBag.Message = "您还可发起抽奖0次，请续费后再执行此功能。";
                 return View(model);
             }
+
+            if (ModelState.IsValid)
+            {
+                //验证码验证通过
+            }
+            else
+            {
+                //验证码验证失败
+                //ModelState.AddModelError("", e.Message);
+                ViewBag.Message = "验证码输入不正确";
+                return View(model);
+            }
+
             bool shouldMinus = this.PubishingEnableTimes < 1000000 ? true : false;
             OperationResult result = PrizeOrderSiteContract.Add(model, shouldMinus);
             string msg = result.Message ?? result.ResultType.ToDescription();

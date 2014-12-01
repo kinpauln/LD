@@ -2,6 +2,7 @@
     ViewBag.Title = "Register";
     Layout = "~/Areas/Website/Views/Shared/_Layout.cshtml";
 }
+@using Webdiyer.WebControls.Mvc
 @model LotteryDraw.Site.Models.MemberView
 @section styles{
     <style type="text/css">
@@ -60,10 +61,10 @@
 }
 <div class="active" id="messagelist">
     <div id="mytabs">
-        @if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
+        @*@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
         {
             <div style="color: #f00;" class="error-info">@ViewBag.Message</div>
-        }
+        }*@
         <ul class="tab_title">
             <li class="one">个人</li>
             <li>企业</li>
@@ -72,9 +73,9 @@
             <div class="ct">
                 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { name = "regform-psnl" }))
                 {
-                                    <input type="hidden" name="hidn_province" />
-                                    <input type="hidden" name="hidn_city" />
-                                    <input type="hidden" name="hidn_town" />
+                    <input type="hidden" name="hidn_province" />
+                    <input type="hidden" name="hidn_city" />
+                    <input type="hidden" name="hidn_town" />
                     <table class="message_table">
                         <tbody>
                             <tr>
@@ -126,10 +127,24 @@
                                     <input name="addr_suffix" type="text" class="input-text" />
                                 </td>
                             </tr>
-                            <tr>
+                            @*<tr>
                                 <td class="text">备注</td>
                                 <td class="input">
                                     <textarea name="info" cols="50" rows="6" class="textarea-text"></textarea><span class="info">*</span></td>
+                            </tr>*@
+                            <tr>
+                                <td class="text"></td>
+                                <td class="input">
+                                    @Html.MvcCaptcha(new MvcCaptchaOptions
+                               {
+                                   DelayLoad = false, //若要启用Ajax延迟加载验证码图片功能，则需要设置MvcCaptchaOptions属性的DelayLoad为true
+                                   ValidationInputBoxId = "captchaInput_psnl", //验证码输入文本框的客户端ID
+                                   CaptchaImageContainerId = "imgContainer_psnl" //包含验证码图片的容器元素的客户端ID
+                               })
+                                    <span id="imgContainer_psnl"></span>
+                                    <br />
+                                    <div>请输入上边图片中的文字：</div>
+                                    <input type="text" class="input-text" name="_mvcCaptchaText" id="captchaInput_psnl" data-val="true" data-val-required="验证码不能为空" />
                             </tr>
                             <tr>
                                 <td class="text"></td>
@@ -143,9 +158,9 @@
             <div class="ct">
                 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { name = "regform-ent" }))
                 {
-                                    <input type="hidden" name="hidn_province" />
-                                    <input type="hidden" name="hidn_city" />
-                                    <input type="hidden" name="hidn_town" />
+                    <input type="hidden" name="hidn_province" />
+                    <input type="hidden" name="hidn_city" />
+                    <input type="hidden" name="hidn_town" />
                     <table class="message_table">
                         <tbody>
                             <tr>
@@ -204,10 +219,25 @@
                                     @Html.TextBoxFor(model => model.Tel, new { @class = "input-text", placeholder = "电话" })
                                 </td>
                             </tr>
-                            <tr>
+                            @*<tr>
                                 <td class="text">备注</td>
                                 <td class="input">
                                     <textarea name="info" cols="50" rows="6" class="textarea-text"></textarea><span class="info">*</span></td>
+                            </tr>*@
+                            <tr>
+                                <td class="text"></td>
+                                <td class="input">
+                                    @Html.MvcCaptcha(new MvcCaptchaOptions
+                               {
+                                   DelayLoad = false, //若要启用Ajax延迟加载验证码图片功能，则需要设置MvcCaptchaOptions属性的DelayLoad为true
+                                   ValidationInputBoxId = "captchaInput_ent", //验证码输入文本框的客户端ID
+                                   CaptchaImageContainerId = "imgContainer_ent" //包含验证码图片的容器元素的客户端ID
+                               })
+                                    <span id="imgContainer_ent"></span>
+                                    <br />
+                                    <div>请输入上边图片中的文字：</div>
+                                    <input type="text" class="input-text" name="_mvcCaptchaText" id="captchaInput_ent" data-val="true" data-val-required="验证码不能为空" />
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text"></td>
@@ -237,6 +267,7 @@
 </div>
 
 @section scripts{
+    @Html.Partial("PostBackMessage")
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script src="~/Content/website/address/area.js"></script>

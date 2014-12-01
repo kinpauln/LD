@@ -1,0 +1,11 @@
+﻿@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
+{
+    <script type="text/javascript">
+        $(function () {
+            var errorMessage = '@ViewBag.Message';
+            if (errorMessage != null && errorMessage != "") {
+                layer.alert(errorMessage, 8);
+            }
+        });
+    </script>
+}

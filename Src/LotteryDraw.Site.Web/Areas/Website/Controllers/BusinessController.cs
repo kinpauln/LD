@@ -33,6 +33,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// <summary>
         ///  定员抽奖
         /// </summary>
+        [AuthorizeIgnore]
         public ActionResult Quota(int? id, string keywords)
         {
             int pageIndex = id ?? 1;
@@ -46,6 +47,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// <summary>
         ///  定时抽奖
         /// </summary>
+        [AuthorizeIgnore]
         public ActionResult Timing(int? id, string keywords)
         {
             int pageIndex = id ?? 1;
@@ -59,6 +61,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// <summary>
         ///  答案抽奖
         /// </summary>
+        [AuthorizeIgnore]
         public ActionResult Answer(int? id, string keywords)
         {
             int pageIndex = id ?? 1;
@@ -72,6 +75,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// <summary>
         ///  现场抽奖
         /// </summary>
+        [AuthorizeIgnore]
         public ActionResult Scene(int? id, string keywords)
         {
             int pageIndex = id ?? 1;

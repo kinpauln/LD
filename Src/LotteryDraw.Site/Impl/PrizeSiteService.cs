@@ -48,7 +48,7 @@ namespace LotteryDraw.Site.Impl
         /// <returns>业务操作结果</returns>
         public OperationResult Add(PrizeView pvmodel)
         {
-            PublicHelper.CheckArgument(pvmodel, "pvmodel");
+            //PublicHelper.CheckArgument(pvmodel, "pvmodel");
             Prize pmodel = new Prize
             {
                 Name = pvmodel.Name,
