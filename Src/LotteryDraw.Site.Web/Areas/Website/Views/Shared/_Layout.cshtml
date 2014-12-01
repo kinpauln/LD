@@ -81,6 +81,15 @@
     <link href="http://www.wuliubang.net/favicon.ico" rel="shortcut icon">
     <link href="~/Content/website/css/metinfo_ui.css" rel="stylesheet" type="text/css" id="metuimodule" data-module="1" />
     <link href="~/Content/website/css/metinfo.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #brower-checking-alert {
+
+        }
+            #brower-checking-alert a {
+                font-size:20px;
+                font-weight:bold;
+            }
+    </style>
     <script src="~/Scripts/jquery-1.8.2.min.js"></script>
     <script src="~/Content/website/js/metinfo_ui.js"></script>
     <!--[if IE]>
@@ -93,26 +102,69 @@
         $(function () {
             //layer.alert('白菜级别前端攻城师贤心', 8);
             //downloadBrowser();
+            if (isIE6OrIE7Browser()) {
+                downloadBrowser();
+            }
         });
 
         function downloadBrowser() { 
             //在这里面输入任何合法的js语句（以下将演示一个自定义风格的层）
             $.layer({
                 type: 1,   //0-4的选择,（1代表page层）
-                area: ['500px', '300px'],
+                area: ['550px', '400px'],
                 //shade: [0],  //不显示遮罩
                 border: [0], //不显示边框
                 title: [
-                    '你好，layer。',
+                    '友情提示。',
                     //自定义标题风格，如果不需要，直接title: '标题' 即可  #577DB7
                     'border:none; background:#024D9E; color:#fff;'
                 ],
                 bgcolor: '#eee', //设置层背景色
                 page: {
-                    html: '<div style="padding:50px;">为了达到最佳浏览效果，请您使用<br><a href="#">IE8+</a><br><a href="#">Chrome</a><br><a href="#">Firefox</a><br>等主流浏览器</div>'
+                    html: '<div style="padding:40px;font-size:15px;" id="brower-checking-alert"><p></p>为了不影响相关功能的正常使用，强烈建议您使用当前主流浏览器，请点击下列相关链接下载</p><br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/41/23253/IE8-WindowsXP-x86-CHS.2728888507.exe">IE8</a> &nbsp;(WindowsXP)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/3c/23356/BOIE9_ZHCN_BO0085_WIN7.2197728620.EXE">IE9</a>&nbsp;(Win7/Win8)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/9d/14744/ChromeStandaloneSetup.1416972703.exe">Chrome</a>&nbsp;(WinXP/Win2003/Vista/Win7/Win8)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/51/11843/Firefox_V33.1.1.5430_setup.1416195513.exe">Firefox</a>(WinXP/Win2003/Vista/Win7/Win8)<br>...</div>'
                 },
                 shift: 'top' //从上动画弹出
             });
+        }
+
+        function isIE6OrIE7Browser() {
+            var isIE = !!window.ActiveXObject;
+            var isIE6 = isIE && !window.XMLHttpRequest;
+            var isIE8 = isIE && !!document.documentMode;
+            var isIE7 = isIE && !isIE6 && !isIE8;
+            if (isIE) {
+                if (isIE6) {
+                    //alert("ie6");
+                } else if (isIE8) {
+                    //alert("ie8");
+                } else if (isIE7) {
+                    //alert("ie7");
+                }
+            }
+
+            if (navigator.userAgent.indexOf("Opera") != -1) {
+                //alert('Opera');
+            }
+            else if (navigator.userAgent.indexOf("MSIE") != -1) {
+                //alert('Internet Explorer');
+            }
+            else if (navigator.userAgent.indexOf("Firefox") != -1) {
+                //alert('Firefox');
+            }
+            else if (navigator.userAgent.indexOf("Netscape") != -1) {
+                //alert('Netscape');
+            }
+            else if (navigator.userAgent.indexOf("Safari") != -1) {
+                //alert('Safari');
+            }
+            else {
+                //alert('无法识别的浏览器。');
+            }
+            if (!+'\v1' && !'1'[0]) {
+                //alert("ie6或ie7")
+                return true;
+            }
+            return false;
         }
     </script>
 </head>
