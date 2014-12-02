@@ -13,8 +13,9 @@
     &gt;
     <label>发布奖品</label>
 }
-@using (Html.BeginForm("PublishPrize", "Vip", FormMethod.Post, new { id = "prizeForm", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("PublishPrizeAjax", "Vip", FormMethod.Post, new { id = "prizeForm" }))
 {
+    //enctype = "multipart/form-data"
     @Html.HiddenFor(model => model.MemberId)
     <table class="message_table">
         <tbody>
@@ -33,7 +34,7 @@
                     @Html.ValidationMessageFor(model => model.Name)
                 </td>
             </tr>
-            <tr>
+            @*<tr>
                 <td class="text">奖品图片</td>
                 <td class="input">
                     <input type="file" id="prizePhoto" name="PrizePhoto" />
@@ -41,7 +42,7 @@
                         <img id="imgHeadPhoto" style="display: none; max-width: 400px;" alt="" />
                     </div>
                 </td>
-            </tr>
+            </tr>*@
             <tr>
                 <td class="text">描述：</td>
                 <td class="input">
@@ -72,8 +73,29 @@
         </tbody>
     </table>
 }
+@using (Html.BeginForm("SavePhotoAjax", "Vip", FormMethod.Post, new { id = "photoForm", enctype = "multipart/form-data", style = "display:none" }))
+{
+    @Html.Hidden("PrizeId")
+    <table class="message_table">
+        <tr>
+            <td class="text">奖品图片</td>
+            <td class="input">
+                <input type="file" id="prizePhoto" name="PrizePhoto" />
+                <div id="divPreview" style="background-color: #ccc; text-align: center; vertical-align: middle;">
+                    <img id="imgHeadPhoto" style="display: none; max-width: 400px;" alt="" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="text"></td>
+            <td class="submint">
+                <input type="submit" value="上传" class="submit button orange"></td>
+        </tr>
+    </table>
+}
 @section scripts{
     @Html.Partial("PostBackMessage")
+    <script src="~/Scripts/jquery.form.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script src="~/Scripts/jquery.previewimage.js"></script>
@@ -112,8 +134,69 @@
                 },
                 /*执行ajaxsubmit*/
                 submitHandler: function (form) {
-                    form.submit();
+                    //form.submit();
+                    var loadi;
+                    $(form).ajaxSubmit({
+                        type: "post",
+                        dataType: "json", //期望返回的数据类型。null、“xml”、“script”或者“json”其中之一
+                        //url: "test_save.php?time=" + (new Date()).getTime(),
+                        beforeSubmit: function () {
+                            loadi = layer.load('正在提交数据库，请耐心等待…');
+                        },
+                        success: function (data) {
+                            var result = data.OK;
+                            var message = data.Message;
+                            if (!result) {
+                                layer.alert(message, 8);
+                                $("#abtnChangeCaptcha").trigger("click");
+                                return;
+                            }
+                            layer.confirm("奖品信息保存成功，是否同时上传图片？", function (index) {
+                                layer.close(index);
+                                var pid = data.PrizeId;
+                                $("#PrizeId").val(pid);
+                                $("#prizeForm").hide();
+                                $("#photoForm").fadeIn();
+                                // 显示上传图片
+                            }, function () { });
+                        }
+                        ,
+                        error: function () {
+
+                        },
+                        complete: function () {
+                            layer.close(loadi);
+                        }
+                    });
                 }
+            });
+
+            $("#photoForm").submit(function () {
+                var loadi;
+                $(this).ajaxSubmit({
+                    type: "post",
+                    //dataType: "xml", //期望返回的数据类型。null、“xml”、“script”或者“json”其中之一
+                    //url: "test_save.php?time=" + (new Date()).getTime(),
+                    beforeSubmit: function () {
+                        loadi = layer.load('正在上传图片，请耐心等待…');
+                    },
+                    success: function (data) {
+                        var result = data.OK;
+                        var message = data.Message;
+                        if (!result) {
+                            layer.alert(message, 8);
+                            return;
+                        }
+                        layer.alert(message, 9);
+                    },
+                    error: function () {
+
+                    },
+                    complete: function () {
+                        layer.close(loadi);
+                    }
+                });
+                return false;
             });
 
             $("#prizePhoto").PreviewImage({

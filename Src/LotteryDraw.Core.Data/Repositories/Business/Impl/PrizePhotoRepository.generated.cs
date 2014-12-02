@@ -6,7 +6,7 @@
 //	   如存在本生成代码外的新需求，请在相同命名空间下创建同名分部类进行实现。
 // </auto-generated>
 //
-// <copyright file="IPrizeRepository.generated.cs">
+// <copyright file="PrizePhotoRepository.generated.cs">
 //		Copyright(c)2013 Kingdon.All rights reserved.
 //		CLR版本：4.0.30319.239
 //		开发组织：王金鹏@中国
@@ -17,16 +17,19 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel.Composition;
+using System.Linq;
 
 using LotteryDraw.Component.Data;
 using LotteryDraw.Core.Models.Business;
 
 
-namespace LotteryDraw.Core.Data.Repositories.Business
+namespace LotteryDraw.Core.Data.Repositories.Business.Impl
 {
 	/// <summary>
-    ///   仓储操作层接口——奖品信息
+    ///   仓储操作层实现——奖品图片
     /// </summary>
-    public partial interface IPrizeRepository : IRepository<Prize, Guid>
+    [Export(typeof(IPrizePhotoRepository))]
+    public partial class PrizePhotoRepository : EFRepositoryBase<PrizePhoto, Guid>, IPrizePhotoRepository
     { }
 }

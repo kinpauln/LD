@@ -41,7 +41,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MvcCaptcha, Version=1.2.0.29049, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MvcCaptcha, Version=1.2.0.34716, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\MvcCaptcha.dll</HintPath>
     </Reference>
@@ -324,6 +324,7 @@
     <Content Include="Content\website\css\prize.css" />
     <Content Include="Content\website\images\ddyp.png" />
     <Content Include="Content\website\images\icon_zan.png" />
+    <Content Include="Content\website\images\new-icon.png" />
     <Content Include="Content\website\images\test\thumb_0_230_322_20141009100901826484.jpg" />
     <Content Include="Content\website\js\My97DatePicker\calendar.js" />
     <Content Include="Content\website\js\My97DatePicker\config.js" />
@@ -341,6 +342,7 @@
     <Content Include="Content\website\js\My97DatePicker\WdatePicker.js" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\s.gif" />
+    <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Content\admin\assets\js\jquery.mobile.custom.min.js" />
     <Content Include="Content\admin\assets\js\jquery.nestable.min.js" />

@@ -97,9 +97,10 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// </summary>
         private PagedList<PrizeOrderDetailView> GetLotteries(int? rtype, int pageIndex, string keywords = null)
         {
+            ViewBag.UserId = this.UserId ?? 0;
             PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("SortOrder") };
 
-            int pageSize = 3;
+            int pageSize = int.Parse(System.Configuration.ConfigurationManager.AppSettings["PageCount"]);
             string orderbyString = "SortOrder asc";
             int totalCount;
             int totalPageCount;

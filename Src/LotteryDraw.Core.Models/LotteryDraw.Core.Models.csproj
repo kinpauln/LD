@@ -50,6 +50,7 @@
     <Compile Include="Account\Member.cs" />
     <Compile Include="Account\MemberAddress.cs" />
     <Compile Include="Account\MemberExtend.cs" />
+    <Compile Include="Business\PrizePhoto.cs" />
     <Compile Include="Business\RechargeHistory.cs" />
     <Compile Include="Business\LotteryResult.cs" />
     <Compile Include="Business\WhiteList.cs" />

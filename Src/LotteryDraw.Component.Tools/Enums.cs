@@ -86,4 +86,17 @@ namespace LotteryDraw.Component.Tools
         [Description("已通知")]
         Noticed = 1
     }
+
+    /// <summary>
+    /// 答案开奖开奖条件类型
+    /// </summary>
+    [Description("奖品图片类型")]
+    public enum PhotoType
+    {
+        [Description("默认")]
+        Original = 0,
+        [Description("缩略图")]
+        Thumbnail = 1
+    }
+
 }

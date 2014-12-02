@@ -16,10 +16,6 @@ namespace LotteryDraw.Site.Models
         [Display(Name = "奖品名称")]
         public string Name { get; set; }
 
-        //[Required(ErrorMessage = "{0}不能为空！")]
-        [Display(Name = "图片")]
-        public byte[] Photo { get; set; }
-
         public string PhotoBase64
         {
             get
@@ -27,6 +23,31 @@ namespace LotteryDraw.Site.Models
                 return StreamUtil.BytesToBase64(this.Photo);
             }
             set { }
+        }
+
+        public byte[] Photo
+        {
+            get;
+            set;
+        }
+
+        public IEnumerable<PrizePhotoView> Photos { get; set; }
+
+        private PrizePhotoView _originalPhoto;
+        public PrizePhotoView OriginalPhoto
+        {
+            get
+            {
+                if (_originalPhoto != null) return _originalPhoto;
+                if (Photos == null)
+                    return null;
+                var photo = Photos.Where(p => p.PhotoTypeNum == PhotoType.Original.ToInt()).FirstOrDefault();
+                return photo;
+            }
+            set
+            {
+                _originalPhoto = value;
+            }
         }
 
         [Display(Name = "描述")]

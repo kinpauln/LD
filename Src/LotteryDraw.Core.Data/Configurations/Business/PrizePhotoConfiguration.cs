@@ -12,7 +12,7 @@
 //		开发组织：王金鹏@中国
 //		公司网站：http://www.wuliubang.net/
 //		所属工程：LotteryDraw.Core.Data
-//		生成时间：2014-12-02 17:13
+//		生成时间：2014-09-28 12:06
 // </copyright>
 //------------------------------------------------------------------------------
 
@@ -29,28 +29,13 @@ namespace LotteryDraw.Core.Data.Configurations.Business
     /// <summary>
     /// 实体类-数据表映射——奖品开奖信息
     /// </summary>    
-	internal partial class PrizeOrderConfiguration : EntityTypeConfiguration<PrizeOrder>, IEntityMapper
+    partial class PrizePhotoConfiguration
     {
-        /// <summary>
-        /// 实体类-数据表映射构造函数——奖品开奖信息
-        /// </summary>
-        public PrizeOrderConfiguration()
+        partial void PrizePhotoConfigurationAppend()
         {
-			PrizeOrderConfigurationAppend();
-        }
-		
-        /// <summary>
-        /// 额外的数据映射
-        /// </summary>
-        partial void PrizeOrderConfigurationAppend();
-		
-        /// <summary>
-        /// 将当前实体映射对象注册到当前数据访问上下文实体映射配置注册器中
-        /// </summary>
-        /// <param name="configurations">实体映射配置注册器</param>
-        public void RegistTo(ConfigurationRegistrar configurations)
-        {
-            configurations.Add(this);
+            HasRequired(po => po.Prize)
+                .WithMany(p => p.PrizePhotos)
+                .WillCascadeOnDelete(true);
         }
     }
 }

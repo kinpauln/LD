@@ -13,6 +13,7 @@ using System.IO;
 using LotteryDraw.Site.Extentions;
 using LotteryDraw.Component.Utility;
 using LotteryDraw.Core.Models.Account;
+using LotteryDraw.Site.Extentions;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
@@ -32,6 +33,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
         [Import]
         protected IPrizeContract PrizeContract { get; set; }
+
+        [Import]
+        protected IPrizePhotoSiteContract PrizePhotoSiteContract { get; set; }
 
         [Import]
         public IAccountContract AccountContract { get; set; }
@@ -215,6 +219,115 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             ViewBag.Message = msg;
             return View(model);
         }
+
+        /// <summary>
+        ///  发布奖品
+        /// </summary>
+        [HttpPost]
+        [ValidateMvcCaptcha]
+        public JsonResult PublishPrizeAjax(PrizeView model)
+        {
+            if (ModelState.IsValid)
+            {
+                //验证码验证通过
+            }
+            else
+            {
+                //验证码验证失败
+                //ModelState.AddModelError("", e.Message);
+                ViewBag.Message = "验证码输入不正确";
+                return Json(new { OK = false, Message = "验证码输入不正确" }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (string.IsNullOrEmpty(model.Name.Trim()))
+            {
+                ViewBag.Message = "奖品名称不能为空";
+                return Json(new { OK = false, Message = "奖品名称不能为空" }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (model.MemberId == 0)
+            {
+                ViewBag.Message = "用户Id为0";
+                return Json(new { OK = false, Message = "用户Id为0" }, JsonRequestBehavior.AllowGet);
+            }
+            OperationResult result = PrizeSiteContract.Add(model);
+            if (result.ResultType == OperationResultType.Success)
+            {
+                Prize rtnmodel = (Prize)result.AppendData;
+                string pid = string.Empty;
+                if (rtnmodel != null)
+                {
+                    pid = rtnmodel.Id.ToString();
+                }
+                return Json(new { OK = true, Message = "奖品发布成功！", PrizeId = pid }, JsonRequestBehavior.AllowGet);
+            }
+
+            string msg = result.Message ?? result.ResultType.ToDescription();
+            return Json(new { OK = false, Message = msg }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        ///  发布奖品
+        /// </summary>
+        [HttpPost]
+        public JsonResult SavePhotoAjax()
+        {
+            Response.ContentType = "text/json";
+            if (Request.Files.Count == 0 || Request.Files[0].ContentLength == 0)
+            {
+                return Json(new { OK = false, Message = "请选择文件" }, JsonRequestBehavior.AllowGet);
+            }
+
+            long userid = this.UserId ?? 0;
+            string pid = Request.Form["PrizeId"] as string;
+            if (string.IsNullOrEmpty(pid))
+            {
+                return Json(new { OK = false, Message = "抱歉，奖品Id为空，不能保存关联图片" }, JsonRequestBehavior.AllowGet);
+            }
+
+            //存入文件
+            try
+            {
+                HttpPostedFileBase file = Request.Files["PrizePhoto"];
+                string filename = pid + System.IO.Path.GetExtension(file.FileName);
+                string filepath = System.IO.Path.Combine(Server.MapPath("~/Files/PrizePhotos"), userid.ToString());
+                //如果不存在就创建用户文件夹
+                if (Directory.Exists(filepath) == false)
+                {
+                    Directory.CreateDirectory(filepath);
+                }
+
+                string fullname = System.IO.Path.Combine(filepath, filename);
+
+                if (System.IO.File.Exists(fullname))
+                {
+                    System.IO.File.Delete(fullname);
+                }
+
+                file.SaveAs(fullname);
+
+                //存DB
+                OperationResult result = PrizePhotoSiteContract.Add(new PrizePhotoView()
+                {
+                    Name = filename,
+                    PhotoTypeNum = PhotoType.Original.ToInt(),
+                    PrizeId = new Guid(pid)
+                });
+                if (result.ResultType == OperationResultType.Success)
+                {
+                    return Json(new { OK = true, Message = "图片上传成功" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { OK = true, Message = "物理文件保存成功，但存数据库信息失败【" + result.Message + "】" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { OK = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #endregion
 
         #region 奖单
@@ -436,23 +549,29 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         public ActionResult ManagePrizes(int? id)
         {
             long userid = this.UserId ?? 0;
+            ViewBag.UserId = userid.ToString();
 
             int pageIndex = id ?? 1;
             int total;
             PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
 
-            var rlist = PrizeContract.Prizes
+            var plist = PrizeContract.Prizes
                 .Where(p => p.Member.Id.Equals(userid))
                 .Where<Prize, Guid>(m => true, pageIndex, this.PageSize, out total, sortConditions)
                 .OrderByDescending(p => p.AddDate)
-                .Select(p => new PrizeView()
+                .ToList();
+            var rlist = new List<PrizeView>();
+            plist.ForEach(p =>
             {
-                Id = p.Id,
-                Name = p.Name,
-                Description = p.Description,
-                AddDate = p.AddDate,
-                UpdateDate = p.UpdateDate,
-                Photo = p.Photo
+                rlist.Add(new PrizeView()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    AddDate = p.AddDate,
+                    UpdateDate = p.UpdateDate,
+                    Photos = p.PrizePhotos.ToList().ToSiteViewModels()
+                });
             });
 
             PagedList<PrizeView> model = new PagedList<PrizeView>(rlist, pageIndex, this.PageSize, total);
@@ -481,19 +600,13 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// </summary>
         public ActionResult PrizeDetail(Guid id)
         {
+            ViewBag.UserId = this.UserId ?? 0;
             // 可发起抽奖的次数
             ViewBag.PublishEnableTimes = this.PubishingEnableTimes;
-            PrizeView model = PrizeContract.Prizes
+            Prize pmodel = PrizeContract.Prizes
                 .Where(p => p.Id.Equals(id))
-                .Select(p => new PrizeView()
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                    AddDate = p.AddDate,
-                    UpdateDate = p.UpdateDate,
-                    Photo = p.Photo
-                }).FirstOrDefault();
+                .FirstOrDefault();
+            PrizeView model = pmodel.ToSiteViewModel();
             return View(model);
         }
 

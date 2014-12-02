@@ -30,7 +30,18 @@
         <tr>
             <td class="text">奖品图片：</td>
             <td class="input">
-                <img src="data:image/png;base64,@Model.PhotoBase64" style="max-width:400px;" />
+                @*<img src="data:image/png;base64,@Model.PhotoBase64" style="max-width:400px;" />*@
+                @{string photoName = string.Empty;
+                  if (Model.OriginalPhoto != null && !string.IsNullOrEmpty(Model.OriginalPhoto.Name))
+                  {
+                      photoName = "/Files/PrizePhotos/" + ViewBag.UserId + "/" + Model.OriginalPhoto.Name;
+                  }
+                  else
+                  {
+                      photoName = "";
+                  }
+                }
+                <img src="@photoName" style="max-width:400px;" />
             </td>
         </tr>
         <tr>
@@ -74,7 +85,7 @@
                     var href = "/Vip/LaunchPrize/@Model.Id";
                     location.href = href;
                 } else {
-                    alert("抱歉，您可发起抽奖的次数为0，请续费后再继续使用该功能。");
+                    layer.alert("抱歉，您可发起抽奖的次数为0，请续费后再继续使用该功能。", 8);
                 }
             });
         });

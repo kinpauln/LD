@@ -53,12 +53,24 @@
                         string username = item.MemberView.UserName.ToString(); //发起抽奖者
                         int rtype = item.PrizeOrderView.RevealType.ToInt();
                         string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
+                        string originalPhotoName = item.PrizeView.OriginalPhoto.Name;
                         
         <dl class="clearfix ranking-movie-list fl">
             <dt class="fl">
                 <a href="/Vip/PrizeDetail/@pid" target="_self">
-                    <img src="~/Content/website/images/test/thumb_0_230_322_20141009100901826484.jpg" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
-                    <span class="assessment-zan up dpngIcon pngIcon">93%</span>
+                    @{
+                        string photoname = string.Empty;
+                        if (!string.IsNullOrEmpty(originalPhotoName))
+                        {
+                            photoname = "/Files/PrizePhotos/" + ViewBag.UserId + "/" + originalPhotoName;
+                        }
+                        else
+                        {
+                            photoname = "";
+                        }
+                        }
+                    <img src="@photoname" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+                    @*<span class="assessment-zan up dpngIcon pngIcon">93%</span>*@
 
                     <p class="ranking-pic-back ranking-pic"></p>
                     <p class="ranking-show-time ranking-pic">发起抽奖时间：@addDate</p>

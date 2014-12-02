@@ -15,7 +15,7 @@
 }
 @section styles{
     <link href="~/Content/website/css/prize.css" rel="stylesheet" />
-    <style type="text/css">        
+    <style type="text/css">
         #adv-list {
             position: relative;
             margin-bottom: 10px;
@@ -103,15 +103,30 @@
             <th style="width: 120px;">操作</th>
         </tr>
         @if (Model == null || Model.Count == 0) {
-             <tr>
-                <td colspan="6">没有奖品</td></tr>
+            <tr>
+                <td colspan="6">没有奖品</td>
+            </tr>
         }
         @foreach (var item in Model)
         {
+            string photoName = string.Empty;
+            if (item.OriginalPhoto != null && !string.IsNullOrEmpty(item.OriginalPhoto.Name))
+            {
+                photoName = "/Files/PrizePhotos/" + ViewBag.UserId + "/" + item.OriginalPhoto.Name;
+            }
+            else {
+                photoName = "";
+            }
             <tr>
-                <td><div title="@item.Name" style="width:100px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.Name</div></td>
-                <td><img src="data:image/png;base64,@item.PhotoBase64" style="max-width:100px;display:block;margin:0 auto;" /></td>
-                <td><div title="@item.Description" style="width:120px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.Description</div></td>
+                <td>
+                    <div title="@item.Name" style="width:100px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.Name</div>
+                </td>
+                @*<td><img src="data:image/png;base64,@item.PhotoBase64" style="max-width:100px;display:block;margin:0 auto;" /></td>*@
+                <td>
+                    <img src="@photoName" style="max-width:100px;display:block;margin:0 auto;" /></td>
+                <td>
+                    <div title="@item.Description" style="width:120px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.Description</div>
+                </td>
                 <td>@item.AddDate.ToString("yyy-MM-dd HH:mm:ss")</td>
                 <td>@{string dateString = item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyy-MM-dd HH:mm:ss") : string.Empty;}@dateString</td>
                 <td><a href="/Vip/PrizeDetail/@item.Id">详情</a>&nbsp;|&nbsp;<a href="/Vip/PrizeEdit/@item.Id">编辑</a>&nbsp;|&nbsp;<a href="/Vip/PrizeDelete/@item.Id" onclick="javascript:return confirm('确认要删除？')">删除</a>&nbsp;|&nbsp;<a href="/Vip/PrizeOrderList?pid=@item.Id">奖单</a></td>

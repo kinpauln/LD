@@ -24,36 +24,24 @@ namespace LotteryDraw.Core.Models.Business
     /// <summary>
     ///     实体类——奖品信息
     /// </summary>
-    [Description("奖品信息")]
-    public class Prize : EntityBase<Guid>
+    [Description("奖品图片")]
+    public class PrizePhoto : EntityBase<Guid>
     {
-        public Prize()
+        public PrizePhoto()
         {
             Id = CombHelper.NewComb();
         }
 
-        [Required]
-        [StringLength(20)]
         public string Name { get; set; }
 
-        //[Required]
-        public byte[] Photo { get; set; }
+        public int PhotoTypeNum { get; set; }
 
-        //[Required]
-        public string Description { get; set; }
+        public PhotoType PhotoType
+        {
+            get { return (PhotoType)PhotoTypeNum; }
+            set { PhotoTypeNum = (int)value; }
+        }
 
-        public DateTime? UpdateDate { get; set; }
-
-        public virtual Member Member { get; set; }
-
-        /// <summary>
-        /// 获取或设置 开奖信息
-        /// </summary>
-        public virtual ICollection<PrizeOrder> PrizeOrders { get; set; }
-
-        /// <summary>
-        /// 获取或设置 奖品图片
-        /// </summary>
-        public virtual ICollection<PrizePhoto> PrizePhotos { get; set; }
+        public virtual Prize Prize { get; set; }
     }
 }
