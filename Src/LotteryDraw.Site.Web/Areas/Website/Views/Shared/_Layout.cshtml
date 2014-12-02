@@ -105,7 +105,31 @@
             if (isIE6OrIE7Browser()) {
                 downloadBrowser();
             }
+
+            $("a[class*='excute-launch']").click(function () {
+                var url = $(this).attr("adv-url");
+                var trueurl = $(this).attr("true-href");
+                //var url = 'http://sentsin.com/';
+                showAdv(url,trueurl);
+            });
         });
+
+        function showAdv(url, trueurl) {
+            $.layer({
+                type: 2,
+                title: '广告',
+                shadeClose: true,
+                maxmin: true,
+                fix: true,
+                area: ['1024px', 500],
+                iframe: {
+                    src: url
+                },
+                end: function () {
+                    location.href = trueurl;
+                }
+            });
+        }
 
         function downloadBrowser() { 
             //在这里面输入任何合法的js语句（以下将演示一个自定义风格的层）
