@@ -99,7 +99,7 @@
                                 <th class="sorting hidden" style="width: 112px;">开奖状态</th>
                                 <th class="sorting hidden" style="width: 80px;">排序</th>
                                 <th class="hidden">PrizeOrderId</th>
-                                <th class="sorting_disabled" style="width: 80px;"></th>
+                                <th class="sorting_disabled" style="width: 85px;"></th>
                             </tr>
                         </thead>
                         <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -542,6 +542,42 @@
         }
 
         function AddToWHList(memberid) {
+            layer.confirm("确定要加入白名单？", function (index) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'AddToWhiteList',
+                    cache: false,
+                    data: {
+                        memberid: memberid,
+                        prizeorderId: $("#hidnPOId").val()
+                    },
+                    success: function (data) {
+                        var errorString = data.ErrorString;
+                        if (errorString != "" && errorString != null) {
+                            //$("#errorContainer").html(errorString);
+                            //$("#errorContainer").show();
+                            layer.alert(errorString, 8);
+                            return;
+                        }
+                        //$("#errorContainer").html("添加至白名单成功");
+                        //$("#errorContainer").show();
+                        $('#userTbBody>tr').remove();
+                        $("#userlist-container").hide();
+                        layer.alert("添加至白名单成功", 9);
+                    },
+                    beforeSend: function () {
+                        showLoading(true);
+                    },
+                    complete: function () {
+                        showLoading(false);
+                    }
+                    , dataType: "json"
+                });
+                // 关闭confirm框
+                layer.close(index);
+            }, function () {
+
+            });
             //JqUIConfirm("确定加入白名单？");
             //JqUIAlert("加入白名单");
 
@@ -562,35 +598,6 @@
             //}, function () {
             //    console.log("click me");
             //});
-
-            $.ajax({
-                type: 'POST',
-                url: 'AddToWhiteList',
-                cache: false,
-                data: {
-                    memberid: memberid,
-                    prizeorderId: $("#hidnPOId").val()
-                },
-                success: function (data) {
-                    var errorString = data.ErrorString;
-                    if (errorString != "" && errorString != null) {
-                        $("#errorContainer").html(errorString);
-                        $("#errorContainer").show();
-                        return;
-                    }
-                    $("#errorContainer").html("添加至白名单成功");
-                    $("#errorContainer").show();
-                    $('#userTbBody>tr').remove();
-                    $("#userlist-container").hide();
-                },
-                beforeSend: function () {
-                    showLoading(true);
-                },
-                complete: function () {
-                    showLoading(false);
-                }
-                , dataType: "json"
-            });
         }
 
         function initUiBeforeSearchUsers() {

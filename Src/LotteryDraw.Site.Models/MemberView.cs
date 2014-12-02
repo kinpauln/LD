@@ -34,11 +34,12 @@ namespace LotteryDraw.Site.Models
 
         public string AddrSuffix { get; set; }
 
-        public string Address { 
-            get 
-            { 
-                return Province + (City.Equals(City) ? string.Empty : City) + Town + AddrSuffix; 
-            } 
+        public string Address
+        {
+            get
+            {
+                return Province == null ? "" : Province + (City.Equals(City) ? string.Empty : City) + Town == null ? "" : Town + AddrSuffix == null ? "" : AddrSuffix;
+            }
         }
 
         public int LoginLogCount { get; set; }

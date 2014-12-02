@@ -169,6 +169,7 @@ p.rmn-item{height: 26px;overflow: hidden;}
 .ranking-web-content .sr-classify{line-height: 27px;height: 27px;}
 .ranking-web-content .sr-classify a,.ranking-web-content .sr-classify a.show-now{line-height: 27px;height: 27px;font-size: 17px;}
 .ranking-movie-list dt .assessment-zan{background: url(../images/icon_zan.png) no-repeat #08090a;display: block;height: 26px;line-height: 26px;color: #fff;font-size: 15px;font-family: arial;padding: 0 4px 0 23px;_background-color: #08090a}
+/*.ranking-movie-list dt .assessment-zan{background-image: url(../images/new-icon.png);display: block;height: 75px;line-height: 75px;width:65px;color: #fff;font-size: 15px;font-family: arial;_background-color: #08090a}*/
 .ranking-movie-list dt .assessment-zan.up{background-position: -173px -226px;}
 .ranking-movie-list dt .assessment-zan.down{background-position: -231px -225px;}
 
