@@ -89,14 +89,14 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
         ///  免审核
         /// </summary>
         /// <param name="memberid">用户Id</param>
-        public JsonResult NoAudit(long memberid)
+        public JsonResult NoAudit(long memberid,int? noauditTimes)
         {
             if (memberid==0)
             {
                 return Json(new { ErrorString = "用户Id不合法" }, JsonRequestBehavior.AllowGet);
             }
 
-            OperationResult result = AccountSiteContract.NoAudit(memberid);
+            OperationResult result = AccountSiteContract.NoAudit(memberid, noauditTimes);
 
             if (result.ResultType == OperationResultType.Success)
             {

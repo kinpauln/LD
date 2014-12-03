@@ -171,8 +171,8 @@
                     {
                         foreach (DataRow dr in arrayDR)
                         {
-                            string poid = dr["Id"].ToString();
-                            string pid = dr["Prize_Id"].ToString();
+                            string poid = dr["PrizeOrderId"].ToString();
+                            string pid = dr["PrizeId"].ToString();
                             string prizeName = dr["PrizeName"].ToString();
                             string prizeDescription = dr["PrizeDescription"].ToString();
                             // 发起抽奖日期
@@ -181,8 +181,9 @@
                             int rtype = int.Parse(dr["RevealType"].ToString());
                             string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
 
-                            long userid = long.Parse(dr["Member_Id"].ToString());
+                            long userid = long.Parse(dr["MemberId"].ToString());
                             string imgname = dr["OriginalPhotoName"].ToString();
+                            string advurl = dr["AdvertisingUrl"].ToString();
                     <dl class="clearfix ranking-movie-list fl">
                         <dt class="fl">
                             <a href="/Vip/PrizeDetail/@pid" target="_self">
@@ -283,7 +284,7 @@
                                 </ul>
                             </div>*@
                             <div class="r-play-con">
-                                <a class="r-play-button excute-launch" target="_self" href="#" adv-url="http://sentsin.com/" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
+                                <a class="r-play-button excute-launch" target="_self" href="#" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
                             </div>
                         </dd>
                     </dl>

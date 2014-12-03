@@ -46,31 +46,35 @@ namespace LotteryDraw.Core.Data.Migrations
 
             List<Member> members = new List<Member>
             {
-                new Member { UserName = "admin", Password = "123456", Email = "admin@wuliubang.net", Name = "管理员",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="市南区", Province="山东省", City="青岛市",Suffix="香港中路" }} },
-                new Member { UserName = "whl", Password = "123456", Email = "hl.wang@wuliubang.net", Name = "王宏利",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="四方区", Province="山东省", City="青岛市",Suffix="山东路" }} },
-                new Member { UserName = "wjp", Password = "123456", Email = "jp.wang@wuliubang.net", Name = "王金鹏",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="南京路" }} }
+                new Member { UserName = "admin", Password = Encrypt.Encode("123456"), Email = "admin@choujiangma.com", Name = "管理员",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="市南区", Province="山东省", City="青岛市",Suffix="香港中路" }} },
+                new Member { UserName = "whl", Password = Encrypt.Encode("123456"), Email = "hl.wang@choujiangma.com", Name = "王宏利",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="四方区", Province="山东省", City="青岛市",Suffix="山东路" }} },
+                new Member { UserName = "wjp", Password = Encrypt.Encode("123456"), Email = "jp.wang@choujiangma.com", Name = "王金鹏",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="南京路" }} },
+                new Member { UserName = "test_ent", Password = Encrypt.Encode("123456"), Email = "test_ent@choujiangma.com", Name = "企业测试账号",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="万年泉路" }} },
+                new Member { UserName = "test_psnl", Password = Encrypt.Encode("123456"), Email = "test_psnl@choujiangma.com", Name = "个人测试账号",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="金水路" }} }
             };
             members[0].Roles.Add(roleSet.ToArray()[0]);
             members[1].Roles.Add(roleSet.ToArray()[0]);
             members[2].Roles.Add(roleSet.ToArray()[0]);
-            for (int i = 0; i < 30; i++)
-            {
-                Random rnd = new Random((int)DateTime.Now.Ticks + i);
-                Member member = new Member
-                {
-                    UserName = "username" + i,
-                    Password = "123456",
-                    Email = "userName" + i + "@wuliubang.net",
-                    Name = "用户" + i
-                };
-                var roleArray = roleSet.ToArray();
-                member.Roles.Add(roleArray[rnd.Next(0, roleArray.Length)]);
-                if (rnd.NextDouble() > 0.5)
-                {
-                    member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);
-                }
-                members.Add(member);
-            }
+            members[3].Roles.Add(roleSet.ToArray()[1]);//企业用户
+            members[4].Roles.Add(roleSet.ToArray()[2]);//个人用户
+            //for (int i = 0; i < 30; i++)
+            //{
+            //    Random rnd = new Random((int)DateTime.Now.Ticks + i);
+            //    Member member = new Member
+            //    {
+            //        UserName = "user" + i,
+            //        Password = Encrypt.Encode("123456"),
+            //        Email = "user" + i + "@choujiangma.com",
+            //        Name = "用户" + i
+            //    };
+            //    var roleArray = roleSet.ToArray();
+            //    member.Roles.Add(roleArray[rnd.Next(0, roleArray.Length)]);
+            //    if (rnd.NextDouble() > 0.5)
+            //    {
+            //        member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);
+            //    }
+            //    members.Add(member);
+            //}
             DbSet<Member> memberSet = context.Set<Member>();
             memberSet.AddOrUpdate(m => new { m.UserName }, members.ToArray());
             context.SaveChanges();

@@ -24,6 +24,7 @@ using LotteryDraw.Core.Models.Account;
 using LotteryDraw.Site.Models;
 using LotteryDraw.Core.Models.Security;
 using LotteryDraw.Core;
+using LotteryDraw.Component.Utility;
 
 
 namespace LotteryDraw.Site.Impl
@@ -48,7 +49,7 @@ namespace LotteryDraw.Site.Impl
             LoginInfo loginInfo = new LoginInfo
             {
                 Account = model.Account,
-                Password = model.Password,
+                Password = Encrypt.Encode(model.Password),
                 IpAddress = HttpContext.Current.Request.UserHostAddress
             };
             OperationResult result = AccountContract.Login(loginInfo);
@@ -93,12 +94,13 @@ namespace LotteryDraw.Site.Impl
             Member member = new Member
             {
                 UserName = model.UserName,
-                Password = model.Password,
+                Password = Encrypt.Encode(model.Password),
                 Email = model.Email,
                 Name = model.Name,
                 Extend = new MemberExtend()
                 {
                     Tel = model.Tel,
+                    AdvertisingUrl = model.AdvertisingUrl,
                     Address = new MemberAddress()
                     {
                         Province = model.Province,
@@ -134,11 +136,12 @@ namespace LotteryDraw.Site.Impl
         ///  免审核
         /// </summary>
         /// <param name="memberid">用户Id</param>
-        public OperationResult NoAudit(long memberid)
+        /// <param name="noauditTimes">免审核次数</param>
+        public OperationResult NoAudit(long memberid, int? noauditTimes)
         {
             try
             {
-                bool result = AccountContract.NoAudit(memberid);
+                bool result = AccountContract.NoAudit(memberid, noauditTimes);
                 if (result)
                 {
                     return new OperationResult(OperationResultType.Success, "免审核成功");

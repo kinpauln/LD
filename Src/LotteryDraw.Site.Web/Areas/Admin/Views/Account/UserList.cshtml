@@ -149,7 +149,7 @@
                                             <a class="btn btn-xs btn-danger" href="#">
                                                 <i class="icon-trash bigger-120"></i>
                                             </a>*@
-                                            <a class="btn btn-xs btn-warning no-audit" href="#" title="免审核" memberid="@item.Id">
+                                            <a class="btn btn-xs btn-warning no-audit" href="#modal-noaudit" data-toggle="modal" title="免审核" memberid="@item.Id">
                                                 <i class="icon-flag bigger-120"></i>
                                             </a>
                                         </div>
@@ -304,6 +304,46 @@
         </div>
     </div>
 </div>
+<div id="modal-noaudit" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="blue bigger">用户·免审核</h4>
+            </div>
+
+            <div class="modal-body overflow-visible">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <input type="hidden" id="hidnUserId_noaudit" />
+                            <table class="modal-tb">
+                                <tr>
+                                    <td>
+                                        <label style="width: 100px;">免审核次数</label></td>
+                                    <td>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="txtNoAuditTimes" placeholder="必须输入数字" title="" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button data-bb-handler="click" type="button" id="btnSaveNoAuditTimes" class="btn btn-sm btn-primary">保存</button>
+                <button data-bb-handler="danger" type="button" id="btnNoAuditForever" class="btn btn-sm btn-danger">永久免审核</button>
+                <button class="btn btn-sm" data-dismiss="modal">
+                    <i class="icon-remove"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts{
     @{Html.RegisterMvcPagerScriptResource();}
     <script src="~/Content/admin/assets/js/bootbox.min.js"></script>
@@ -377,18 +417,24 @@
 
             //免审核
             $("a[class*='no-audit']").click(function (e) {
-                var mid = $(this).attr("memberid");
-                if (mid == null || mid == 0) {
-                    JqUIAlert("用户Id不合法。");
-                    return;
-                }
-                JqUIConfirm("【免审核】该用户？", function () {
-                    //确定
-                    NoAudit(mid);
-                }, function () {
-                    //取消
-                });
+                $("#hidnUserId_noaudit").val($(this).attr("memberid"));
                 e.preventDefault();
+            });
+
+            $("#btnSaveNoAuditTimes").click(function (e) {
+                var timesval = $.trim($("#txtNoAuditTimes").val());
+                var r = /^\+?[1-9][0-9]*$/;　　//正整数 
+                if (r.test(timesval)) {
+                    var memberid = $("#hidnUserId_noaudit").val();
+                    NoAudit(memberid, timesval);
+                } else {
+                    layer.alert("必须输入数字", 8);
+                }
+            });
+
+            $("#btnNoAuditForever").click(function (e) {
+                var memberid = $("#hidnUserId_noaudit").val();
+                NoAudit(memberid, null);
             });
 
             //删除
@@ -436,13 +482,20 @@
         }
 
         // 免审核
-        function NoAudit(memberid) {
+        function NoAudit(memberid, times) {
+            if (memberid == null || memberid == 0) {
+                layer.alert("用户Id不合法。", 8);
+                return;
+            }
+
+            var loadi;
             $.ajax({
                 type: 'POST',
                 url: 'NoAudit',
                 cache: false,
                 data: {
-                    memberid: memberid
+                    memberid: memberid,
+                    noauditTimes: times
                 },
                 success: function (data) {
                     var errorString = data.ErrorString;
@@ -450,13 +503,15 @@
                         JqUIAlert(errorString);
                         return;
                     }
-                    JqUIAlert("免审核成功");
+                    layer.alert("免审核成功", 9);
                 },
                 beforeSend: function () {
-                    showLoading(true);
+                    loadi = layer.load('正在保存，请耐心等待…');
+                    //showLoading(true);
                 },
                 complete: function () {
-                    showLoading(false);
+                    //showLoading(false);
+                    layer.close(loadi);
                 }
                 , dataType: "json"
             });

@@ -84,8 +84,9 @@ namespace LotteryDraw.Core
         /// <summary>
         ///  免审核
         /// </summary>
-        /// <param name="memberid">用户Id</param>
-        bool NoAudit(long memberid);
+        /// <param name="memberid">用户ID</param>
+        /// <param name="noauditTimes">免审核次数</param>
+        bool NoAudit(long memberid, int? noauditTimes);
 
         /// <summary>
         ///  删除

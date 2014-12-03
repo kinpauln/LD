@@ -61,7 +61,8 @@ namespace LotteryDraw.Site
         ///  免审核
         /// </summary>
         /// <param name="memberid">用户Id</param>
-        OperationResult NoAudit(long memberid);
+        /// <param name="noauditTimes">免审核次数</param>
+        OperationResult NoAudit(long memberid, int? noauditTimes);
 
         /// <summary>
         ///  删除

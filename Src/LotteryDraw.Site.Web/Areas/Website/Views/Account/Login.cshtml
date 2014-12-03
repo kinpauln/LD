@@ -5,6 +5,7 @@
 @model LotteryDraw.Site.Models.LoginModel
 
 @section scripts{
+    @Html.Partial("PostBackMessage")
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script type="text/javascript">
@@ -82,12 +83,12 @@
     {
         <table class="message_table">
             <tbody>
-                @if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
+                @*@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
                 {
                     <tr>
                         <td colspan="2" style="text-align: center; color: #f00;">@ViewBag.Message</td>
                     </tr>
-                }
+                }*@
                 <tr>
                     <td class="text">用户名：</td>
                     <td class="input">

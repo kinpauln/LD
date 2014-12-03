@@ -158,7 +158,7 @@ namespace LotteryDraw.Core.Impl
                 List<SqlParameter> paramList = new List<SqlParameter>();
 
                 //用户名
-                SqlParameter paramUserName = new SqlParameter("@UserName", SqlDbType.NVarChar,20);
+                SqlParameter paramUserName = new SqlParameter("@UserName", SqlDbType.NVarChar, 20);
                 paramUserName.Value = username;
                 paramList.Add(paramUserName);
                 //邮箱
@@ -271,7 +271,7 @@ namespace LotteryDraw.Core.Impl
         ///  免审核
         /// </summary>
         /// <param name="memberid">用户ID</param>
-        public bool NoAudit(long memberid)
+        public bool NoAudit(long memberid, int? noauditTimes)
         {
             try
             {
@@ -280,7 +280,7 @@ namespace LotteryDraw.Core.Impl
                 {
                     throw new BusinessException(string.Format("Id为{0}用户不存在。", memberid.ToString()));
                 }
-                member.PubishingEnableTimes = int.MaxValue;
+                member.PubishingEnableTimes = noauditTimes ?? int.MaxValue;
                 int rcount = MemberRepository.Update(member);
                 if (rcount > 0)
                 {

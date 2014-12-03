@@ -127,6 +127,12 @@
                                     <input name="addr_suffix" type="text" class="input-text" />
                                 </td>
                             </tr>
+                            <tr>
+                                <td class="text">域名</td>
+                                <td class="input">
+                                    @Html.TextBoxFor(model => model.AdvertisingUrl, new { @class = "input-text", placeholder = "域名推广", style = "width:300px;" })
+                                </td>
+                            </tr>
                             @*<tr>
                                 <td class="text">备注</td>
                                 <td class="input">
@@ -217,6 +223,12 @@
                                 <td class="text">电话</td>
                                 <td class="input">
                                     @Html.TextBoxFor(model => model.Tel, new { @class = "input-text", placeholder = "电话" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text">域名</td>
+                                <td class="input">
+                                    @Html.TextBoxFor(model => model.AdvertisingUrl, new { @class = "input-text", placeholder = "域名推广", style = "width:300px;" })
                                 </td>
                             </tr>
                             @*<tr>

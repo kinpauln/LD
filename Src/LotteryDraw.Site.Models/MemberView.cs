@@ -26,6 +26,8 @@ namespace LotteryDraw.Site.Models
 
         public string Tel { get; set; }
 
+        public string AdvertisingUrl { get; set; }
+
         public string Province { get; set; }
 
         public string City { get; set; }

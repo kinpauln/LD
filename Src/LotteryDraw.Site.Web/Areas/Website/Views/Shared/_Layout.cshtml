@@ -98,6 +98,7 @@
     <script src="~/Content/website/js/banner.js"></script>
     @*<script src="~/Content/website/js/DD_belatedPNG_0.0.8a.js"></script>*@
     <script src="~/Content/layer-v1.8.5/layer-v1.8.5/layer/layer.min.js"></script>
+    <script src="~/Content/layer-v1.8.5/layer-v1.8.5/layer/extend/layer.ext.js"></script>
     <script type="text/javascript">
         $(function () {
             //layer.alert('白菜级别前端攻城师贤心', 8);
@@ -107,10 +108,14 @@
             }
 
             $("a[class*='excute-launch']").click(function () {
-                var url = $(this).attr("adv-url");
+                var advurl = $(this).attr("adv-url");
                 var trueurl = $(this).attr("true-href");
                 //var url = 'http://sentsin.com/';
-                showAdv(url,trueurl);
+                if (advurl == null || advurl == "") {
+                    location.href = trueurl;
+                    return;
+                }
+                showAdv(advurl,trueurl);
             });
         });
 
