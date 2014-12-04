@@ -40,7 +40,7 @@ namespace LotteryDraw.Site.Models
         {
             get
             {
-                return Province == null ? "" : Province + (City.Equals(City) ? string.Empty : City) + Town == null ? "" : Town + AddrSuffix == null ? "" : AddrSuffix;
+                return (string.IsNullOrEmpty(Province) ? "" : Province) + (string.IsNullOrEmpty(City) ? string.Empty : City) + (string.IsNullOrEmpty(Town) ? "" : Town) + (string.IsNullOrEmpty(AddrSuffix) ? "" : AddrSuffix);
             }
         }
 

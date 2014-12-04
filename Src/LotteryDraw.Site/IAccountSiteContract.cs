@@ -41,9 +41,16 @@ namespace LotteryDraw.Site
         /// <summary>
         ///     用户注册
         /// </summary>
-        /// <param name="model">登录模型信息</param>
+        /// <param name="model">用户信息模型</param>
         /// <returns>业务操作结果</returns>
         OperationResult Register(MemberView model);
+
+        /// <summary>
+        ///     用户更新
+        /// </summary>
+        /// <param name="model">用户信息模型</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult Update(MemberView model);
         
         /// <summary>
         ///  取用户

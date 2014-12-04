@@ -115,11 +115,37 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateMvcCaptcha]
         public ActionResult Edit(MemberView model)
         {
             ViewBag.IsPostBack = true;
+            if (ModelState.IsValid)
+            {
+                //验证码验证通过
+            }
+            else
+            {
+                //验证码验证失败
+                //ModelState.AddModelError("", e.Message);
+                ViewBag.Message = "验证码输入不正确";
+                return View(model);
+            }
+            if (!MemberUpdateValidate(model))
+            {
+                return View(model);
+            }
 
-            return View(model);
+            OperationResult result = AccountSiteContract.Update(model);
+            if (result.ResultType == OperationResultType.Success)
+            {
+                TempData["Message"] = string.Format("信息修改成功。");
+                return RedirectToAction("InfoPage");
+            }
+            else
+            {
+                ViewBag.Message = result.Message;
+                return View(model);
+            }
         }
 
         public ActionResult ChangePassword(long? id)
@@ -161,14 +187,17 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
             else
             {
+                ViewBag.Message = result.Message;
                 return View(model);
             }
         }
+
         [HttpPost]
         public JsonResult ChangePasswordAjax(FormCollection formdata)
         {
             return Json(new { OK = true, Message = "" });
         }
+
         public ActionResult Detail(long? id)
         {
             ViewBag.IsPostBack = false;
@@ -210,6 +239,22 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             return true;
         }
 
+        /// <summary>
+        ///  修改用户信息后台验证
+        /// </summary>
+        private bool MemberUpdateValidate(MemberView model)
+        {
+            if (string.IsNullOrEmpty(model.Tel))
+            {
+                if (!RegExp.IsMobileNo(model.Tel))
+                {
+                    ViewBag.Message = string.Format("手机号码不合法", model.Id);
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private MemberView GetModelView(long? id)
         {
             MemberView model = null;
@@ -234,7 +279,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             base.OnActionExecuted(filterContext);
             ViewBag.LeftTitleContent = "管理面板";
-            ViewBag.OptionName = "我的账号";
+            ViewBag.OptionName = "账号管理";
             ViewBag.MetHitsVisible = false;
             ViewBag.MemberId = this.UserId ?? 0;
         }

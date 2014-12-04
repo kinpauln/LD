@@ -147,6 +147,30 @@ namespace LotteryDraw.Core.Impl
         }
 
         /// <summary>
+        ///     用户更新
+        /// </summary>
+        /// <param name="model">用户信息模型</param>
+        public bool Update(Member model)
+        {
+            try
+            {
+                int rcount = MemberRepository.Update(model);
+                if (rcount > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new DataAccessException("数据库更新影响的行数为0");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
         ///     校验用户名和邮箱是否已存在
         /// </summary>
         /// <param name="prizebetting">奖品信息</param>

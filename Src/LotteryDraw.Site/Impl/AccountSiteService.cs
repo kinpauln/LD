@@ -118,6 +118,42 @@ namespace LotteryDraw.Site.Impl
         }
 
         /// <summary>
+        ///     用户更新
+        /// </summary>
+        /// <param name="model">用户信息模型</param>
+        /// <returns>业务操作结果</returns>
+        public OperationResult Update(MemberView model)
+        {
+            try
+            {
+                Member dbmodel = AccountContract.Members.SingleOrDefault(m => m.Id.Equals(model.Id));
+                if (dbmodel == null)
+                {
+                    return new OperationResult(OperationResultType.Error, string.Format("不存在要更新的Id为{0}的用户", model.Id));
+                }
+
+                dbmodel.Extend.Tel = model.Tel;
+                dbmodel.Extend.AdvertisingUrl = model.AdvertisingUrl;
+                if (AccountContract.Update(dbmodel))
+                {
+                    return new OperationResult(OperationResultType.Error, "更新成功");
+                }
+                else
+                {
+                    return new OperationResult(OperationResultType.Error, "更新失败");
+                }
+            }
+            catch (DataAccessException ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+
+        /// <summary>
         ///  取用户
         /// </summary>
         /// <param name="pageSize">每页输出的记录数</param>

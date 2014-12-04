@@ -65,6 +65,12 @@ namespace LotteryDraw.Core
         /// <returns>业务操作结果</returns>
         OperationResult Register(Member member);
 
+        /// <summary>
+        ///     用户更新
+        /// </summary>
+        /// <param name="model">用户信息模型</param>
+        bool Update(Member model);
+
         OperationResult GetMember(long userid);
 
         /// <summary>

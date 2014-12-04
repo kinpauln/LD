@@ -3,6 +3,8 @@
     Layout = "~/Areas/Website/Views/Shared/_Layout_Vip.cshtml";
 }
 
+@using Webdiyer.WebControls.Mvc
+@model LotteryDraw.Site.Models.MemberView
 
 @section  LeftMenuItems{
     @Html.Partial("AccountNavPartial")
@@ -11,4 +13,158 @@
 @section  BreadCrumbs{
     &gt;
     <label>信息维护</label>
+}
+@using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { id = "editform" }))
+{
+    @Html.HiddenFor(model=>model.UserName)
+    @Html.HiddenFor(model=>model.Email)
+    <table class="message_table">
+        <tbody>
+            <tr>
+                <td class="text">用户名</td>
+                <td class="input">
+                    <label>@Model.UserName</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="text">昵称</td>
+                <td class="input">
+                    <label>@Model.Name</label>
+                </td>
+            </tr>
+            @*<tr>
+                <td class="text">公司名称</td>
+                <td class="input">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "input-text", placeholder = "公司名称" })
+                    <span class="info">*</span><br />
+                </td>
+            </tr>
+            <tr>
+                <td class="text">公司地址</td>
+                <td class="input">
+                    <select name="loc_province" class="select" style="width: 80px;"></select>
+                    <select name="loc_city" class="select" style="width: 100px;"></select>
+                    <select name="loc_town" class="select" style="width: 120px;"></select>
+                    <input type="hidden" name="location_id" />
+                    <input name="addr_suffix" type="text" class="input-text" />
+                </td>
+            </tr>*@
+            <tr>
+                <td class="text">Email</td>
+                <td class="input">
+                    <label>@Model.Email</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="text">电话</td>
+                <td class="input">
+                    @Html.TextBoxFor(model => model.Tel, new { @class = "input-text", placeholder = "电话" })
+                </td>
+            </tr>
+            <tr>
+                <td class="text">域名</td>
+                <td class="input">
+                    @Html.TextBoxFor(model => model.AdvertisingUrl, new { @class = "input-text", placeholder = "域名推广", style = "width:300px;" })
+                </td>
+            </tr>
+            @*<tr>
+                                <td class="text">备注</td>
+                                <td class="input">
+                                    <textarea name="info" cols="50" rows="6" class="textarea-text"></textarea><span class="info">*</span></td>
+                            </tr>*@
+            <tr>
+                <td class="text"></td>
+                <td class="input">
+                    @Html.MvcCaptcha(new MvcCaptchaOptions
+               {
+                   DelayLoad = false, //若要启用Ajax延迟加载验证码图片功能，则需要设置MvcCaptchaOptions属性的DelayLoad为true
+                   ValidationInputBoxId = "captchaInput_ent", //验证码输入文本框的客户端ID
+                   CaptchaImageContainerId = "imgContainer_ent" //包含验证码图片的容器元素的客户端ID
+               })
+                    <span id="imgContainer_ent"></span>
+                    <br />
+                    <div>请输入上边图片中的文字：</div>
+                    <input type="text" class="input-text" name="_mvcCaptchaText" id="captchaInput_ent" data-val="true" data-val-required="验证码不能为空" />
+                </td>
+            </tr>
+            <tr>
+                <td class="text"></td>
+                <td class="submint">
+                    <input type="submit" name="ent" value="保存" class="submit button orange"></td>
+            </tr>
+        </tbody>
+    </table>
+}
+@section scripts{
+    @Html.Partial("PostBackMessage")
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.maskedinput.min.js"></script>
+    @*<script src="~/Content/website/address/area.js"></script>
+    <script src="~/Content/website/address/location.js"></script>*@
+    <script type="text/javascript">
+        $(function () {
+            jQuery.validator.addMethod("phone", function (value, element) {
+                return this.optional(element) || /^(13[0-9]|15[0|3|6|7|8|9]|18[8|9])\d{8}$/.test(value);
+            }, "请输入合法的手机号码.");
+
+            $("#editform").validate({
+                errorElement: 'span',
+                errorClass: 'error-info',
+                focusInvalid: false,
+                rules: {
+                },
+
+                messages: {
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit   
+                    //$('.alert-danger', $('.login-form')).show();
+                },
+                highlight: function (e) {
+                    //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                },
+                /* 验证通过时的处理 */
+                success: function (e, element) {
+                    //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+                    //$(e).remove();
+                    var $element = $(element);
+                    if ($element.is('.select')) {
+                        var slname = $element.attr("name");
+                        var errorSpan = $("#editform span[for=" + slname + "]:eq(0)");
+                        var br = errorSpan.prev("br");
+                        if (br != null) {
+                            br.remove();
+                        }
+                    }
+                },
+                /* 错误信息的显示位置 */
+                errorPlacement: function (error, element) {
+                    if (element.is('.select')) {
+                        element.parent().append("<br />");
+                    }
+                    error.appendTo(element.parent());
+                },
+                /*执行ajaxsubmit*/
+                submitHandler: function (form) {
+                    //var provincename = $("form[name='regform-psnl'] select[name='loc_province']:eq(0)").find("option:selected").text();
+                    //$("form[name='regform-psnl'] input[name='hidn_province']:eq(0)").val(provincename);
+                    //var cityname = $("form[name='regform-psnl'] select[name='loc_city']:eq(0)").find("option:selected").text();
+                    //$("form[name='regform-psnl'] input[name='hidn_city']:eq(0)").val(cityname);
+                    //var townname = $("form[name='regform-psnl'] select[name='loc_town']:eq(0)").find("option:selected").text();
+                    //$("form[name='regform-psnl'] input[name='hidn_town']:eq(0)").val(townname);
+                    
+                    if ($.trim($("#Tel").val() != "")) {
+                        var re;
+                        var tel = $("#Tel").val();
+                        re = /^(13[0-9]{9})|(15[89][0-9]{8})$/
+                        if (re.test(tel)) {
+                            form.submit();
+                        }
+                        else {
+                            layer.alert("手机号码不合法", 8);
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 }

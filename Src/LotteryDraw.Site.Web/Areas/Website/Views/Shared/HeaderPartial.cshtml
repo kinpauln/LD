@@ -9,9 +9,9 @@
             <ul class="top-nav list-none">
                 @if (User.Identity.IsAuthenticated)
                 { 
-                    <li class="b" style="cursor: pointer;"><a href="/Account/Detail/@ViewBag.UserId" style="display: block;">【账号管理】</a></li>
-                    <li class="b">&nbsp;|</li>
                     <li class="b" style="cursor: pointer;"><a href="/Account/Logout" style="display: block;">【退出】</a></li>
+                    <li class="b">&nbsp;|</li>
+                    <li class="b" style="cursor: pointer;"><a href="/Account/Detail/@ViewBag.UserId" style="display: block;">【账号管理】</a></li>
                     <li class="b">&nbsp;|</li>
                     <li class="b"><span style="float: left;">欢迎您，</span><a href="#" style="display: block; float: left; color: red;">@User.Identity.Name</a>
                         @{
