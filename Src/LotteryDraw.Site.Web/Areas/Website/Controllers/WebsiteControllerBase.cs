@@ -27,6 +27,73 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             return View("~/Areas/Website/Views/Shared/InfoPage.cshtml");
         }
 
+        /// <summary>
+        ///  用户可发起抽奖的次数
+        /// </summary>
+        protected int PubishingEnableTimes
+        {
+            get
+            {
+                //var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                //var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                //string dataString = ticket.UserData;
+                //if (string.IsNullOrEmpty(dataString))
+                //    return 0;
+
+                //string pubtimesString = dataString.Split('|')[2];
+                //int pubtimes = 0;
+                //bool result = int.TryParse(pubtimesString, out pubtimes);
+                //if (result)
+                //{
+                //    return pubtimes;
+                //}
+                //return 0;
+                string times = string.Empty;
+                if (Session["publishTimes"] != null)
+                {
+                    int timesvalue = 0;
+                    if (int.TryParse(Session["publishTimes"].ToString(), out timesvalue))
+                    {
+                        return timesvalue;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        ///  更新可发起抽奖的次数
+        /// </summary>
+        /// <returns></returns>
+        protected bool UpdatePubishingEnableTimes()
+        {
+            string times = string.Empty;
+            if (Session["publishTimes"] != null)
+            {
+                int timesvalue = 0;
+                if (int.TryParse(Session["publishTimes"].ToString(), out timesvalue))
+                {
+                    Session["publishTimes"] = timesvalue - 1;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         ///// <summary>
         ///// 登录后用户信息
         ///// </summary>

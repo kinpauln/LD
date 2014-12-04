@@ -79,20 +79,20 @@ namespace LotteryDraw.Core.Data.Migrations
             memberSet.AddOrUpdate(m => new { m.UserName }, members.ToArray());
             context.SaveChanges();
 
-            List<Prize> prizes = new List<Prize>();
-            for (int i = 1; i < 30; i++)
-            {
-                Random rnd = new Random((int)DateTime.Now.Ticks + i);
-                var prize = new Prize() { Name = "½±Æ·Ãû³Æ½±Æ·Ãû³Æ" + i.ToString(), Description = "½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö" + i.ToString(), AddDate = DateTime.Now };
-                var memberArray = memberSet.ToArray();
-                var member = memberArray[rnd.Next(0, memberArray.Length)];
-                prize.Member = member;
-                prize.Photo = StreamUtil.Base64ToBytes(StaticStrings.demoImageBase64String);
-                prizes.Add(prize);
-            }
-            DbSet<Prize> prizeSet = context.Set<Prize>();
-            prizeSet.AddOrUpdate(m => new { m.Name }, prizes.ToArray());
-            context.SaveChanges();
+            //List<Prize> prizes = new List<Prize>();
+            //for (int i = 1; i < 30; i++)
+            //{
+            //    Random rnd = new Random((int)DateTime.Now.Ticks + i);
+            //    var prize = new Prize() { Name = "½±Æ·Ãû³Æ½±Æ·Ãû³Æ" + i.ToString(), Description = "½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö½±Æ·ÃèÊö" + i.ToString(), AddDate = DateTime.Now };
+            //    var memberArray = memberSet.ToArray();
+            //    var member = memberArray[rnd.Next(0, memberArray.Length)];
+            //    prize.Member = member;
+            //    prize.Photo = StreamUtil.Base64ToBytes(StaticStrings.demoImageBase64String);
+            //    prizes.Add(prize);
+            //}
+            //DbSet<Prize> prizeSet = context.Set<Prize>();
+            //prizeSet.AddOrUpdate(m => new { m.Name }, prizes.ToArray());
+            //context.SaveChanges();
         }
     }
 

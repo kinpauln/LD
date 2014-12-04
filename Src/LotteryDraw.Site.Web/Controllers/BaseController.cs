@@ -66,31 +66,7 @@ namespace LotteryDraw.Site.Web.Controllers
                 return null;
             }
         }
-
-        /// <summary>
-        ///  用户可发起抽奖的次数
-        /// </summary>
-        public int PubishingEnableTimes
-        {
-            get
-            {
-                var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
-                var ticket = FormsAuthentication.Decrypt(cookie.Value);
-                string dataString = ticket.UserData;
-                if (string.IsNullOrEmpty(dataString))
-                    return 0;
-
-                string pubtimesString = dataString.Split('|')[2];
-                int pubtimes = 0;
-                bool result = int.TryParse(pubtimesString, out pubtimes);
-                if (result)
-                {
-                    return pubtimes;
-                }
-                return 0;
-            }
-        }
-
+        
         public abstract ActionResult InfoPage();
 
         #region 公共提示画面操作

@@ -471,7 +471,11 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             string msg = result.Message ?? result.ResultType.ToDescription();
             if (result.ResultType == OperationResultType.Success)
             {
-
+                if (shouldMinus) {
+                    if(!this.UpdatePubishingEnableTimes()){
+                        //记日志（更新可发布奖品次数失败）
+                    }
+                }
                 TempData["Message"] = string.Format("发起抽奖成功。<br /><a href='/Vip/PrizeOrderDetail/{0}'>查看<a>奖单", model.PrizeId);
                 return RedirectToAction("InfoPage");
             }

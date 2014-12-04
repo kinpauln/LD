@@ -62,6 +62,7 @@ namespace LotteryDraw.Site.Impl
                 string useridString = member.Id.ToString();
                 string roleIdString = member.Roles == null ? string.Empty : string.Join(",", member.Roles.Select(r => r.RoleTypeNum.ToString()));
                 string publishTimes = member.PubishingEnableTimes.ToString();
+                HttpContext.Current.Session["publishTimes"] = publishTimes;
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, member.UserName, DateTime.Now, expiration,
                     true, string.Join("|", new string[] { useridString, roleIdString, publishTimes }), FormsAuthentication.FormsCookiePath);
                 HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
