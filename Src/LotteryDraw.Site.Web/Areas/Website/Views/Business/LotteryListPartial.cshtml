@@ -51,9 +51,11 @@
                         // 发起抽奖日期
                         string addDate = item.PrizeOrderView.AddDate.ToString("yyyy-MM-dd");
                         string username = item.MemberView.UserName.ToString(); //发起抽奖者
+                        string pubuserid = item.MemberView.Id.ToString();
                         int rtype = item.PrizeOrderView.RevealType.ToInt();
                         string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
                         string originalPhotoName = item.PrizeView.OriginalPhoto.Name;
+                        string advurl = item.MemberView.AdvertisingUrl;
                         
         <dl class="clearfix ranking-movie-list fl">
             <dt class="fl">
@@ -62,7 +64,7 @@
                         string photoname = string.Empty;
                         if (!string.IsNullOrEmpty(originalPhotoName))
                         {
-                            photoname = "/Files/PrizePhotos/" + ViewBag.UserId + "/" + originalPhotoName;
+                            photoname = "/Files/PrizePhotos/" + pubuserid + "/" + originalPhotoName;
                         }
                         else
                         {
@@ -177,7 +179,7 @@
                         if (item.PrizeOrderView.RevealStateNum == RevealState.UnDrawn.ToInt())
                         {
                     <div class="r-play-con">
-                        <a class="r-play-button excute-launch" target="_self" href="#" adv-url="http://sentsin.com/" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
+                        <a class="r-play-button excute-launch" target="_self" href="#" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
                     </div>
                         }
                  }

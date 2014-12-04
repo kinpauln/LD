@@ -134,8 +134,10 @@ namespace LotteryDraw.Site.Extentions
                     },
                     MemberView = new MemberView()
                     {
+                        Id = long.Parse(row["MemberId"].ToString()),
                         UserName = row["UserName"].ToString(),
-                        Name = row["UserNickName"].ToString()
+                        Name = row["UserNickName"].ToString(),
+                        AdvertisingUrl = row["AdvertisingUrl"].ToString()
                     }
                 });
             }
