@@ -333,6 +333,16 @@ namespace LotteryDraw.Core.Impl
         /// <param name="memberid">用户Id</param>
         public bool ResetPassword(long memberid)
         {
+            return ChangePassword(memberid, "123456");
+        }
+
+        /// <summary>
+        ///  修改密码
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        /// <param name="password">新密码</param>
+        public bool ChangePassword(long memberid, string password)
+        {
             try
             {
                 Member member = MemberRepository.Entities.SingleOrDefault(m => m.Id == memberid);
@@ -340,7 +350,7 @@ namespace LotteryDraw.Core.Impl
                 {
                     throw new BusinessException(string.Format("Id为{0}用户不存在。", memberid.ToString()));
                 }
-                member.Password = "123456";
+                member.Password = LotteryDraw.Component.Utility.Encrypt.Encode(password);
                 int rcount = MemberRepository.Update(member);
                 if (rcount > 0)
                 {

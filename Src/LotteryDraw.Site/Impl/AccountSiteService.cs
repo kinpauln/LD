@@ -205,5 +205,34 @@ namespace LotteryDraw.Site.Impl
                 return new OperationResult(OperationResultType.Error, ex.Message);
             }
         }
+
+        /// <summary>
+        ///  修改密码
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        /// <param name="password">新密码</param>
+        public OperationResult ChangePassword(long memberid, string password)
+        {
+            try
+            {
+                bool result = AccountContract.ChangePassword(memberid,password);
+                if (result)
+                {
+                    return new OperationResult(OperationResultType.Success, "修改密码成功");
+                }
+                else
+                {
+                    return new OperationResult(OperationResultType.Error, "修改密码失败");
+                }
+            }
+            catch (BusinessException ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
     }
 }

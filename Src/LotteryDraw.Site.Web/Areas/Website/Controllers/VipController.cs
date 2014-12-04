@@ -537,14 +537,6 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             ViewBag.MetHitsVisible = false;
             ViewBag.MemberId = this.UserId ?? 0;
         }
-
-        public override int PageSize
-        {
-            get
-            {
-                return 10;
-            }
-        }
         #endregion
 
         /// <summary>

@@ -100,6 +100,13 @@ namespace LotteryDraw.Core
         /// <param name="memberid">用户Id</param>
         bool ResetPassword(long memberid);
 
+        /// <summary>
+        ///  修改密码
+        /// </summary>
+        /// <param name="memberid">用户Id</param>
+        /// <param name="password">新密码</param>
+        bool ChangePassword(long memberid, string password);
+
         #endregion
     }
 }

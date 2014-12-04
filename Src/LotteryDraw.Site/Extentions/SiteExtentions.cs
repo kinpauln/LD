@@ -7,6 +7,7 @@ using LotteryDraw.Component.Tools;
 using LotteryDraw.Site.Models;
 using System.Data;
 using LotteryDraw.Core.Models.Business;
+using LotteryDraw.Core.Models.Account;
 
 namespace LotteryDraw.Site.Extentions
 {
@@ -65,6 +66,30 @@ namespace LotteryDraw.Site.Extentions
                 UpdateDate = p.UpdateDate,
                 Photo = p.Photo,
                 Photos = p.PrizePhotos.ToList().ToSiteViewModels()
+            };
+        }
+
+        public static MemberView ToSiteViewModel(this Member m)
+        {
+            if (m == null)
+                return null;
+            return new MemberView()
+            {
+                Id = m.Id,
+                UserName = m.UserName,
+                Password = m.Password,
+                Email = m.Email,
+                Name = m.Name,
+                AddDate = m.AddDate,
+                Tel = m.Extend.Tel,
+                AdvertisingUrl = m.Extend.AdvertisingUrl,
+                Province = m.Extend.Address.Province,
+                City = m.Extend.Address.City,
+                Town = m.Extend.Address.Town,
+                AddrSuffix = m.Extend.Address.Suffix,
+                MemberType = m.MemberType,
+                LoginLogCount = m.LoginLogs.Count,
+                RoleNames = m.Roles.AsEnumerable().Select(r => r.Name)
             };
         }
 

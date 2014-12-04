@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using LotteryDraw.Site.Extentions;
 using Webdiyer.WebControls.Mvc;
+using LotteryDraw.Core;
 
 namespace LotteryDraw.Site.Web.Controllers
 {
@@ -20,6 +21,9 @@ namespace LotteryDraw.Site.Web.Controllers
         protected string _areaName = string.Empty;
 
         #region 属性
+
+        [Import]
+        public IAccountContract AccountContract { get; set; }
 
         [Import]
         public IAccountSiteContract AccountSiteContract { get; set; }

@@ -11,17 +11,17 @@ namespace LotteryDraw.Site.Models
     {
         public long Id { get; set; }
 
-        [Required(ErrorMessage = "{0}不能为空！")]
+        //[Required(ErrorMessage = "{0}不能为空！")]
         [Display(Name = "登录账号")]
         public string UserName { get; set; }
 
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "{0}不能为空！")]
+        //[Required(ErrorMessage = "{0}不能为空！")]
         [Display(Name = "登录密码")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "{0}不能为空！")]
+        //[Required(ErrorMessage = "{0}不能为空！")]
         public string Email { get; set; }
 
         public string Tel { get; set; }
@@ -49,5 +49,15 @@ namespace LotteryDraw.Site.Models
         public IEnumerable<string> RoleNames { get; set; }
 
         public MemberType MemberType { get; set; }
+
+        /// <summary>
+        ///  新密码
+        /// </summary>
+        public string NewPassword { get; set; }
+
+        /// <summary>
+        ///  确认新密码
+        /// </summary>
+        public string ConfirmNewPassword { get; set; }
     }
 }

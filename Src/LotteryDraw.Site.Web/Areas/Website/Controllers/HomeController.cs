@@ -34,15 +34,18 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             // 获取前N个最新中奖用户
             GetTopLuckies();
 
-            if (rtype.HasValue) {
+            if (rtype.HasValue)
+            {
                 ViewBag.RTypeParam = rtype.Value;
             }
 
-            if (User.Identity.IsAuthenticated) {
+            if (User.Identity.IsAuthenticated)
+            {
                 long userid = UserId ?? 0;
-                ViewBag.NoticeCount = LotteryResultContract.LotteryResults.Where(lr => 
-                    !lr.IsDeleted 
-                    && lr.Member.Id == userid 
+
+                ViewBag.NoticeCount = LotteryResultContract.LotteryResults.Where(lr =>
+                    !lr.IsDeleted
+                    && lr.Member.Id == userid
                     && lr.State == (int)LotteryResultState.Default).Count();
             }
             return View();
@@ -51,17 +54,19 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// <summary>
         ///  获取前N个最新中奖用户
         /// </summary>
-        private void GetTopLuckies() {
+        private void GetTopLuckies()
+        {
             int luckyCount = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TopCountOfLuckyMember"]);
             var topLuckies = LotteryResultContract.LotteryResults.Where(lr =>
                     !lr.IsDeleted)
                     .OrderByDescending(lr => lr.AddDate).Take(luckyCount).Select(lr => new LotteryResultView
-                    { 
-                        MemberView = new MemberView(){
-                        UserName =lr.Member.UserName,
-                        Name = lr.Member.Name,
-                        Tel = lr.Member.Extend.Tel
-                    }
+                    {
+                        MemberView = new MemberView()
+                        {
+                            UserName = lr.Member.UserName,
+                            Name = lr.Member.Name,
+                            Tel = lr.Member.Extend.Tel
+                        }
                     }).ToList();
             ViewBag.TopLuckies = topLuckies;
         }
@@ -73,7 +78,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             int topCount = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TopCountOfPrizeOrder"]);
             //OperationResult result = PrizeOrderSiteContract.GetTopPrizeOrders(topCount,rtype);
-            OperationResult result = PrizeOrderSiteContract.GetTopPrizeOrders(topCount,null);
+            OperationResult result = PrizeOrderSiteContract.GetTopPrizeOrders(topCount, null);
             if (result.ResultType == OperationResultType.Success)
             {
                 DataSet ds = (DataSet)result.AppendData;
@@ -96,19 +101,20 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                         ViewBag.TopAnswerPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Answer);
                         //现场
                         ViewBag.TopScenePrizeOrders = dt.Select("RevealType=" + (int)RevealType.Scene);
-                         switch(rtype){
-                             case (int)RevealType.Timing:
-                                 ViewBag.AllPrizeOrders = ViewBag.TopTimingPrizeOrders;
-                                 break;
-                             case (int)RevealType.Quota:
-                                 ViewBag.AllPrizeOrders = ViewBag.TopQuotaPrizeOrders;
-                                 break;
-                             case (int)RevealType.Answer:
-                                 ViewBag.AllPrizeOrders = ViewBag.TopAnswerPrizeOrders;
-                                 break;
-                             case (int)RevealType.Scene:
-                                 ViewBag.AllPrizeOrders = ViewBag.TopScenePrizeOrders;
-                                 break;
+                        switch (rtype)
+                        {
+                            case (int)RevealType.Timing:
+                                ViewBag.AllPrizeOrders = ViewBag.TopTimingPrizeOrders;
+                                break;
+                            case (int)RevealType.Quota:
+                                ViewBag.AllPrizeOrders = ViewBag.TopQuotaPrizeOrders;
+                                break;
+                            case (int)RevealType.Answer:
+                                ViewBag.AllPrizeOrders = ViewBag.TopAnswerPrizeOrders;
+                                break;
+                            case (int)RevealType.Scene:
+                                ViewBag.AllPrizeOrders = ViewBag.TopScenePrizeOrders;
+                                break;
                         }
                     }
                 }

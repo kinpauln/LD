@@ -18,7 +18,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             get
             {
-                return 12;
+                return int.Parse(System.Configuration.ConfigurationManager.AppSettings["PageCount"]);
             }
         }
 

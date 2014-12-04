@@ -15,13 +15,18 @@ namespace LotteryDraw.Site.Web.Controllers
     {
         public virtual int PageSize
         {
-            get { return 10; }
+            get
+            {
+                return int.Parse(System.Configuration.ConfigurationManager.AppSettings["PageCount"]);
+            }
         }
 
         public long? UserId {
             get
             {
                 var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                if (cookie == null)
+                    return null;
                 var ticket = FormsAuthentication.Decrypt(cookie.Value);
                 string dataString = ticket.UserData;
                 if (string.IsNullOrEmpty(dataString))
@@ -43,6 +48,8 @@ namespace LotteryDraw.Site.Web.Controllers
             get
             {
                 var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                if (cookie == null)
+                    return null;
                 var ticket = FormsAuthentication.Decrypt(cookie.Value);
                 string dataString = ticket.UserData;
                 if (string.IsNullOrEmpty(dataString))
@@ -212,6 +219,15 @@ namespace LotteryDraw.Site.Web.Controllers
 
                 return exceptionContext;
             }
+        }
+
+        /// <summary>
+        /// 方法执行前，如果没有登录就调整到登录页面，没有权限就抛出信息
+        /// </summary>
+        /// <param name="filterContext"></param>
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            ViewBag.UserId = this.UserId ?? 0;
         }
 
         /// <summary>

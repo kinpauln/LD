@@ -47,7 +47,7 @@
             var controller = '@ViewContext.RouteData.Values["controller"]';
             var action = '@ViewContext.RouteData.Values["action"]';
             var url = controller + "/" + action;
-            $("#sidebar dl>dt>a[href $='" + url + "']").parent().addClass("on");
+            $("#sidebar dl>dt>a[href *='" + url + "']").parent().addClass("on");
         });
     </script>
     @RenderSection("scripts", required: false)

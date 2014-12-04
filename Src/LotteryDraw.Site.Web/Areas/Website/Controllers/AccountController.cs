@@ -22,6 +22,7 @@ using LotteryDraw.Site.Impl;
 using LotteryDraw.Site.Models;
 using LotteryDraw.Site.Web.Controllers;
 using Webdiyer.WebControls.Mvc;
+using LotteryDraw.Site.Extentions;
 
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
@@ -31,7 +32,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
     {
         #region 属性
 
-        public AccountController() {
+        public AccountController()
+        {
             base._areaName = "Website";
         }
 
@@ -44,8 +46,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         public ActionResult Register()
         {
             ViewBag.IsPostBack = false;
-            MemberView model = new MemberView {
-                
+            MemberView model = new MemberView
+            {
+
             };
             return View(model);
         }
@@ -53,9 +56,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         [HttpPost]
         [AuthorizeIgnore]
         [ValidateMvcCaptcha]
-        public ActionResult Register(MemberView model,string psnl,string ent)
+        public ActionResult Register(MemberView model, string psnl, string ent)
         {
-            ViewBag.IsPostBack = true; 
+            ViewBag.IsPostBack = true;
             if (ModelState.IsValid)
             {
                 //验证码验证通过
@@ -67,7 +70,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 ViewBag.Message = "验证码输入不正确";
                 return View(model);
             }
-            if (!string.IsNullOrEmpty(psnl)) {
+            if (!string.IsNullOrEmpty(psnl))
+            {
                 model.MemberType = MemberType.Personal;
             }
             else if (!string.IsNullOrEmpty(ent))
@@ -103,11 +107,137 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
         }
 
+        public ActionResult Edit(long? id)
+        {
+            ViewBag.IsPostBack = false;
+
+            return View(GetModelView(id));
+        }
+
+        [HttpPost]
+        public ActionResult Edit(MemberView model)
+        {
+            ViewBag.IsPostBack = true;
+
+            return View(model);
+        }
+
+        public ActionResult ChangePassword(long? id)
+        {
+            ViewBag.IsPostBack = false;
+
+            MemberView model = new MemberView() { Id = id ?? 0 };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateMvcCaptcha]
+        public ActionResult ChangePassword(MemberView model)
+        {
+            ViewBag.IsPostBack = true;
+
+            if (ModelState.IsValid)
+            {
+                //验证码验证通过
+            }
+            else
+            {
+                //验证码验证失败
+                //ModelState.AddModelError("", e.Message);
+                ViewBag.Message = "验证码输入不正确";
+                return View(model);
+            }
+
+            if (!ChangePasswordValidate(model))
+            {
+                return View(model);
+            }
+
+            OperationResult result = AccountSiteContract.ChangePassword(model.Id, model.NewPassword);
+            if (result.ResultType == OperationResultType.Success)
+            {
+                TempData["Message"] = string.Format("密码修改成功。");
+                return RedirectToAction("InfoPage");
+            }
+            else
+            {
+                return View(model);
+            }
+        }
+        [HttpPost]
+        public JsonResult ChangePasswordAjax(FormCollection formdata)
+        {
+            return Json(new { OK = true, Message = "" });
+        }
+        public ActionResult Detail(long? id)
+        {
+            ViewBag.IsPostBack = false;
+            return View(GetModelView(id));
+        }
+
         #endregion
 
+        #region 私有方法
+        /// <summary>
+        ///  修改密码后台验证
+        /// </summary>
+        private bool ChangePasswordValidate(MemberView model)
+        {
+            if (model.Id == 0)
+            {
+                ViewBag.Message = string.Format("用户Id莫名的为0，无法完成密码的修改。", model.Id);
+                return false;
+            }
+
+            MemberView dbmodel = GetModelView(model.Id);
+            if (dbmodel == null)
+            {
+                ViewBag.Message = string.Format("不能存在用户Id为{0}的用户，修改密码失败", model.Id);
+                return false;
+            }
+
+            if (!model.NewPassword.ToLower().Equals(model.ConfirmNewPassword.ToLower()))
+            {
+                ViewBag.Message = "两次输入的新密码不一致";
+                return false;
+            }
+
+            if (!LotteryDraw.Component.Utility.Encrypt.Encode(model.Password).Equals(dbmodel.Password.Trim()))
+            {
+                ViewBag.Message = "初始密码不正确";
+                return false;
+            }
+            return true;
+        }
+
+        private MemberView GetModelView(long? id)
+        {
+            MemberView model = null;
+            if (id.HasValue)
+            {
+                model = AccountContract.Members
+                    .Where(mb => mb.Id == id.Value && !mb.IsDeleted)
+                    .FirstOrDefault()
+                    .ToSiteViewModel();
+            }
+            return model;
+        } 
+        #endregion
+
+        #region override
         public override ActionResult InfoPage()
         {
             return View("~/Areas/Website/Views/Shared/InfoPage.cshtml");
         }
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            base.OnActionExecuted(filterContext);
+            ViewBag.LeftTitleContent = "管理面板";
+            ViewBag.OptionName = "我的账号";
+            ViewBag.MetHitsVisible = false;
+            ViewBag.MemberId = this.UserId ?? 0;
+        }
+        #endregion
     }
 }

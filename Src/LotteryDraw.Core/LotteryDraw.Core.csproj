@@ -70,6 +70,10 @@
       <Project>{a6dfe374-fd47-482a-b733-852c6d840d34}</Project>
       <Name>LotteryDraw.Component.Tools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LotteryDraw.Component.Utility\LotteryDraw.Component.Utility.csproj">
+      <Project>{9f519ef8-800f-40cb-9545-9aeadf0f387d}</Project>
+      <Name>LotteryDraw.Component.Utility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LotteryDraw.Core.Data\LotteryDraw.Core.Data.csproj">
       <Project>{761686f6-93a6-4313-94d5-29dc65492ec0}</Project>
       <Name>LotteryDraw.Core.Data</Name>
