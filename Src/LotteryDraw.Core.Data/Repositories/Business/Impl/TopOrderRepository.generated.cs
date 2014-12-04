@@ -6,7 +6,7 @@
 //	   如存在本生成代码外的新需求，请在相同命名空间下创建同名分部类进行实现。
 // </auto-generated>
 //
-// <copyright file="RoleRepository.generated.cs">
+// <copyright file="TopOrderRepository.generated.cs">
 //		Copyright(c)2013 Kingdon.All rights reserved.
 //		CLR版本：4.0.30319.239
 //		开发组织：王金鹏@中国
@@ -21,15 +21,15 @@ using System.ComponentModel.Composition;
 using System.Linq;
 
 using LotteryDraw.Component.Data;
-using LotteryDraw.Core.Models.Security;
+using LotteryDraw.Core.Models.Business;
 
 
-namespace LotteryDraw.Core.Data.Repositories.Security.Impl
+namespace LotteryDraw.Core.Data.Repositories.Business.Impl
 {
 	/// <summary>
-    ///   仓储操作层实现——角色信息
+    ///   仓储操作层实现——置顶
     /// </summary>
-    [Export(typeof(IRoleRepository))]
-    public partial class RoleRepository : EFRepositoryBase<Role, Int64>, IRoleRepository
+    [Export(typeof(ITopOrderRepository))]
+    public partial class TopOrderRepository : EFRepositoryBase<TopOrder, Guid>, ITopOrderRepository
     { }
 }

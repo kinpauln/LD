@@ -46,11 +46,11 @@ namespace LotteryDraw.Core.Data.Migrations
 
             List<Member> members = new List<Member>
             {
-                new Member { UserName = "admin", Password = Encrypt.Encode("123456"), Email = "admin@choujiangma.com", Name = "管理员",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="市南区", Province="山东省", City="青岛市",Suffix="香港中路" }} },
-                new Member { UserName = "whl", Password = Encrypt.Encode("123456"), Email = "hl.wang@choujiangma.com", Name = "王宏利",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="四方区", Province="山东省", City="青岛市",Suffix="山东路" }} },
-                new Member { UserName = "wjp", Password = Encrypt.Encode("123456"), Email = "jp.wang@choujiangma.com", Name = "王金鹏",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="南京路" }} },
-                new Member { UserName = "test_ent", Password = Encrypt.Encode("123456"), Email = "test_ent@choujiangma.com", Name = "企业测试账号",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="万年泉路" }} },
-                new Member { UserName = "test_psnl", Password = Encrypt.Encode("123456"), Email = "test_psnl@choujiangma.com", Name = "个人测试账号",Extend = new MemberExtend(){ Tel="13345673245", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="金水路" }} }
+                new Member { UserName = "admin", Password = Encrypt.Encode("123456"), Email = "admin@choujiangma.com", Name = "管理员",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="市南区", Province="山东省", City="青岛市",Suffix="香港中路"}} },
+                new Member { UserName = "whl", Password = Encrypt.Encode("123456"), Email = "hl.wang@choujiangma.com", Name = "王宏利",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="四方区", Province="山东省", City="青岛市",Suffix="山东路" }} },
+                new Member { UserName = "wjp", Password = Encrypt.Encode("123456"), Email = "jp.wang@choujiangma.com", Name = "王金鹏",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="南京路" }} },
+                new Member { UserName = "test_ent", Password = Encrypt.Encode("123456"), Email = "test_ent@choujiangma.com", Name = "企业测试账号",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="万年泉路" }} },
+                new Member { UserName = "test_psnl", Password = Encrypt.Encode("123456"), Email = "test_psnl@choujiangma.com", Name = "个人测试账号",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="金水路" }} }
             };
             members[0].Roles.Add(roleSet.ToArray()[0]);
             members[1].Roles.Add(roleSet.ToArray()[0]);
@@ -1152,5 +1152,5 @@ dOTh9pf3fxfhvqP93+1/d9/9l+OZUuTDFzeZan1tPtf3Y/3s6/3h6/w+jMPJy+Dmn6JMMi/3rf7H
 HQ8unV+eo/v7D7fQ/b+jr/HMqPN1Q5S973jUf/WfPKH/AB2f+Uln/wB7P94+sn+8n+R4/wCXmVj+
 lycX1n8D+1+iWhf+s5fmD/x0f+UT1n/jo/7zf7xXX/HO9v8Alp/y6Zdi/uOvx+LTl/vxy59Pg//Z
 ";
-    } 
+    }
 }
