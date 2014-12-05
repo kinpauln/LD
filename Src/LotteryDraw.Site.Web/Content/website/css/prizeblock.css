@@ -50,7 +50,7 @@
 	visibility: hidden
 }
 .wrap {
-	/*width: 1002px;*/
+	/*width: 1263px;*/
     width: 100%;
 	margin: auto;
 }
@@ -135,7 +135,7 @@ text-decoration: none;
 .ranking-web-content .classify a{padding: 0 6px;display: inline-block;margin:0 17px 8px 0;color: #999;height: 21px;line-height: 21px;}
 .ranking-web-content .classify a.show-now{background-color: #2191cb;color: #fff}
 .ranking-web-content .classify a:hover{background-color:#2191cb;text-decoration: none; color: #fff}
-.ranking-movie-list{height: 236px;overflow: hidden;width: 405px;font-family: "微软雅黑";margin-bottom: 50px;padding-right: 2px;}
+.ranking-movie-list{/*border:solid 1px red;*/height: 236px;overflow: hidden;width: 400px;font-family: "微软雅黑";margin-bottom: 50px;padding-right: 0px;}
 .ranking-movie-list img{width: 100%;height: 100%;}
 .ranking-movie-list dt{width: 170px; height:236px;overflow: hidden;position: relative;}
 .ranking-movie-list dt span{display: block;position: absolute;left: 0;top: 0;height: 30px;line-height: 30px;padding: 0 9px;background-color: #dd013c;font-size: 25px;font-family: arial;color: #fff;text-align: center;}
