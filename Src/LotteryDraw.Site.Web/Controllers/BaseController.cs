@@ -73,7 +73,25 @@ namespace LotteryDraw.Site.Web.Controllers
                 return null;
             }
         }
-        
+
+        /// <summary>
+        /// 页面跳转时的Loading
+        /// </summary>
+        /// <returns></returns>
+        public ContentResult ShowLoading(bool isshowing)
+        {
+            if (isshowing)
+            {
+                var script = "<script>var loadIndex = layer.load('正在执行操作，请耐心等待');alert('sdf');</script>";
+                return this.Content(script);
+            }
+            else
+            {
+                var script = "<script>layer.close(loadIndex);alert('sdf');</script>";
+                return this.Content(script);
+            }
+        }
+
         public abstract ActionResult InfoPage();
 
         #region 公共提示画面操作

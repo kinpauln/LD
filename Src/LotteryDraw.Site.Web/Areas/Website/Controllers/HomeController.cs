@@ -51,6 +51,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             return View();
         }
 
+        #region 私有方法
         /// <summary>
         ///  获取前N个最新中奖用户
         /// </summary>
@@ -119,8 +120,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     }
                 }
             }
-        }
-
+        } 
+        #endregion
+        
         public override ActionResult InfoPage()
         {
             return View("~/Areas/Website/Views/Shared/InfoPage.cshtml");

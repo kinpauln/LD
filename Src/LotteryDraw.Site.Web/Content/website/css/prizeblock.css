@@ -4,8 +4,9 @@
 	margin: 0 auto;
 	font: 12px/18px Arial,"宋体",Helvetica,sans-serif;
 	color: #4d4d4d;
-	/*background: url(../images/skinbg.jpg) no-repeat top center #2091cb*/
-    background-color:#2091cb;
+	/*background: url(../images/skinbg.jpg) no-repeat top center #2091cb
+    background-color:#2091cb;*/
+    background-color:#fff;
 }
 
 .feature-container input {
@@ -49,7 +50,8 @@
 	visibility: hidden
 }
 .wrap {
-	width: 1002px;
+	/*width: 1002px;*/
+    width: 100%;
 	margin: auto;
 }
 
@@ -133,14 +135,14 @@ text-decoration: none;
 .ranking-web-content .classify a{padding: 0 6px;display: inline-block;margin:0 17px 8px 0;color: #999;height: 21px;line-height: 21px;}
 .ranking-web-content .classify a.show-now{background-color: #2191cb;color: #fff}
 .ranking-web-content .classify a:hover{background-color:#2191cb;text-decoration: none; color: #fff}
-.ranking-movie-list{height: 236px;overflow: hidden;width: 455px;font-family: "微软雅黑";margin-bottom: 50px;padding-right: 30px;}
+.ranking-movie-list{height: 236px;overflow: hidden;width: 405px;font-family: "微软雅黑";margin-bottom: 50px;padding-right: 2px;}
 .ranking-movie-list img{width: 100%;height: 100%;}
 .ranking-movie-list dt{width: 170px; height:236px;overflow: hidden;position: relative;}
 .ranking-movie-list dt span{display: block;position: absolute;left: 0;top: 0;height: 30px;line-height: 30px;padding: 0 9px;background-color: #dd013c;font-size: 25px;font-family: arial;color: #fff;text-align: center;}
 .ranking-movie-list dt span.more-than-twth{background-color: #666;}
-.ranking-movie-list dd{padding-left:20px;width: 255px;overflow: hidden;position: relative;height: 100%;}
+.ranking-movie-list dd{padding-left:20px;width: 205px;overflow: hidden;position: relative;height: 100%;}
 .ranking-movie-name{line-height: 40px;}
-.ranking-movie-name h3{font-size: 27px;color: #333;overflow: hidden;display: inline-block;font-weight: normal;*display: inline;*zoom:0;max-width: 223px;white-space: nowrap;text-overflow:ellipsis;float: left;}
+.ranking-movie-name h3{font-size: 27px;color: #333;overflow: hidden;display: inline-block;font-weight: normal;*display: inline;*zoom:0;width:170px;max-width: 170px;white-space: nowrap;text-overflow:ellipsis;float: left;}
 .ranking-movie-name h3 a{color: #333;}
 .ranking-movie-name h3 a:hover{text-decoration: none;color: #333;}
 .ranking-movie-name span{margin:11px 0 11px 4px;vertical-align: super;display: inline-block;height:18px;line-height: 18px;background-color: #666;border-radius: 3px;color: #fff;padding: 0 2px;*display: inline;*zoom:0;float: left;}

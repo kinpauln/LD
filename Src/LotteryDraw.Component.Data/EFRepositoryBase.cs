@@ -76,6 +76,7 @@ namespace LotteryDraw.Component.Data
         {
             PublicHelper.CheckArgument(entity, "entity");
             EFContext.RegisterNew<TEntity, TKey>(entity);
+
             return isSave ? EFContext.Commit() : 0;
         }
 
