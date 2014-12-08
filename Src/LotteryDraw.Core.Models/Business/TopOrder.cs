@@ -35,6 +35,11 @@ namespace LotteryDraw.Core.Models.Business
         public virtual PrizeOrder PrizeOrder { get; set; }
 
         /// <summary>
+        /// 获取或设置 客户缴费
+        /// </summary>
+        public virtual decimal PaymentAmout { get; set; }
+
+        /// <summary>
         /// 获取或设置 排序序列
         /// </summary>
         public virtual int Sequence { get; set; }
@@ -44,6 +49,11 @@ namespace LotteryDraw.Core.Models.Business
         /// </summary>
         public virtual DateTime EndDate { get; set; }
 
+        /// <summary>
+        /// 获取或设置 更新日期
+        /// </summary>
+        public virtual DateTime? UpdateDate { get; set; }
+        
         /// <summary>
         /// 获取或设置 操作者
         /// </summary>

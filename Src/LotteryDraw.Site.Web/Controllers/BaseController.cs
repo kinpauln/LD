@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -21,7 +23,8 @@ namespace LotteryDraw.Site.Web.Controllers
             }
         }
 
-        public long? UserId {
+        public long? UserId
+        {
             get
             {
                 var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
@@ -54,15 +57,17 @@ namespace LotteryDraw.Site.Web.Controllers
                 string dataString = ticket.UserData;
                 if (string.IsNullOrEmpty(dataString))
                     return null;
-                string[] stringArray =  dataString.Split('|');
-                if(stringArray!=null && stringArray.Length>1){
+                string[] stringArray = dataString.Split('|');
+                if (stringArray != null && stringArray.Length > 1)
+                {
                     string roleString = stringArray[1];
                     try
                     {
-                        return roleString.Split(',').Select(rid => { 
+                        return roleString.Split(',').Select(rid =>
+                        {
                             int currRid = 0;
                             bool result = int.TryParse(rid, out currRid);
-                            return currRid; 
+                            return currRid;
                         }).ToArray();
                     }
                     catch (Exception)
@@ -89,6 +94,32 @@ namespace LotteryDraw.Site.Web.Controllers
             {
                 var script = "<script>layer.close(loadIndex);alert('sdf');</script>";
                 return this.Content(script);
+            }
+        }
+
+        /// <summary>
+        ///  获取
+        /// </summary>
+        /// <returns></returns>
+        public string ClientIP
+        {
+            get
+            {
+                //return Fetch.UserIp == "Unknown" ? null : Fetch.UserIp;
+                using (var webClient = new WebClient())
+                {
+                    try
+                    {
+                        string ip138url = System.Configuration.ConfigurationManager.AppSettings["Ip138Url"];
+                        var temp = webClient.DownloadString(ip138url);
+                        var ip = Regex.Match(temp, @"\[(?<ip>\d+\.\d+\.\d+\.\d+)]").Groups["ip"].Value;
+                        return !string.IsNullOrEmpty(ip) ? ip : null;
+                    }
+                    catch (Exception ex)
+                    {
+                        return null;
+                    }
+                }
             }
         }
 
@@ -246,6 +277,7 @@ namespace LotteryDraw.Site.Web.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             ViewBag.UserId = this.UserId ?? 0;
+            ViewBag.UerIp = this.ClientIP;
         }
 
         /// <summary>

@@ -129,11 +129,23 @@ namespace LotteryDraw.Component.Tools
                         result = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
                         break;
                 }
+                if (result.Equals("::1"))
+                    return "127.0.0.1";
                 if (!RegExp.IsIp(result))
                 {
                     return "Unknown";
                 }
                 return result;
+
+                //string userIP;
+                //HttpRequest Request = HttpContext.Current.Request;
+                //// 如果使用代理，获取真实IP   
+                //if (HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] != "") userIP = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                //else
+                //    userIP = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                //if (userIP == null || userIP == "")
+                //    userIP = HttpContext.Current.Request.UserHostAddress;
+                //return userIP;  
             }
         }
 

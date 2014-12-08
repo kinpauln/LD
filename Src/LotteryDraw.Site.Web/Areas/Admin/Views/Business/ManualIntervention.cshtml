@@ -9,17 +9,14 @@
 }
 
 @section Breadcrumb{
-    <li>
-        <a href="#">配置管理</a>
-    </li>
-    <li class="active">人工干预</li>
+    <li class="active">奖单管理</li>
 }
 @section BodyHeader{
-    <h1>配置管理
-								<small>
+    <h1>奖单管理
+								@*<small>
                                     <i class="icon-double-angle-right"></i>
-                                    人工干预
-                                </small>
+                                    奖单管理
+                                </small>*@
     </h1>
 }
 @section styles{
@@ -390,6 +387,26 @@
         </div>
     </div>
 </div>
+
+<div style="display: none; margin-top: 5px; width: 400px; height: 150px;" id="set2top-alert-content">
+    @*@using (Html.BeginForm())
+    { 
+        *@<table style="margin: auto;">
+            <tr>
+                <td>
+                    <label>用户缴费：</label></td>
+                <td>
+                    <input type="text" id="txtSet2TopMoney" value="" onkeyup="javascript:CheckInputIntFloat(this);" /><span>元</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" id="btnSet2Top" value="置顶" /></td>
+            </tr>
+        </table>
+    @*}*@
+</div>
+
 @section scripts{
     @{Html.RegisterMvcPagerScriptResource();}
     <script src="~/Content/admin/assets/js/bootbox.min.js"></script>
@@ -401,6 +418,7 @@
     <script src="~/Scripts/jquery.pager.js"></script>
     <script type="text/javascript">
         var $path_assets = "/Content/admin/assets";
+        var global_layerid;
         $(function () {
             var promptOptions = {
                 message: "First name:<input type='text' name='first_name'></input>",
@@ -467,26 +485,6 @@
                 $("#hidnPOId").val(prizeorderId);
             });
 
-            $("a[class*='no-audit']").click(function () {
-                //在这里面输入任何合法的js语句（以下将演示一个自定义风格的层）
-                $.layer({
-                    type: 1,   //0-4的选择,（1代表page层）
-                    area: ['550px', '400px'],
-                    //shade: [0],  //不显示遮罩
-                    border: [0], //不显示边框
-                    title: [
-                        '友情提示。',
-                        //自定义标题风格，如果不需要，直接title: '标题' 即可  #577DB7
-                        'border:none; background:#024D9E; color:#fff;'
-                    ],
-                    bgcolor: '#eee', //设置层背景色
-                    page: {
-                        html: '<div style="padding:40px;font-size:15px;" id="brower-checking-alert"><p></p>为了不影响相关功能的正常使用，强烈建议您使用当前主流浏览器，请点击下列相关链接下载</p><br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/41/23253/IE8-WindowsXP-x86-CHS.2728888507.exe">IE8</a> &nbsp;(WindowsXP)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/3c/23356/BOIE9_ZHCN_BO0085_WIN7.2197728620.EXE">IE9</a>&nbsp;(Win7/Win8)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/9d/14744/ChromeStandaloneSetup.1416972703.exe">Chrome</a>&nbsp;(WinXP/Win2003/Vista/Win7/Win8)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/51/11843/Firefox_V33.1.1.5430_setup.1416195513.exe">Firefox</a>(WinXP/Win2003/Vista/Win7/Win8)<br>...</div>'
-                    },
-                    shift: 'top' //从上动画弹出
-                });
-            });
-
             $("a[class*='view-detail']").on("click", function (e) {
                 var $row = $(this).parent().parent().parent().parent().parent().parent();
                 var pnamehtml = $row.find("td").eq(0).html();
@@ -517,46 +515,80 @@
                 //JqUIConfirm("asdf");
             });
 
-            $("a[class*='set2top']").on("click", function (e) {
-                var $aobj = $(this);
-                JqUIConfirm("置顶该奖单？", function () {
-                    //确定
-                    var poid = $aobj.attr("poid");
-                    Set2Top(poid);
+            $("#btnSet2Top").click(function () {
+                var moneyval = $("#txtSet2TopMoney").val();
+                if ($.trim(moneyval) == "") {
+                    layer.alert("请设置用户的缴费金额", 8);
+                    return;
+                }
+                layer.confirm("置顶该奖单？", function (index) {
+                    Set2Top(moneyval);
+                    // 关闭confirm框
+                    layer.close(index);
                 }, function () {
                     //取消
+                });
+            });
+
+            $("a[class*='set2top']").on("click", function (e) {
+                $("#hidnPOId").val($(this).attr("poid"));
+                global_layerid = $.layer({
+                    type: 1,   //0-4的选择,（1代表page层）
+                    area: ['400px', '200px'],
+                    //shade: [0],  //不显示遮罩
+                    border: [0], //不显示边框
+                    title: [
+                        '置顶设置',
+                        //自定义标题风格，如果不需要，直接title: '标题' 即可  #577DB7
+                        'border:none; background:#024D9E; color:#fff;'
+                    ],
+                    bgcolor: '#eee', //设置层背景色
+                    page: {
+                        dom: '#set2top-alert-content',
+                        html: '',
+                        url: '',
+                        ok: function (datas) { }
+                    },
+                    shift: 'top' //从上动画弹出
                 });
                 e.preventDefault();
             });
 
             $(".add-to-white-list").on({
                 click: function () {
-                    JqUIConfirm("asdf");
+                    layer.confirm("测试", function () { }, function () { });
                 }
             });
         });
 
-        function Set2Top(poid) {
+        function Set2Top(moneyvalue) {
+            var layerid;
             $.ajax({
                 type: 'POST',
                 url: 'Set2Top',
                 cache: false,
                 data: {
-                    prizeorderIdString: poid
+                    prizeorderIdString: $("#hidnPOId").val(),
+                    moneyvalue: moneyvalue
                 },
                 success: function (data) {
                     var errorString = data.ErrorString;
-                    if (errorString != "" && errorString != null) {
-                        JqUIAlert(errorString);
+                    var ok = data.OK;
+                    if (!ok) {
+                        layer.alert(errorString, 8);
                         return;
                     }
-                    JqUIAlert("置顶成功");
+                    layer.alert("置顶成功", 9);
+                    // 关闭form框
+                    layer.close(global_layerid);
                 },
                 beforeSend: function () {
-                    showLoading(true);
+                    //showLoading(true);
+                    layerid = layer.load("正在保存信息，请耐心等待……");
                 },
                 complete: function () {
-                    showLoading(false);
+                    //showLoading(false);
+                    layer.close(layerid);
                 }
                 , dataType: "json"
             });
@@ -708,6 +740,12 @@
             };
             //创建分页工具栏,其中pagedata[0].count是后台可以分到的页数
             $("#pager").pager({ pagenumber: 1, pagecount: pagecount, buttonClickCallback: PageClick });
+        }
+
+        function CheckInputIntFloat(oInput) {
+            if ('' != oInput.value.replace(/\d{1,}\.{0,1}\d{0,}/, '')) {
+                oInput.value = oInput.value.match(/\d{1,}\.{0,1}\d{0,}/) == null ? '' : oInput.value.match(/\d{1,}\.{0,1}\d{0,}/);
+            }
         }
     </script>
 }

@@ -273,7 +273,10 @@ namespace LotteryDraw.Core.Impl
         ///  置顶
         /// </summary>
         /// <param name="poid">奖单ID</param>
-        public OperationResult Set2Top(Guid poid)
+        /// <param name="moneyvalue">用户缴费金额</param>
+        /// <param name="datelong">置顶时长</param>
+        /// <param name="operatorid">操作者Id</param>
+        public OperationResult Set2Top(Guid poid, decimal moneyvalue, int datelong, long operatorid)
         {
             try
             {
@@ -283,26 +286,44 @@ namespace LotteryDraw.Core.Impl
                 paramPoId.Value = poid.ToString();
                 paramList.Add(paramPoId);
 
+                //置顶时长
+                SqlParameter paramdl = new SqlParameter("@DateLong", SqlDbType.Int);
+                paramdl.Value = datelong;
+                paramList.Add(paramdl);
+
+                //缴费金额
+                SqlParameter parammval = new SqlParameter("@PaymentAmout", SqlDbType.Decimal);
+                parammval.Value = moneyvalue;
+                paramList.Add(parammval);
+
+                //操作者Id
+                SqlParameter paramopid = new SqlParameter("@OperatorId", SqlDbType.BigInt);
+                paramopid.Value = operatorid;
+                paramList.Add(paramopid);
+
                 SqlParameter paramec = new SqlParameter("@ErrorCode", SqlDbType.VarChar, 10);
                 paramec.Direction = ParameterDirection.Output;
                 paramList.Add(paramec);
+
+                SqlParameter parammsg = new SqlParameter("@Message", SqlDbType.VarChar, -1); //-1代表max
+                parammsg.Direction = ParameterDirection.Output;
+                paramList.Add(parammsg);
 
                 SqlCommand command = new SqlCommand();
                 DataSet ds = PrizeOrderRepository.ExecProcdureReturnDataSet("sp_set2Top", out command, paramList.ToArray());
 
                 string errorCode = command.Parameters["@ErrorCode"].Value.ToString();
+                string message = command.Parameters["@Message"].Value.ToString();
                 if (string.IsNullOrEmpty(errorCode))
                 {
-                    return new OperationResult(OperationResultType.Success, "奖单置顶成功。", null);
+                    return new OperationResult(OperationResultType.Success, "奖单置顶成功。", message);
                 }
                 else
                 {
                     switch (errorCode)
                     {
                         case "Error_01":
-                            return new OperationResult(OperationResultType.Warning, "sdf", null);
-                        case "Error_02":
-                            return new OperationResult(OperationResultType.Warning, "sfd", null);
+                            return new OperationResult(OperationResultType.Warning, "当前奖单已置顶过，上次置顶还未到期。", null);
                         default:
                             return new OperationResult(OperationResultType.Warning, "出错了。", null);
                     }

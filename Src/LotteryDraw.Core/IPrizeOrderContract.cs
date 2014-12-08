@@ -99,8 +99,11 @@ namespace LotteryDraw.Core
         /// <summary>
         ///  置顶
         /// </summary>
-        /// <param name="poid">奖单ID</param>
-        OperationResult Set2Top(Guid poid);
+        /// <param name="poid">奖单ID</param> 
+        /// <param name="moneyvalue">用户缴费金额</param>
+        /// <param name="datelong">置顶时长</param>
+        /// <param name="operatorid">操作者Id</param>
+        OperationResult Set2Top(Guid poid, decimal moneyvalue, int datelong, long operatorid);
 
         /// <summary>
         ///  获取奖单实体

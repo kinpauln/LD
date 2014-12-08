@@ -41,24 +41,32 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
         /// <summary>
         ///  置頂
         /// </summary>
+        /// <param name="moneyvalue">置顶时长（小时）</param>
         [HttpPost]
-        public JsonResult Set2Top(string prizeorderIdString)
+        public JsonResult Set2Top(string prizeorderIdString, decimal moneyvalue)
         {
             if (string.IsNullOrEmpty(prizeorderIdString))
             {
-                return Json(new { ErrorString = "prizeorder Id 为空" }, JsonRequestBehavior.AllowGet);
+                return Json(new { OK = false, ErrorString = "prizeorder Id 为空" }, JsonRequestBehavior.AllowGet);
             }
-            Guid prizeOrderId = new Guid(prizeorderIdString);
 
-            OperationResult result = PrizeOrderSiteContract.Set2Top(prizeOrderId);
+            if (!this.UserId.HasValue)
+            {
+                return Json(new { ErrorString = "当前用户Id为空" }, JsonRequestBehavior.AllowGet);
+            }
+
+            Guid prizeOrderId = new Guid(prizeorderIdString);
+            int datelong = int.Parse(System.Configuration.ConfigurationManager.AppSettings["Set2TopTimeLong"]); //置顶时长（小时）
+
+            OperationResult result = PrizeOrderSiteContract.Set2Top(prizeOrderId, moneyvalue, datelong, this.UserId.Value);
 
             if (result.ResultType == OperationResultType.Success)
             {
-                return Json(new { ErrorString = "" }, JsonRequestBehavior.AllowGet);
+                return Json(new { OK = true, ErrorString = "" }, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(new { ErrorString = result.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { OK = false, ErrorString = result.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -187,7 +195,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
             Guid prizeOrderId = new Guid(prizeOrderIdString);
 
             OperationResult result = WhiteListSiteContract.Add(
-                new WhiteListView(){ PrizeOrderId = prizeOrderId,MemberId =memberid});
+                new WhiteListView() { PrizeOrderId = prizeOrderId, MemberId = memberid });
 
             if (result.ResultType == OperationResultType.Success)
             {
@@ -198,7 +206,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
                 return Json(new { ErrorString = result.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
         public ActionResult Search(int id = 1, string kword = null)
         {
             int pageIndex = id;

@@ -72,7 +72,10 @@ namespace LotteryDraw.Site
         ///  置顶
         /// </summary>
         /// <param name="poid">奖单ID</param>
-        OperationResult Set2Top(Guid poid);
+        /// <param name="moneyvalue">用户缴费金额</param>
+        /// <param name="datelong">置顶时长</param>
+        /// <param name="operatorid">操作者Id</param>
+        OperationResult Set2Top(Guid poid, decimal moneyvalue, int datelong, long operatorid);
 
         OperationResult GetPrizeAsking(Guid poid);
     }

@@ -99,6 +99,8 @@ namespace LotteryDraw.Site.Models
 
         [Display(Name = "答案")]
         public string Answer { get; set; }
+
+        public bool Is2Top { get; set; }
                 
         public DateTime? UpdateDate { get; set; }
     }

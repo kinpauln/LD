@@ -111,8 +111,16 @@ namespace LotteryDraw.Site.Extentions
         {
             if (dt == null || dt.Rows.Count == 0)
                 return null;
+            DataRow[] rows = new DataRow[dt.Rows.Count];
+            dt.Rows.CopyTo(rows, 0);
+            bool containIs2Top = dt.Columns.Contains("Is2Top");
+            return rows.ToPrizeOrderDetailList(containIs2Top);
+        }
+
+        public static IEnumerable<PrizeOrderDetailView> ToPrizeOrderDetailList(this DataRow[] rows, bool containIs2Top = false)
+        {
             List<PrizeOrderDetailView> rlist = new List<PrizeOrderDetailView>();
-            foreach (DataRow row in dt.Rows)
+            foreach (DataRow row in rows)
             {
                 rlist.Add(new PrizeOrderDetailView()
                 {
@@ -123,7 +131,8 @@ namespace LotteryDraw.Site.Extentions
                         RevealTypeNum = int.Parse(row["RevealType"].ToString()),
                         RevealStateNum = int.Parse(row["RevealState"].ToString()),
                         SortOrder = int.Parse(row["SortOrder"].ToString()),
-                        AddDate = Convert.ToDateTime(row["RaiseTime"])
+                        AddDate = Convert.ToDateTime(row["RaiseTime"]),
+                        Is2Top = containIs2Top ? Convert.ToBoolean(row["Is2Top"]) : false
                     },
                     PrizeView = new PrizeView()
                     {
@@ -144,7 +153,6 @@ namespace LotteryDraw.Site.Extentions
 
             return rlist;
         }
-
 
         public static IEnumerable<MemberView> ToMemberViewList(this DataTable dt)
         {

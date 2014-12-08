@@ -9,6 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LotteryDraw.Site.Extentions;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
@@ -87,21 +88,19 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     DataTable dt = ds.Tables[0];
-                    DataRow[] rowarray = new DataRow[dt.Rows.Count];
-                    dt.Rows.CopyTo(rowarray, 0);
                     //所有
-                    ViewBag.AllPrizeOrders = rowarray;
+                    ViewBag.AllPrizeOrders = dt.ToPrizeOrderDetailList();
 
                     if (rtype.HasValue)
                     {
                         //定时
-                        ViewBag.TopTimingPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Timing);
+                        ViewBag.TopTimingPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Timing).ToPrizeOrderDetailList(true);
                         //定员
-                        ViewBag.TopQuotaPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Quota);
+                        ViewBag.TopQuotaPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Quota).ToPrizeOrderDetailList(true);
                         //答案
-                        ViewBag.TopAnswerPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Answer);
+                        ViewBag.TopAnswerPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Answer).ToPrizeOrderDetailList(true);
                         //现场
-                        ViewBag.TopScenePrizeOrders = dt.Select("RevealType=" + (int)RevealType.Scene);
+                        ViewBag.TopScenePrizeOrders = dt.Select("RevealType=" + (int)RevealType.Scene).ToPrizeOrderDetailList(true);
                         switch (rtype)
                         {
                             case (int)RevealType.Timing:

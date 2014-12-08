@@ -194,9 +194,12 @@ namespace LotteryDraw.Site.Impl
         ///  置顶
         /// </summary>
         /// <param name="poid">奖单ID</param>
-        public OperationResult Set2Top(Guid poid)
+        /// <param name="moneyvalue">用户缴费金额</param>
+        /// <param name="datelong">置顶时长</param>
+        /// <param name="operatorid">操作者Id</param>
+        public OperationResult Set2Top(Guid poid, decimal moneyvalue, int datelong, long operatorid)
         {
-            OperationResult result = PrizeOrderContract.Set2Top(poid);
+            OperationResult result = PrizeOrderContract.Set2Top(poid, moneyvalue, datelong, operatorid);
             return result;
         }
 
