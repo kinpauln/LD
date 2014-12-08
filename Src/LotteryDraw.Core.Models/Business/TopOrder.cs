@@ -37,7 +37,7 @@ namespace LotteryDraw.Core.Models.Business
         /// <summary>
         /// 获取或设置 客户缴费
         /// </summary>
-        public virtual decimal PaymentAmout { get; set; }
+        public virtual decimal PaymentAmount { get; set; }
 
         /// <summary>
         /// 获取或设置 排序序列

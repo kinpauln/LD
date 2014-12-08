@@ -13,7 +13,6 @@ using System.IO;
 using LotteryDraw.Site.Extentions;
 using LotteryDraw.Component.Utility;
 using LotteryDraw.Core.Models.Account;
-using LotteryDraw.Site.Extentions;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
@@ -153,6 +152,45 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 }
             }
         }
+
+        #region 发布抽奖
+        public ActionResult LaunchLottery()
+        {
+            PrizeOrderDetailView model = new PrizeOrderDetailView();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateMvcCaptcha]
+        public ActionResult LaunchLottery(PrizeOrderDetailView model)
+        {
+            ViewBag.IsPostBack = true;
+
+            if (ModelState.IsValid)
+            {
+                //验证码验证通过
+            }
+            else
+            {
+                //验证码验证失败
+                //ModelState.AddModelError("", e.Message);
+                ViewBag.Message = "验证码输入不正确";
+                return View(model);
+            }
+            return View(model);
+        } 
+        #endregion
+
+        #region 中奖通知
+
+        public ActionResult LuckyNotice()
+        {
+            return View();
+        } 
+
+        #endregion
+
 
         #region 发布奖品
         /// <summary>
