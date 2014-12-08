@@ -78,6 +78,7 @@
                                 <th class="hidden"></th>
                                 <th class="hidden"></th>
                                 <th class="hidden"></th>
+                                <th>可发起抽奖次数</th>
                                 <th style="width: 70px;"></th>
                             </tr>
                         </thead>
@@ -104,6 +105,7 @@
                                     <td class="hidden">@item.Id</td>
                                     <td class="hidden"></td>
                                     <td class="hidden"></td>
+                                    <td>@Html.DisplayFor(modelItem => item.PubishingEnableTimes)</td>
                                     <!--buttons-->
                                     <td>
                                         <div style="float: left; margin-right: 1px;">
@@ -392,23 +394,23 @@
             });
 
             $("a[class*='no-audit']").click(function () {
-                //在这里面输入任何合法的js语句（以下将演示一个自定义风格的层）
-                $.layer({
-                    type: 1,   //0-4的选择,（1代表page层）
-                    area: ['550px', '400px'],
-                    //shade: [0],  //不显示遮罩
-                    border: [0], //不显示边框
-                    title: [
-                        '友情提示。',
-                        //自定义标题风格，如果不需要，直接title: '标题' 即可  #577DB7
-                        'border:none; background:#024D9E; color:#fff;'
-                    ],
-                    bgcolor: '#eee', //设置层背景色
-                    page: {
-                        html: '<div style="padding:40px;font-size:15px;" id="brower-checking-alert"><p></p>为了不影响相关功能的正常使用，强烈建议您使用当前主流浏览器，请点击下列相关链接下载</p><br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/41/23253/IE8-WindowsXP-x86-CHS.2728888507.exe">IE8</a> &nbsp;(WindowsXP)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/3c/23356/BOIE9_ZHCN_BO0085_WIN7.2197728620.EXE">IE9</a>&nbsp;(Win7/Win8)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/9d/14744/ChromeStandaloneSetup.1416972703.exe">Chrome</a>&nbsp;(WinXP/Win2003/Vista/Win7/Win8)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/51/11843/Firefox_V33.1.1.5430_setup.1416195513.exe">Firefox</a>(WinXP/Win2003/Vista/Win7/Win8)<br>...</div>'
-                    },
-                    shift: 'top' //从上动画弹出
-                });
+                ////在这里面输入任何合法的js语句（以下将演示一个自定义风格的层）
+                //$.layer({
+                //    type: 1,   //0-4的选择,（1代表page层）
+                //    area: ['550px', '400px'],
+                //    //shade: [0],  //不显示遮罩
+                //    border: [0], //不显示边框
+                //    title: [
+                //        '友情提示。',
+                //        //自定义标题风格，如果不需要，直接title: '标题' 即可  #577DB7
+                //        'border:none; background:#024D9E; color:#fff;'
+                //    ],
+                //    bgcolor: '#eee', //设置层背景色
+                //    page: {
+                //        dom: '#noaudit-alert-content',
+                //    },
+                //    shift: 'top' //从上动画弹出
+                //});
             });
 
             $("a[class*='edit']").on("click", function (e) {

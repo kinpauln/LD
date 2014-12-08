@@ -36,10 +36,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
         public AccountController() {
             base._areaName = "Admin";
         }
-
-        [Import]
-        public IAccountContract AccountContract { get; set; }
-        
+                
         #endregion
 
         public override ActionResult InfoPage()
@@ -75,6 +72,7 @@ namespace LotteryDraw.Site.Web.Areas.Admin.Controllers
                 IsDeleted = m.IsDeleted,
                 AddDate = m.AddDate,
                 LoginLogCount = m.LoginLogs.Count,
+                PubishingEnableTimes = m.PubishingEnableTimes,
                 RoleNames = m.Roles.Select(n => n.Name)
             });
             ViewBag.Keywords = kword;

@@ -88,7 +88,7 @@ namespace LotteryDraw.Component.Tools
     }
 
     /// <summary>
-    /// 答案开奖开奖条件类型
+    /// 奖品图片类型
     /// </summary>
     [Description("奖品图片类型")]
     public enum PhotoType
@@ -99,4 +99,17 @@ namespace LotteryDraw.Component.Tools
         Thumbnail = 1
     }
 
+    /// <summary>
+    /// 抽奖范围
+    /// </summary>
+    [Description("抽奖范围")]
+    public enum ScopeType
+    {
+        [Description("全国")]
+        Global = 1,
+        [Description("地级城市")]
+        AreaCity = 2,
+        [Description("县级城市")]
+        SmallCity = 3
+    }
 }

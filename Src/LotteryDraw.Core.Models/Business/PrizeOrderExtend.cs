@@ -34,6 +34,25 @@ namespace LotteryDraw.Core.Models.Business
         }
 
         /// <summary>
+        /// 抽奖范围类别
+        /// </summary>
+        public ScopeType ScopeType
+        {
+            get { return (ScopeType)ScopeTypeNum; }
+            set { ScopeTypeNum = (int)value; }
+        }
+
+        /// <summary>
+        /// 抽奖范围类别
+        /// </summary>
+        public int ScopeTypeNum { get; set; }
+
+        /// <summary>
+        /// 抽奖范围(城市名)
+        /// </summary>
+        public string ScopeCity { get; set; }
+
+        /// <summary>
         ///  开奖时间
         /// </summary>
         public DateTime? LaunchTime { get; set; }

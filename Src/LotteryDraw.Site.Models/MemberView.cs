@@ -50,6 +50,8 @@ namespace LotteryDraw.Site.Models
 
         public MemberType MemberType { get; set; }
 
+        public int PubishingEnableTimes { get; set; }
+
         /// <summary>
         ///  新密码
         /// </summary>
