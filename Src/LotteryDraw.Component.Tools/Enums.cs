@@ -84,7 +84,31 @@ namespace LotteryDraw.Component.Tools
         [Description("默认")]
         Default = 0,
         [Description("已通知")]
-        Noticed = 1
+        Noticed = 1,
+        [Description("已付款")]
+        Paid = 2,
+        [Description("确认已付款")]
+        PayConfirmed = 3,
+        [Description("邮寄中")]
+        Posting = 4,
+        [Description("已收货")]
+        Reveived = 5,
+        [Description("已关闭")]
+        Closed = 6
+    }
+
+    /// <summary>
+    /// 答案开奖开奖条件类型
+    /// </summary>
+    [Description("现场抽奖中奖人员奖单状态")]
+    public enum LuckySceneStaffState
+    {
+        [Description("默认")]
+        Default = 0,
+        [Description("已通知")]
+        Noticed = 1,
+        [Description("已发奖")]
+        Awarded = 2
     }
 
     /// <summary>

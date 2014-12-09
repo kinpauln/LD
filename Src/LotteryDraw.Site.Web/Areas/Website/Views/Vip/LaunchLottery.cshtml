@@ -3,6 +3,7 @@
     Layout = "~/Areas/Website/Views/Shared/_Layout_Vip.cshtml";
 }
 @using Webdiyer.WebControls.Mvc
+@using LotteryDraw.Component.Tools
 @model LotteryDraw.Site.Models.PrizeOrderDetailView
 
 @section  LeftMenuItems{
@@ -14,18 +15,20 @@
     <label>发布抽奖</label>
 }
 
-@using (Html.BeginForm("PublishPrizeAjax", "Vip", FormMethod.Post, new { id = "prizeForm" }))
+@using (Html.BeginForm("PublishPrizeAjax", "Vip", FormMethod.Post, new { id = "prizeForm", enctype = "multipart/form-data" }))
 {
     //enctype = "multipart/form-data"
     string rtype = ViewBag.RevealType;
-    @Html.Hidden("hidnRevealType", rtype)
-    @Html.HiddenFor(m => m.PrizeOrderView.MinLuckyCount)
-    @Html.HiddenFor(m => m.PrizeOrderView.RevealType);
-    @Html.HiddenFor(m => m.PrizeOrderView.RevealTypeNum);
-    @Html.HiddenFor(m => m.PrizeOrderView.AnswerRevealConditionTypeNum);
-    @Html.HiddenFor(m => m.PrizeOrderView.Answer);
-    @Html.HiddenFor(m => m.PrizeOrderView.AnswerOptions);
-    @Html.HiddenFor(model => model.PrizeOrderView.PrizeId)
+    @Html.HiddenFor(m => m.PrizeOrderView.ScopeType, new { Id = "hidnScopeType", Name = "ScopeType" })
+    @Html.HiddenFor(m => m.PrizeOrderView.ScopeAreaCity, new { Id = "hidnScopeAreaCity", Name = "ScopeAreaCity" })
+    @Html.HiddenFor(m => m.PrizeOrderView.MinLuckyCount, new { Name = "MinLuckyCount" })
+    @Html.HiddenFor(m => m.PrizeOrderView.RevealType, new { Id = "hidnRevealType", Name = "RevealType" });
+    @Html.HiddenFor(m => m.PrizeOrderView.RevealTypeNum, new { Name = "RevealTypeNum" });
+    @Html.HiddenFor(m => m.PrizeOrderView.AnswerRevealConditionTypeNum, new { Name = "AnswerRevealConditionTypeNum" });
+    @Html.HiddenFor(m => m.PrizeOrderView.AnswerRevealConditionType, new { Id = "hidnAnswerRevealConditionType", Name = "AnswerRevealConditionType" });
+    @Html.HiddenFor(m => m.PrizeOrderView.Answer, new { Name = "Answer" });
+    @Html.HiddenFor(m => m.PrizeOrderView.AnswerOptions, new { Name = "AnswerOptions" });
+    @Html.HiddenFor(model => model.PrizeOrderView.PrizeId, new { Name = "PrizeId" });
     <table class="message_table">
         <tbody>
             @*@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
@@ -37,9 +40,8 @@
             <tr rtype="no-change">
                 <td class="text">奖品名称</td>
                 <td class="input">
-                    @Html.TextBoxFor(model => model.PrizeView.Name, new { @class = "input-text", placeholder = "奖品名称" })
+                    @Html.TextBoxFor(model => model.PrizeView.Name, new { @class = "input-text", Name = "PrizeName", placeholder = "奖品名称" })
                     <span class="info">*</span>
-                    <br />
                 </td>
             </tr>
             <tr rtype="no-change">
@@ -56,7 +58,7 @@
             <tr rtype="no-change">
                 <td class="text">描述：</td>
                 <td class="input">
-                    @Html.TextAreaFor(model => model.PrizeView.Description, new { @class = "textarea-text", cols = "50", rows = "6", placeholder = "描述" })
+                    @Html.TextAreaFor(model => model.PrizeView.Description, new { @class = "textarea-text", Name = "PrizeDescription", cols = "50", rows = "6", placeholder = "描述" })<span class="info">*</span>
                     <br />
                 </td>
             </tr>
@@ -64,40 +66,52 @@
                 <td class="text">开奖类型：</td>
                 <td class="input">
                     @*@Html.DropDownList("slLauchType",(SelectList)ViewBag.RevealTypeList)*@
-                    <select id="slLauchType">
+                    <select id="slLauchType" name="selectRType">
                         <option value="" rtype="">请选择</option>
                         <option value="1" rtype="timing">定时开奖</option>
                         <option value="2" rtype="quota">定员开奖</option>
                         <option value="3" rtype="answer">答案开奖</option>
                         <option value="4" rtype="scene">实时开奖</option>
-                    </select>
+                    </select><span class="info">*</span>
                 </td>
             </tr>
             <tr rtype="timing quota answer">
                 <td class="text">抽奖范围：</td>
                 <td class="input">
-                    @Html.TextBoxFor(m => m.PrizeOrderView.LuckyCount, new { @class = "input-text num" })<span class="info">*</span>
+                    <select id="slScopeType" name="selectScopeType">
+                        <option value="" scope-type="">请选择</option>
+                        <option value="1" scope-type="global">全国</option>
+                        <option value="2" scope-type="area-city">地级城市</option>
+                    </select><span class="info">*</span>
+                </td>
+            </tr>
+            <tr scope-type="area-city">
+                <td class="text">开奖城市：</td>
+                <td class="input">
+                    <select name="loc_province" class="select" style="width: 80px;"></select>
+                    <select name="loc_city" class="select" style="width: 100px;"></select>
+                    <select name="loc_town" class="select" style="width: 120px; display: none;"></select>
                 </td>
             </tr>
             <tr rtype="timing quota answer scene">
                 <td class="text">中奖人数：</td>
                 <td class="input">
-                    @Html.TextBoxFor(m => m.PrizeOrderView.LuckyCount, new { @class = "input-text num" })<span class="info">*</span>
+                    @Html.TextBoxFor(m => m.PrizeOrderView.LuckyCount, new { @class = "input-text num", Name = "LuckyCount" })<span class="info">*</span>
                 </td>
             </tr>
             <tr rtype="answer">
                 <td class="text">开奖问题：</td>
                 <td class="input">
-                    @Html.TextAreaFor(m => m.PrizeOrderView.Question, new { @class = "textarea-text", cols = "50", rows = "3" })<span class="info">*</span>
+                    @Html.TextAreaFor(m => m.PrizeOrderView.Question, new { @class = "textarea-text", Name = "Question", cols = "50", rows = "3", placeholder = "请填写一个答案选项" })<span class="info">*</span>
                 </td>
             </tr>
             <tr rtype="answer">
-                <td class="text">答案选项：</td>
+                <td class="text">开奖答案选项：</td>
                 <td class="input">
-                    <div style="float: left;">
+                    <div style="float: left; line-height: 200px;">
                         @*@Html.TextAreaFor(m => m.Answer, new { @class = "textarea-text", cols = "50", rows = "3" })*@
-                        <input type="text" class="input-text" id="txtAnswerOption" />
-                        <input type="button" class="" value="&nbsp;>>&nbsp;" id="btnAddAnswerOption" />
+                        <input type="text" class="input-text" id="txtAnswerOption" placeholder="请填写一个答案选项" />
+                        <input type="button" class="" value="追加" style="padding: 5px; width: 60px;" id="btnAddAnswerOption" />
                     </div>
                     <div style="float: left;">
                         <div class="dropdown">
@@ -120,21 +134,21 @@
                     @*@Html.DropDownList("slLauchType",(SelectList)ViewBag.RevealTypeList)*@
                     <select id="slAnswerLauchType" name="AnswerLauchType">
                         <option value="" selected>请选择</option>
-                        <option value="1" trid="trLaunchTime">定时</option>
-                        <option value="2" trid="trPoolCount">定员</option>
+                        <option value="1" lt-condition="timing">定时</option>
+                        <option value="2" lt-condition="quota">定员</option>
                     </select><span class="info">*</span>
                 </td>
             </tr>
-            <tr rtype="quota">
+            <tr rtype="quota" lt-condition="quota">
                 <td class="text">总人数：</td>
                 <td class="input">
-                    @Html.TextBoxFor(m => m.PrizeOrderView.PoolCount, new { @class = "input-text num" })<span class="info">*</span>
+                    @Html.TextBoxFor(m => m.PrizeOrderView.PoolCount, new { @class = "input-text num", Name = "PoolCount" })<span class="info">*</span>
                 </td>
             </tr>
-            <tr rtype="timing scene">
+            <tr rtype="timing scene" lt-condition="timing">
                 <td class="text">开奖时间：</td>
                 <td class="input">
-                    @Html.TextBoxFor(m => m.PrizeOrderView.LaunchTime, new { @class = "input-text launchtime", id = "txtLaunchTime", @readonly = "readonly" })<span class="info">*</span>
+                    @Html.TextBoxFor(m => m.PrizeOrderView.LaunchTime, new { @class = "input-text launchtime", Name = "LaunchTime", id = "txtLaunchTime", @readonly = "readonly" })<span class="info">*</span>
                 </td>
             </tr>
             @*<tr>
@@ -155,13 +169,13 @@
                     <span id="imgContainer"></span>
                     <br />
                     <div>请输入上边图片中的文字：</div>
-                    <input type="text" class="input-text" name="_mvcCaptchaText" id="captchaInput" data-val="true" data-val-required="验证码不能为空" />
+                    <input type="text" class="input-text" name="_mvcCaptchaText" placeholder="输入验证码" id="captchaInput" data-val="true" data-val-required="验证码不能为空" />
                 </td>
             </tr>
             <tr rtype="no-change">
                 <td class="text"></td>
                 <td class="submint">
-                    <input type="submit" value="发布" class="submit button orange"></td>
+                    <input type="button" id="btnSubmitForm" value="发布" class="submit button orange"></td>
             </tr>
         </tbody>
     </table>
@@ -186,6 +200,14 @@
         </tr>
     </table>
 }
+<div class="layer-box">
+    <ul class="layer_notice" style="display: none; padding: 10px;">
+        <li>
+            <label>友情提示：</label></li>
+        <li>1. 您将要进行的是“答案抽奖”的开奖方式。</li>
+        <li>2. 您请务必设置开奖题目和答案。</li>
+    </ul>
+</div>
 @section scripts{
     @Html.Partial("PostBackMessage")
     <script src="~/Scripts/jquery.form.js"></script>
@@ -193,8 +215,25 @@
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script src="~/Scripts/jquery.previewimage.js"></script>
     <script src="~/Content/website/js/My97DatePicker/WdatePicker.js"></script>
+    <script src="~/Content/website/address/area.js"></script>
+    <script src="~/Content/website/address/location.js"></script>
     <script type="text/javascript">
+        var cityIsLoaded = false;
         $(function () {
+            $("#slAnswer").hover(function () {
+                if ($(this).find("option").length == 1) {
+                    layer.tips('您在选择答案前请先命题，并设置答案选项。', this, {
+                        style: ['background-color:#014A97; color:#fff', '#014A97'],
+                        maxWidth: 185,
+                        time: 30,
+                        //closeBtn: [0, true]
+                        closeBtn: false
+                    });
+                }
+            }, function () {
+                layer.closeTips();
+            });
+
             //初始化日期选择控件
             $(".launchtime").focus(function () {
                 WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })
@@ -209,20 +248,75 @@
 
             // 开奖类型下拉框事件
             $("#slLauchType").change(function () {
+                var thisvalue = $(this).val();
                 var $opobj = $(this).find("option:selected");
                 var rtype = $opobj.attr("rtype");
-                $("#hidnRevealType").val($(this).val())
+                //$("#hidnRevealType").val(thisvalue);
+                $("input:hidden[name='RevealType']").val(thisvalue);
+
+
                 // 不是公用的部分先全部隐藏掉
                 $("form#prizeForm tr[rtype!='no-change']").hide();
                 if (rtype == "")
                     return;
                 // 本抽奖类型相关的 表单项都现实出来
                 $("form#prizeForm tr[rtype*='" + rtype + "']").fadeIn();
+
+                @*if (thisvalue == "@RevealType.Answer.ToInt()") {
+                    $.layer({
+                        type: 1,
+                        shade: [0.5, '#000'],
+                        //shade: [0],
+                        area: ['auto', 'auto'],
+                        title: false,
+                        border: [0],
+                        page: { dom: '.layer_notice' }
+                    });
+                }*@
+            });
+
+            // 抽奖范围下拉框事件
+            $("#slScopeType").change(function () {
+                //$("#hidnScopeType").val($(this).val());
+                $("input:hidden[name='ScopeType']").val($(this).val());
+                if ($(this).val() == '@ScopeType.AreaCity.ToInt()') {
+                    if (!cityIsLoaded) {
+                        //地址下拉框联动
+                        showLocation();
+                        cityIsLoaded = true;
+                    } else {
+                        //初始化选中状态（什么都不选中）
+                        var nullvalue = "";
+                        locateProvinceSelect(nullvalue);
+                    }
+                }
+
+                var $opobj = $(this).find("option:selected");
+                var scopetype = $opobj.attr("scope-type");
+                $("form#prizeForm tr[scope-type]").hide();
+                if (scopetype != "") {
+                    // 本抽奖类型相关的 表单项都现实出来
+                    $("form#prizeForm tr[scope-type*='" + scopetype + "']").fadeIn();
+                }
+            });
+
+            $("#slAnswerLauchType").change(function () {
+                $("#hidnAnswerRevealConditionType").val($(this).val());
+                $("input:hidden[name='AnswerRevealConditionTypeNum']").val($(this).val());
+                $("input:hidden[name='AnswerRevealConditionType']").val($(this).val());
+
+                var $opobj = $(this).find("option:selected");
+                var ltcondition = $opobj.attr("lt-condition");
+                $("form#prizeForm tr[lt-condition]").hide();
+                if (ltcondition != "") {
+                    // 本抽奖类型相关的 表单项都现实出来
+                    $("form#prizeForm tr[lt-condition*='" + ltcondition + "']").fadeIn();
+                }
             });
 
             $("#btnAddAnswerOption").click(function () {
                 if ($("#txtAnswerOption").val() == "") {
-                    alert("答案不能为空");
+                    layer.alert("答案不能为空", 8);
                     return;
                 }
 
@@ -294,19 +388,184 @@
                     }
                 });
             });
+
+            $("#prizeForm").submit(function () {
+                return true;
+                //return false; //此处必须返回false，阻止常规的form提交
+            });
+
+            $("#btnSubmitForm").click(function () {
+                var $form = $("#prizeForm");
+                $form.validate();
+                if ($form.valid()) {
+
+                    var rtype = $("#slLauchType").val();
+                    if (rtype == '@RevealType.Scene.ToInt()') {
+                        var options = "";
+                        $("#slAnswer option[class='answer']").each(function () {
+                            var value = $(this).val();
+                            var text = $(this).html();
+                            options += value + ":" + text + "|||";
+                        });
+                        if (options != "") {
+                            options = options.substring(0, options.length - 3);
+                        }
+                        $("input:hidden[name='AnswerOptions']").val(options);
+                        $("input:hidden[name='Answer']").val($("#slAnswer").val());
+                    } else {
+                        // 开奖城市名称
+                        if ($("#slScopeType").val() == 2) {
+                            var city = S$("#hidnScopeAreaCity").find("option:selected").text();
+                            $("input:hidden[name='ScopeAreaCity']").val(city);
+                            $("input:hidden[name='AnswerRevealConditionTypeNum']").val($(this).val());
+                        }
+                    }
+
+                    $form.submit();
+                }
+            });
+
             $("#prizeForm").validate({
                 errorElement: 'span',
                 errorClass: 'error-info',
                 focusInvalid: false,
                 rules: {
-                    Name: {
+                    PrizeName: {
+                        required: true
+                    },
+                    PrizeDescription: {
+                        required: true
+                    },
+                    selectRType: { //开奖类型
+                        required: true
+                    },
+                    selectScopeType: { //抽奖范围
+                        required: function () {
+                            var rtype = $("#slLauchType").val();
+                            if (rtype == '@RevealType.Scene.ToInt()')
+                                return false;
+                            return true;
+                        }
+                    },
+                    LuckyCount: {
+                        required: true,
+                        digits: true
+                    },
+                    LaunchTime: {
+                        required: function () {
+                            var rtype = $("#slLauchType").val();
+                            if (rtype == '@RevealType.Timing.ToInt()')
+                                return true;
+                            if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "1")
+                                return true;
+                            if (rtype == '@RevealType.Scene.ToInt()')
+                                return true;
+                            return false;
+                        }
+                    },
+                    PoolCount: {
+                        required: function () {
+                            var rtype = $("#slLauchType").val();
+                            if (rtype == '@RevealType.Quota.ToInt()')
+                                return true;
+                            if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "2")
+                                return true;
+                            return false;
+                        },
+                        digits: true
+                    },
+                    Question: {
+                        required: function () {//开奖问题
+                            var rtype = $("#slLauchType").val();
+                            if (rtype == '@RevealType.Answer.ToInt()')
+                                return true;
+                            return false;
+                        },
+                    },
+                    slAnswer: {
+                        required: function () {//开奖答案
+                            var rtype = $("#slLauchType").val();
+                            if (rtype == '@RevealType.Answer.ToInt()')
+                                return true;
+                            return false;
+                        },
+                    },
+                    AnswerLauchType: { //开奖条件
+                        required: function () {
+                            var rtype = $("#slLauchType").val();
+                            if (rtype == '@RevealType.Answer.ToInt()')
+                                return true;
+                            return false;
+                        },
+                    },
+                    loc_province: { //省份
+                        required: function () {
+                            var rtype = $("#slLauchType").val();
+                            if (rtype == '@RevealType.Scene.ToInt()')
+                                return false;
+                            var scopeType = $("#slScopeType").val();
+                            if (scopeType == "1")
+                                return false;
+                            return true;
+                        }
+                    },
+                    loc_city: { //城市
+                        required: function () {
+                            var rtype = $("#slLauchType").val();
+                            if (rtype == '@RevealType.Scene.ToInt()')
+                                return false;
+                            var scopeType = $("#slScopeType").val();
+                            if (scopeType == "1")
+                                return false;
+                            return true;
+                        }
+                    },
+                    _mvcCaptchaText: {
                         required: true
                     }
                 },
 
                 messages: {
-                    Name: {
+                    PrizeName: {
                         required: "奖品名称不能为空"
+                    },
+                    PrizeDescription: {
+                        required: "奖品描述称不能为空"
+                    },
+                    selectRType: {
+                        required: "开奖类型必须选择"
+                    },
+                    selectScopeType: {
+                        required: "抽奖范围必须选择"
+                    },
+                    LuckyCount: {
+                        required: "中奖人数必须输入",
+                        digits: "中奖人数只能是整数"
+                    },
+                    LaunchTime: {
+                        required: "开奖时间不能为空"
+                    },
+                    PoolCount: {
+                        required: "总人数必须输入",
+                        digits: "总人数只能是整数"
+                    },
+                    Question: {
+                        required: "必须输入"
+                    },
+                    slAnswer: {
+                        required: "开奖答案必须选择"
+                    },
+                    AnswerLauchType: {
+                        required: "开奖条件必须选择"
+                    },
+                    loc_province: {
+                        required: "省份必须选择"
+                    },
+                    loc_city: {
+                        required: "城市必须选择"
+                    },
+                    _mvcCaptchaText: {
+                        required: "验证码不能为空"
                     }
                 },
                 invalidHandler: function (event, validator) { //display error alert on form submit   
@@ -316,52 +575,30 @@
                     //$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
                 },
                 /* 验证通过时的处理 */
-                success: function (e) {
-                    //$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
-                    //$(e).remove();
+                success: function (e, element) {
+                    var $element = $(element);
+                    if ($element.hasClass('select')) {
+                        var slname = $element.attr("name");
+                        var errorSpan = $("#prizeForm span[for=" + slname + "]:eq(0)");
+                        var br = errorSpan.prev("br");
+                        if (br != null) {
+                            br.remove();
+                        }
+                    }
                 },
                 /* 错误信息的显示位置 */
                 errorPlacement: function (error, element) {
-                    //element.parent().append("<br />");
+                    if (element.hasClass('select')) {
+                        element.parent().append("<br />");
+                    }
                     error.appendTo(element.parent());
-                },
-                /*执行ajaxsubmit*/
-                submitHandler: function (form) {
-                    //form.submit();
-                    var loadi;
-                    $(form).ajaxSubmit({
-                        type: "post",
-                        dataType: "json", //期望返回的数据类型。null、“xml”、“script”或者“json”其中之一
-                        //url: "test_save.php?time=" + (new Date()).getTime(),
-                        beforeSubmit: function () {
-                            loadi = layer.load('正在提交数据库，请耐心等待…');
-                        },
-                        success: function (data) {
-                            var result = data.OK;
-                            var message = data.Message;
-                            if (!result) {
-                                layer.alert(message, 8);
-                                $("#abtnChangeCaptcha").trigger("click");
-                                return;
-                            }
-                            layer.confirm("奖品信息保存成功，是否同时上传图片？", function (index) {
-                                layer.close(index);
-                                var pid = data.PrizeId;
-                                $("#PrizeId").val(pid);
-                                $("#prizeForm").hide();
-                                $("#photoForm").fadeIn();
-                                // 显示上传图片
-                            }, function () { });
-                        }
-                        ,
-                        error: function () {
-
-                        },
-                        complete: function () {
-                            layer.close(loadi);
-                        }
-                    });
                 }
+                , onfocusout: function (element) {
+                    $(element).valid();
+                }
+                /*执行ajaxsubmit*/
+                //, submitHandler: function (form) {
+                //}
             });
 
             $("#photoForm").submit(function () {
@@ -401,18 +638,34 @@
             });
 
             // 初始化选中抽奖类型
-            locateSelect();
+            locateRTypeSelect();
         });
 
-        function locateSelect() {
+        function locateRTypeSelect() {
             var rtype = $("#hidnRevealType").val();
-            $("#slLauchType option").each(function () {
+            var $select = $("#slLauchType");
+            locateSelect($select, rtype);
+        }
+
+        function locateScopeTypeSelect(value) {
+            var $select = $("#slScopeType");
+            locateSelect($select, value);
+        }
+
+        function locateProvinceSelect(value) {
+            var $select = $("select[name='loc_province']").eq(0);
+            locateSelect($select, value);
+        }
+
+        function locateSelect(select, value) {
+            var $select = select;
+            $select.find("option").each(function () {
                 var $option = $(this);
                 var rtvalue = $option.val();
 
-                if ($.trim(rtvalue) == rtype) {
+                if ($.trim(rtvalue) == value) {
                     $option.attr("selected", true);
-                    $("#slLauchType").trigger("change");
+                    $select.trigger("change");
                     return false; // false时相当于break, 如果return true 就相当于continure。
                 }
             });
@@ -469,6 +722,26 @@
             div.dropdown .selected {
                 background: #C6D7EF;
                 color: #000;
+            }
+
+        .layer_notice {
+            float: left;
+            height: 75px;
+            width: 330px;
+            overflow: hidden;
+            color: #fff;
+            background: #014A97;
+            padding: 10px;
+            border: 1px solid #000066;
+        }
+
+            .layer_notice li {
+                line-height: 25px;
+                list-style: none;
+            }
+
+            .layer_notice label {
+                font-size: 14px;
             }
     </style>
 }

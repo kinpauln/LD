@@ -129,6 +129,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         /// <param name="filterContext"></param>
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            // 可发起抽奖的次数
+            ViewBag.PublishEnableTimes = this.PubishingEnableTimes;
+
             var noAuthorizeAttributes = filterContext.ActionDescriptor.GetCustomAttributes(typeof(AuthorizeIgnoreAttribute), false);
             if (noAuthorizeAttributes.Length > 0)
                 return;

@@ -6,7 +6,7 @@
 //	   如存在本生成代码外的新需求，请在相同命名空间下创建同名分部类进行实现。
 // </auto-generated>
 //
-// <copyright file="IRoleRepository.generated.cs">
+// <copyright file="SceneStaffRepository.generated.cs">
 //		Copyright(c)2013 Kingdon.All rights reserved.
 //		CLR版本：4.0.30319.239
 //		开发组织：王金鹏@中国
@@ -17,16 +17,19 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel.Composition;
+using System.Linq;
 
 using LotteryDraw.Component.Data;
-using LotteryDraw.Core.Models.Security;
+using LotteryDraw.Core.Models.Business;
 
 
-namespace LotteryDraw.Core.Data.Repositories.Security
+namespace LotteryDraw.Core.Data.Repositories.Business.Impl
 {
 	/// <summary>
-    ///   仓储操作层接口——角色信息
+    ///   仓储操作层实现——现场抽奖人员
     /// </summary>
-    public partial interface IRoleRepository : IRepository<Role, Int64>
+    [Export(typeof(ISceneStaffRepository))]
+    public partial class SceneStaffRepository : EFRepositoryBase<SceneStaff, Guid>, ISceneStaffRepository
     { }
 }

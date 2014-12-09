@@ -72,6 +72,11 @@ namespace LotteryDraw.Core.Models.Business
         /// </summary>
         public virtual ICollection<PrizeBetting> PrizeBettings { get; set; }
 
+        /// <summary>
+        /// 获取或设置 该奖单下的所有参与现场抽奖的人员（现场抽奖）
+        /// </summary>
+        public virtual ICollection<SceneStaff> SceneStaffs { get; set; }
+
         public virtual Prize Prize { get; set; }
 
         public virtual PrizeOrderExtend Extend { get; set; }

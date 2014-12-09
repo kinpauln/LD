@@ -178,8 +178,78 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 ViewBag.Message = "验证码输入不正确";
                 return View(model);
             }
+            if (!ValidatePrizeOrderDetailViewModel(model)) {
+                return View(model);
+            }
+            switch (model.PrizeOrderView.RevealType)
+            {
+                case RevealType.Timing:
+                    break;
+                case RevealType.Quota:
+                    break;
+                case RevealType.Answer:
+                    break;
+                case RevealType.Scene:
+                    break;
+            }
             return View(model);
-        } 
+        }
+
+        private bool ValidatePrizeOrderDetailViewModel(PrizeOrderDetailView model)
+        {
+            switch (model.PrizeOrderView.RevealType)
+            {
+                case RevealType.Timing:
+                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity.Trim()))
+                    {
+                        ViewBag.Message = "抽奖城市必须指定";
+                        return false;
+                    }
+                    if (!model.PrizeOrderView.LaunchTime.HasValue)
+                    {
+                        ViewBag.Message = "开奖时间必须指定";
+                        return false;
+                    }
+                    break;
+                case RevealType.Quota:
+                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity.Trim()))
+                    {
+                        ViewBag.Message = "抽奖城市必须指定";
+                        return false;
+                    }
+                    if (!model.PrizeOrderView.PoolCount.HasValue || model.PrizeOrderView.PoolCount.Value==0)
+                    {
+                        ViewBag.Message = "总人数必须指定且大于0";
+                        return false;
+                    }
+                    break;
+                case RevealType.Answer:
+                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity.Trim()))
+                    {
+                        ViewBag.Message = "抽奖城市必须指定";
+                        return false;
+                    }
+                    break;
+                case RevealType.Scene:
+                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity.Trim()))
+                    {
+                        ViewBag.Message = "抽奖城市必须指定";
+                        return false;
+                    }
+                    if (!model.PrizeOrderView.LaunchTime.HasValue)
+                    {
+                        ViewBag.Message = "开奖时间必须指定";
+                        return false;
+                    }
+                    break;
+            }
+            if (!model.PrizeOrderView.LuckyCount.HasValue || model.PrizeOrderView.LuckyCount.Value == 0)
+            {
+                ViewBag.Message = "中奖人数必须指定且大于0";
+                return false;
+            }
+            return true;
+        }
         #endregion
 
         #region 中奖通知
@@ -187,10 +257,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         public ActionResult LuckyNotice()
         {
             return View();
-        } 
+        }
 
         #endregion
-
 
         #region 发布奖品
         /// <summary>
@@ -509,8 +578,10 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             string msg = result.Message ?? result.ResultType.ToDescription();
             if (result.ResultType == OperationResultType.Success)
             {
-                if (shouldMinus) {
-                    if(!this.UpdatePubishingEnableTimes()){
+                if (shouldMinus)
+                {
+                    if (!this.UpdatePubishingEnableTimes())
+                    {
                         //记日志（更新可发布奖品次数失败）
                     }
                 }
@@ -635,8 +706,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         public ActionResult PrizeDetail(Guid id)
         {
             ViewBag.UserId = this.UserId ?? 0;
-            // 可发起抽奖的次数
-            ViewBag.PublishEnableTimes = this.PubishingEnableTimes;
+
             Prize pmodel = PrizeContract.Prizes
                 .Where(p => p.Id.Equals(id))
                 .FirstOrDefault();

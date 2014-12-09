@@ -27,22 +27,29 @@ namespace LotteryDraw.Site.Web.Controllers
         {
             get
             {
-                var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
-                if (cookie == null)
-                    return null;
-                var ticket = FormsAuthentication.Decrypt(cookie.Value);
-                string dataString = ticket.UserData;
-                if (string.IsNullOrEmpty(dataString))
-                    return null;
-
-                string uidString = dataString.Split('|')[0];
-                long userid = 0;
-                bool result = Int64.TryParse(uidString, out userid);
-                if (result)
+                try
                 {
-                    return userid;
+                    var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                    if (cookie == null)
+                        return null;
+                    var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                    string dataString = ticket.UserData;
+                    if (string.IsNullOrEmpty(dataString))
+                        return null;
+
+                    string uidString = dataString.Split('|')[0];
+                    long userid = 0;
+                    bool result = Int64.TryParse(uidString, out userid);
+                    if (result)
+                    {
+                        return userid;
+                    }
+                    return null;
                 }
-                return null;
+                catch (Exception ex)
+                {
+                    return null;
+                }
             }
         }
 
@@ -50,32 +57,39 @@ namespace LotteryDraw.Site.Web.Controllers
         {
             get
             {
-                var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
-                if (cookie == null)
-                    return null;
-                var ticket = FormsAuthentication.Decrypt(cookie.Value);
-                string dataString = ticket.UserData;
-                if (string.IsNullOrEmpty(dataString))
-                    return null;
-                string[] stringArray = dataString.Split('|');
-                if (stringArray != null && stringArray.Length > 1)
+                try
                 {
-                    string roleString = stringArray[1];
-                    try
-                    {
-                        return roleString.Split(',').Select(rid =>
-                        {
-                            int currRid = 0;
-                            bool result = int.TryParse(rid, out currRid);
-                            return currRid;
-                        }).ToArray();
-                    }
-                    catch (Exception)
-                    {
+                    var cookie = this.ControllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                    if (cookie == null)
                         return null;
+                    var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                    string dataString = ticket.UserData;
+                    if (string.IsNullOrEmpty(dataString))
+                        return null;
+                    string[] stringArray = dataString.Split('|');
+                    if (stringArray != null && stringArray.Length > 1)
+                    {
+                        string roleString = stringArray[1];
+                        try
+                        {
+                            return roleString.Split(',').Select(rid =>
+                            {
+                                int currRid = 0;
+                                bool result = int.TryParse(rid, out currRid);
+                                return currRid;
+                            }).ToArray();
+                        }
+                        catch (Exception)
+                        {
+                            return null;
+                        }
                     }
+                    return null;
                 }
-                return null;
+                catch (Exception)
+                {
+                    return null;
+                }
             }
         }
 

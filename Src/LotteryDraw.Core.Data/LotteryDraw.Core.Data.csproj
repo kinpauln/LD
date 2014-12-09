@@ -60,6 +60,7 @@
     <Compile Include="Configurations\Account\LoginLogConfiguration.cs" />
     <Compile Include="Configurations\Account\MemberAddressConfiguration.cs" />
     <Compile Include="Configurations\Account\MemberExtendConfiguration.cs" />
+    <Compile Include="Configurations\Business\SceneStaffConfiguration.cs" />
     <Compile Include="Configurations\Business\PrizePhotoConfiguration.cs" />
     <Compile Include="Configurations\Business\PrizePhotoConfiguration.generated.cs" />
     <Compile Include="Configurations\Business\RechargeHistoryConfiguration.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Configurations\Business\PrizeConfiguration.generated.cs" />
     <Compile Include="Configurations\Business\PrizeOrderConfiguration.generated.cs" />
     <Compile Include="Configurations\Business\PrizeOrderExtendConfiguration.generated.cs" />
+    <Compile Include="Configurations\Business\SceneStaffConfiguration.generated.cs" />
     <Compile Include="Configurations\Business\TopOrderConfiguration.generated.cs" />
     <Compile Include="Configurations\Business\WhiteListConfiguration.generated.cs" />
     <Compile Include="Configurations\Security\RoleConfiguration.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="Repositories\Business\Impl\PrizePhotoRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\PrizeRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\RechargeHistoryRepository.generated.cs" />
+    <Compile Include="Repositories\Business\Impl\SceneStaffRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\TopOrderRepository.generated.cs" />
     <Compile Include="Repositories\Business\Impl\WhiteListRepository.generated.cs" />
     <Compile Include="Repositories\Business\IPrizeBettingRepository.generated.cs" />
@@ -105,6 +108,7 @@
     <Compile Include="Repositories\Business\IPrizePhotoRepository.generated.cs" />
     <Compile Include="Repositories\Business\IPrizeRepository.generated.cs" />
     <Compile Include="Repositories\Business\IRechargeHistoryRepository.generated.cs" />
+    <Compile Include="Repositories\Business\ISceneStaffRepository.generated.cs" />
     <Compile Include="Repositories\Business\ITopOrderRepository.generated.cs" />
     <Compile Include="Repositories\Business\IWhiteListRepository.generated.cs" />
     <Compile Include="Repositories\Security\Impl\RoleRepository.generated.cs" />
@@ -134,6 +138,7 @@
 ..\Configurations\Business\PrizeOrderExtendConfiguration.generated.cs
 ..\Configurations\Business\PrizePhotoConfiguration.generated.cs
 ..\Configurations\Business\RechargeHistoryConfiguration.generated.cs
+..\Configurations\Business\SceneStaffConfiguration.generated.cs
 ..\Configurations\Business\TopOrderConfiguration.generated.cs
 ..\Configurations\Business\WhiteListConfiguration.generated.cs
 ..\Configurations\Security\RoleConfiguration.generated.cs
@@ -152,6 +157,7 @@
 ..\Repositories\Business\Impl\PrizePhotoRepository.generated.cs
 ..\Repositories\Business\Impl\PrizeRepository.generated.cs
 ..\Repositories\Business\Impl\RechargeHistoryRepository.generated.cs
+..\Repositories\Business\Impl\SceneStaffRepository.generated.cs
 ..\Repositories\Business\Impl\TopOrderRepository.generated.cs
 ..\Repositories\Business\Impl\WhiteListRepository.generated.cs
 ..\Repositories\Business\IPrizeBettingRepository.generated.cs
@@ -160,6 +166,7 @@
 ..\Repositories\Business\IPrizePhotoRepository.generated.cs
 ..\Repositories\Business\IPrizeRepository.generated.cs
 ..\Repositories\Business\IRechargeHistoryRepository.generated.cs
+..\Repositories\Business\ISceneStaffRepository.generated.cs
 ..\Repositories\Business\ITopOrderRepository.generated.cs
 ..\Repositories\Business\IWhiteListRepository.generated.cs
 ..\Repositories\Security\Impl\RoleRepository.generated.cs

@@ -39,6 +39,23 @@ namespace LotteryDraw.Site.Models
         public int RevealStateNum { get; set; }
 
         /// <summary>
+        /// 抽奖范围
+        /// </summary>
+        [Display(Name = "抽奖范围")]
+        public ScopeType ScopeType
+        {
+            get { return (ScopeType)ScopeTypeNum; }
+            set { ScopeTypeNum = (int)value; }
+        }
+
+        public int ScopeTypeNum { get; set; }
+
+        /// <summary>
+        ///  抽奖城市
+        /// </summary>
+        public string ScopeAreaCity { get; set; }
+
+        /// <summary>
         /// 答案开奖开奖条件类型
         /// </summary>
         [Display(Name = "答案开奖开奖条件类型")]

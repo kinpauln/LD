@@ -22,31 +22,39 @@ using LotteryDraw.Core.Models.Account;
 namespace LotteryDraw.Core.Models.Business
 {
     /// <summary>
-    ///     实体类——奖品信息
+    ///     实体类——现场抽奖人员名单
     /// </summary>
-    [Description("奖品投注")]
-    public class PrizeBetting : EntityBase<Guid>
+    [Description("现场抽奖人员")]
+    public class SceneStaff : EntityBase<Guid>
     {
-        public PrizeBetting()
+        public SceneStaff()
         {
             Id = CombHelper.NewComb();
         }
 
-        public virtual Member Member { get; set; }
+        [Required]
+        public string Value { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsLucky { get; set; }
 
         /// <summary>
-        /// 获取或设置 开奖信息
+        /// 现场抽奖中奖人员奖单状态
+        /// </summary>
+        public LuckySceneStaffState LuckySceneStaffState
+        {
+            get { return (LuckySceneStaffState)LuckySceneStaffStateNum; }
+            set { LuckySceneStaffStateNum = (int)value; }
+        }
+
+        /// <summary>
+        /// 获取或设置 开奖状态的数值表示，用于数据库存储
+        /// </summary>
+        public int LuckySceneStaffStateNum { get; set; }
+
+        /// <summary>
+        /// 获取或设置 奖单信息
         /// </summary>
         public virtual PrizeOrder PrizeOrder { get; set; }
-
-        public string Phone { get; set; }
-
-        public string Address { get; set; }
-
-        /// <summary>
-        /// 获取或设置 答案选项
-        /// </summary>
-        [StringLength(10)]
-        public string AnswerOption { get; set; }
     }
 }
