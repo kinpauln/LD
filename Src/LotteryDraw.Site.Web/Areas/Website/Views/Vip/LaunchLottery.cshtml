@@ -15,7 +15,7 @@
     <label>发布抽奖</label>
 }
 
-@using (Html.BeginForm("PublishPrizeAjax", "Vip", FormMethod.Post, new { id = "prizeForm", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("LaunchLottery", "Vip", FormMethod.Post, new { id = "prizeForm", enctype = "multipart/form-data" }))
 {
     //enctype = "multipart/form-data"
     string rtype = ViewBag.RevealType;
@@ -397,6 +397,7 @@
             $("#btnSubmitForm").click(function () {
                 var $form = $("#prizeForm");
                 $form.validate();
+                alert($form.valid());
                 if ($form.valid()) {
 
                     var rtype = $("#slLauchType").val();
@@ -420,7 +421,7 @@
                             $("input:hidden[name='AnswerRevealConditionTypeNum']").val($(this).val());
                         }
                     }
-
+                    console.log("asf");
                     $form.submit();
                 }
             });

@@ -12,6 +12,13 @@ namespace LotteryDraw.Site.Models
 {
     public class PrizeOrderDetailView : ModelBase
     {
+        public PrizeOrderDetailView()
+        {
+            PrizeOrderView = new PrizeOrderView();
+            MemberView = new MemberView();
+            PrizeView = new PrizeView();
+        }
+
         public PrizeOrderView PrizeOrderView { get; set; }
 
         public MemberView MemberView { get; set; }

@@ -217,5 +217,72 @@ namespace LotteryDraw.Site.Impl
             }
             return result;
         }
+
+        /// <summary>
+        ///  同时发布奖品、发起抽奖
+        /// </summary>
+        public OperationResult BatchAdd(PrizeOrderDetailView porderdetail)
+        {
+            PrizeOrder porder = new PrizeOrder()
+            {
+                Prize = new Prize()
+                {
+                    Name = porderdetail.PrizeView.Name,
+                    Description = porderdetail.PrizeView.Description,
+                    PrizePhotos = new PrizePhoto[] { 
+                        new PrizePhoto() { 
+                            Name = porderdetail.PrizeView.OriginalPhoto.Name, 
+                            PhotoTypeNum = porderdetail.PrizeView.OriginalPhoto.PhotoTypeNum 
+                        } 
+                    }
+                },
+                RevealType = porderdetail.PrizeOrderView.RevealType,
+                Extend = new PrizeOrderExtend()
+                {
+                    LuckyCount = porderdetail.PrizeOrderView.LuckyCount, //中奖人数
+                    MinLuckyCount = 1 //最低中奖人数默认设置为1
+                }
+            };
+
+            // 定员、定员、答案三种模式需要设置抽奖城市
+            if (RevealType.Scene != porderdetail.PrizeOrderView.RevealType)
+            {
+                porder.Extend.ScopeType = porderdetail.PrizeOrderView.ScopeType;
+                if (porderdetail.PrizeOrderView.ScopeType == ScopeType.AreaCity)
+                {
+                    porder.Extend.ScopeCity = porderdetail.PrizeOrderView.ScopeAreaCity;
+                }
+            }
+            switch (porderdetail.PrizeOrderView.RevealType)
+            {
+                case RevealType.Timing:
+                    porder.Extend.LaunchTime = porderdetail.PrizeOrderView.LaunchTime; //开奖时间
+                    break;
+                case RevealType.Quota:
+                    porder.Extend.PoolCount = porderdetail.PrizeOrderView.PoolCount; //总人数
+                    break;
+                case RevealType.Answer:
+                    porder.Extend.PrizeAsking.Question = porderdetail.PrizeOrderView.Question;
+                    porder.Extend.PrizeAsking.Answer = porderdetail.PrizeOrderView.Answer;
+                    porder.Extend.PrizeAsking.AnswerOptions = porderdetail.PrizeOrderView.AnswerOptions;
+                    // 开奖条件
+                    porder.Extend.AnswerRevealConditionType = porderdetail.PrizeOrderView.AnswerRevealConditionType;
+                    switch (porder.Extend.AnswerRevealConditionType)
+                    {
+                        case AnswerRevealConditionType.Quota:
+                            porder.Extend.PoolCount = porderdetail.PrizeOrderView.PoolCount; //总人数
+                            break;
+                        case AnswerRevealConditionType.Timing:
+                            porder.Extend.LaunchTime = porderdetail.PrizeOrderView.LaunchTime; //开奖时间
+                            break;
+                    }
+                    break;
+                case RevealType.Scene:
+                    porder.Extend.LaunchTime = porderdetail.PrizeOrderView.LaunchTime; //开奖时间
+                    break;
+            }
+
+            return PrizeOrderContract.BatchAdd(porder);
+        }
     }
 }

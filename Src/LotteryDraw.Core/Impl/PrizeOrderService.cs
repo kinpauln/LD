@@ -21,8 +21,10 @@ using LotteryDraw.Core.Models.Security;
 using LotteryDraw.Core.Data.Repositories.Business;
 using LotteryDraw.Core.Models.Business;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System;
+using LotteryDraw.Component.Data;
 
 
 namespace LotteryDraw.Core.Impl
@@ -45,6 +47,9 @@ namespace LotteryDraw.Core.Impl
 
         [Import]
         protected IMemberRepository MemberRepository { get; set; }
+
+        [Import]
+        protected IPrizeRepository PrizeRepository { get; set; }
 
         #endregion
 
@@ -348,6 +353,45 @@ namespace LotteryDraw.Core.Impl
             }
             catch (Exception ex)
             {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///  同时发布奖品、发起抽奖
+        /// </summary>
+        public OperationResult BatchAdd(PrizeOrder porder)
+        {
+            SqlTransaction tran = null;
+            try
+            {
+                Database db = EFContext.DbContext.Database;
+                using (SqlConnection conn = new SqlConnection(db.Connection.ConnectionString))
+                {
+                    conn.Open();
+                    using (tran = conn.BeginTransaction())
+                    {
+                        PrizeRepository.Insert(porder.Prize);
+                        PrizeOrderRepository.Insert(porder);
+                        tran.Commit();
+                    }
+                }
+                return new OperationResult(OperationResultType.Success, "发布奖品、发起抽奖一次性操作成功。", porder);
+            }
+            catch (DataAccessException ex)
+            {
+                if (tran != null)
+                {
+                    tran.Rollback();
+                }
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                if (tran != null)
+                {
+                    tran.Rollback();
+                }
                 return new OperationResult(OperationResultType.Error, ex.Message);
             }
         }

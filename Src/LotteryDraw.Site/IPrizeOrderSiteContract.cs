@@ -78,5 +78,10 @@ namespace LotteryDraw.Site
         OperationResult Set2Top(Guid poid, decimal moneyvalue, int datelong, long operatorid);
 
         OperationResult GetPrizeAsking(Guid poid);
+
+        /// <summary>
+        ///  同时发布奖品、发起抽奖
+        /// </summary>
+        OperationResult BatchAdd(PrizeOrderDetailView porder);
     }
 }

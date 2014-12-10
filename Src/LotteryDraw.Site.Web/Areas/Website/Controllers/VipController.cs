@@ -163,13 +163,17 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
         [HttpPost]
         [ValidateMvcCaptcha]
-        public ActionResult LaunchLottery(PrizeOrderDetailView model)
+        public ActionResult LaunchLottery(FormCollection formdata)
         {
             ViewBag.IsPostBack = true;
 
+            PrizeOrderDetailView model = new PrizeOrderDetailView();
+            //在这里转换  
+            TryUpdateModel<PrizeOrderDetailView>(model, formdata);
+
             if (ModelState.IsValid)
             {
-                //验证码验证通过
+                //验证码验证通过  
             }
             else
             {
@@ -178,19 +182,37 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 ViewBag.Message = "验证码输入不正确";
                 return View(model);
             }
-            if (!ValidatePrizeOrderDetailViewModel(model)) {
+
+            if (!ValidatePrizeOrderDetailViewModel(model))
+            {
                 return View(model);
             }
-            switch (model.PrizeOrderView.RevealType)
+
+            // 先上传图片
+            string upmessage = string.Empty;
+            string photoname = string.Empty;
+            bool uploadResult = UploadPhoto(out upmessage, out photoname);
+            if (!uploadResult)
             {
-                case RevealType.Timing:
-                    break;
-                case RevealType.Quota:
-                    break;
-                case RevealType.Answer:
-                    break;
-                case RevealType.Scene:
-                    break;
+                ViewBag.Message = upmessage;
+                return View(model);
+            }
+
+            // 保存数据到数据库
+            model.PrizeView.OriginalPhoto = new PrizePhotoView() { Name = photoname, PhotoTypeNum = PhotoType.Original.ToInt() };
+            OperationResult result = PrizeOrderSiteContract.BatchAdd(model);
+            if (result.ResultType == OperationResultType.Success)
+            {
+                PrizeOrder porder = (PrizeOrder)result.AppendData;
+                ViewBag.Message = "发布抽奖失败";
+                TempData["Message"] = string.Format("发起抽奖成功。<br /><a href='/Vip/PrizeOrderDetail/{0}'>查看<a>奖单", porder.Prize.Id);
+                return RedirectToAction("InfoPage");
+            }
+            else
+            {
+                // 删除图片
+                bool delresult = DeletePhoto(photoname);
+                ViewBag.Message = "发布抽奖失败" + (delresult ? string.Empty : ",已经上传的图片在删除过程中也失败，可能已产生图片冗余");
             }
             return View(model);
         }
@@ -217,7 +239,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                         ViewBag.Message = "抽奖城市必须指定";
                         return false;
                     }
-                    if (!model.PrizeOrderView.PoolCount.HasValue || model.PrizeOrderView.PoolCount.Value==0)
+                    if (!model.PrizeOrderView.PoolCount.HasValue || model.PrizeOrderView.PoolCount.Value == 0)
                     {
                         ViewBag.Message = "总人数必须指定且大于0";
                         return false;
@@ -720,6 +742,68 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 return null;
             //return the image to View
             return new FileContentResult(StreamUtil.Base64ToBytes(base64String), "image/jpeg");
+        }
+
+        private bool UploadPhoto(out string message, out string filename)
+        {
+            message = string.Empty;
+            filename = string.Empty;
+            if (Request.Files.Count == 0 || Request.Files[0].ContentLength == 0)
+            {
+                message = "请选择文件";
+                return false;
+            }
+
+            //存入文件
+            try
+            {
+                HttpPostedFileBase file = Request.Files["PrizePhoto"];
+                string randomString = DateTime.Now.ToString("yyyyMMddHHmmssfff") + (new Random()).Next(1, 9999).ToString();
+                filename = randomString + System.IO.Path.GetExtension(file.FileName);
+                string filepath = System.IO.Path.Combine(Server.MapPath("~/Files/PrizePhotos"), this.UserId.Value.ToString());
+                //如果不存在就创建用户文件夹
+                if (Directory.Exists(filepath) == false)
+                {
+                    Directory.CreateDirectory(filepath);
+                }
+
+                string fullname = System.IO.Path.Combine(filepath, filename);
+
+                if (System.IO.File.Exists(fullname))
+                {
+                    System.IO.File.Delete(fullname);
+                }
+
+                file.SaveAs(fullname);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                return false;
+            }
+        }
+
+        private bool DeletePhoto(string filename)
+        {
+            try
+            {
+                string filepath = System.IO.Path.Combine(Server.MapPath("~/Files/PrizePhotos"), this.UserId.Value.ToString());
+
+                string fullname = System.IO.Path.Combine(filepath, filename);
+
+                if (System.IO.File.Exists(fullname))
+                {
+                    System.IO.File.Delete(fullname);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
