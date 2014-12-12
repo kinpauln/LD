@@ -7,12 +7,15 @@ namespace LotteryDraw.Site.Models
 {
     public class PrizeBettingView : ModelBase
     {
-        public long UserId { get; set; }
-        public Guid? PrizeOrderId { get; set; }
-        public string Phone { get; set; }
-        public string Address { get; set; }
+        public PrizeBettingView()
+        {
+            PrizeOrderDetailView = new PrizeOrderDetailView();
+        }
+
+        public long? UserId { get; set; }
+        public PrizeOrderDetailView PrizeOrderDetailView { get; set; }
+
         public string UserAnswer { get; set; }
-        public string Question { get; set; }
-        public string AnswerOptionsString { get; set; }
+        //public string AnswerOptionsString { get; set; }
     }
 }

@@ -26,6 +26,7 @@ using LotteryDraw.Core.Models.Security;
 using LotteryDraw.Core.Models.Business;
 using LotteryDraw.Core;
 using System.Data;
+using LotteryDraw.Site.Extentions;
 
 
 namespace LotteryDraw.Site.Impl
@@ -213,6 +214,52 @@ namespace LotteryDraw.Site.Impl
                 {
                     Question = pomodel.Extend.PrizeAsking.Question,
                     AnswerOptions = pomodel.Extend.PrizeAsking.AnswerOptions
+                };
+            }
+            return result;
+        }
+
+        public OperationResult GetPrizeOrderDetail(Guid poid)
+        {
+            OperationResult result = PrizeOrderContract.GetPrizeOrderDetail(poid);
+            if (result.ResultType == OperationResultType.Success)
+            {
+                PrizeOrder pomodel = (PrizeOrder)result.AppendData;
+                result.AppendData = new PrizeOrderDetailView()
+                {
+                    PrizeView = new PrizeView()
+                    {
+                        Id = pomodel.Prize.Id,
+                        Name = pomodel.Prize.Name,
+                        Description = pomodel.Prize.Description,
+                        OriginalPhoto = pomodel.Prize.PrizePhotos.FirstOrDefault().ToSiteViewModel()
+                    },
+                    PrizeOrderView = new PrizeOrderView() {
+                        PrizeId = pomodel.Prize.Id,
+                        Id = pomodel.Id,
+                        RevealType = pomodel.RevealType,
+                        RevealState = pomodel.RevealState,
+                        LaunchTime = pomodel.Extend.LaunchTime,
+                        PoolCount = pomodel.Extend.PoolCount,
+                        Question = pomodel.Extend.PrizeAsking.Question,
+                        Answer = pomodel.Extend.PrizeAsking.Answer,
+                        AnswerOptions = pomodel.Extend.PrizeAsking.AnswerOptions,
+                        AnswerRevealConditionType = pomodel.Extend.AnswerRevealConditionType,
+                        ScopeType = pomodel.Extend.ScopeType,
+                        ScopeAreaCity = pomodel.Extend.ScopeCity,
+                        AddDate = pomodel.AddDate
+                    },
+                    MemberView = new MemberView() { 
+                        Id = pomodel.Prize.Member.Id,
+                        Name = pomodel.Prize.Member.Name,
+                        UserName = pomodel.Prize.Member.UserName,
+                        Tel = pomodel.Prize.Member.Extend.Tel,
+                        AdvertisingUrl = pomodel.Prize.Member.Extend.AdvertisingUrl,
+                        Province = pomodel.Prize.Member.Extend.Address.Province,
+                        City = pomodel.Prize.Member.Extend.Address.City,
+                        Town =  pomodel.Prize.Member.Extend.Address.Town,
+                        AddrSuffix = pomodel.Prize.Member.Extend.Address.Suffix
+                    }
                 };
             }
             return result;

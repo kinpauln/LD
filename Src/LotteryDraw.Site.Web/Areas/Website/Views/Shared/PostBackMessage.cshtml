@@ -6,6 +6,12 @@
             if (errorMessage != null && errorMessage != "") {
                 layer.alert(errorMessage, 8);
             }
+
+            var isok = '@ViewBag.PostBackIsOK';
+            if (isok) {
+                var successString = '@ViewBag.SuccessString';
+                layer.alert(successString, 9);
+            }
         });
     </script>
 }

@@ -3,6 +3,7 @@
     Layout = "~/Areas/Website/Views/Shared/_Layout_Vip.cshtml";
 }
 @using Webdiyer.WebControls.Mvc
+@using LotteryDraw.Component.Tools
 @model LotteryDraw.Site.Models.PrizeBettingView
 
 @section  LeftMenuItems{
@@ -16,12 +17,25 @@
 <h2>@ViewBag.PrizeOrderId</h2>
 @using (Html.BeginForm("PrizeBetting", "Vip", FormMethod.Post, new { id = "prizeBettingForm" }))
 {
-    @Html.HiddenFor(model => model.PrizeOrderId)
-    @Html.HiddenFor(model => model.UserId)
-    <input type="hidden" name="RevealType" value="@ViewBag.RevealType" />
-    @Html.HiddenFor(model => model.Question)
-    @Html.HiddenFor(model => model.AnswerOptionsString)
+    long curruserid = ViewBag.CurrentUserId;
+    @Html.Hidden("CurrentUserId", curruserid)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.Id)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.MemberView.Id)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.Question)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.AnswerOptions)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeView.OriginalPhoto.Name)
     @Html.HiddenFor(model => model.UserAnswer)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeView.Name)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeView.Description)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.MemberView.UserName)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.RevealType)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.ScopeType)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.LaunchTime)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.PoolCount)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.Question)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.AnswerOptions)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.AddDate)
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.MemberView.Id, new { Id = "hidnMemberIdOfPrize" })
     <table class="message_table">
         <tbody>
             @*@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
@@ -30,21 +44,103 @@
                     <td colspan="2" style="text-align: center; color: #f00;">@ViewBag.Message</td>
                 </tr>
             }*@
-            @if (ViewBag.RevealType != null && ViewBag.RevealType == 3)
+
+            <tr>
+                <td class="text">奖品名称：</td>
+                <td class="input">
+                    @Model.PrizeOrderDetailView.PrizeView.Name
+                </td>
+            </tr>
+            <tr>
+                <td class="text">奖品描述：</td>
+                <td class="input">
+                    @Model.PrizeOrderDetailView.PrizeView.Description
+                </td>
+            </tr>
+            <tr>
+                <td class="text">奖品图片：</td>
+                <td class="input">
+                    @{
+    long userid = Model.PrizeOrderDetailView.MemberView.Id;
+    string imgname = Model.PrizeOrderDetailView.PrizeView.OriginalPhoto.Name;
+                    }
+                    <div style="max-width: 600px; max-height: 600px;">
+                        <img src="/Files/PrizePhotos/@userid/@imgname" style="width:100%;height:100%;" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="text">抽奖发起者：</td>
+                <td class="input">
+                    @Model.PrizeOrderDetailView.MemberView.UserName
+                </td>
+            </tr>
+            <tr>
+                <td class="text">抽奖类型：</td>
+                <td class="input">
+                    @Model.PrizeOrderDetailView.PrizeOrderView.RevealType.ToDescription()
+                </td>
+            </tr>
+            @{
+    if (Model.PrizeOrderDetailView.PrizeOrderView.RevealType != RevealType.Scene)
+    {
+        string areaName = Model.PrizeOrderDetailView.PrizeOrderView.ScopeType == ScopeType.AreaCity ? Model.PrizeOrderDetailView.PrizeOrderView.ScopeAreaCity : "全国";
+                <tr>
+                    <td class="text">抽奖范围：</td>
+                    <td class="input">
+                        @areaName
+                    </td>
+                </tr>}
+            }
+            @{
+    if (Model.PrizeOrderDetailView.PrizeOrderView.RevealType == RevealType.Scene
+        || Model.PrizeOrderDetailView.PrizeOrderView.RevealType == RevealType.Timing
+        || Model.PrizeOrderDetailView.PrizeOrderView.RevealType == RevealType.Answer && Model.PrizeOrderDetailView.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Timing)
+    {
+        string launchString = "未知";
+        if (Model.PrizeOrderDetailView.PrizeOrderView.LaunchTime.HasValue)
+        {
+            launchString = Model.PrizeOrderDetailView.PrizeOrderView.LaunchTime.Value.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+                <tr>
+                    <td class="text">开奖时间：</td>
+                    <td class="input">
+                        @launchString
+                    </td>
+                </tr>}
+            }
+            @{
+    if (Model.PrizeOrderDetailView.PrizeOrderView.RevealType == RevealType.Quota
+        || Model.PrizeOrderDetailView.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Quota)
+    {
+                <tr>
+                    <td class="text">总人数：</td>
+                    <td class="input">
+                        @Model.PrizeOrderDetailView.PrizeOrderView.PoolCount
+                    </td>
+                </tr>}
+            }
+            <tr>
+                <td class="text">抽奖发起时间：</td>
+                <td class="input">
+                    @Model.PrizeOrderDetailView.PrizeOrderView.AddDate
+                </td>
+            </tr>
+            @if (ViewBag.RevealType != null && ViewBag.RevealType == RevealType.Answer.ToInt().ToString())
             {
                 <tr>
                     <td class="text">题目：</td>
-                    <td class="input">@Model.Question</td>
+                    <td class="input">@Model.PrizeOrderDetailView.PrizeOrderView.Question</td>
                 </tr>
                 <tr>
                     <td class="text">答案选项：</td>
                     <td class="input">
                         @{
-                if (!string.IsNullOrEmpty(Model.AnswerOptionsString))
+                if (!string.IsNullOrEmpty(Model.PrizeOrderDetailView.PrizeOrderView.AnswerOptions))
                 {
-                    string[] options = Model.AnswerOptionsString.Split(new string[] { "|||" }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] options = Model.PrizeOrderDetailView.PrizeOrderView.AnswerOptions.Split(new string[] { "|||" }, StringSplitOptions.RemoveEmptyEntries);
                     //ViewBag.AnswerOptions = options;
-                            <select name="answer">
+                            <select name="answer" id="slUserAnswer">
                                 <option value="">请选择</option>
                                 @foreach (string option in options)
                                 {
@@ -62,23 +158,23 @@
                     </td>
                 </tr>
             }
-            <tr>
+@*<tr>
                 <td class="text">领奖电话：</td>
                 <td class="input">
-                    @Html.TextBoxFor(model => model.Phone, new { @class = "input-text", placeholder = "联系电话" })
+                    @Html.TextBoxFor(model => model.PrizeOrderDetailView.MemberView.Tel, new { @class = "input-text", placeholder = "联系电话" })
                     <span class="info">*</span>
                     <br />
-                    @Html.ValidationMessageFor(model => model.Phone)
+                    @Html.ValidationMessageFor(model => model.PrizeOrderDetailView.MemberView.Tel)
                 </td>
             </tr>
             <tr>
                 <td class="text">奖品邮寄地址：</td>
                 <td class="input">
-                    @Html.TextAreaFor(model => model.Address, new { @class = "textarea-text", cols = "50", rows = "6", placeholder = "奖品邮件地址" })
+                    @Html.TextAreaFor(model => model.PrizeOrderDetailView.MemberView.Address, new { @class = "textarea-text", cols = "50", rows = "6", placeholder = "奖品邮件地址" })
                     <span class="info">*</span>
                     <br />
                 </td>
-            </tr>
+            </tr>*@
             <tr>
                 <td class="text"></td>
                 <td class="input">
@@ -97,13 +193,14 @@
             <tr>
                 <td class="text"></td>
                 <td class="submint">
-                    <input type="submit" value="确认" class="submit button orange"></td>
+                    <input type="button" id="btnSubmit" value="确认" class="submit button orange"></td>
             </tr>
         </tbody>
     </table>
 }
 @section scripts{
     @Html.Partial("PostBackMessage")
+    <script src="~/Scripts/jquery.form.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script src="~/Scripts/jquery.previewimage.js"></script>
@@ -113,27 +210,75 @@
                 return this.optional(element) || /^(13[0-9]|15[0|3|6|7|8|9]|18[8|9])\d{8}$/.test(value);
             }, "请输入合法的手机号码.");
 
+            $("#prizeBettingForm").submit(function () {
+                return true;
+                //return false; //此处必须返回false，阻止常规的form提交
+            });
+
+            $("#btnSubmit").click(function () {
+                if ($("#CurrentUserId").val() == $("#hidnMemberIdOfPrize").val()) {
+                    layer.alert("您不能参与自己发起的抽奖。", 8);
+                    return;
+                }
+                var $form = $("#prizeBettingForm");
+                @*$("#slUserAnswer").rules("add", {
+                    required: function () {
+                        var rtype = '@ViewBag.RevealType';
+                        if (rtype == "@RevealType.Answer.ToInt().ToString()") {
+                            return true;
+                        }
+                        return false;
+                    },
+                    messages: {
+                        required: "答案必须选择"
+                    }
+                });*@
+
+                $form.validate();
+                if ($form.valid()) {
+                    $form.submit();
+                }
+            });
+
             $("#prizeBettingForm").validate({
                 errorElement: 'span',
                 errorClass: 'error-info',
                 focusInvalid: false,
                 rules: {
-                    Phone: {
-                        required: true,
-                        phone: 'required'
+                    //Phone: {
+                    //    required: true,
+                    //    phone: 'required'
+                    //},
+                    //Address: {
+                    //    required: true
+                    //}
+                    answer: {
+                        required: function () {
+                            var rtype = '@ViewBag.RevealType';
+                            if (rtype == "@RevealType.Answer.ToInt().ToString()") {
+                                return true;
+                            }
+                            return false;
+                        }
                     },
-                    Address: {
+                    _mvcCaptchaText: {
                         required: true
                     }
                 },
 
                 messages: {
-                    Phone: {
-                        required: "领奖电话不能为空",
-                        phone: '手机号码不合法'
+                    //Phone: {
+                    //    required: "领奖电话不能为空",
+                    //    phone: '手机号码不合法'
+                    //},
+                    //Address: {
+                    //    required: "奖品邮寄地址不能为空"
+                    //}
+                    answer: {
+                        required: "答案必须选择"
                     },
-                    Address: {
-                        required: "奖品邮寄地址不能为空"
+                    _mvcCaptchaText: {
+                        required: "验证码不能为空"
                     }
                 },
                 invalidHandler: function (event, validator) { //display error alert on form submit   
@@ -151,9 +296,9 @@
                 errorPlacement: function (error, element) {
                     //element.parent().append("<br />");
                     error.appendTo(element.parent());
-                },
+                }
                 /*执行ajaxsubmit*/
-                submitHandler: function (form) {
+                @*,submitHandler: function (form) {
                     var rtype = '@ViewBag.RevealType';
                     if (rtype == 3) {
                         var $slanswer = $("select[name='answer']:eq(0)");
@@ -170,7 +315,7 @@
                     } else {
                         form.submit();
                     }
-                }
+                }*@
             });
 
             $("select[name='answer']").change(function () {

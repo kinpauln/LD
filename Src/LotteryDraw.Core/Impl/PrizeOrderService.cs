@@ -357,6 +357,19 @@ namespace LotteryDraw.Core.Impl
             }
         }
 
+        public OperationResult GetPrizeOrderDetail(Guid poid)
+        {
+            try
+            {
+                var model = PrizeOrderRepository.Entities.Where(po => po.Id == poid && !po.IsDeleted).FirstOrDefault();
+                return new OperationResult(OperationResultType.Success, "奖单详情获取成功。", model);
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+
         /// <summary>
         ///  同时发布奖品、发起抽奖
         /// </summary>

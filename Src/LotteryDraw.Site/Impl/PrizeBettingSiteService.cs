@@ -55,10 +55,10 @@ namespace LotteryDraw.Site.Impl
 
             PrizeBetting pmodel = new PrizeBetting
             {
-                Phone = prizebetting.Phone,
-                Address = prizebetting.Address,
-                PrizeOrder = PrizeOrderContract.PrizeOrders.SingleOrDefault(m => m.Id==prizebetting.PrizeOrderId),
-                Member = AccountContract.Members.SingleOrDefault(m => m.Id == prizebetting.UserId),
+                Phone = prizebetting.PrizeOrderDetailView.MemberView.Tel,
+                Address = prizebetting.PrizeOrderDetailView.MemberView.Address,
+                PrizeOrder = PrizeOrderContract.PrizeOrders.SingleOrDefault(m => m.Id == prizebetting.PrizeOrderDetailView.PrizeOrderView.Id),
+                Member = AccountContract.Members.SingleOrDefault(m => m.Id == prizebetting.UserId.Value),
                 AnswerOption = prizebetting.UserAnswer
             };
 

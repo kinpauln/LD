@@ -79,6 +79,8 @@ namespace LotteryDraw.Site
 
         OperationResult GetPrizeAsking(Guid poid);
 
+        OperationResult GetPrizeOrderDetail(Guid poid);
+
         /// <summary>
         ///  同时发布奖品、发起抽奖
         /// </summary>

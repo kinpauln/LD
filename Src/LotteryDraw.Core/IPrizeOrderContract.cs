@@ -111,6 +111,8 @@ namespace LotteryDraw.Core
         /// <param name="poid">奖单ID</param>
         OperationResult GetPrizeOrderById(Guid poid);
 
+        OperationResult GetPrizeOrderDetail(Guid poid);
+
         /// <summary>
         ///  同时发布奖品、发起抽奖
         /// </summary>
