@@ -85,7 +85,7 @@ namespace LotteryDraw.Core.Impl
                     {
                         member.PubishingEnableTimes--;
                         MemberRepository.Update(member);
-                    } 
+                    }
                 }
                 return new OperationResult(OperationResultType.Success, "发布奖单成功。", prizeorder);
             }
@@ -360,7 +360,8 @@ namespace LotteryDraw.Core.Impl
         /// <summary>
         ///  同时发布奖品、发起抽奖
         /// </summary>
-        public OperationResult BatchAdd(PrizeOrder porder)
+        /// <param name="shouldMinus">是否该对用户的可发起抽奖次数减</param>
+        public OperationResult BatchAdd(PrizeOrder porder, bool shouldMinus = false)
         {
             SqlTransaction tran = null;
             try
@@ -371,6 +372,16 @@ namespace LotteryDraw.Core.Impl
                     conn.Open();
                     using (tran = conn.BeginTransaction())
                     {
+                        var member = MemberRepository.Entities.Where(m => m.Id == porder.Prize.Member.Id).FirstOrDefault();
+                        porder.Prize.Member = member;
+                        if (shouldMinus)
+                        {
+                            if (member != null)
+                            {
+                                member.PubishingEnableTimes--;
+                                MemberRepository.Update(member);
+                            }
+                        }
                         PrizeRepository.Insert(porder.Prize);
                         PrizeOrderRepository.Insert(porder);
                         tran.Commit();

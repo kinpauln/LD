@@ -51,6 +51,11 @@ namespace LotteryDraw.Site.Models
         public int ScopeTypeNum { get; set; }
 
         /// <summary>
+        ///  抽奖省份
+        /// </summary>
+        public string ScopeProvince { get; set; }
+
+        /// <summary>
         ///  抽奖城市
         /// </summary>
         public string ScopeAreaCity { get; set; }

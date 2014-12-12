@@ -132,6 +132,8 @@ namespace LotteryDraw.Site.Extentions
                         RevealStateNum = int.Parse(row["RevealState"].ToString()),
                         SortOrder = int.Parse(row["SortOrder"].ToString()),
                         AddDate = Convert.ToDateTime(row["RaiseTime"]),
+                        ScopeAreaCity = row["ScopeCity"].ToString(),
+                        ScopeTypeNum = int.Parse(row["ScopeType"].ToString()),
                         Is2Top = containIs2Top ? Convert.ToBoolean(row["Is2Top"]) : false
                     },
                     PrizeView = new PrizeView()

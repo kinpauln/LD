@@ -82,6 +82,7 @@ namespace LotteryDraw.Site
         /// <summary>
         ///  同时发布奖品、发起抽奖
         /// </summary>
-        OperationResult BatchAdd(PrizeOrderDetailView porder);
+        /// <param name="shouldMinus">是否该对用户的可发起抽奖次数减</param>
+        OperationResult BatchAdd(PrizeOrderDetailView porder, bool shouldMinus = false);
     }
 }

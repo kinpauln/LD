@@ -1,4 +1,5 @@
-﻿using LotteryDraw.Site;
+﻿using LotteryDraw.Component.Utility;
+using LotteryDraw.Site;
 using LotteryDraw.Site.Models;
 using LotteryDraw.Site.Web.Controllers;
 using System;
@@ -48,11 +49,30 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 //    return pubtimes;
                 //}
                 //return 0;
+
                 string times = string.Empty;
-                if (Session["publishTimes"] != null)
+                //if (Session["publishTimes"] != null)
+                //{
+                //    int timesvalue = 0;
+                //    if (int.TryParse(Session["publishTimes"].ToString(), out timesvalue))
+                //    {
+                //        return timesvalue;
+                //    }
+                //    else
+                //    {
+                //        return 0;
+                //    }
+                //}
+                //else
+                //{
+                //    return 0;
+                //}
+
+                HttpCookie pubcookie = Cookie.Get("publishTimes");
+                if (pubcookie != null)
                 {
                     int timesvalue = 0;
-                    if (int.TryParse(Session["publishTimes"].ToString(), out timesvalue))
+                    if (int.TryParse(Encrypt.Decode(pubcookie.Value), out timesvalue))
                     {
                         return timesvalue;
                     }

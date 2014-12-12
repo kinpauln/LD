@@ -221,14 +221,17 @@ namespace LotteryDraw.Site.Impl
         /// <summary>
         ///  同时发布奖品、发起抽奖
         /// </summary>
-        public OperationResult BatchAdd(PrizeOrderDetailView porderdetail)
+        /// <param name="shouldMinus">是否该对用户的可发起抽奖次数减</param>
+        public OperationResult BatchAdd(PrizeOrderDetailView porderdetail, bool shouldMinus = false)
         {
+            int? sortorder = PrizeOrderContract.PrizeOrders.Max(po => po.SortOrder);
             PrizeOrder porder = new PrizeOrder()
             {
                 Prize = new Prize()
                 {
                     Name = porderdetail.PrizeView.Name,
                     Description = porderdetail.PrizeView.Description,
+                    Member = new Member() { Id = porderdetail.MemberView.Id },
                     PrizePhotos = new PrizePhoto[] { 
                         new PrizePhoto() { 
                             Name = porderdetail.PrizeView.OriginalPhoto.Name, 
@@ -237,6 +240,8 @@ namespace LotteryDraw.Site.Impl
                     }
                 },
                 RevealType = porderdetail.PrizeOrderView.RevealType,
+                RevealState = Component.Tools.RevealState.UnDrawn,
+                SortOrder = (sortorder ?? 0) + 1,
                 Extend = new PrizeOrderExtend()
                 {
                     LuckyCount = porderdetail.PrizeOrderView.LuckyCount, //中奖人数

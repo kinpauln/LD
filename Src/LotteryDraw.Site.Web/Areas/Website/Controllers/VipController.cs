@@ -163,13 +163,14 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
         [HttpPost]
         [ValidateMvcCaptcha]
-        public ActionResult LaunchLottery(FormCollection formdata)
+        public ActionResult LaunchLottery(PrizeOrderDetailView model)
         {
             ViewBag.IsPostBack = true;
 
-            PrizeOrderDetailView model = new PrizeOrderDetailView();
-            //在这里转换  
-            TryUpdateModel<PrizeOrderDetailView>(model, formdata);
+            ViewBag.RevealType = model.PrizeOrderView.RevealType.ToInt().ToString();
+            ViewBag.ScopeType = model.PrizeOrderView.ScopeType.ToInt().ToString();
+            ViewBag.ScopeProvince = model.PrizeOrderView.ScopeProvince;
+            ViewBag.ScopeAreaCity = model.PrizeOrderView.ScopeAreaCity;
 
             if (ModelState.IsValid)
             {
@@ -181,6 +182,17 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 //ModelState.AddModelError("", e.Message);
                 ViewBag.Message = "验证码输入不正确";
                 return View(model);
+            }
+            if ((this.UserId ?? 0) == 0)
+            {
+                //验证码验证失败
+                //ModelState.AddModelError("", e.Message);
+                ViewBag.Message = "当前登录的用户Id莫名的为空，无法发布奖品，请尝试退出并重新登录。";
+                return View(model);
+            }
+            else
+            {
+                model.MemberView.Id = this.UserId.Value;
             }
 
             if (!ValidatePrizeOrderDetailViewModel(model))
@@ -200,12 +212,21 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
             // 保存数据到数据库
             model.PrizeView.OriginalPhoto = new PrizePhotoView() { Name = photoname, PhotoTypeNum = PhotoType.Original.ToInt() };
-            OperationResult result = PrizeOrderSiteContract.BatchAdd(model);
+
+            bool shouldMinus = this.PubishingEnableTimes < 1000000 ? true : false;
+            OperationResult result = PrizeOrderSiteContract.BatchAdd(model, shouldMinus);
             if (result.ResultType == OperationResultType.Success)
             {
+                if (shouldMinus)
+                {
+                    if (!this.UpdatePubishingEnableTimes())
+                    {
+                        //记日志（更新可发布奖品次数失败）
+                    }
+                }
                 PrizeOrder porder = (PrizeOrder)result.AppendData;
-                ViewBag.Message = "发布抽奖失败";
-                TempData["Message"] = string.Format("发起抽奖成功。<br /><a href='/Vip/PrizeOrderDetail/{0}'>查看<a>奖单", porder.Prize.Id);
+                ViewBag.OkMessage = "发布抽奖成功";
+                TempData["Message"] = string.Format("发起抽奖成功。<br /><a href='/Vip/PrizeOrderDetail/{0}'>查看<a>奖单", porder.Id);
                 return RedirectToAction("InfoPage");
             }
             else
@@ -234,7 +255,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     }
                     break;
                 case RevealType.Quota:
-                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity.Trim()))
+                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity))
                     {
                         ViewBag.Message = "抽奖城市必须指定";
                         return false;
@@ -250,6 +271,33 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     {
                         ViewBag.Message = "抽奖城市必须指定";
                         return false;
+                    }
+                    if (string.IsNullOrEmpty(model.PrizeOrderView.Question.Trim()))
+                    {
+                        ViewBag.Message = "必须命题";
+                        return false;
+                    }
+                    if (string.IsNullOrEmpty(model.PrizeOrderView.AnswerOptions.Trim()))
+                    {
+                        ViewBag.Message = "命题答案选项必须设置";
+                        return false;
+                    }
+                    switch (model.PrizeOrderView.AnswerRevealConditionType)
+                    {
+                        case AnswerRevealConditionType.Timing:
+                            if (!model.PrizeOrderView.LaunchTime.HasValue)
+                            {
+                                ViewBag.Message = "开奖时间必须指定";
+                                return false;
+                            } 
+                            break;
+                        case AnswerRevealConditionType.Quota:
+                            if (!model.PrizeOrderView.PoolCount.HasValue || model.PrizeOrderView.PoolCount.Value == 0)
+                            {
+                                ViewBag.Message = "总人数必须指定且大于0";
+                                return false;
+                            }
+                            break;
                     }
                     break;
                 case RevealType.Scene:
@@ -272,6 +320,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
             return true;
         }
+
         #endregion
 
         #region 中奖通知

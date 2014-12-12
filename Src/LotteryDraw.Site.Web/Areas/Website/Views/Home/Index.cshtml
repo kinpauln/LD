@@ -8,33 +8,7 @@
 @using LotteryDraw.Site.Models;
 
 @section scripts{
-    <script type="text/javascript">
-        getClientRequestInfo(function (data) {
-            //console.debug(data);
-        });
-
-        function getClientRequestInfo(callback) {
-            var ip = '@ViewBag.UerIp';
-            ip = $.trim(ip); // "218.4.255.91";
-            $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' + ip, function (_result) {
-                var returnobj = null;
-                if (remote_ip_info.ret == "1") {
-                    returnobj = {
-                        Ip: ip,
-                        Country: remote_ip_info.country,
-                        Province: remote_ip_info.province,
-                        City: remote_ip_info.city,
-                        Isp: remote_ip_info.isp
-                    };
-                    //$("#hidArea").val(ip + ";" + remote_ip_info.country + ";" + remote_ip_info.province + ";" + remote_ip_info.city + ";" + remote_ip_info.isp + ";");
-                    //alert(ip + ";" + remote_ip_info.country + ";" + remote_ip_info.province + ";" + remote_ip_info.city + ";" + remote_ip_info.isp + ";");
-                }
-                if (callback != null) {
-                    callback(returnobj);
-                }
-            });
-        }
-    </script>
+    @Html.Partial("_checkCityScripts")
     <script type="text/javascript">
         $(function () {
             var rtype = '@Request.QueryString["rtype"]';
@@ -53,7 +27,6 @@
             //$("#top-prizes-container .middle").css("margin", "0 " + margin.toString() + "px !important");
             $("#top-prizes-container .middle").css("margin-left", margin.toString() + "px");
             $("#top-prizes-container .middle").css("margin-right", margin.toString() + "px");
-
         });</script>
 }
 @section styles{
@@ -216,6 +189,8 @@
                                 long userid = item.MemberView.Id;
                                 string imgname = item.PrizeView.OriginalPhoto.Name;
                                 string advurl = item.MemberView.AdvertisingUrl;
+                                int scopeType = item.PrizeOrderView.ScopeTypeNum;
+                                string scopeCity = item.PrizeOrderView.ScopeAreaCity;
                                 bool is2Top = item.PrizeOrderView.Is2Top;
                         <dl class="clearfix ranking-movie-list fl">
                             <dt class="fl">
@@ -322,7 +297,7 @@
                                 </ul>
                             </div>*@
                                 <div class="r-play-con">
-                                    <a class="r-play-button excute-launch" target="_self" href="#" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
+                                    <a class="r-play-button excute-launch" target="_self" href="#" scope-type="@scopeType" scope-city="@scopeCity" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
                                 </div>
                             </dd>
                         </dl>

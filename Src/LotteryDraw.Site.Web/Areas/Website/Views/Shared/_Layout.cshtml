@@ -83,11 +83,11 @@
     <link href="~/Content/website/css/metinfo.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         #brower-checking-alert {
-
         }
+
             #brower-checking-alert a {
-                font-size:20px;
-                font-weight:bold;
+                font-size: 20px;
+                font-weight: bold;
             }
     </style>
     <script src="~/Scripts/jquery-1.8.2.min.js"></script>
@@ -106,37 +106,9 @@
             if (isIE6OrIE7Browser()) {
                 downloadBrowser();
             }
-
-            $("a[class*='excute-launch']").click(function () {
-                var advurl = $(this).attr("adv-url");
-                var trueurl = $(this).attr("true-href");
-                //var url = 'http://sentsin.com/';
-                if (advurl == null || advurl == "") {
-                    location.href = trueurl;
-                    return;
-                }
-                showAdv(advurl,trueurl);
-            });
         });
 
-        function showAdv(url, trueurl) {
-            $.layer({
-                type: 2,
-                title: '这是奖品提供者的信息资料，关闭网页，填写抽奖验证码，方可完成抽奖',
-                shadeClose: true,
-                maxmin: true,
-                fix: true,
-                area: ['1024px', 500],
-                iframe: {
-                    src: url
-                },
-                end: function () {
-                    location.href = trueurl;
-                }
-            });
-        }
-
-        function downloadBrowser() { 
+        function downloadBrowser() {
             //在这里面输入任何合法的js语句（以下将演示一个自定义风格的层）
             $.layer({
                 type: 1,   //0-4的选择,（1代表page层）
@@ -150,7 +122,7 @@
                 ],
                 bgcolor: '#eee', //设置层背景色
                 page: {
-                    html: '<div style="padding:40px;font-size:15px;" id="brower-checking-alert"><p></p>为了不影响相关功能的正常使用，强烈建议您使用当前主流浏览器，请点击下列相关链接下载</p><br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/41/23253/IE8-WindowsXP-x86-CHS.2728888507.exe">IE8</a> &nbsp;(WindowsXP)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/3c/23356/BOIE9_ZHCN_BO0085_WIN7.2197728620.EXE">IE9</a>&nbsp;(Win7/Win8)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/9d/14744/ChromeStandaloneSetup.1416972703.exe">Chrome</a>&nbsp;(WinXP/Win2003/Vista/Win7/Win8)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/51/11843/Firefox_V33.1.1.5430_setup.1416195513.exe">Firefox</a>(WinXP/Win2003/Vista/Win7/Win8)<br>...</div>'
+                    html: '<div style="padding:40px;font-size:15px;" id="brower-checking-alert"><p></p>为了不影响相关功能的正常使用，强烈建议您使用当前主流浏览器，请点击下列相关链接下载</p><br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/41/23253/IE8-WindowsXP-x86-CHS.2728888507.exe">IE8</a> &nbsp;(WindowsXP)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/3c/23356/BOIE9_ZHCN_BO0085_WIN7.2197728620.EXE">IE9</a>&nbsp;(Win7/Win8)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/9d/14744/ChromeStandaloneSetup.1416972703.exe">Chrome(推荐)</a>&nbsp;(WinXP/Win2003/Vista/Win7/Win8)<br><a target="_blank" href="http://dlsw.baidu.com/sw-search-sp/soft/51/11843/Firefox_V33.1.1.5430_setup.1416195513.exe">Firefox</a>(WinXP/Win2003/Vista/Win7/Win8)<br>...</div>'
                 },
                 shift: 'top' //从上动画弹出
             });

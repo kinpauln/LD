@@ -56,6 +56,8 @@
                         string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
                         string originalPhotoName = item.PrizeView.OriginalPhoto.Name;
                         string advurl = item.MemberView.AdvertisingUrl;
+                        int scopeType = item.PrizeOrderView.ScopeTypeNum;
+                        string scopeCity = item.PrizeOrderView.ScopeAreaCity;
                         
         <dl class="clearfix ranking-movie-list fl">
             <dt class="fl">
@@ -179,7 +181,7 @@
                         if (item.PrizeOrderView.RevealStateNum == RevealState.UnDrawn.ToInt())
                         {
                     <div class="r-play-con">
-                        <a class="r-play-button excute-launch" target="_self" href="#" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
+                        <a class="r-play-button excute-launch" target="_self" href="#" adv-url="@advurl" scope-type="@scopeType" scope-city="@scopeCity" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
                     </div>
                         }
                  }
@@ -207,3 +209,4 @@
            CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
        }, new { @class = "pageBox" })
 </div>
+@Html.Partial("_checkCityScripts")
