@@ -101,17 +101,17 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 return View(model);
             }
 
-            if (string.IsNullOrEmpty(model.Phone.Trim()))
+            if (string.IsNullOrEmpty(model.Phone))
             {
                 ViewBag.Message = "领奖电话不能为空";
                 return View(model);
             }
-            if (!LotteryDraw.Component.Utility.RegExp.IsMobileNo(model.Phone.Trim()))
+            if (!LotteryDraw.Component.Utility.RegExp.IsMobileNo(model.Phone))
             {
                 ViewBag.Message = "手机号码不合法";
                 return View(model);
             }
-            if (string.IsNullOrEmpty(model.Address.Trim()))
+            if (string.IsNullOrEmpty(model.Address))
             {
                 ViewBag.Message = "奖品邮寄地址不能为空";
                 return View(model);
@@ -243,7 +243,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             switch (model.PrizeOrderView.RevealType)
             {
                 case RevealType.Timing:
-                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity.Trim()))
+                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity))
                     {
                         ViewBag.Message = "抽奖城市必须指定";
                         return false;
@@ -267,17 +267,17 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     }
                     break;
                 case RevealType.Answer:
-                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity.Trim()))
+                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity))
                     {
                         ViewBag.Message = "抽奖城市必须指定";
                         return false;
                     }
-                    if (string.IsNullOrEmpty(model.PrizeOrderView.Question.Trim()))
+                    if (string.IsNullOrEmpty(model.PrizeOrderView.Question))
                     {
                         ViewBag.Message = "必须命题";
                         return false;
                     }
-                    if (string.IsNullOrEmpty(model.PrizeOrderView.AnswerOptions.Trim()))
+                    if (string.IsNullOrEmpty(model.PrizeOrderView.AnswerOptions))
                     {
                         ViewBag.Message = "命题答案选项必须设置";
                         return false;
@@ -301,7 +301,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     }
                     break;
                 case RevealType.Scene:
-                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity.Trim()))
+                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity))
                     {
                         ViewBag.Message = "抽奖城市必须指定";
                         return false;
@@ -366,7 +366,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 return View(model);
             }
 
-            if (string.IsNullOrEmpty(model.Name.Trim()))
+            if (string.IsNullOrEmpty(model.Name))
             {
                 ViewBag.Message = "奖品名称不能为空";
                 return View(model);
@@ -417,7 +417,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 return Json(new { OK = false, Message = "验证码输入不正确" }, JsonRequestBehavior.AllowGet);
             }
 
-            if (string.IsNullOrEmpty(model.Name.Trim()))
+            if (string.IsNullOrEmpty(model.Name))
             {
                 ViewBag.Message = "奖品名称不能为空";
                 return Json(new { OK = false, Message = "奖品名称不能为空" }, JsonRequestBehavior.AllowGet);

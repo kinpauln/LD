@@ -95,12 +95,31 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         protected bool UpdatePubishingEnableTimes()
         {
             string times = string.Empty;
-            if (Session["publishTimes"] != null)
+            //if (Session["publishTimes"] != null)
+            //{
+            //    int timesvalue = 0;
+            //    if (int.TryParse(Session["publishTimes"].ToString(), out timesvalue))
+            //    {
+            //        Session["publishTimes"] = timesvalue - 1;
+            //        return true;
+            //    }
+            //    else
+            //    {
+            //        return false;
+            //    }
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+
+            HttpCookie pubcookie = Cookie.Get("publishTimes");
+            if (pubcookie != null)
             {
                 int timesvalue = 0;
-                if (int.TryParse(Session["publishTimes"].ToString(), out timesvalue))
+                if (int.TryParse(pubcookie.Value.ToString(), out timesvalue))
                 {
-                    Session["publishTimes"] = timesvalue - 1;
+                    pubcookie.Value = (timesvalue - 1).ToString();
                     return true;
                 }
                 else

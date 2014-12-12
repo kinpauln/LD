@@ -20,7 +20,7 @@
                     layer_index_checking_city = layer.load("正在验证您所在城市，请耐心等待.....");
                     getClientRequestInfo(function (data) {
                         layer.close(layer_index_checking_city);
-                        _mycity = data.City;
+                        _mycity = data.City.replace("市","");
                         _cityloaded = true;
 
                         setGlobalInfo(scopeCity);
@@ -36,7 +36,7 @@
     });
 
     function setGlobalInfo(scopeCity) {
-        if ($.trim(_mycity) != $.trim(scopeCity)) {
+        if ($.trim(_mycity) != $.trim(scopeCity.replace("市",""))) {
             _isSameCity = false;
             _message = "抱歉，您所在的城市不在该奖品的抽奖范围内，该奖品仅限【" + scopeCity + "】地区的用户。";
         } else {

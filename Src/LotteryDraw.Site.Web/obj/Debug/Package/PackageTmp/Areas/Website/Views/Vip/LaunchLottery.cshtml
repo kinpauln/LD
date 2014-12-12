@@ -18,17 +18,17 @@
 @using (Html.BeginForm("LaunchLottery", "Vip", FormMethod.Post, new { id = "prizeForm", enctype = "multipart/form-data" }))
 {
     //enctype = "multipart/form-data"
-    string rtype = ViewBag.RevealType;
-    @Html.HiddenFor(m => m.PrizeOrderView.ScopeType, new { Id = "hidnScopeType", Name = "ScopeType" })
-    @Html.HiddenFor(m => m.PrizeOrderView.ScopeAreaCity, new { Id = "hidnScopeAreaCity", Name = "ScopeAreaCity" })
-    @Html.HiddenFor(m => m.PrizeOrderView.MinLuckyCount, new { Name = "MinLuckyCount" })
-    @Html.HiddenFor(m => m.PrizeOrderView.RevealType, new { Id = "hidnRevealType", Name = "RevealType" });
-    @Html.HiddenFor(m => m.PrizeOrderView.RevealTypeNum, new { Name = "RevealTypeNum" });
-    @Html.HiddenFor(m => m.PrizeOrderView.AnswerRevealConditionTypeNum, new { Name = "AnswerRevealConditionTypeNum" });
-    @Html.HiddenFor(m => m.PrizeOrderView.AnswerRevealConditionType, new { Id = "hidnAnswerRevealConditionType", Name = "AnswerRevealConditionType" });
-    @Html.HiddenFor(m => m.PrizeOrderView.Answer, new { Name = "Answer" });
-    @Html.HiddenFor(m => m.PrizeOrderView.AnswerOptions, new { Name = "AnswerOptions" });
-    @Html.HiddenFor(model => model.PrizeOrderView.PrizeId, new { Name = "PrizeId" });
+    @Html.HiddenFor(m => m.PrizeOrderView.ScopeType, new { Id = "hidnScopeType" })
+    @Html.HiddenFor(m => m.PrizeOrderView.ScopeProvince, new { Id = "hidnScopeProvince" })
+    @Html.HiddenFor(m => m.PrizeOrderView.ScopeAreaCity, new { Id = "hidnScopeAreaCity" })
+    @Html.HiddenFor(m => m.PrizeOrderView.MinLuckyCount, new { Id = "hidnMinLuckyCount" })
+    @Html.HiddenFor(m => m.PrizeOrderView.RevealType, new { Id = "hidnRevealType" });
+    //@Html.HiddenFor(m => m.PrizeOrderView.RevealTypeNum, new { Id = "hidnRevealTypeNum" });
+    //@Html.HiddenFor(m => m.PrizeOrderView.AnswerRevealConditionTypeNum, new { Id="hidnAnswerRevealConditionTypeNum" });
+    @Html.HiddenFor(m => m.PrizeOrderView.AnswerRevealConditionType, new { Id = "hidnAnswerRevealConditionType" });
+    @Html.HiddenFor(m => m.PrizeOrderView.Answer, new { Id = "hidnAnswer" });
+    @Html.HiddenFor(m => m.PrizeOrderView.AnswerOptions, new { Id = "hidnAnswerOptions" });
+    @Html.HiddenFor(model => model.PrizeOrderView.PrizeId, new { Id = "hidnPrizeId" });
     <table class="message_table">
         <tbody>
             @*@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
@@ -40,7 +40,7 @@
             <tr rtype="no-change">
                 <td class="text">奖品名称</td>
                 <td class="input">
-                    @Html.TextBoxFor(model => model.PrizeView.Name, new { @class = "input-text", Name = "PrizeName", placeholder = "奖品名称" })
+                    @Html.TextBoxFor(model => model.PrizeView.Name, new { @class = "input-text", Id = "PrizeName", placeholder = "奖品名称" })
                     <span class="info">*</span>
                 </td>
             </tr>
@@ -58,7 +58,7 @@
             <tr rtype="no-change">
                 <td class="text">描述：</td>
                 <td class="input">
-                    @Html.TextAreaFor(model => model.PrizeView.Description, new { @class = "textarea-text", Name = "PrizeDescription", cols = "50", rows = "6", placeholder = "描述" })<span class="info">*</span>
+                    @Html.TextAreaFor(model => model.PrizeView.Description, new { @class = "textarea-text", Id = "PrizeDescription", cols = "50", rows = "6", placeholder = "描述" })<span class="info">*</span>
                     <br />
                 </td>
             </tr>
@@ -96,13 +96,13 @@
             <tr rtype="timing quota answer scene">
                 <td class="text">中奖人数：</td>
                 <td class="input">
-                    @Html.TextBoxFor(m => m.PrizeOrderView.LuckyCount, new { @class = "input-text num", Name = "LuckyCount" })<span class="info">*</span>
+                    @Html.TextBoxFor(m => m.PrizeOrderView.LuckyCount, new { @class = "input-text num", Id = "LuckyCount" })<span class="info">*</span>
                 </td>
             </tr>
             <tr rtype="answer">
                 <td class="text">开奖问题：</td>
                 <td class="input">
-                    @Html.TextAreaFor(m => m.PrizeOrderView.Question, new { @class = "textarea-text", Name = "Question", cols = "50", rows = "3", placeholder = "请填写一个答案选项" })<span class="info">*</span>
+                    @Html.TextAreaFor(m => m.PrizeOrderView.Question, new { @class = "textarea-text", Id = "Question", cols = "50", rows = "3", placeholder = "请填写开奖问题" })<span class="info">*</span>
                 </td>
             </tr>
             <tr rtype="answer">
@@ -142,13 +142,13 @@
             <tr rtype="quota" lt-condition="quota">
                 <td class="text">总人数：</td>
                 <td class="input">
-                    @Html.TextBoxFor(m => m.PrizeOrderView.PoolCount, new { @class = "input-text num", Name = "PoolCount" })<span class="info">*</span>
+                    @Html.TextBoxFor(m => m.PrizeOrderView.PoolCount, new { @class = "input-text num", Id = "PoolCount" })<span class="info">*</span>
                 </td>
             </tr>
             <tr rtype="timing scene" lt-condition="timing">
                 <td class="text">开奖时间：</td>
                 <td class="input">
-                    @Html.TextBoxFor(m => m.PrizeOrderView.LaunchTime, new { @class = "input-text launchtime", Name = "LaunchTime", id = "txtLaunchTime", @readonly = "readonly" })<span class="info">*</span>
+                    @Html.TextBoxFor(m => m.PrizeOrderView.LaunchTime, new { @class = "input-text launchtime", Id = "LaunchTime", @readonly = "readonly" })<span class="info">*</span>
                 </td>
             </tr>
             @*<tr>
@@ -211,7 +211,8 @@
 @section scripts{
     @Html.Partial("PostBackMessage")
     <script src="~/Scripts/jquery.form.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    @*<script src="~/Scripts/jquery.validate.min.js"></script>*@
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script src="~/Scripts/jquery.previewimage.js"></script>
     <script src="~/Content/website/js/My97DatePicker/WdatePicker.js"></script>
@@ -252,11 +253,17 @@
                 var $opobj = $(this).find("option:selected");
                 var rtype = $opobj.attr("rtype");
                 //$("#hidnRevealType").val(thisvalue);
-                $("input:hidden[name='RevealType']").val(thisvalue);
+                $("#hidnRevealType").val(thisvalue);
 
+                if (thisvalue == '@RevealType.Timing.ToInt()' || thisvalue == '@RevealType.Quota.ToInt()' || thisvalue == '@RevealType.Answer.ToInt()') {
+                    locateScopeTypeSelect("");
+                }
+                if (thisvalue == '@RevealType.Answer.ToInt()') {
+                    locateAnswerLauchTypeSelect("");
+                }
 
                 // 不是公用的部分先全部隐藏掉
-                $("form#prizeForm tr[rtype!='no-change']").hide();
+                $("form#prizeForm tr[rtype!='no-change']").hide(); 
                 if (rtype == "")
                     return;
                 // 本抽奖类型相关的 表单项都现实出来
@@ -278,7 +285,7 @@
             // 抽奖范围下拉框事件
             $("#slScopeType").change(function () {
                 //$("#hidnScopeType").val($(this).val());
-                $("input:hidden[name='ScopeType']").val($(this).val());
+                $("#hidnScopeType").val($(this).val());
                 if ($(this).val() == '@ScopeType.AreaCity.ToInt()') {
                     if (!cityIsLoaded) {
                         //地址下拉框联动
@@ -302,8 +309,6 @@
 
             $("#slAnswerLauchType").change(function () {
                 $("#hidnAnswerRevealConditionType").val($(this).val());
-                $("input:hidden[name='AnswerRevealConditionTypeNum']").val($(this).val());
-                $("input:hidden[name='AnswerRevealConditionType']").val($(this).val());
 
                 var $opobj = $(this).find("option:selected");
                 var ltcondition = $opobj.attr("lt-condition");
@@ -396,10 +401,86 @@
 
             $("#btnSubmitForm").click(function () {
                 var $form = $("#prizeForm");
+                $("#PrizeName").rules("add", {
+                    required: true,
+                    messages: {
+                        required: "奖品名称不能为空"
+                    }
+                });
+                $("#PrizeDescription").rules("add", {
+                    required: true,
+                    messages: {
+                        required: "奖品描述不能为空"
+                    }
+                });
+                $("#slLauchType").rules("add", {
+                    required: true,
+                    messages: {
+                        required: "开奖类型不能为空"
+                    }
+                });
+                $("#slScopeType").rules("add", {
+                    required: function () {
+                        var rtype = $("#slLauchType").val();
+                        if (rtype == '@RevealType.Scene.ToInt()')
+                            return false;
+                        return true;
+                    },
+                    messages: {
+                        required: "抽奖范围不能为空"
+                    }
+                });
+                $("#LuckyCount").rules("add", {
+                    required: true,
+                    digits: true,
+                    messages: {
+                        required: "中奖人数必须输入",
+                        digits: "中奖人数只能是整数"
+                    }
+                });
+                $("#LaunchTime").rules("add", {
+                    required: function () {
+                        var rtype = $("#slLauchType").val();
+                        if (rtype == '@RevealType.Timing.ToInt()')
+                                return true;
+                            if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "1")
+                            return true;
+                        if (rtype == '@RevealType.Scene.ToInt()')
+                            return true;
+                        return false;
+                    },
+                    messages: {
+                        required: "开奖时间不能为空"
+                    }
+                });
+                $("#PoolCount").rules("add", {
+                    required: function () {
+                        var rtype = $("#slLauchType").val();
+                        if (rtype == '@RevealType.Quota.ToInt()')
+                                return true;
+                            if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "2")
+                            return true;
+                        return false;
+                    },
+                    digits: true,
+                    messages: {
+                        required: "总人数必须输入",
+                        digits: "总人数只能是整数"
+                    }
+                });
+                $("#Question").rules("add", {
+                    required: function () {//开奖问题
+                        var rtype = $("#slLauchType").val();
+                        if (rtype == '@RevealType.Answer.ToInt()')
+                                return true;
+                            return false;
+                    },
+                    messages: {
+                        required: "必须输入"
+                    }
+                });
                 $form.validate();
-                alert($form.valid());
                 if ($form.valid()) {
-
                     var rtype = $("#slLauchType").val();
                     if (rtype == '@RevealType.Scene.ToInt()') {
                         var options = "";
@@ -411,17 +492,17 @@
                         if (options != "") {
                             options = options.substring(0, options.length - 3);
                         }
-                        $("input:hidden[name='AnswerOptions']").val(options);
-                        $("input:hidden[name='Answer']").val($("#slAnswer").val());
+                        $("#hidnAnswerOptions").val(options);
+                        $("hidnAnswer").val($("#slAnswer").val());
                     } else {
                         // 开奖城市名称
-                        if ($("#slScopeType").val() == 2) {
-                            var city = S$("#hidnScopeAreaCity").find("option:selected").text();
-                            $("input:hidden[name='ScopeAreaCity']").val(city);
-                            $("input:hidden[name='AnswerRevealConditionTypeNum']").val($(this).val());
+                        if ($("#slScopeType").val() == "@ScopeType.AreaCity.ToInt()") {
+                            var province = $("select[name='loc_province']:eq(0)").find("option:selected").text();
+                            var city = $("select[name='loc_city']:eq(0)").find("option:selected").text();
+                            $("#hidnScopeAreaCity").val(city);
+                            $("#hidnScopeProvince").val(province);
                         }
                     }
-                    console.log("asf");
                     $form.submit();
                 }
             });
@@ -431,58 +512,6 @@
                 errorClass: 'error-info',
                 focusInvalid: false,
                 rules: {
-                    PrizeName: {
-                        required: true
-                    },
-                    PrizeDescription: {
-                        required: true
-                    },
-                    selectRType: { //开奖类型
-                        required: true
-                    },
-                    selectScopeType: { //抽奖范围
-                        required: function () {
-                            var rtype = $("#slLauchType").val();
-                            if (rtype == '@RevealType.Scene.ToInt()')
-                                return false;
-                            return true;
-                        }
-                    },
-                    LuckyCount: {
-                        required: true,
-                        digits: true
-                    },
-                    LaunchTime: {
-                        required: function () {
-                            var rtype = $("#slLauchType").val();
-                            if (rtype == '@RevealType.Timing.ToInt()')
-                                return true;
-                            if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "1")
-                                return true;
-                            if (rtype == '@RevealType.Scene.ToInt()')
-                                return true;
-                            return false;
-                        }
-                    },
-                    PoolCount: {
-                        required: function () {
-                            var rtype = $("#slLauchType").val();
-                            if (rtype == '@RevealType.Quota.ToInt()')
-                                return true;
-                            if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "2")
-                                return true;
-                            return false;
-                        },
-                        digits: true
-                    },
-                    Question: {
-                        required: function () {//开奖问题
-                            var rtype = $("#slLauchType").val();
-                            if (rtype == '@RevealType.Answer.ToInt()')
-                                return true;
-                            return false;
-                        },
-                    },
                     slAnswer: {
                         required: function () {//开奖答案
                             var rtype = $("#slLauchType").val();
@@ -505,7 +534,7 @@
                             if (rtype == '@RevealType.Scene.ToInt()')
                                 return false;
                             var scopeType = $("#slScopeType").val();
-                            if (scopeType == "1")
+                            if (scopeType == "@ScopeType.Global.ToInt()")
                                 return false;
                             return true;
                         }
@@ -516,7 +545,7 @@
                             if (rtype == '@RevealType.Scene.ToInt()')
                                 return false;
                             var scopeType = $("#slScopeType").val();
-                            if (scopeType == "1")
+                            if (scopeType == "@ScopeType.Global.ToInt()")
                                 return false;
                             return true;
                         }
@@ -527,32 +556,6 @@
                 },
 
                 messages: {
-                    PrizeName: {
-                        required: "奖品名称不能为空"
-                    },
-                    PrizeDescription: {
-                        required: "奖品描述称不能为空"
-                    },
-                    selectRType: {
-                        required: "开奖类型必须选择"
-                    },
-                    selectScopeType: {
-                        required: "抽奖范围必须选择"
-                    },
-                    LuckyCount: {
-                        required: "中奖人数必须输入",
-                        digits: "中奖人数只能是整数"
-                    },
-                    LaunchTime: {
-                        required: "开奖时间不能为空"
-                    },
-                    PoolCount: {
-                        required: "总人数必须输入",
-                        digits: "总人数只能是整数"
-                    },
-                    Question: {
-                        required: "必须输入"
-                    },
                     slAnswer: {
                         required: "开奖答案必须选择"
                     },
@@ -591,7 +594,7 @@
                 errorPlacement: function (error, element) {
                     if (element.hasClass('select')) {
                         element.parent().append("<br />");
-                    }
+                    } 
                     error.appendTo(element.parent());
                 }
                 , onfocusout: function (element) {
@@ -639,13 +642,25 @@
             });
 
             // 初始化选中抽奖类型
-            locateRTypeSelect();
+            var rtype = "@ViewBag.RevealType";
+            locateRTypeSelect(rtype);
+
+            if (rtype != "" && rtype != null && rtype != "@RevealType.Scene.ToInt()") {
+                // 抽奖范围
+                var stype = "@ViewBag.ScopeType";
+                locateScopeTypeSelect(stype);
+                if (stype == "@ScopeType.AreaCity.ToInt()") {
+                    var province = "@ViewBag.ScopeProvince";
+                    var city = "@ViewBag.ScopeCity";
+                    locateProvinceSelectByText(province);
+                    locateScopeCitySelectByText(city);
+                }
+            }
         });
 
-        function locateRTypeSelect() {
-            var rtype = $("#hidnRevealType").val();
+        function locateRTypeSelect(value) {
             var $select = $("#slLauchType");
-            locateSelect($select, rtype);
+            locateSelect($select, value);
         }
 
         function locateScopeTypeSelect(value) {
@@ -655,6 +670,28 @@
 
         function locateProvinceSelect(value) {
             var $select = $("select[name='loc_province']").eq(0);
+            locateSelect($select, value);
+        }
+
+        function locateProvinceSelectByText(text) {
+            var $select = $("select[name='loc_province']").eq(0);
+            var value = $select.find("option[text='" + text + "']:eq(0)").val();
+            locateSelect($select, value);
+        }
+
+        function locateScopeCitySelect(value) {
+            var $select = $("select[name='loc_city']").eq(0);
+            locateSelect($select, value);
+        }
+
+        function locateScopeCitySelectByText(text) {
+            var $select = $("select[name='loc_city']").eq(0);
+            var value = $select.find("option[text='" + text + "']:eq(0)").val();
+            locateSelect($select, value);
+        }
+
+        function locateAnswerLauchTypeSelect(value) {
+            var $select = $("#slAnswerLauchType");
             locateSelect($select, value);
         }
 
