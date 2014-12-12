@@ -712,8 +712,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
-            ViewBag.LeftTitleContent = "管理面板";
-            ViewBag.OptionName = "会员选项";
+            ViewBag.LeftTitleContent = "会员中心";
+            ViewBag.OptionName = "会员中心";
             ViewBag.MetHitsVisible = false;
             ViewBag.MemberId = this.UserId ?? 0;
         }
