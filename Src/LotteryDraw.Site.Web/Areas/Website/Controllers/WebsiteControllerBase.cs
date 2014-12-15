@@ -116,10 +116,11 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             HttpCookie pubcookie = Cookie.Get("publishTimes");
             if (pubcookie != null)
             {
-                int timesvalue = 0;
-                if (int.TryParse(pubcookie.Value.ToString(), out timesvalue))
+                int timesvalue = 0; 
+                if (int.TryParse(Encrypt.Decode(pubcookie.Value.ToString()), out timesvalue))
                 {
-                    pubcookie.Value = (timesvalue - 1).ToString();
+                    pubcookie.Expires = DateTime.Now.AddDays(-1);
+                    Cookie.Save("publishTimes", Encrypt.Encode((timesvalue - 1).ToString()), 24);
                     return true;
                 }
                 else

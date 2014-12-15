@@ -71,7 +71,7 @@ namespace LotteryDraw.Core.Models.Account
         /// <summary>
         ///  可发布奖品的次数
         /// </summary>
-        [DefaultValue(0)]
+        //[DefaultValue(0)]
         public int PubishingEnableTimes { get; set; }
 
         /// <summary>

@@ -200,6 +200,13 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             ViewBag.ScopeProvince = model.PrizeOrderView.ScopeProvince;
             ViewBag.ScopeAreaCity = model.PrizeOrderView.ScopeAreaCity;
 
+            if (this.PubishingEnableTimes == 0)
+            {
+                //验证码验证通过
+                ViewBag.Message = "抱歉，您可发起抽奖的次数为0，请续费后再继续使用该功能。";
+                return View(model);
+            }
+
             if (ModelState.IsValid)
             {
                 //验证码验证通过  
@@ -253,9 +260,12 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     }
                 }
                 PrizeOrder porder = (PrizeOrder)result.AppendData;
-                ViewBag.OkMessage = "发布抽奖成功";
-                TempData["Message"] = string.Format("发起抽奖成功。<br /><a href='/Vip/PrizeOrderDetail/{0}'>查看<a>奖单", porder.Id);
-                return RedirectToAction("InfoPage");
+                //ViewBag.OkMessage = "发布抽奖成功";
+                //TempData["Message"] = string.Format("发起抽奖成功。<br /><a href='/Vip/PrizeOrderDetail/{0}'>查看<a>奖单", porder.Id);
+                //return RedirectToAction("InfoPage");
+                ViewBag.PostBackIsOK = true;
+                ViewBag.SuccessString = "参与抽奖成功";
+                return View(model);
             }
             else
             {

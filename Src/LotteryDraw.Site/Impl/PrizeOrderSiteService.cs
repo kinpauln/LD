@@ -234,7 +234,8 @@ namespace LotteryDraw.Site.Impl
                         Description = pomodel.Prize.Description,
                         OriginalPhoto = pomodel.Prize.PrizePhotos.FirstOrDefault().ToSiteViewModel()
                     },
-                    PrizeOrderView = new PrizeOrderView() {
+                    PrizeOrderView = new PrizeOrderView()
+                    {
                         PrizeId = pomodel.Prize.Id,
                         Id = pomodel.Id,
                         RevealType = pomodel.RevealType,
@@ -249,7 +250,8 @@ namespace LotteryDraw.Site.Impl
                         ScopeAreaCity = pomodel.Extend.ScopeCity,
                         AddDate = pomodel.AddDate
                     },
-                    MemberView = new MemberView() { 
+                    MemberView = new MemberView()
+                    {
                         Id = pomodel.Prize.Member.Id,
                         Name = pomodel.Prize.Member.Name,
                         UserName = pomodel.Prize.Member.UserName,
@@ -257,7 +259,7 @@ namespace LotteryDraw.Site.Impl
                         AdvertisingUrl = pomodel.Prize.Member.Extend.AdvertisingUrl,
                         Province = pomodel.Prize.Member.Extend.Address.Province,
                         City = pomodel.Prize.Member.Extend.Address.City,
-                        Town =  pomodel.Prize.Member.Extend.Address.Town,
+                        Town = pomodel.Prize.Member.Extend.Address.Town,
                         AddrSuffix = pomodel.Prize.Member.Extend.Address.Suffix
                     }
                 };
@@ -334,7 +336,7 @@ namespace LotteryDraw.Site.Impl
                     break;
             }
 
-            return PrizeOrderContract.BatchAdd(porder);
+            return PrizeOrderContract.BatchAdd(porder, shouldMinus);
         }
     }
 }

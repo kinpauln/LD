@@ -190,7 +190,10 @@
                                 string imgname = item.PrizeView.OriginalPhoto.Name;
                                 string advurl = item.MemberView.AdvertisingUrl;
                                 int scopeType = item.PrizeOrderView.ScopeTypeNum;
-                                string scopeCity = item.PrizeOrderView.ScopeAreaCity;
+                                string scopeCity = "全国";
+                                if(scopeType == ScopeType.AreaCity.ToInt()){
+                                    scopeCity = item.PrizeOrderView.ScopeAreaCity;
+                                }
                                 bool is2Top = item.PrizeOrderView.Is2Top;
                         <dl class="clearfix ranking-movie-list fl">
                             <dt class="fl">
@@ -241,7 +244,7 @@
                                         <a href="#" target="_blank">凯伦·吉兰</a>
                                 </nobr>
                                 </span>
-                            </p>*@
+                            </p>
                                 <p class="rmn-item">
                                     <em>类型 :</em>
                                     <span>
@@ -256,6 +259,11 @@
                                     &nbsp;&nbsp;
                                     <a href="#" target="_blank">冒险</a>
                                 </nobr>
+                                    </span>
+                                </p>*@
+                                <p class="rmn-item">
+                                    <em>抽奖范围 :</em>
+                                    <span>@scopeCity
                                     </span>
                                 </p>
                                 <p class="rmn-item">
