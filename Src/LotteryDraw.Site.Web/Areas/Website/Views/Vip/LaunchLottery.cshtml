@@ -23,12 +23,13 @@
     @Html.HiddenFor(m => m.PrizeOrderView.ScopeAreaCity, new { Id = "hidnScopeAreaCity" })
     @Html.HiddenFor(m => m.PrizeOrderView.MinLuckyCount, new { Id = "hidnMinLuckyCount" })
     @Html.HiddenFor(m => m.PrizeOrderView.RevealType, new { Id = "hidnRevealType" });
-    //@Html.HiddenFor(m => m.PrizeOrderView.RevealTypeNum, new { Id = "hidnRevealTypeNum" });
-    //@Html.HiddenFor(m => m.PrizeOrderView.AnswerRevealConditionTypeNum, new { Id="hidnAnswerRevealConditionTypeNum" });
+                                                                                    //@Html.HiddenFor(m => m.PrizeOrderView.RevealTypeNum, new { Id = "hidnRevealTypeNum" });
+                                                                                    //@Html.HiddenFor(m => m.PrizeOrderView.AnswerRevealConditionTypeNum, new { Id="hidnAnswerRevealConditionTypeNum" });
     @Html.HiddenFor(m => m.PrizeOrderView.AnswerRevealConditionType, new { Id = "hidnAnswerRevealConditionType" });
     @Html.HiddenFor(m => m.PrizeOrderView.Answer, new { Id = "hidnAnswer" });
     @Html.HiddenFor(m => m.PrizeOrderView.AnswerOptions, new { Id = "hidnAnswerOptions" });
     @Html.HiddenFor(model => model.PrizeOrderView.PrizeId, new { Id = "hidnPrizeId" });
+    @Html.HiddenFor(model => model.PrizeOrderView.StaffsOfScenceString, new { Id = "hidnStaffsOfScenceString" });
     <table class="message_table">
         <tbody>
             @*@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
@@ -71,7 +72,7 @@
                         <option value="1" rtype="timing">定时开奖</option>
                         <option value="2" rtype="quota">定员开奖</option>
                         <option value="3" rtype="answer">答案开奖</option>
-                        <option value="4" rtype="scene">实时开奖</option>
+                        <option value="4" rtype="scene">现场开奖</option>
                     </select><span class="info">*</span>
                 </td>
             </tr>
@@ -137,6 +138,21 @@
                         <option value="1" lt-condition="timing">定时</option>
                         <option value="2" lt-condition="quota">定员</option>
                     </select><span class="info">*</span>
+                </td>
+            </tr>
+            <tr rtype="scene">
+                <td class="text">抽奖者们：</td>
+                <td class="input">
+                    <div style="float: left; line-height: 200px;">
+                        @*@Html.TextAreaFor(m => m.Answer, new { @class = "textarea-text", cols = "50", rows = "3" })*@
+                        <input type="text" class="input-text" id="txtSceneOption" placeholder="抽奖成员（姓名/代号）" />
+                        <input type="button" class="" value="追加" style="padding: 5px; width: 60px;" id="btnAddSceneOption" />
+                    </div>
+                    <div style="float: left;">
+                        <div class="dropdown">
+                        </div>
+                    </div>
+                    @Html.Hidden("SceneStaffs")
                 </td>
             </tr>
             <tr rtype="quota" lt-condition="quota">
@@ -263,7 +279,7 @@
                 }
 
                 // 不是公用的部分先全部隐藏掉
-                $("form#prizeForm tr[rtype!='no-change']").hide(); 
+                $("form#prizeForm tr[rtype!='no-change']").hide();
                 if (rtype == "")
                     return;
                 // 本抽奖类型相关的 表单项都现实出来
@@ -329,9 +345,12 @@
                 var opcount = $("#slAnswer option[class='answer']").length;
                 var opvalue = String.fromCharCode((opcount) + 65);
                 var optionString = "<option class=\"answer\" value=" + opvalue + ">" + $("#txtAnswerOption").val() + "</option>"
-                $("#listAnswerOptions").append(optionString)
+                //$("#listAnswerOptions").append(optionString)
                 $("#slAnswer").append(optionString);
-                $('.dropdown').append("<div class=\"dropdown-item\" value=" + opvalue + ">" + opvalue + ":" + $("#txtAnswerOption").val() + "<span>X</span></div>");
+
+                var optext = opvalue + ":" + $("#txtAnswerOption").val();
+                var opStringOfList = getOptionString(opvalue, optext);
+                $("tr[rtype='answer'] div.dropdown:eq(0)").append(opStringOfList);
                 $("#txtAnswerOption").val("");
             });
 
@@ -347,30 +366,58 @@
                 }
             });
 
-            $("div.dropdown-item").live("hover", function (event) {
-                if (event.type == 'mouseenter') {
-                    $(this).addClass("selected");
-                    $(this).find("span").show();
-                } else {
-                    $(this).removeClass("selected");
-                    $(this).find("span").hide();
-                }
-            });
-
-            $("div.dropdown-item span").live("click", function () {
+            $("tr[rtype='answer'] div.dropdown-item span").live("click", function () {
                 var value = $(this).parent().attr("value");
                 $(this).parent().remove();
                 $("#slAnswer option[value=" + value + "]").remove();
 
-                $('.dropdown div.dropdown-item').remove();
+                $("tr[rtype='answer'] div.dropdown div.dropdown-item").remove();
                 var icounter = 0;
                 $("#slAnswer option[class='answer']").each(function () {
                     //数字转字母
                     var opvalue = String.fromCharCode((icounter++) + 65);
                     $(this).attr("value", opvalue);
-                    var divOPString = "<div class=\"dropdown-item\" value=" + opvalue + ">" + opvalue + ":" + $(this).html() + "<span>X</span></div>";
-                    $('.dropdown').append(divOPString);
+
+                    var optext = opvalue + ":" + $(this).html();
+                    var divOPString = getOptionString(opvalue, optext);
+                    $("tr[rtype='answer'] div.dropdown").append(divOPString);
                 });
+            });
+
+            $("#btnAddSceneOption").click(function () {
+                if ($.trim($("#txtSceneOption").val()) == "") {
+                    layer.alert("抽奖人员（姓名/代号）不能为空", 8);
+                    return;
+                }
+
+                var opvalue = $("tr[rtype='scene'] div.dropdown-item").length;
+
+                var optext = $("#txtSceneOption").val();
+                var divOPString = getOptionString(opvalue, optext);
+                $("tr[rtype='scene'] div.dropdown:eq(0)").append(divOPString);
+                $("#txtSceneOption").val("");
+            });
+
+            $("#txtSceneOption").keypress(function (event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    $("#btnAddSceneOption").trigger("click");
+                }
+            });
+
+            $("tr[rtype='scene'] div.dropdown-item span[class='remove']").live("click", function () {
+                var value = $(this).parent().attr("value");
+                $("tr[rtype='scene'] .dropdown div.dropdown-item[value='" + value + "']").remove();
+            });
+
+            $("div.dropdown-item").live("hover", function (event) {
+                if (event.type == 'mouseenter') {
+                    $(this).addClass("selected");
+                    $(this).find("span.remove").show();
+                } else {
+                    $(this).removeClass("selected");
+                    $(this).find("span.remove").hide();
+                }
             });
 
             $("#btnBrowerPhoto").click(function () {
@@ -442,8 +489,8 @@
                     required: function () {
                         var rtype = $("#slLauchType").val();
                         if (rtype == '@RevealType.Timing.ToInt()')
-                                return true;
-                            if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "1")
+                            return true;
+                        if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "1")
                             return true;
                         if (rtype == '@RevealType.Scene.ToInt()')
                             return true;
@@ -457,8 +504,8 @@
                     required: function () {
                         var rtype = $("#slLauchType").val();
                         if (rtype == '@RevealType.Quota.ToInt()')
-                                return true;
-                            if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "2")
+                            return true;
+                        if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "2")
                             return true;
                         return false;
                     },
@@ -472,8 +519,8 @@
                     required: function () {//开奖问题
                         var rtype = $("#slLauchType").val();
                         if (rtype == '@RevealType.Answer.ToInt()')
-                                return true;
-                            return false;
+                            return true;
+                        return false;
                     },
                     messages: {
                         required: "必须输入"
@@ -481,7 +528,19 @@
                 });
                 $form.validate();
                 if ($form.valid()) {
+                    var optionLength = $("tr[rtype='scene'] div.dropdown-item").length;
+                    if (optionLength == 0) {
+                        layer.alert("抽奖参与者至少设置一个", 8);
+                        return;
+                    }
+                    if (optionLength < $("#LuckyCount").val()) {
+                        layer.alert("抽奖参与者不能少于中奖人数", 8);
+                        return;
+                    }
+
                     var rtype = $("#slLauchType").val();
+
+                    // 答案抽奖需要设置答案选项和正确答案
                     if (rtype == '@RevealType.Answer.ToInt()') {
                         var options = "";
                         $("#slAnswer option[class='answer']").each(function () {
@@ -494,7 +553,10 @@
                         }
                         $("#hidnAnswerOptions").val(options);
                         $("hidnAnswer").val($("#slAnswer").val());
-                    } else {
+                    }
+
+                    // 非现场抽奖需要设置开奖城市
+                    if (rtype != '@RevealType.Scene.ToInt()') {
                         // 开奖城市名称
                         if ($("#slScopeType").val() == "@ScopeType.AreaCity.ToInt()") {
                             var province = $("select[name='loc_province']:eq(0)").find("option:selected").text();
@@ -503,6 +565,20 @@
                             $("#hidnScopeProvince").val(province);
                         }
                     }
+
+                    // 现场抽奖需要设置抽奖参与人员
+                    if (rtype == '@RevealType.Scene.ToInt()') {
+
+                        var options = "";
+                        $("tr[rtype='scene'] div.dropdown-item").each(function () {
+                            //$("#main li:not([class])")  //排除有class属性
+                            //$("#main li:not([class='two'])")  //排除class等于two的
+                            var text = $(this).find("span:not([class='remove']):eq(0)").html();//排除class等于remove的span
+                            options += text + "|||";
+                        });
+                        $("#hidnStaffsOfScenceString").val(options);
+                    }
+
                     $form.submit();
                 }
             });
@@ -594,7 +670,7 @@
                 errorPlacement: function (error, element) {
                     if (element.hasClass('select')) {
                         element.parent().append("<br />");
-                    } 
+                    }
                     error.appendTo(element.parent());
                 }
                 , onfocusout: function (element) {
@@ -657,6 +733,11 @@
                 }
             }
         });
+
+        function getOptionString(opvalue, optext) {
+            var resultString = "<div class=\"dropdown-item\" value=" + opvalue + "><span>" + optext + "</span><span class='remove'>X</span></div>";
+            return resultString;
+        }
 
         function locateRTypeSelect(value) {
             var $select = $("#slLauchType");
@@ -746,7 +827,7 @@
                     color: #000;
                 }
 
-            div.dropdown span {
+            div.dropdown span.remove {
                 position: absolute;
                 right: 5px;
                 display: none;

@@ -51,6 +51,9 @@ namespace LotteryDraw.Core.Impl
         [Import]
         protected IPrizeRepository PrizeRepository { get; set; }
 
+        [Import]
+        protected ISceneStaffRepository SceneStaffRepository { get; set; }
+
         #endregion
 
         #region 公共属性
@@ -397,6 +400,14 @@ namespace LotteryDraw.Core.Impl
                         }
                         PrizeRepository.Insert(porder.Prize);
                         PrizeOrderRepository.Insert(porder);
+
+                        // 现场抽奖
+                        if (porder.RevealType == RevealType.Scene) {
+                            if (porder.SceneStaffs != null && porder.SceneStaffs.Count() > 0)
+                            {
+                                SceneStaffRepository.Insert(porder.SceneStaffs);
+                            }
+                        }
                         tran.Commit();
                     }
                 }

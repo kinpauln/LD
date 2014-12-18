@@ -336,6 +336,28 @@ namespace LotteryDraw.Site.Impl
                     break;
             }
 
+            // 现场抽奖
+            if (RevealType.Scene == porderdetail.PrizeOrderView.RevealType)
+            {
+                string staffsString = porderdetail.PrizeOrderView.StaffsOfScenceString;
+                List<SceneStaff> staffs = new List<SceneStaff>();
+                if (!string.IsNullOrEmpty(staffsString))
+                {
+                    string[] staffarray = staffsString.Split(new string[] { "|||" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string item in staffarray)
+                    {
+                        staffs.Add(new SceneStaff()
+                        {
+                            Value = item,
+                            IsLucky = false,
+                            LuckySceneStaffStateNum = LuckySceneStaffState.Default.ToInt()
+                        });
+                    }
+                }
+
+                porder.SceneStaffs = staffs;
+            }
+
             return PrizeOrderContract.BatchAdd(porder, shouldMinus);
         }
     }

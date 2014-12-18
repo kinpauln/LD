@@ -91,7 +91,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             ViewBag.IsPostBack = true;
             int rtype = model.PrizeOrderDetailView.PrizeOrderView.RevealType.ToInt();
-            ViewBag.RevealType = rtype.ToString(); 
+            ViewBag.RevealType = rtype.ToString();
             ViewBag.CurrentUserId = this.UserId ?? 0;
 
             if (ModelState.IsValid)
@@ -118,7 +118,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 model.UserId = this.UserId;
             }
 
-            if (model.UserId.Value== model.PrizeOrderDetailView.MemberView.Id)
+            if (model.UserId.Value == model.PrizeOrderDetailView.MemberView.Id)
             {
                 //验证码验证失败
                 //ModelState.AddModelError("", e.Message);
@@ -347,6 +347,17 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     if (!model.PrizeOrderView.LaunchTime.HasValue)
                     {
                         ViewBag.Message = "开奖时间必须指定";
+                        return false;
+                    }
+                    if (string.IsNullOrEmpty(model.PrizeOrderView.StaffsOfScenceString))
+                    {
+                        ViewBag.Message = "抽奖人员至少指定一位";
+                        return false;
+                    }
+
+                    if (model.PrizeOrderView.StaffsOfScenceString.Split(new string[] { "|||" }, StringSplitOptions.RemoveEmptyEntries).Length == 0)
+                    {
+                        ViewBag.Message = "抽奖人员至少指定一位";
                         return false;
                     }
                     break;
