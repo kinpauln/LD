@@ -90,6 +90,11 @@ namespace LotteryDraw.Core.Models.Account
         public virtual ICollection<PrizeBetting> PrizeBettings { get; set; }
 
         /// <summary>
+        /// 获取或设置 该用户中奖的奖（非现场抽奖）
+        /// </summary>
+        public virtual ICollection<LotteryResult> LotteryResults { get; set; }
+
+        /// <summary>
         /// 获取或设置 用户拥有的角色信息集合
         /// </summary>
         public virtual ICollection<Role> Roles { get; set; }

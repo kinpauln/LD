@@ -42,6 +42,12 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         [Import]
         protected IPrizeBettingSiteContract PrizeBettingSiteContract { get; set; }
 
+        [Import]
+        protected ILotteryResultContract LotteryResultContract { get; set; }
+
+        [Import]
+        protected ILotteryResultSiteContract LotteryResultSiteContract { get; set; }
+
         #endregion
         #endregion
 
@@ -374,9 +380,34 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
         #region 中奖通知
 
-        public ActionResult LuckyNotice()
+        public ActionResult LuckyNotice(int? id)
         {
-            return View();
+            long userid = this.UserId ?? 0;
+            ViewBag.UserId = userid.ToString();
+
+            int pageIndex = id ?? 1;
+            int total;
+            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
+
+            var plist = LotteryResultContract.LotteryResults
+                .Where(p => p.Member.Id.Equals(userid) && !p.IsDeleted)
+                .Where<LotteryResult, Guid>(m => true, pageIndex, this.PageSize, out total, sortConditions)
+                .OrderByDescending(p => p.AddDate)
+                .ToList();
+            var rlist = new List<LotteryResultView>();
+            plist.ForEach(p =>
+            {
+                rlist.Add(new LotteryResultView()
+                {
+                    Id = p.Id,
+                    PrizeOrderView = p.PrizeOrder.ToSiteViewModel(),
+                    MemberView = p.Member.ToSiteViewModel(),
+                    AddDate = p.AddDate
+                });
+            });
+
+            PagedList<LotteryResultView> model = new PagedList<LotteryResultView>(rlist, pageIndex, this.PageSize, total);
+            return View(model);
         }
 
         #endregion
@@ -639,16 +670,6 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         }
         #endregion
 
-        public ActionResult MyBettingList(int? id)
-        {
-            long userid = this.UserId ?? 0;
-            int pageIndex = id ?? 1;
-            int total;
-            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
-
-            return View();
-        }
-
         #region 发起抽奖
         /// <summary>
         ///  发起抽奖
@@ -767,6 +788,30 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             ViewBag.MemberId = this.UserId ?? 0;
         }
         #endregion
+
+        [HttpPost]
+        public JsonResult UpdateLotteryResult(Guid id, int state) 
+        {
+            OperationResult result = LotteryResultSiteContract.UpdateLotteryResult(id, state);
+            if (result.ResultType == OperationResultType.Success)
+            {
+                LotteryResult rtnmodel = (LotteryResult)result.AppendData;
+                return Json(new { OK = true, Message = "更新状态成功！" }, JsonRequestBehavior.AllowGet);
+            }
+
+            string msg = result.Message ?? result.ResultType.ToDescription();
+            return Json(new { OK = false, Message = msg }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult MyBettingList(int? id)
+        {
+            long userid = this.UserId ?? 0;
+            int pageIndex = id ?? 1;
+            int total;
+            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
+
+            return View();
+        }
 
         /// <summary>
         ///  奖品管理

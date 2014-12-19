@@ -103,14 +103,14 @@ namespace LotteryDraw.Site.Models
         ///  奖池大小
         /// </summary>
         [Display(Name = "奖池大小")]
-        [DefaultValue(100)]
+        //[DefaultValue(100)]
         public int? PoolCount { get; set; }
 
         /// <summary>
         ///  中奖人数
         /// </summary>
         [Display(Name = "中奖人数")]
-        [DefaultValue(5)]
+        //[DefaultValue(5)]
         public int? LuckyCount { get; set; }
 
         [Display(Name = "问题")]
@@ -124,8 +124,15 @@ namespace LotteryDraw.Site.Models
 
         public string StaffsOfScenceString { get; set; }
 
+        /// <summary>
+        ///  兑奖码
+        /// </summary>
+        public string ExchangeCode { get; set; }
+
         public bool Is2Top { get; set; }
                 
         public DateTime? UpdateDate { get; set; }
+
+        public PrizeView PrizeView { get; set; }
     }
 }

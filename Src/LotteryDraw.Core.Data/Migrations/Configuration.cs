@@ -29,7 +29,7 @@ namespace LotteryDraw.Core.Data.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = false;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(EFDbContext context)
@@ -57,24 +57,26 @@ namespace LotteryDraw.Core.Data.Migrations
             members[2].Roles.Add(roleSet.ToArray()[0]);
             members[3].Roles.Add(roleSet.ToArray()[1]);//企业用户
             members[4].Roles.Add(roleSet.ToArray()[2]);//个人用户
-            //for (int i = 0; i < 30; i++)
-            //{
-            //    Random rnd = new Random((int)DateTime.Now.Ticks + i);
-            //    Member member = new Member
-            //    {
-            //        UserName = "user" + i,
-            //        Password = Encrypt.Encode("123456"),
-            //        Email = "user" + i + "@choujiangma.com",
-            //        Name = "用户" + i
-            //    };
-            //    var roleArray = roleSet.ToArray();
-            //    member.Roles.Add(roleArray[rnd.Next(0, roleArray.Length)]);
-            //    if (rnd.NextDouble() > 0.5)
-            //    {
-            //        member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);
-            //    }
-            //    members.Add(member);
-            //}
+            for (int i = 0; i < 30; i++)
+            {
+                Random rnd = new Random((int)DateTime.Now.Ticks + i);
+                Member member = new Member
+                {
+                    UserName = "user" + i,
+                    Password = Encrypt.Encode("123456"),
+                    Email = "user" + i + "@choujiangma.com",
+                    Name = "用户" + i,
+                    PubishingEnableTimes = 5,
+                    Extend = new MemberExtend() { AdvertisingUrl = "http://www.wuliubang.net/" }
+                };
+                var roleArray = roleSet.ToArray();
+                member.Roles.Add(roleArray[rnd.Next(0, roleArray.Length)]);
+                if (rnd.NextDouble() > 0.5)
+                {
+                    member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);
+                }
+                members.Add(member);
+            }
             DbSet<Member> memberSet = context.Set<Member>();
             memberSet.AddOrUpdate(m => new { m.UserName }, members.ToArray());
             context.SaveChanges();
@@ -87,11 +89,28 @@ namespace LotteryDraw.Core.Data.Migrations
             //    var memberArray = memberSet.ToArray();
             //    var member = memberArray[rnd.Next(0, memberArray.Length)];
             //    prize.Member = member;
-            //    prize.Photo = StreamUtil.Base64ToBytes(StaticStrings.demoImageBase64String);
+            //    //prize.Photo = StreamUtil.Base64ToBytes(StaticStrings.demoImageBase64String);
             //    prizes.Add(prize);
             //}
             //DbSet<Prize> prizeSet = context.Set<Prize>();
             //prizeSet.AddOrUpdate(m => new { m.Name }, prizes.ToArray());
+            //context.SaveChanges();
+
+            //List<PrizePhoto> photos = new List<PrizePhoto>();
+            //var prizeArray = prizes.ToArray();
+            //for (int i = 0; i < prizes.Count; i++)
+            //{
+            //    Random rnd = new Random((int)DateTime.Now.Ticks + i);
+            //    PrizePhoto pphoto = new PrizePhoto
+            //    {
+            //        Name = "e26b4610-58fb-4ceb-ac72-a3f700c7c301.jpg",
+            //        Prize = prizes.ToArray()[i]
+            //    };
+
+            //    photos.Add(pphoto);
+            //}
+            //DbSet<PrizePhoto> pPhotoSet = context.Set<PrizePhoto>();
+            //pPhotoSet.AddOrUpdate(p => new { p.Name }, photos.ToArray());
             //context.SaveChanges();
         }
     }

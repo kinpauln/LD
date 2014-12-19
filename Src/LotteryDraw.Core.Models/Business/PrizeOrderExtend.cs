@@ -79,6 +79,11 @@ namespace LotteryDraw.Core.Models.Business
         public int? LuckyCount { get; set; }
 
         /// <summary>
+        ///  ¶Ò½±Âë
+        /// </summary>
+        public string ExchangeCode { get; set; }
+
+        /// <summary>
         ///  ±¸×¢
         /// </summary>
         public string Remarks { get; set; }

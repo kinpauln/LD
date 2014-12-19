@@ -57,6 +57,31 @@ namespace LotteryDraw.Core.Impl
 
         #endregion
 
+        public OperationResult UpdateLotteryResult(Guid id, int state)
+        {
+            LotteryResult entity = LotteryResultRepository.Entities.Where(lr => lr.Id == id).FirstOrDefault();
+
+            if (entity ==null)
+            {
+                return new OperationResult(OperationResultType.Warning, string.Format("没有Id为{0}的中奖信息。",id.ToString()), id.ToString());
+            }
+
+            if (state == entity.LotteryResultStateNum)
+            {
+                return new OperationResult(OperationResultType.Warning, "要更新的状态与数据库的一致，无需更改。", entity);
+            }
+            entity.LotteryResultStateNum = state;
+            int rcount = LotteryResultRepository.Update(entity);
+            if (rcount > 0)
+            {
+                return new OperationResult(OperationResultType.Success, "更新状态成功。", entity);
+            }
+            else
+            {
+                return new OperationResult(OperationResultType.Warning, "更新状态失败。");
+            }
+        }
+
         #endregion
     }
 }

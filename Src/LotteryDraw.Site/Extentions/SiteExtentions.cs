@@ -73,7 +73,7 @@ namespace LotteryDraw.Site.Extentions
         {
             if (m == null)
                 return null;
-            return new MemberView()
+            MemberView mv = new MemberView()
             {
                 Id = m.Id,
                 UserName = m.UserName,
@@ -81,15 +81,54 @@ namespace LotteryDraw.Site.Extentions
                 Email = m.Email,
                 Name = m.Name,
                 AddDate = m.AddDate,
-                Tel = m.Extend.Tel,
-                AdvertisingUrl = m.Extend.AdvertisingUrl,
-                Province = m.Extend.Address.Province,
-                City = m.Extend.Address.City,
-                Town = m.Extend.Address.Town,
-                AddrSuffix = m.Extend.Address.Suffix,
                 MemberType = m.MemberType,
                 LoginLogCount = m.LoginLogs.Count,
                 RoleNames = m.Roles.AsEnumerable().Select(r => r.Name)
+            };
+            if (m.Extend != null) { 
+                mv.Tel = m.Extend.Tel;
+                mv.AdvertisingUrl = m.Extend.AdvertisingUrl;
+                mv.Province = m.Extend.Address.Province;
+                mv.City = m.Extend.Address.City;
+                mv.Town = m.Extend.Address.Town;
+                mv.AddrSuffix = m.Extend.Address.Suffix;
+            }
+            return mv;
+        }
+
+        public static PrizeOrderView ToSiteViewModel(this PrizeOrder po)
+        {
+            if (po == null)
+                return null;
+            return new PrizeOrderView()
+            {
+                Id = po.Id,
+                RevealType = po.RevealType,
+                RevealTypeNum = po.RevealTypeNum,
+                RevealState = po.RevealState,
+                RevealStateNum = po.RevealStateNum,
+                ScopeType = po.Extend.ScopeType,
+                ScopeTypeNum = po.Extend.ScopeTypeNum,
+                //ScopeProvince = po.Extend.ScopeCity,
+                ScopeAreaCity = po.Extend.ScopeCity,
+                AnswerRevealConditionType = po.Extend.AnswerRevealConditionType,
+                AnswerRevealConditionTypeNum = po.Extend.AnswerRevealConditionTypeNum,
+                //Remarks = po.Extend,
+                PrizeId = po.Prize.Id,
+                PrizeView = po.Prize.ToSiteViewModel(),
+                SortOrder = po.SortOrder??0,
+                LaunchTime = po.Extend.LaunchTime,
+                MinLuckyCount = po.Extend.MinLuckyCount,
+                LuckyPercent = po.Extend.LuckyPercent,
+                PoolCount = po.Extend.PoolCount,
+                LuckyCount = po.Extend.LuckyCount,
+                Question = po.Extend.PrizeAsking.Question,
+                AnswerOptions = po.Extend.PrizeAsking.AnswerOptions,
+                Answer = po.Extend.PrizeAsking.Answer,
+                ExchangeCode = po.Extend.ExchangeCode
+                //StaffsOfScenceString = po.SceneStaffs.AsEnumerable().ToArray().,
+                //Is2Top = po.Extend,
+                //UpdateDate = po.,
             };
         }
 

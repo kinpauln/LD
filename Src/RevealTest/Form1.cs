@@ -20,6 +20,10 @@ using LotteryDraw.Core.Models.Business;
 using LotteryDraw.Component.Tools;
 using System.Data.SqlClient;
 using System.Threading;
+using LotteryDraw.Component.Data;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using LotteryDraw.Core.Data.Repositories.Business;
 
 namespace RevealTest
 {
@@ -36,6 +40,18 @@ namespace RevealTest
 
         [Import]
         public IPrizeContract PrizeContract { get; set; }
+
+        /// <summary>
+        /// 获取或设置 奖品数据访问对象
+        /// </summary>
+        [Import]
+        protected IPrizeRepository PrizeRepository { get; set; }
+
+        /// <summary>
+        /// 获取或设置 奖品数据访问对象
+        /// </summary>
+        [Import]
+        protected IPrizePhotoRepository PrizePhotoRepository { get; set; }
 
         [Import]
         public IAccountContract AccountContract { get; set; }
@@ -58,6 +74,45 @@ namespace RevealTest
 
         private void button1_Click(object sender, EventArgs e)
         {
+            var memberSet = AccountContract.Members.ToList();
+
+            // 构造奖品
+            List<Prize> prizelist = new List<Prize>();
+            for (int i = 1; i < 30; i++)
+            {
+                Random rnd = new Random((int)DateTime.Now.Ticks + i);
+                var prize = new Prize() { Name = "奖品名称奖品名称" + i.ToString(), Description = "奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述" + i.ToString(), AddDate = DateTime.Now };
+                var memberArray = memberSet.ToArray();
+                var member = memberArray[rnd.Next(0, memberArray.Length)];
+                prize.Member = member;
+                //prize.Photo = StreamUtil.Base64ToBytes(StaticStrings.demoImageBase64String);
+                prizelist.Add(prize);
+            }
+            PrizeRepository.Insert(prizelist);
+
+            //DbSet<Prize> prizeSet = context.Set<Prize>();
+            //prizeSet.AddOrUpdate(prizelist.ToArray());
+            //context.SaveChanges();
+
+            // 构造奖品
+            List<PrizePhoto> photos = new List<PrizePhoto>();
+            var prizeArray = prizelist.ToArray();
+            for (int i = 0; i < prizelist.Count; i++)
+            {
+                Random rnd = new Random((int)DateTime.Now.Ticks + i);
+                PrizePhoto pphoto = new PrizePhoto
+                {
+                    Name = "e26b4610-58fb-4ceb-ac72-a3f700c7c301.jpg",
+                    Prize = prizeArray[rnd.Next(0, prizeArray.Length)]
+                };
+
+                photos.Add(pphoto);
+            }
+            PrizePhotoRepository.Insert(photos);
+            //DbSet<PrizePhoto> pPhotoSet = context.Set<PrizePhoto>();
+            //pPhotoSet.AddOrUpdate(photos.ToArray());
+            //context.SaveChanges();
+
             var prizes = PrizeContract.Prizes.ToList();
 
             var prizeOrdersCount = PrizeOrderContract.PrizeOrders.Count();
@@ -189,9 +244,9 @@ namespace RevealTest
                 this.Invoke(new Action(() =>
                 {
                     txtInfo.Text += splitLine + Environment.NewLine;
-                    txtInfo.Text += string.Format("尝试新一次的开奖...【{0}】",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) + Environment.NewLine;
+                    txtInfo.Text += string.Format("尝试新一次的开奖...【{0}】", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) + Environment.NewLine;
                     string errorString = string.Empty;
-                    OperationResult result = PrizeOrderContract.RevealLottery(interval,out errorString);
+                    OperationResult result = PrizeOrderContract.RevealLottery(interval, out errorString);
                     if (result.ResultType == OperationResultType.Success)
                     {
                         DataSet ds = (DataSet)result.AppendData;

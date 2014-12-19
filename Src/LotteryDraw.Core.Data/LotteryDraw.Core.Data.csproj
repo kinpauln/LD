@@ -60,6 +60,7 @@
     <Compile Include="Configurations\Account\LoginLogConfiguration.cs" />
     <Compile Include="Configurations\Account\MemberAddressConfiguration.cs" />
     <Compile Include="Configurations\Account\MemberExtendConfiguration.cs" />
+    <Compile Include="Configurations\Business\LotteryResultConfiguration.cs" />
     <Compile Include="Configurations\Business\SceneStaffConfiguration.cs" />
     <Compile Include="Configurations\Business\PrizePhotoConfiguration.cs" />
     <Compile Include="Configurations\Business\PrizePhotoConfiguration.generated.cs" />

@@ -51,7 +51,7 @@ namespace LotteryDraw.Component.Tools
     [Description("开奖状态")]
     public enum RevealState
     {
-        [Description("未知")]
+        [Description("未读")]
         UnKnown = 0,
         [Description("未开奖")]
         UnDrawn = 1,
@@ -83,20 +83,20 @@ namespace LotteryDraw.Component.Tools
     [Description("开奖结果状态")]
     public enum LotteryResultState
     {
-        [Description("默认")]
+        [Description("未通知")]
         Default = 0,
-        [Description("已通知")]
-        Noticed = 1,
+        //[Description("已通知")]
+        //Noticed = 1,
         [Description("已付款")]
-        Paid = 2,
+        Paid = 1,
         [Description("确认已付款")]
-        PayConfirmed = 3,
+        PayConfirmed = 2,
         [Description("邮寄中")]
-        Posting = 4,
+        Posting = 3,
         [Description("已收货")]
-        Reveived = 5,
+        Reveived = 4,
         [Description("已关闭")]
-        Closed = 6
+        Closed = 5
     }
 
     /// <summary>

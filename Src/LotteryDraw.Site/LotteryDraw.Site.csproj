@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ILotteryResultSiteContract.cs" />
+    <Compile Include="Impl\LotteryResultSiteService.cs" />
     <Compile Include="Impl\PrizePhotoSiteService.cs" />
     <Compile Include="IPrizePhotoSiteContract.cs" />
     <Compile Include="Impl\WhiteListService.cs" />

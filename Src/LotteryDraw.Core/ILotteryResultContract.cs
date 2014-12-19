@@ -17,6 +17,7 @@ using LotteryDraw.Core.Models;
 using LotteryDraw.Core.Models.Account;
 using LotteryDraw.Core.Models.Security;
 using LotteryDraw.Core.Models.Business;
+using System;
 
 
 namespace LotteryDraw.Core
@@ -36,6 +37,8 @@ namespace LotteryDraw.Core
         #endregion
 
         #region 公共方法
+
+        OperationResult UpdateLotteryResult(Guid id, int state);
 
         #endregion
     }

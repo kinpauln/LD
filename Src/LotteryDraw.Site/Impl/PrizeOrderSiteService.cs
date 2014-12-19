@@ -294,7 +294,8 @@ namespace LotteryDraw.Site.Impl
                 Extend = new PrizeOrderExtend()
                 {
                     LuckyCount = porderdetail.PrizeOrderView.LuckyCount, //中奖人数
-                    MinLuckyCount = 1 //最低中奖人数默认设置为1
+                    MinLuckyCount = 1, //最低中奖人数默认设置为1
+                    ExchangeCode = porderdetail.PrizeOrderView.ExchangeCode
                 }
             };
 

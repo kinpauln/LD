@@ -37,9 +37,19 @@ namespace LotteryDraw.Core.Models.Business
         /// <summary>
         /// 获取或设置 开奖信息
         /// </summary>
-        public PrizeOrder PrizeOrder { get; set; }
+        public virtual PrizeOrder PrizeOrder { get; set; }
 
-        [DefaultValue(0)]
+        public LotteryResultState LotteryResultState
+        {
+            get { return (LotteryResultState)LotteryResultStateNum; }
+            set { LotteryResultStateNum = (int)value; }
+        }
+
+        /// <summary>
+        /// 获取或设置 中奖状态
+        /// </summary>
+        public int LotteryResultStateNum { get; set; }
+
         public int State { get; set; }
 
         public DateTime? UpdateDate { get; set; }
