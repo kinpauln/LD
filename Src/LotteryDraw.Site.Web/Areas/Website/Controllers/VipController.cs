@@ -270,7 +270,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 //TempData["Message"] = string.Format("发起抽奖成功。<br /><a href='/Vip/PrizeOrderDetail/{0}'>查看<a>奖单", porder.Id);
                 //return RedirectToAction("InfoPage");
                 ViewBag.PostBackIsOK = true;
-                ViewBag.SuccessString = "参与抽奖成功";
+                ViewBag.SuccessString = "发布抽奖成功，请等待审核。";
                 return View(model);
             }
             else

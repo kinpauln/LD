@@ -86,6 +86,13 @@
                     </select><span class="info">*</span>
                 </td>
             </tr>
+            <tr rtype="timing quota answer">
+                <td class="text">运费：</td>
+                <td class="input">
+                    @Html.TextBoxFor(model => model.PrizeOrderView.Freight, new { @class = "input-text float", Id = "Freight", placeholder = "奖品名称" }) 元
+                    <span class="info">*</span>
+                </td>
+            </tr>
             <tr scope-type="area-city">
                 <td class="text">开奖城市：</td>
                 <td class="input">
@@ -173,12 +180,12 @@
                         @Html.TextBoxFor(m => m.PrizeOrderView.MinLuckyCount, new { @class = "input-text num" })<span class="info">*</span>
                     </td>
                 </tr>*@
-            <tr rtype="no-change">
+            @*<tr rtype="no-change">
                 <td class="text">兑奖码</td>
                 <td class="input">
                     @Html.TextBoxFor(m => m.PrizeOrderView.ExchangeCode, new { @class = "input-text", Id = "ExchangeCode" })
                 </td>
-            </tr>
+            </tr>*@
             <tr rtype="no-change">
                 <td class="text"></td>
                 <td class="input">
@@ -267,6 +274,19 @@
                 $(this).val($(this).val().replace(/\D/g, ''));
             }).live("afterpaste", function () {
                 $(this).val($(this).val().replace(/\D/g, ''));
+            });
+
+            //限制文本框只能输入浮点数
+            $(".float").live("keyup", function () {
+                var oInput = $(this);
+                if ('' != oInput.val().replace(/\d{1,}\.{0,1}\d{0,}/, '')) {
+                    oInput.val(oInput.val().match(/\d{1,}\.{0,1}\d{0,}/) == null ? '' : oInput.val().match(/\d{1,}\.{0,1}\d{0,}/));
+                }
+            }).live("afterpaste", function () {
+                var oInput = $(this);
+                if ('' != oInput.val().replace(/\d{1,}\.{0,1}\d{0,}/, '')) {
+                    oInput.val(oInput.val().match(/\d{1,}\.{0,1}\d{0,}/) == null ? '' : oInput.val().match(/\d{1,}\.{0,1}\d{0,}/));
+                }
             });
 
             // 开奖类型下拉框事件

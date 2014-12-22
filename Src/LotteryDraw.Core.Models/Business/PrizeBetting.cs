@@ -39,6 +39,11 @@ namespace LotteryDraw.Core.Models.Business
         /// </summary>
         public virtual PrizeOrder PrizeOrder { get; set; }
 
+        /// <summary>
+        ///  ¶Ò½±Âë
+        /// </summary>
+        public string ExchangeCode { get; set; }
+
         public string Phone { get; set; }
 
         public string Address { get; set; }

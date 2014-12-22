@@ -48,6 +48,11 @@ namespace LotteryDraw.Site.Models
             set { ScopeTypeNum = (int)value; }
         }
 
+        /// <summary>
+        ///  运费
+        /// </summary>
+        public decimal Freight { get; set; }
+
         public int ScopeTypeNum { get; set; }
 
         /// <summary>
@@ -123,12 +128,7 @@ namespace LotteryDraw.Site.Models
         public string Answer { get; set; }
 
         public string StaffsOfScenceString { get; set; }
-
-        /// <summary>
-        ///  兑奖码
-        /// </summary>
-        public string ExchangeCode { get; set; }
-
+        
         public bool Is2Top { get; set; }
                 
         public DateTime? UpdateDate { get; set; }

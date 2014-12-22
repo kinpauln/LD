@@ -295,7 +295,6 @@ namespace LotteryDraw.Site.Impl
                 {
                     LuckyCount = porderdetail.PrizeOrderView.LuckyCount, //中奖人数
                     MinLuckyCount = 1, //最低中奖人数默认设置为1
-                    ExchangeCode = porderdetail.PrizeOrderView.ExchangeCode
                 }
             };
 
@@ -307,6 +306,8 @@ namespace LotteryDraw.Site.Impl
                 {
                     porder.Extend.ScopeCity = porderdetail.PrizeOrderView.ScopeAreaCity;
                 }
+
+                porder.Extend.Freight = porderdetail.PrizeOrderView.Freight;
             }
             switch (porderdetail.PrizeOrderView.RevealType)
             {

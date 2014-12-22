@@ -13,6 +13,9 @@ namespace LotteryDraw.Site.Models
         }
 
         public long? UserId { get; set; }
+
+        public string ExchangeCode { get; set; }
+
         public PrizeOrderDetailView PrizeOrderDetailView { get; set; }
 
         public string UserAnswer { get; set; }

@@ -77,11 +77,11 @@ namespace LotteryDraw.Core.Models.Business
         ///  中奖人数
         /// </summary>
         public int? LuckyCount { get; set; }
-
+        
         /// <summary>
-        ///  兑奖码
+        /// 获取或设置 运费
         /// </summary>
-        public string ExchangeCode { get; set; }
+        public virtual decimal Freight { get; set; }
 
         /// <summary>
         ///  备注

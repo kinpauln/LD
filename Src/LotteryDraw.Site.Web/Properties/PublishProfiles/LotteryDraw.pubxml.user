@@ -88,7 +88,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/19/2014 10:36:15</publishTime>
     </File>
     <File Include="Areas/Website/Views/Business/LotteryListPartial.cshtml">
-      <publishTime>12/15/2014 17:21:23</publishTime>
+      <publishTime>12/22/2014 10:22:14</publishTime>
     </File>
     <File Include="Areas/Website/Views/Business/PrizeOrders.cshtml">
       <publishTime>11/29/2014 15:43:14</publishTime>
@@ -154,7 +154,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/15/2014 17:44:50</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/LaunchLottery.cshtml">
-      <publishTime>12/22/2014 09:40:12</publishTime>
+      <publishTime>12/22/2014 11:38:52</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/LaunchPageButtonsPartial.cshtml">
       <publishTime>09/29/2014 13:26:17</publishTime>
@@ -172,7 +172,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/29/2014 12:53:00</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/PrizeBetting.cshtml">
-      <publishTime>12/12/2014 15:59:05</publishTime>
+      <publishTime>12/22/2014 11:41:11</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/PrizeDetail.cshtml">
       <publishTime>12/19/2014 21:50:06</publishTime>
@@ -259,70 +259,70 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/09/2013 11:07:29</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Config.dll">
-      <publishTime>12/19/2014 21:08:41</publishTime>
+      <publishTime>12/22/2014 10:44:51</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Config.pdb">
-      <publishTime>12/19/2014 21:08:41</publishTime>
+      <publishTime>12/22/2014 10:44:51</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Data.dll">
-      <publishTime>12/19/2014 22:02:07</publishTime>
+      <publishTime>12/22/2014 10:44:50</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Data.pdb">
-      <publishTime>12/19/2014 22:02:07</publishTime>
+      <publishTime>12/22/2014 10:44:49</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Log.dll">
-      <publishTime>12/19/2014 21:08:42</publishTime>
+      <publishTime>12/22/2014 10:44:52</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Log.pdb">
-      <publishTime>12/19/2014 21:08:42</publishTime>
+      <publishTime>12/22/2014 10:44:52</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Tools.dll">
-      <publishTime>12/19/2014 22:02:05</publishTime>
+      <publishTime>12/22/2014 10:44:47</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Tools.pdb">
-      <publishTime>12/19/2014 22:02:05</publishTime>
+      <publishTime>12/22/2014 10:44:47</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Utility.dll">
-      <publishTime>12/19/2014 21:05:19</publishTime>
+      <publishTime>12/22/2014 10:44:48</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Utility.pdb">
-      <publishTime>12/19/2014 21:05:19</publishTime>
+      <publishTime>12/22/2014 10:44:48</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.Data.dll">
-      <publishTime>12/19/2014 22:27:54</publishTime>
+      <publishTime>12/22/2014 11:42:22</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.Data.pdb">
-      <publishTime>12/19/2014 22:27:54</publishTime>
+      <publishTime>12/22/2014 11:42:22</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.dll">
-      <publishTime>12/19/2014 22:45:23</publishTime>
+      <publishTime>12/22/2014 11:42:22</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.Models.dll">
-      <publishTime>12/19/2014 22:27:54</publishTime>
+      <publishTime>12/22/2014 11:42:21</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.Models.pdb">
-      <publishTime>12/19/2014 22:27:53</publishTime>
+      <publishTime>12/22/2014 11:42:21</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.pdb">
-      <publishTime>12/19/2014 22:45:23</publishTime>
+      <publishTime>12/22/2014 11:42:22</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.dll">
-      <publishTime>12/19/2014 22:45:24</publishTime>
+      <publishTime>12/22/2014 11:43:37</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.Models.dll">
-      <publishTime>12/19/2014 22:02:07</publishTime>
+      <publishTime>12/22/2014 11:43:12</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.Models.pdb">
-      <publishTime>12/19/2014 22:02:07</publishTime>
+      <publishTime>12/22/2014 11:43:12</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.pdb">
-      <publishTime>12/19/2014 22:45:23</publishTime>
+      <publishTime>12/22/2014 11:43:36</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.Web.dll">
-      <publishTime>12/19/2014 22:45:26</publishTime>
+      <publishTime>12/22/2014 11:43:38</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.Web.pdb">
-      <publishTime>12/19/2014 22:45:26</publishTime>
+      <publishTime>12/22/2014 11:43:38</publishTime>
     </File>
     <File Include="bin/Microsoft.Data.Edm.dll">
       <publishTime>09/25/2014 21:16:07</publishTime>

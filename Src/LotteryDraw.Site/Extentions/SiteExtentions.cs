@@ -124,8 +124,7 @@ namespace LotteryDraw.Site.Extentions
                 LuckyCount = po.Extend.LuckyCount,
                 Question = po.Extend.PrizeAsking.Question,
                 AnswerOptions = po.Extend.PrizeAsking.AnswerOptions,
-                Answer = po.Extend.PrizeAsking.Answer,
-                ExchangeCode = po.Extend.ExchangeCode
+                Answer = po.Extend.PrizeAsking.Answer
                 //StaffsOfScenceString = po.SceneStaffs.AsEnumerable().ToArray().,
                 //Is2Top = po.Extend,
                 //UpdateDate = po.,

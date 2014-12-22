@@ -55,6 +55,7 @@ namespace LotteryDraw.Site.Impl
 
             PrizeBetting pmodel = new PrizeBetting
             {
+                ExchangeCode = prizebetting.ExchangeCode,
                 Phone = prizebetting.PrizeOrderDetailView.MemberView.Tel,
                 Address = prizebetting.PrizeOrderDetailView.MemberView.Address,
                 PrizeOrder = PrizeOrderContract.PrizeOrders.SingleOrDefault(m => m.Id == prizebetting.PrizeOrderDetailView.PrizeOrderView.Id),
