@@ -31,51 +31,51 @@
            PagerItemWrapperFormatString = "{0}",
            CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
        }, new { @class = "pageBox" })
-                    //DataRow[] arrayDR = (DataRow[])ViewBag.AllPrizeOrders;
-                    //if (arrayDR != null && arrayDR.Count() > 0)
-                    //{
-                    foreach (PrizeOrderDetailView item in Model)
-                    {
-                        //string poid = dr["PrizeOrderId"].ToString();
-                        //string pid = dr["PrizeId"].ToString();
-                        //string prizeName = dr["PrizeName"].ToString();
-                        //string prizeDescription = dr["PrizeDescription"].ToString();
-                        //// 发起抽奖日期
-                        //string addDate = DateTime.Parse(dr["RaiseTime"].ToString()).ToString("yyyy-MM-dd");
-                        //string username = dr["UserName"].ToString(); //发起抽奖者
-                        //int rtype = int.Parse(dr["RevealType"].ToString());
-                        string poid = item.PrizeOrderView.Id.ToString();
-                        string pid = item.PrizeView.Id.ToString();
-                        string prizeName = item.PrizeView.Name.ToString();
-                        string prizeDescription = item.PrizeView.Description.ToString();
-                        // 发起抽奖日期
-                        string addDate = item.PrizeOrderView.AddDate.ToString("yyyy-MM-dd");
-                        string username = item.MemberView.UserName.ToString(); //发起抽奖者
-                        string pubuserid = item.MemberView.Id.ToString();
-                        int rtype = item.PrizeOrderView.RevealType.ToInt();
-                        string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
-                        string originalPhotoName = item.PrizeView.OriginalPhoto.Name;
-                        string advurl = item.MemberView.AdvertisingUrl;
-                        int scopeType = item.PrizeOrderView.ScopeTypeNum;
-                        string scopeCity = "全国";
-                        if (scopeType == ScopeType.AreaCity.ToInt())
-                        {
-                            scopeCity = item.PrizeOrderView.ScopeAreaCity;
-                        }
+          //DataRow[] arrayDR = (DataRow[])ViewBag.AllPrizeOrders;
+          //if (arrayDR != null && arrayDR.Count() > 0)
+          //{
+          foreach (PrizeOrderDetailView item in Model)
+          {
+              //string poid = dr["PrizeOrderId"].ToString();
+              //string pid = dr["PrizeId"].ToString();
+              //string prizeName = dr["PrizeName"].ToString();
+              //string prizeDescription = dr["PrizeDescription"].ToString();
+              //// 发起抽奖日期
+              //string addDate = DateTime.Parse(dr["RaiseTime"].ToString()).ToString("yyyy-MM-dd");
+              //string username = dr["UserName"].ToString(); //发起抽奖者
+              //int rtype = int.Parse(dr["RevealType"].ToString());
+              string poid = item.PrizeOrderView.Id.ToString();
+              string pid = item.PrizeView.Id.ToString();
+              string prizeName = item.PrizeView.Name.ToString();
+              string prizeDescription = item.PrizeView.Description.ToString();
+              // 发起抽奖日期
+              string addDate = item.PrizeOrderView.AddDate.ToString("yyyy-MM-dd");
+              string username = item.MemberView.UserName.ToString(); //发起抽奖者
+              string pubuserid = item.MemberView.Id.ToString();
+              int rtype = item.PrizeOrderView.RevealType.ToInt();
+              string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
+              string originalPhotoName = item.PrizeView.OriginalPhoto.Name;
+              string advurl = item.MemberView.AdvertisingUrl;
+              int scopeType = item.PrizeOrderView.ScopeTypeNum;
+              string scopeCity = "全国";
+              if (scopeType == ScopeType.AreaCity.ToInt())
+              {
+                  scopeCity = item.PrizeOrderView.ScopeAreaCity;
+              }
                         
         <dl class="clearfix ranking-movie-list fl">
             <dt class="fl">
                 <a href="/Vip/PrizeDetail/@pid" target="_self">
                     @{
-                        string photoname = string.Empty;
-                        if (!string.IsNullOrEmpty(originalPhotoName))
-                        {
-                            photoname = "/Files/PrizePhotos/" + pubuserid + "/" + originalPhotoName;
-                        }
-                        else
-                        {
-                            photoname = "";
-                        }
+              string photoname = string.Empty;
+              if (!string.IsNullOrEmpty(originalPhotoName))
+              {
+                  photoname = "/Files/PrizePhotos/" + pubuserid + "/" + originalPhotoName;
+              }
+              else
+              {
+                  photoname = "";
+              }
                     }
                     <img src="@photoname" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
                     @*<span class="assessment-zan up dpngIcon pngIcon">93%</span>*@
@@ -84,8 +84,8 @@
                     <p class="ranking-show-time ranking-pic">发起抽奖时间：@addDate</p>
                 </a>
                 @{
-                        if (item.PrizeOrderView.RevealStateNum != RevealState.UnDrawn.ToInt())
-                        {
+              if (item.PrizeOrderView.RevealStateNum != RevealState.UnDrawn.ToInt())
+              {
                     
                     <div class="act_icon act_icon_03" style="position: absolute; left: 0; top: 0; font-size: 12px;">
                         <span class="start">@item.PrizeOrderView.RevealState.GetDescription()</span>
@@ -158,16 +158,26 @@
                     <span>1556人
                     </span>
                 </p>
-                <p class="rmn-item">
-                    <em>距开奖还差 :</em>
-                    <span>154445人
-                    </span>
-                </p>
-                <p class="rmn-item">
-                    <em>距开奖还差 :</em>
-                    <span>2天3小时20分8秒
-                    </span>
-                </p>
+                @{
+              if (item.PrizeOrderView.RevealType == RevealType.Quota ||
+                  item.PrizeOrderView.RevealType == RevealType.Answer && item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Quota)
+              {
+                    <p class="rmn-item">
+                        <em>距开奖还差 :</em>
+                        <span>154445人
+                        </span>
+                    </p>}
+                }
+                @{
+              if (item.PrizeOrderView.RevealType == RevealType.Timing ||
+                  item.PrizeOrderView.RevealType == RevealType.Answer && item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Timing)
+              {
+                    <p class="rmn-item">
+                        <em>距开奖还差 :</em>
+                        <span>2天3小时20分8秒
+                        </span>
+                    </p>}
+                }
                 <div class="clear"></div>
                 @*<div class="rmn-item clearfix">
                                 <ul>
@@ -192,16 +202,16 @@
                                 </ul>
                             </div>*@
                 @{
-                        if (item.PrizeOrderView.RevealStateNum == RevealState.UnDrawn.ToInt())
-                        {
+              if (item.PrizeOrderView.RevealStateNum == RevealState.UnDrawn.ToInt())
+              {
                     <div class="r-play-con">
                         <a class="r-play-button excute-launch" target="_self" href="#" adv-url="@advurl" scope-type="@scopeType" scope-city="@scopeCity" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
                     </div>
-                        }
+              }
                 }
             </dd>
         </dl>
-                    }
+          }
       }
       else
       {

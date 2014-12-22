@@ -172,6 +172,7 @@ namespace LotteryDraw.Site.Extentions
                         AddDate = Convert.ToDateTime(row["RaiseTime"]),
                         ScopeAreaCity = row["ScopeCity"].ToString(),
                         ScopeTypeNum = int.Parse(row["ScopeType"].ToString()),
+                        AnswerRevealConditionTypeNum = int.Parse(row["AnswerRevealConditionTypeNum"].ToString()),
                         Freight = Convert.ToDecimal(row["Freight"]),
                         Is2Top = containIs2Top ? Convert.ToBoolean(row["Is2Top"]) : false
                     },

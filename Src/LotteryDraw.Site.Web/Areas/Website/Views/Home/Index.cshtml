@@ -277,16 +277,26 @@
                                     <span>1556人
                                     </span>
                                 </p>
-                                <p class="rmn-item">
-                                    <em>距开奖还差 :</em>
-                                    <span>154445人
-                                    </span>
-                                </p>
-                                <p class="rmn-item">
-                                    <em>距开奖还差 :</em>
-                                    <span>2天3小时20分8秒
-                                    </span>
-                                </p>
+                                @{
+                                if (item.PrizeOrderView.RevealType == RevealType.Quota ||
+                                    item.PrizeOrderView.RevealType == RevealType.Answer && item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Quota)
+                                {
+                                    <p class="rmn-item">
+                                        <em>距开奖还差 :</em>
+                                        <span>154445人
+                                        </span>
+                                    </p>}
+                                }
+                                @{
+                                if (item.PrizeOrderView.RevealType == RevealType.Timing ||
+                                    item.PrizeOrderView.RevealType == RevealType.Answer && item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Timing)
+                                {
+                                    <p class="rmn-item">
+                                        <em>距开奖还差 :</em>
+                                        <span>2天3小时20分8秒
+                                        </span>
+                                    </p>}
+                                }
                                 <div class="clear"></div>
                                 @*<div class="rmn-item clearfix">
                                 <ul>
