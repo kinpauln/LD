@@ -57,26 +57,26 @@ namespace LotteryDraw.Core.Data.Migrations
             members[2].Roles.Add(roleSet.ToArray()[0]);
             members[3].Roles.Add(roleSet.ToArray()[1]);//企业用户
             members[4].Roles.Add(roleSet.ToArray()[2]);//个人用户
-            for (int i = 0; i < 30; i++)
-            {
-                Random rnd = new Random((int)DateTime.Now.Ticks + i);
-                Member member = new Member
-                {
-                    UserName = "user" + i,
-                    Password = Encrypt.Encode("123456"),
-                    Email = "user" + i + "@choujiangma.com",
-                    Name = "用户" + i,
-                    PubishingEnableTimes = 5,
-                    Extend = new MemberExtend() { AdvertisingUrl = "http://www.wuliubang.net/" }
-                };
-                var roleArray = roleSet.ToArray();
-                member.Roles.Add(roleArray[rnd.Next(0, roleArray.Length)]);
-                if (rnd.NextDouble() > 0.5)
-                {
-                    member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);
-                }
-                members.Add(member);
-            }
+            //for (int i = 0; i < 30; i++)
+            //{
+            //    Random rnd = new Random((int)DateTime.Now.Ticks + i);
+            //    Member member = new Member
+            //    {
+            //        UserName = "user" + i,
+            //        Password = Encrypt.Encode("123456"),
+            //        Email = "user" + i + "@choujiangma.com",
+            //        Name = "用户" + i,
+            //        PubishingEnableTimes = 5,
+            //        Extend = new MemberExtend() { AdvertisingUrl = "http://www.wuliubang.net/" }
+            //    };
+            //    var roleArray = roleSet.ToArray();
+            //    member.Roles.Add(roleArray[rnd.Next(0, roleArray.Length)]);
+            //    if (rnd.NextDouble() > 0.5)
+            //    {
+            //        member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);
+            //    }
+            //    members.Add(member);
+            //}
             DbSet<Member> memberSet = context.Set<Member>();
             memberSet.AddOrUpdate(m => new { m.UserName }, members.ToArray());
             context.SaveChanges();

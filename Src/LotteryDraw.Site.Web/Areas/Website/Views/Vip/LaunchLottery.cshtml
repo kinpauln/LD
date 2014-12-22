@@ -534,17 +534,18 @@
                 });
                 $form.validate();
                 if ($form.valid()) {
-                    var optionLength = $("tr[rtype='scene'] div.dropdown-item").length;
-                    if (optionLength == 0) {
-                        layer.alert("抽奖参与者至少设置一个", 8);
-                        return;
-                    }
-                    if (optionLength < $("#LuckyCount").val()) {
-                        layer.alert("抽奖参与者不能少于中奖人数", 8);
-                        return;
-                    }
-
                     var rtype = $("#slLauchType").val();
+                    if (rtype == '@RevealType.Scene.ToInt()') {
+                        var optionLength = $("tr[rtype='scene'] div.dropdown-item").length;
+                        if (optionLength == 0) {
+                            layer.alert("抽奖参与者至少设置一个", 8);
+                            return;
+                        }
+                        if (optionLength < $("#LuckyCount").val()) {
+                            layer.alert("抽奖参与者不能少于中奖人数", 8);
+                            return;
+                        }
+                    }
 
                     // 答案抽奖需要设置答案选项和正确答案
                     if (rtype == '@RevealType.Answer.ToInt()') {

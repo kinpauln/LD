@@ -7,7 +7,7 @@
     @{if (Model != null && Model.Count > 0)
       {
         <div class="classify">
-            <div class="n-header-middle fl">
+            @*<div class="n-header-middle fl">
                 <div class="search-contai">
                     @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "Business"))
                     {
@@ -16,7 +16,7 @@
                     }
                 </div>
             </div>
-            <div class="clear"></div>
+            <div class="clear"></div>*@
         </div>
         @Html.Pager(Model, new PagerOptions
        {
