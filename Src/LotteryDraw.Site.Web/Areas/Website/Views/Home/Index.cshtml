@@ -159,7 +159,7 @@
             <div style="width: 1200px; margin: auto;">
                 <!-- 影片 start-->
                 <div class="ranking-web-content seach-result-content clearfix" style="padding-left: 0px;">
-                    <div class="classify sr-classify" style="padding:0;">
+                    <div class="classify sr-classify" style="padding: 0;">
                         @*<a class="show-now" href="/">所有</a>
                         <a href="/Home/Index?rtype=@RevealType.Quota.ToInt()">定员抽奖</a>
                         <a href="/Home/Index?rtype=@RevealType.Timing.ToInt()">定时抽奖</a>
@@ -191,7 +191,8 @@
                                 string advurl = item.MemberView.AdvertisingUrl;
                                 int scopeType = item.PrizeOrderView.ScopeTypeNum;
                                 string scopeCity = "全国";
-                                if(scopeType == ScopeType.AreaCity.ToInt()){
+                                if (scopeType == ScopeType.AreaCity.ToInt())
+                                {
                                     scopeCity = item.PrizeOrderView.ScopeAreaCity;
                                 }
                                 bool is2Top = item.PrizeOrderView.Is2Top;
@@ -264,6 +265,11 @@
                                 <p class="rmn-item">
                                     <em>抽奖范围 :</em>
                                     <span>@scopeCity
+                                    </span>
+                                </p>
+                                <p class="rmn-item">
+                                    <em>运费 :</em>
+                                    <span>@item.PrizeOrderView.Freight 元
                                     </span>
                                 </p>
                                 <p class="rmn-item">

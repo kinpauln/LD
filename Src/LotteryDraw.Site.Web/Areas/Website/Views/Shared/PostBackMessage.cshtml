@@ -4,13 +4,13 @@
         $(function () {
             var errorMessage = '@ViewBag.Message';
             if (errorMessage != null && errorMessage != "") {
-                layer.alert(errorMessage, 8);
+                layer.alert(errorMessage, 9);
             }
 
             var isok = '@ViewBag.PostBackIsOK';
             if (isok) {
                 var successString = '@ViewBag.SuccessString';
-                layer.alert(successString, 9);
+                layer.alert(successString, 8);
             }
         });
     </script>
