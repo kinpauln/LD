@@ -28,7 +28,7 @@ using LotteryDraw.Core.Data.Repositories.Business;
 namespace RevealTest
 {
     [Export]
-    public partial class Form1 : Form
+    public partial class frmRobot : Form
     {
         private Thread _revealLottery;
         private bool _revealWatchingStopped = true;
@@ -59,7 +59,7 @@ namespace RevealTest
         [Import]
         public IPrizeBettingContract PrizeBettingContract { get; set; }
 
-        public Form1()
+        public frmRobot()
         {
             InitializeComponent();
             //初始化MEF组合容器
@@ -269,6 +269,12 @@ namespace RevealTest
                             #region 答案
                             txtInfo.Text += subSplitLine + Environment.NewLine;
                             Notice(ds.Tables[2], "答案开奖");
+                            txtInfo.Text += subSplitLine + Environment.NewLine;
+                            #endregion
+
+                            #region 现场
+                            txtInfo.Text += subSplitLine + Environment.NewLine;
+                            Notice(ds.Tables[3], "现场开奖");
                             txtInfo.Text += subSplitLine + Environment.NewLine;
                             #endregion
                         }

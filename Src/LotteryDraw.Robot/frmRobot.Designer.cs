@@ -1,6 +1,6 @@
 ﻿namespace RevealTest
 {
-    partial class Form1
+    partial class frmRobot
     {
         /// <summary>
         /// Required designer variable.
@@ -105,15 +105,15 @@
             this.plContainerBottom.Size = new System.Drawing.Size(524, 247);
             this.plContainerBottom.TabIndex = 5;
             // 
-            // Form1
+            // frmRobot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(524, 324);
             this.Controls.Add(this.plContainerBottom);
             this.Controls.Add(this.plContainerTop);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "frmRobot";
+            this.Text = "开奖机器人";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.plContainerTop.ResumeLayout(false);

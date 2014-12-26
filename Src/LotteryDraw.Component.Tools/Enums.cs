@@ -51,8 +51,6 @@ namespace LotteryDraw.Component.Tools
     [Description("开奖状态")]
     public enum RevealState
     {
-        [Description("未读")]
-        UnKnown = 0,
         [Description("未开奖")]
         UnDrawn = 1,
         [Description("开奖中")]

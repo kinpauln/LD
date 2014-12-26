@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LotteryDraw.Component.Utili
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows Service", "Windows Service", "{C773D3FE-04FF-4AC1-92D6-7913A67220F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevealTest", "RevealTest\RevealTest.csproj", "{DFF536D8-C4B2-4FC6-9CD2-7A8CA17C478A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LD.Robot", "LotteryDraw.Robot\LD.Robot.csproj", "{DFF536D8-C4B2-4FC6-9CD2-7A8CA17C478A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
