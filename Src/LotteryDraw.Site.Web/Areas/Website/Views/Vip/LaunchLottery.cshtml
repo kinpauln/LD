@@ -30,6 +30,7 @@
     @Html.HiddenFor(m => m.PrizeOrderView.AnswerOptions, new { Id = "hidnAnswerOptions" });
     @Html.HiddenFor(model => model.PrizeOrderView.PrizeId, new { Id = "hidnPrizeId" });
     @Html.HiddenFor(model => model.PrizeOrderView.StaffsOfScenceString, new { Id = "hidnStaffsOfScenceString" });
+    @Html.HiddenFor(model => model.PrizeOrderView.InputTypeOfStaff, new { Id = "hidnInputTypeOfStaff" });
     <table class="message_table">
         <tbody>
             @*@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
@@ -148,6 +149,17 @@
                 </td>
             </tr>
             <tr rtype="scene">
+                <td class="text">人员录入方式：</td>
+                <td class="input">
+                    @*@Html.DropDownList("slLauchType",(SelectList)ViewBag.RevealTypeList)*@
+                    <select id="slInputType">
+                        <option value="" selected input-type="">请选择</option>
+                        <option value="1" input-type="manual">手动录入</option>
+                        <option value="2" input-type="file">文件导入</option>
+                    </select><span class="info">*</span>
+                </td>
+            </tr>
+            <tr input-type="manual">
                 <td class="text">抽奖者们：</td>
                 <td class="input">
                     <div style="float: left; line-height: 200px;">
@@ -160,6 +172,12 @@
                         </div>
                     </div>
                     @Html.Hidden("SceneStaffs")
+                </td>
+            </tr>
+            <tr input-type="file">
+                <td class="text">文件：</td>
+                <td class="input">
+                    <input type="file" name="StaffFile" id="fileStaffFile" />
                 </td>
             </tr>
             <tr rtype="quota" lt-condition="quota">
@@ -264,6 +282,18 @@
                 layer.closeTips();
             });
 
+            $("#fileStaffFile").hover(function () {
+                layer.tips('您只能上传文本文件，且参与抽奖人员名单要以【回车键】间隔。', this, {
+                    style: ['background-color:#014A97; color:#fff', '#014A97'],
+                    maxWidth: 185,
+                    time: 30,
+                    //closeBtn: [0, true]
+                    closeBtn: false
+                });
+            }, function () {
+                layer.closeTips();
+            });
+
             //初始化日期选择控件
             $(".launchtime").focus(function () {
                 WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })
@@ -302,6 +332,9 @@
                 }
                 if (thisvalue == '@RevealType.Answer.ToInt()') {
                     locateAnswerLauchTypeSelect("");
+                }
+                if (thisvalue == '@RevealType.Scene.ToInt()') {
+                    locateStaffInputTypeSelect("");
                 }
 
                 // 不是公用的部分先全部隐藏掉
@@ -346,6 +379,18 @@
                 if (scopetype != "") {
                     // 本抽奖类型相关的 表单项都现实出来
                     $("form#prizeForm tr[scope-type*='" + scopetype + "']").fadeIn();
+                }
+            });
+
+            // 人员录入方式下拉框事件
+            $("#slInputType").change(function () {
+                $("#hidnInputTypeOfStaff").val($(this).val());
+                var $opobj = $(this).find("option:selected");
+                var inputtype = $opobj.attr("input-type");
+                $("form#prizeForm tr[input-type]").hide();
+                if (inputtype != "") {
+                    // 本人员录入方式相关的 表单项都现实出来
+                    $("form#prizeForm tr[input-type*='" + inputtype + "']").fadeIn();
                 }
             });
 
@@ -552,18 +597,28 @@
                         required: "必须输入"
                     }
                 });
+
+                $("#slInputType").rules("add", {
+                    required: true,
+                    messages: {
+                        required: "人员录入方式不能为空"
+                    }
+                });
+
                 $form.validate();
                 if ($form.valid()) {
                     var rtype = $("#slLauchType").val();
                     if (rtype == '@RevealType.Scene.ToInt()') {
-                        var optionLength = $("tr[rtype='scene'] div.dropdown-item").length;
-                        if (optionLength == 0) {
-                            layer.alert("抽奖参与者至少设置一个", 8);
-                            return;
-                        }
-                        if (optionLength < $("#LuckyCount").val()) {
-                            layer.alert("抽奖参与者不能少于中奖人数", 8);
-                            return;
+                        if ($("#slInputType").val() == "1") {
+                            var optionLength = $("tr[rtype='scene'] div.dropdown-item").length;
+                            if (optionLength == 0) {
+                                layer.alert("抽奖参与者至少设置一个", 8);
+                                return;
+                            }
+                            if (optionLength < $("#LuckyCount").val()) {
+                                layer.alert("抽奖参与者不能少于中奖人数", 8);
+                                return;
+                            }
                         }
                     }
 
@@ -800,6 +855,11 @@
 
         function locateAnswerLauchTypeSelect(value) {
             var $select = $("#slAnswerLauchType");
+            locateSelect($select, value);
+        }
+
+        function locateStaffInputTypeSelect(value) {
+            var $select = $("#slInputType");
             locateSelect($select, value);
         }
 

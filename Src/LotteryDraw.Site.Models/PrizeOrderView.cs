@@ -130,7 +130,15 @@ namespace LotteryDraw.Site.Models
         public string StaffsOfScenceString { get; set; }
         
         public bool Is2Top { get; set; }
-                
+
+        public InputTypeOfStaff InputTypeOfStaff
+        {
+            get { return (InputTypeOfStaff)InputTypeOfStaffNum; }
+            set { InputTypeOfStaffNum = (int)value; }
+        }
+
+        public int InputTypeOfStaffNum { get; set; }
+
         public DateTime? UpdateDate { get; set; }
 
         public PrizeView PrizeView { get; set; }

@@ -136,4 +136,15 @@ namespace LotteryDraw.Component.Tools
         [Description("县级城市")]
         SmallCity = 3
     }
+
+    /// <summary>
+    /// 现场抽奖人员录入方式
+    /// </summary>
+    public enum InputTypeOfStaff
+    {
+        [Description("手动录入")]
+        Manual = 1,
+        [Description("文件导入")]
+        File = 2
+    }
 }

@@ -13,6 +13,7 @@ using System.IO;
 using LotteryDraw.Site.Extentions;
 using LotteryDraw.Component.Utility;
 using LotteryDraw.Core.Models.Account;
+using System.Text;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
@@ -255,6 +256,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             model.PrizeView.OriginalPhoto = new PrizePhotoView() { Name = photoname, PhotoTypeNum = PhotoType.Original.ToInt() };
 
             bool shouldMinus = this.PubishingEnableTimes < 1000000 ? true : false;
+
             OperationResult result = PrizeOrderSiteContract.BatchAdd(model, shouldMinus);
             if (result.ResultType == OperationResultType.Success)
             {
@@ -355,16 +357,68 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                         ViewBag.Message = "开奖时间必须指定";
                         return false;
                     }
-                    if (string.IsNullOrEmpty(model.PrizeOrderView.StaffsOfScenceString))
+
+                    if (model.PrizeOrderView.InputTypeOfStaff == InputTypeOfStaff.Manual)
                     {
-                        ViewBag.Message = "抽奖人员至少指定一位";
-                        return false;
+                        if (string.IsNullOrEmpty(model.PrizeOrderView.StaffsOfScenceString))
+                        {
+                            ViewBag.Message = "抽奖人员至少指定一位";
+                            return false;
+                        }
+
+                        if (model.PrizeOrderView.StaffsOfScenceString.Split(new string[] { "|||" }, StringSplitOptions.RemoveEmptyEntries).Length == 0)
+                        {
+                            ViewBag.Message = "抽奖人员至少指定一位";
+                            return false;
+                        }
                     }
 
-                    if (model.PrizeOrderView.StaffsOfScenceString.Split(new string[] { "|||" }, StringSplitOptions.RemoveEmptyEntries).Length == 0)
+                    if (model.PrizeOrderView.InputTypeOfStaff == InputTypeOfStaff.File)
                     {
-                        ViewBag.Message = "抽奖人员至少指定一位";
-                        return false;
+                        if (Request.Files.Count == 0 || Request.Files[0].ContentLength == 0)
+                        {
+                            ViewBag.Message = "请选择参与抽奖的人员文件";
+                            return false;
+                        }
+
+                        HttpPostedFileBase file = Request.Files["StaffFile"];
+                        if (file != null)
+                        {
+                            try
+                            {
+                                string staffString = string.Empty;
+                                int counter = 0;
+                                byte[] bytes = new byte[file.ContentLength];
+                                //利用InputStream 属性直接从HttpPostedFile对象读取文本内容  
+                                System.IO.Stream fileStream = file.InputStream;
+                                using (StreamReader sreader = new StreamReader(fileStream, Encoding.UTF8))
+                                {
+                                    while (!sreader.EndOfStream)
+                                    {
+                                        counter++;
+                                        staffString += sreader.ReadLine() + "|||";
+                                    }
+                                }
+                                if (counter < model.PrizeOrderView.LuckyCount)
+                                {
+                                    ViewBag.Message = "抽奖人员的名单人数不能少于中奖人数";
+                                    return false;
+                                }
+
+                                //fileStream.Read(bytes, 0, file.ContentLength);
+                                model.PrizeOrderView.StaffsOfScenceString = staffString;
+                            }
+                            catch (Exception ex)
+                            {
+                                ViewBag.Message = "读取参与抽奖人员的名单文件时出错了，请确认文件是否为【文本文件】，且内容合法。";
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.Message = "参与抽奖人员的名单文件未选择。";
+                            return false;
+                        }
                     }
                     break;
             }
@@ -790,7 +844,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         #endregion
 
         [HttpPost]
-        public JsonResult UpdateLotteryResult(Guid id, int state) 
+        public JsonResult UpdateLotteryResult(Guid id, int state)
         {
             OperationResult result = LotteryResultSiteContract.UpdateLotteryResult(id, state);
             if (result.ResultType == OperationResultType.Success)
