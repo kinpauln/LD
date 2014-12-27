@@ -269,7 +269,6 @@ namespace RevealTest
                             #region 答案
                             txtInfo.Text += subSplitLine + Environment.NewLine;
                             Notice(ds.Tables[2], "答案开奖");
-                            txtInfo.Text += subSplitLine + Environment.NewLine;
                             #endregion
 
                             #region 现场
