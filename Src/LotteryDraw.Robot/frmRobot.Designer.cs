@@ -47,6 +47,7 @@
             this.btnCreateData.TabIndex = 0;
             this.btnCreateData.Text = "构造数据";
             this.btnCreateData.UseVisualStyleBackColor = true;
+            this.btnCreateData.Visible = false;
             this.btnCreateData.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnOpenLottery

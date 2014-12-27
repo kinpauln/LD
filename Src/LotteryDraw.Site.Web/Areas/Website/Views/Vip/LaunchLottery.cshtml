@@ -461,11 +461,11 @@
                     return;
                 }
 
-                var opvalue = $("tr[rtype='scene'] div.dropdown-item").length;
+                var opvalue = $("tr[input-type='manual'] div.dropdown-item").length;
 
                 var optext = $("#txtSceneOption").val();
                 var divOPString = getOptionString(opvalue, optext);
-                $("tr[rtype='scene'] div.dropdown:eq(0)").append(divOPString);
+                $("tr[input-type='manual'] div.dropdown:eq(0)").append(divOPString);
                 $("#txtSceneOption").val("");
             });
 
@@ -610,7 +610,7 @@
                     var rtype = $("#slLauchType").val();
                     if (rtype == '@RevealType.Scene.ToInt()') {
                         if ($("#slInputType").val() == "1") {
-                            var optionLength = $("tr[rtype='scene'] div.dropdown-item").length;
+                            var optionLength = $("tr[input-type='manual'] div.dropdown-item").length;
                             if (optionLength == 0) {
                                 layer.alert("抽奖参与者至少设置一个", 8);
                                 return;
@@ -652,7 +652,7 @@
                     if (rtype == '@RevealType.Scene.ToInt()') {
 
                         var options = "";
-                        $("tr[rtype='scene'] div.dropdown-item").each(function () {
+                        $("tr[input-type='manual'] div.dropdown-item").each(function () {
                             //$("#main li:not([class])")  //排除有class属性
                             //$("#main li:not([class='two'])")  //排除class等于two的
                             var text = $(this).find("span:not([class='remove']):eq(0)").html();//排除class等于remove的span

@@ -236,7 +236,7 @@ namespace RevealTest
 
         private void RevealLottery()
         {
-            int interval = 10;
+            int interval = int.Parse(System.Configuration.ConfigurationManager.AppSettings["ReadDBInteval"]);
             string splitLine = "****************************************************************************";
             string subSplitLine = "---------------------------------------------------------------";
             while (!_revealWatchingStopped)
