@@ -8,10 +8,6 @@
     Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
 }
 
-@section styles{
-    <link href="~/Content/website/css/prizeblock.css" rel="stylesheet" />
-    <link href="~/Content/website/css/detail_default.css" rel="stylesheet" />
-}
 <div class="gyt_main_body clearfix" style="width: 1244px;">
     @{if (Model != null && Model.Count > 0)
       {
@@ -122,7 +118,7 @@
                                         @{                       
               if (rstate == LotteryDraw.Component.Tools.RevealState.Drawn.ToInt())
               {   
-                                            <a href="#" target="_blank">查看中奖者&gt;&gt;</a>
+                                            <a href="#" class="view-lucky-staffs" lucky-staffs-string="@item.PrizeOrderView.LuckyStaffsOfScenceString">查看中奖者&gt;&gt;</a>
               }
                                         }
                                     </span></li>
@@ -180,5 +176,67 @@
            NumericPagerItemCount = 10, //获取或设置每页显示的数字页索引索引分页导航元素的数目
            PagerItemWrapperFormatString = "{0}",
            CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
-       }, new { @class = "pageBox" })
+       }, new { @class = "pageBox" })    
 </div>
+
+@section styles{
+    <link href="~/Content/website/css/prizeblock.css" rel="stylesheet" />
+    <link href="~/Content/website/css/detail_default.css" rel="stylesheet" />
+    <style type="text/css">
+        .layer_notice {
+            float: left;
+            height: auto;
+            max-height:400px;
+            overflow-y:scroll;
+            width: 150px;
+            /*overflow: hidden;*/
+            color: #fff;
+            background: #014A97;
+            padding: 10px;
+            border: 1px solid #000066;
+        }
+
+            .layer_notice li {
+                line-height: 25px;
+                list-style: none;
+            }
+
+            .layer_notice label {
+                font-size: 14px;
+            }
+            .layer_notice li.lucky-item {
+                font-size:20px;
+                text-align:center;
+            }
+    </style>
+}
+<div class="layer-box">
+    <ul class="layer_notice" style="display: none; padding: 10px;">
+        @*<li>
+            <label>中奖者：</label></li>*@
+    </ul>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("a[class*='view-lucky-staffs']").click(function (e) {
+                var luckyStaffs = $(this).attr("lucky-staffs-string");
+                var staffs = luckyStaffs.split("|");
+                $("li.lucky-item").remove();
+                for (var i = 0; i < staffs.length; i++) {
+                    $(".layer_notice").append("<li class='lucky-item'>" + staffs[i] + "</li>");
+                }
+
+                $.layer({
+                    type: 1,
+                    shade: [0.5, '#000'],
+                    //shade: [0],
+                    area: ['auto', 'auto'],
+                    title: false,
+                    border: [0],
+                    page: { dom: '.layer_notice' }
+                });
+            });
+        });
+    </script>
+    }
