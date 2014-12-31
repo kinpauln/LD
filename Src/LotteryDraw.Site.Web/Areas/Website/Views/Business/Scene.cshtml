@@ -1,6 +1,184 @@
-﻿@{
+﻿@using LotteryDraw.Component.Tools;
+@using System.Data;
+@using LotteryDraw.Site.Models;
+@using Webdiyer.WebControls.Mvc;
+@model Webdiyer.WebControls.Mvc.PagedList<PrizeOrderDetailView>
+@{
     ViewBag.Title = "Scene";
     Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
 }
 
-@Html.Partial("LotteryListPartial")
+@section styles{
+    <link href="~/Content/website/css/prizeblock.css" rel="stylesheet" />
+    <link href="~/Content/website/css/detail_default.css" rel="stylesheet" />
+}
+<div class="gyt_main_body clearfix" style="width: 1244px;">
+    @{if (Model != null && Model.Count > 0)
+      {
+        @Html.Pager(Model, new PagerOptions
+       {
+           PageIndexParameterName = "id",
+           ContainerTagName = "div",
+           FirstPageText = "首页",
+           LastPageText = "尾页",
+           PrevPageText = "上一页",
+           NextPageText = "下一页",
+           PagerItemsSeperator = "",
+           NumericPagerItemCount = 10, //获取或设置每页显示的数字页索引索引分页导航元素的数目
+           PagerItemWrapperFormatString = "{0}",
+           CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
+       }, new { @class = "pageBox" })
+          //DataRow[] arrayDR = (DataRow[])ViewBag.AllPrizeOrders;
+          //if (arrayDR != null && arrayDR.Count() > 0)
+          //{
+          foreach (PrizeOrderDetailView item in Model)
+          {
+              //string poid = dr["PrizeOrderId"].ToString();
+              //string pid = dr["PrizeId"].ToString();
+              //string prizeName = dr["PrizeName"].ToString();
+              //string prizeDescription = dr["PrizeDescription"].ToString();
+              //// 发起抽奖日期
+              //string addDate = DateTime.Parse(dr["RaiseTime"].ToString()).ToString("yyyy-MM-dd");
+              //string username = dr["UserName"].ToString(); //发起抽奖者
+              //int rtype = int.Parse(dr["RevealType"].ToString());
+              string poid = item.PrizeOrderView.Id.ToString();
+              string pid = item.PrizeView.Id.ToString();
+              string prizeName = item.PrizeView.Name.ToString();
+              string prizeDescription = item.PrizeView.Description.ToString();
+              // 发起抽奖日期
+              string addDate = item.PrizeOrderView.AddDate.ToString("yyyy-MM-dd");
+              string lauchTime = item.PrizeOrderView.LaunchTime.HasValue ? item.PrizeOrderView.LaunchTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "未知";
+              string username = item.MemberView.UserName.ToString(); //发起抽奖者
+              string pubuserid = item.MemberView.Id.ToString();
+              int rtype = item.PrizeOrderView.RevealType.ToInt();
+              string rtstring = ((LotteryDraw.Component.Tools.RevealType)rtype).ToDescription().Replace("开奖", "");
+              int rstate = item.PrizeOrderView.RevealState.ToInt();
+              string rsstring = ((LotteryDraw.Component.Tools.RevealState)rstate).ToDescription();
+              string originalPhotoName = item.PrizeView.OriginalPhoto.Name;
+              string advurl = item.MemberView.AdvertisingUrl;
+              int scopeType = item.PrizeOrderView.ScopeTypeNum;
+              string scopeCity = "全国";
+              if (scopeType == ScopeType.AreaCity.ToInt())
+              {
+                  scopeCity = item.PrizeOrderView.ScopeAreaCity;
+              }
+              string luckyStaffsString = item.PrizeOrderView.LuckyStaffsOfScenceString;
+              int totalstaffs = item.PrizeOrderView.StaffTotalCount;
+        <div class="gm_left">
+            @*<div class="gml_header">
+            <h3>
+                <a href="http://event.1905.com/">观影团首页</a>
+                &gt;
+           
+                    <a href="http://d.1905.com/app/gyt">活动列表</a>
+            </h3>
+            <span>&gt; 【有奖活动】细说电影中那些逗比二人组</span>
+
+        </div>*@
+            <div class="left_mainbody">
+                <div class="activities_content">
+                    <h2 class="film_name">@prizeName</h2>
+                    <div class="acti_marks">
+                        <ul>
+                            <li class="reward pngIcon">奖品</li>
+                        </ul>
+                    </div>
+                    <dl class="acti_intr clearfix">
+                        <dt class="acti_img prevue_on">
+                            <div class="act_pic">
+                                @{
+              string photoname = string.Empty;
+              if (!string.IsNullOrEmpty(originalPhotoName))
+              {
+                  photoname = "/Files/PrizePhotos/" + pubuserid + "/" + originalPhotoName;
+              }
+              else
+              {
+                  photoname = "";
+              }
+                                }
+                                <img width="250" height="262" src="@photoname" title="@prizeName" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+                            </div>
+                            <div class="act_icon act_icon_03">
+                                <span class="start">@rsstring</span>
+                                <span class="icon_01"></span>
+                            </div>
+                        </dt>
+
+
+                        <dd class="acti_text">
+                            <p class="simple_intr"><i class="left_icon pngIcon"></i>@prizeDescription<i class="right_icon pngIcon"></i></p>
+                            <p class="a_t_time">
+                                <span>@lauchTime</span>                                    开奖时间：                
+                            </p>
+                            <ul class="opre item">
+                                <li class=" _checkLogin red">
+
+
+
+                                    <span class="part_in_succ pngIcon">@rsstring  &nbsp;
+                                           
+                                        @*<a href="#" class="to_gybg" target="_blank">查看中奖者&gt;&gt;</a> &nbsp;*@
+                                        @{                       
+              if (rstate == LotteryDraw.Component.Tools.RevealState.Drawn.ToInt())
+              {   
+                                            <a href="#" target="_blank">查看中奖者&gt;&gt;</a>
+              }
+                                        }
+                                    </span></li>
+
+                            </ul>
+                            <div class="other_info clearfix">
+                                <div class="inter_part_in_count">@*<span id="likeNum">1421</span>感兴趣*@<span class="part_peoples">@totalstaffs</span>人参加</div>
+                            </div>
+
+                            <div class="the_ticket the_reward pngIcon">
+                                <dl>
+                                    <dd>中奖人数</dd>
+                                    <dd class=" line-h25"><span style="font-size: 30px;" class="blue pl04 pr04">@item.PrizeOrderView.LuckyCount</span>人</dd>
+                                </dl>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+
+                <div class="activi_city">
+                    <div class="sponsor_share clearfix">
+                        <!-- Baidu Button BEGIN -->
+                        @*<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+                        <span class="bds_more_share bds_more ">分享给朋友吧：</span>
+                        <a class="bds_qzone" title="分享到QQ空间" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
+                        <a class="bds_tsina" title="分享到新浪微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
+                        <a class="bds_tqq" title="分享到腾讯微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
+                        <a class="bds_renren" title="分享到人人网" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
+                        <a class="bds_t163" title="分享到网易微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
+                    </div>*@
+                        <p class="sponsor">主办方:<a class="movie_wang" href="#">@item.MemberView.UserName</a>                @*人气:<span>2506383</span>*@</p>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+          }
+      }
+      else
+      {
+        <div style="font-weight: bold; text-align: center; font-size: 20px; padding: 20px 0; line-height: 200px;">暂时没有可抽的奖</div>
+      }
+    }
+    <div class="clear"></div>
+    @Html.Pager(Model, new PagerOptions
+       {
+           PageIndexParameterName = "id",
+           ContainerTagName = "div",
+           FirstPageText = "首页",
+           LastPageText = "尾页",
+           PrevPageText = "上一页",
+           NextPageText = "下一页",
+           PagerItemsSeperator = "",
+           NumericPagerItemCount = 10, //获取或设置每页显示的数字页索引索引分页导航元素的数目
+           PagerItemWrapperFormatString = "{0}",
+           CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
+       }, new { @class = "pageBox" })
+</div>

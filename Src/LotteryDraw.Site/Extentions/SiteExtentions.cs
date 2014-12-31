@@ -85,7 +85,8 @@ namespace LotteryDraw.Site.Extentions
                 LoginLogCount = m.LoginLogs.Count,
                 RoleNames = m.Roles.AsEnumerable().Select(r => r.Name)
             };
-            if (m.Extend != null) { 
+            if (m.Extend != null)
+            {
                 mv.Tel = m.Extend.Tel;
                 mv.AdvertisingUrl = m.Extend.AdvertisingUrl;
                 mv.Province = m.Extend.Address.Province;
@@ -116,7 +117,7 @@ namespace LotteryDraw.Site.Extentions
                 //Remarks = po.Extend,
                 PrizeId = po.Prize.Id,
                 PrizeView = po.Prize.ToSiteViewModel(),
-                SortOrder = po.SortOrder??0,
+                SortOrder = po.SortOrder ?? 0,
                 LaunchTime = po.Extend.LaunchTime,
                 MinLuckyCount = po.Extend.MinLuckyCount,
                 LuckyPercent = po.Extend.LuckyPercent,
@@ -151,16 +152,15 @@ namespace LotteryDraw.Site.Extentions
                 return null;
             DataRow[] rows = new DataRow[dt.Rows.Count];
             dt.Rows.CopyTo(rows, 0);
-            bool containIs2Top = dt.Columns.Contains("Is2Top");
-            return rows.ToPrizeOrderDetailList(containIs2Top);
+            return rows.ToPrizeOrderDetailList();
         }
 
-        public static IEnumerable<PrizeOrderDetailView> ToPrizeOrderDetailList(this DataRow[] rows, bool containIs2Top = false)
+        public static IEnumerable<PrizeOrderDetailView> ToPrizeOrderDetailList(this DataRow[] rows)
         {
             List<PrizeOrderDetailView> rlist = new List<PrizeOrderDetailView>();
             foreach (DataRow row in rows)
             {
-                rlist.Add(new PrizeOrderDetailView()
+                var detail = new PrizeOrderDetailView()
                 {
                     PrizeOrderView = new PrizeOrderView()
                     {
@@ -169,12 +169,13 @@ namespace LotteryDraw.Site.Extentions
                         RevealTypeNum = int.Parse(row["RevealType"].ToString()),
                         RevealStateNum = int.Parse(row["RevealState"].ToString()),
                         SortOrder = int.Parse(row["SortOrder"].ToString()),
+                        LuckyCount = int.Parse(row["LuckyCount"].ToString()),
                         AddDate = Convert.ToDateTime(row["RaiseTime"]),
                         ScopeAreaCity = row["ScopeCity"].ToString(),
                         ScopeTypeNum = int.Parse(row["ScopeType"].ToString()),
                         AnswerRevealConditionTypeNum = int.Parse(row["AnswerRevealConditionTypeNum"].ToString()),
-                        Freight = Convert.ToDecimal(row["Freight"]),
-                        Is2Top = containIs2Top ? Convert.ToBoolean(row["Is2Top"]) : false
+                        Freight = Convert.ToDecimal(row["Freight"])
+                        //Is2Top = containIs2Top ? Convert.ToBoolean(row["Is2Top"]) : false
                     },
                     PrizeView = new PrizeView()
                     {
@@ -190,7 +191,32 @@ namespace LotteryDraw.Site.Extentions
                         Name = row["UserNickName"].ToString(),
                         AdvertisingUrl = row["AdvertisingUrl"].ToString()
                     }
-                });
+                };
+                if (!(row["LaunchTime"] is System.DBNull))
+                {
+                    detail.PrizeOrderView.LaunchTime = Convert.ToDateTime(row["LaunchTime"]);
+                }
+
+                if (row.Table.Columns.Contains("Is2Top"))
+                {
+                    detail.PrizeOrderView.Is2Top = Convert.ToBoolean(row["Is2Top"]);
+                }
+                else {
+                    detail.PrizeOrderView.Is2Top = false;
+                }
+
+                if (row.Table.Columns.Contains("StaffTotalCount"))
+                {
+                    detail.PrizeOrderView.StaffTotalCount = Convert.ToInt32(row["StaffTotalCount"]);
+                }
+                
+
+                if (row.Table.Columns.Contains("LuckyStaffs"))
+                {
+                    detail.PrizeOrderView.LuckyStaffsOfScenceString = row["LuckyStaffs"].ToString();
+                }
+                
+                rlist.Add(detail);
             }
 
             return rlist;

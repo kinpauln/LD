@@ -128,6 +128,10 @@ namespace LotteryDraw.Site.Models
         public string Answer { get; set; }
 
         public string StaffsOfScenceString { get; set; }
+
+        public string LuckyStaffsOfScenceString { get; set; }
+
+        public int StaffTotalCount { get; set; }
         
         public bool Is2Top { get; set; }
 

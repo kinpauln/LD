@@ -94,13 +94,13 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     if (rtype.HasValue)
                     {
                         //定时
-                        ViewBag.TopTimingPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Timing).ToPrizeOrderDetailList(true);
+                        ViewBag.TopTimingPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Timing).ToPrizeOrderDetailList();
                         //定员
-                        ViewBag.TopQuotaPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Quota).ToPrizeOrderDetailList(true);
+                        ViewBag.TopQuotaPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Quota).ToPrizeOrderDetailList();
                         //答案
-                        ViewBag.TopAnswerPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Answer).ToPrizeOrderDetailList(true);
+                        ViewBag.TopAnswerPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Answer).ToPrizeOrderDetailList();
                         //现场
-                        ViewBag.TopScenePrizeOrders = dt.Select("RevealType=" + (int)RevealType.Scene).ToPrizeOrderDetailList(true);
+                        ViewBag.TopScenePrizeOrders = dt.Select("RevealType=" + (int)RevealType.Scene).ToPrizeOrderDetailList();
                         switch (rtype)
                         {
                             case (int)RevealType.Timing:

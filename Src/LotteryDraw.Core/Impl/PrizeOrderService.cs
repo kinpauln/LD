@@ -224,7 +224,7 @@ namespace LotteryDraw.Core.Impl
         /// <param name="revealtype">开奖类型</param>
         /// <param name="revealstate">奖单状态</param>
         /// <returns></returns>
-        public OperationResult GetLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0, int revealstate = 0)
+        public OperationResult GetLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0, int revealstate = 0, string tableName = "")
         {
             totalCount = 0;
             totalPageCount = 0;
@@ -248,6 +248,12 @@ namespace LotteryDraw.Core.Impl
                 SqlParameter paramPI = new SqlParameter("@PageIndex", SqlDbType.Int);
                 paramPI.Value = pageIndex;
                 paramList.Add(paramPI);
+
+                //表名字符串
+                SqlParameter paramTbName = new SqlParameter("@TableName", SqlDbType.VarChar, 1000);
+                paramTbName.Value = tableName;
+                paramList.Add(paramTbName);
+
                 //排序字符串
                 SqlParameter paramWhere = new SqlParameter("@Where", SqlDbType.VarChar, 2000);
                 paramWhere.Value = whereString;
@@ -267,6 +273,68 @@ namespace LotteryDraw.Core.Impl
 
                 SqlCommand command = new SqlCommand();
                 DataSet ds = PrizeOrderRepository.ExecProcdureReturnDataSet("sp_getLotteries", out command, paramList.ToArray());
+                totalCount = Convert.ToInt32(command.Parameters["@TotalCount"].Value);
+                totalPageCount = Convert.ToInt32(command.Parameters["@TotalPageCount"].Value);
+                return new OperationResult(OperationResultType.Success, "开奖过程数据库操作顺利。", ds);
+            }
+            catch (System.Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///  取奖单
+        /// </summary>
+        /// <param name="pageSize">每页输出的记录数</param>
+        /// <param name="pageIndex">当前页数</param>
+        /// <param name="whereString">条件字符串</param>
+        /// <param name="orderbyString">排序字符串</param>
+        /// <param name="totalCount">返回总记录</param>
+        /// <param name="totalPageCount">返回总页数</param>
+        /// <param name="revealtype">开奖类型</param>
+        /// <param name="revealstate">奖单状态</param>
+        /// <returns></returns>
+        public OperationResult GetRevealedSceneLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealstate = 0)
+        {
+            totalCount = 0;
+            totalPageCount = 0;
+            try
+            {
+                List<SqlParameter> paramList = new List<SqlParameter>();
+
+                //奖单状态
+                SqlParameter paramRS = new SqlParameter("@RevealState", SqlDbType.Int);
+                paramRS.Value = revealstate;
+                paramList.Add(paramRS);
+                //每页输出的记录数
+                SqlParameter paramPS = new SqlParameter("@PageSize", SqlDbType.Int);
+                paramPS.Value = pageSize;
+                paramList.Add(paramPS);
+                //当前页数
+                SqlParameter paramPI = new SqlParameter("@PageIndex", SqlDbType.Int);
+                paramPI.Value = pageIndex;
+                paramList.Add(paramPI);
+                
+                //排序字符串
+                SqlParameter paramWhere = new SqlParameter("@Where", SqlDbType.VarChar, 2000);
+                paramWhere.Value = whereString;
+                paramList.Add(paramWhere);
+                //排序字符串
+                SqlParameter paramOrder = new SqlParameter("@Order", SqlDbType.VarChar, 1000);
+                paramOrder.Value = orderbyString;
+                paramList.Add(paramOrder);
+
+                SqlParameter paramtc = new SqlParameter("@TotalCount", SqlDbType.Int);
+                paramtc.Direction = ParameterDirection.Output;
+                paramList.Add(paramtc);
+                SqlParameter paramtpc = new SqlParameter("@TotalPageCount", SqlDbType.Int);
+                paramtpc.Direction = ParameterDirection.Output;
+                paramList.Add(paramtpc);
+
+
+                SqlCommand command = new SqlCommand();
+                DataSet ds = PrizeOrderRepository.ExecProcdureReturnDataSet("sp_getRevealedScene", out command, paramList.ToArray());
                 totalCount = Convert.ToInt32(command.Parameters["@TotalCount"].Value);
                 totalPageCount = Convert.ToInt32(command.Parameters["@TotalPageCount"].Value);
                 return new OperationResult(OperationResultType.Success, "开奖过程数据库操作顺利。", ds);

@@ -94,8 +94,22 @@ namespace LotteryDraw.Core
         /// <param name="revealtype">开奖类型</param>
         /// <param name="revealstate">奖单状态</param>
         /// <returns></returns>
-        OperationResult GetLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0, int revealstate = 0);
+        OperationResult GetLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0, int revealstate = 0, string tableName = "");
 
+        /// <summary>
+        ///  取奖单
+        /// </summary>
+        /// <param name="pageSize">每页输出的记录数</param>
+        /// <param name="pageIndex">当前页数</param>
+        /// <param name="whereString">条件字符串</param>
+        /// <param name="orderbyString">排序字符串</param>
+        /// <param name="totalCount">返回总记录</param>
+        /// <param name="totalPageCount">返回总页数</param>
+        /// <param name="revealtype">开奖类型</param>
+        /// <param name="revealstate">奖单状态</param>
+        /// <returns></returns>
+        OperationResult GetRevealedSceneLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealstate = 0);
+        
         /// <summary>
         ///  置顶
         /// </summary>

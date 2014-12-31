@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using LotteryDraw.Site.Extentions;
 using Webdiyer.WebControls.Mvc;
+using LotteryDraw.Core;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
@@ -21,6 +22,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
         [Import]
         protected IPrizeOrderSiteContract PrizeOrderSiteContract { get; set; }
+
+        [Import]
+        protected IPrizeOrderContract PrizeOrderContract { get; set; }
 
         #endregion
         #endregion
@@ -82,8 +86,79 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             //ViewBag.PageIndex = pageIndex;
             //ViewBag.RevealType = RevealType.Quota.ToInt();
             ViewBag.Keywords = keywords;
-            var model = GetLotteries(RevealType.Scene.ToInt(), pageIndex, keywords);
-            return View(model);
+
+            ViewBag.UserId = this.UserId ?? 0;
+            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("SortOrder") };
+
+            int pageSize = int.Parse(System.Configuration.ConfigurationManager.AppSettings["PageCount"]);
+            string orderbyString = "SortOrder asc";
+            int totalCount;
+            int totalPageCount;
+
+            string whereString = GetWhereStringOfPrizeOrderDetail(keywords);
+
+            IEnumerable<PrizeOrderDetailView> rlist = null;
+            OperationResult result = PrizeOrderSiteContract.GetRevealedSceneLotteries(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount, RevealState.Drawn.ToInt());
+            ViewBag.TotalCount = totalCount;
+            ViewBag.PageIndex = pageIndex;
+            ViewBag.PageCount = totalPageCount;
+            if (result.ResultType == OperationResultType.Success)
+            {
+                DataSet ds = (DataSet)result.AppendData;
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    //DataTable dt = ds.Tables[0];
+                    //DataRow[] rowarray = new DataRow[dt.Rows.Count];
+                    //dt.Rows.CopyTo(rowarray, 0);
+                    ////所有
+                    //ViewBag.AllPrizeOrders = rowarray;
+
+                    DataTable dt = ds.Tables[0];
+
+                    rlist = dt.ToPrizeOrderDetailList();
+                    if (rlist != null)
+                    {
+                        PagedList<PrizeOrderDetailView> model = new PagedList<PrizeOrderDetailView>(rlist, pageIndex, pageSize, totalCount);
+                        return View(model);
+                    }
+                }
+            }
+            ViewBag.Message = result.Message;
+            return null;
+        }
+
+        /// <summary>
+        ///  奖单详情
+        /// </summary>
+        //public ActionResult PrizeOrderDetail(Guid id)
+        //{
+        //    PrizeOrderView model = PrizeOrderContract.PrizeOrders
+        //        .Where(p => p.Id.Equals(id))
+        //        .Select(p => new PrizeOrderView()
+        //        {
+        //            Id = p.Id,
+        //            RevealTypeNum = p.RevealTypeNum,
+        //            RevealStateNum = p.RevealStateNum,
+        //            LaunchTime = p.Extend.LaunchTime,
+        //            MinLuckyCount = p.Extend.MinLuckyCount,
+        //            LuckyCount = p.Extend.LuckyCount,
+        //            LuckyPercent = p.Extend.LuckyPercent,
+        //            PoolCount = p.Extend.PoolCount,
+        //            Remarks = p.Extend.Remarks,
+        //            AddDate = p.AddDate
+        //        }).FirstOrDefault();
+        //    if (model == null)
+        //        ViewBag.Message = string.Format("不存在Id为{0}的奖单", id);
+        //    return View(model);
+        //} 
+        
+        /// <summary>
+        ///  奖单详情
+        /// </summary>
+        public ActionResult PrizeOrderDetail()
+        {
+            return View();
         }
 
         //public ActionResult PrizeOrders(int revealType, int pageIndex, string keywords)
