@@ -68,7 +68,7 @@ namespace LotteryDraw.Site.Models
         /// <summary>
         /// 竞猜开奖开奖条件类型
         /// </summary>
-        [Display(Name = "竞猜开奖开奖条件类型")]
+        //[Display(Name = "竞猜开奖开奖条件类型")]
         public AnswerRevealConditionType AnswerRevealConditionType
         {
             get { return (AnswerRevealConditionType)AnswerRevealConditionTypeNum; }

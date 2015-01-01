@@ -83,15 +83,19 @@ namespace LotteryDraw.Site.Impl
                     pmodel.Extend.PrizeAsking.Answer = povmodel.Answer;
                     pmodel.Extend.MinLuckyCount = povmodel.MinLuckyCount;
                     pmodel.Extend.LuckyCount = povmodel.LuckyCount;
+                    pmodel.Extend.RevealTypeOfAnswer = povmodel.RevealTypeOfAnswer;
 
-                    pmodel.Extend.AnswerRevealConditionTypeNum = (int)povmodel.AnswerRevealConditionType;
-                    if (povmodel.AnswerRevealConditionType == AnswerRevealConditionType.Timing)
+                    if (pmodel.Extend.RevealTypeOfAnswer == RevealTypeOfAnswer.Auto)
                     {
-                        pmodel.Extend.LaunchTime = povmodel.LaunchTime;
-                    }
-                    else if (povmodel.AnswerRevealConditionType == AnswerRevealConditionType.Quota)
-                    {
-                        pmodel.Extend.PoolCount = povmodel.PoolCount;
+                        pmodel.Extend.AnswerRevealConditionTypeNum = (int)povmodel.AnswerRevealConditionType;
+                        if (povmodel.AnswerRevealConditionType == AnswerRevealConditionType.Timing)
+                        {
+                            pmodel.Extend.LaunchTime = povmodel.LaunchTime;
+                        }
+                        else if (povmodel.AnswerRevealConditionType == AnswerRevealConditionType.Quota)
+                        {
+                            pmodel.Extend.PoolCount = povmodel.PoolCount;
+                        }
                     }
                     //pmodel.Extend.LuckyPercent = povmodel.LuckyPercent;
                     break;

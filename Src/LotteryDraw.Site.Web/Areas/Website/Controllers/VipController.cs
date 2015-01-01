@@ -214,6 +214,13 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 return View(model);
             }
 
+            // 竞猜开奖并且开奖方式为“手动”，则取消对“开奖条件”的验证
+            if (model.PrizeOrderView.RevealType == RevealType.Answer
+                && model.PrizeOrderView.RevealTypeOfAnswer == RevealTypeOfAnswer.Manual)
+            {
+                ModelState.Remove("PrizeOrderView.AnswerRevealConditionType");
+            }
+
             if (ModelState.IsValid)
             {
                 //验证码验证通过  

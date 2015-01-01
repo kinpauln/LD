@@ -89,19 +89,19 @@
                     </select><span class="info">*</span>
                 </td>
             </tr>
-            <tr rtype="timing quota answer">
-                <td class="text">运费：</td>
-                <td class="input">
-                    @Html.TextBoxFor(model => model.PrizeOrderView.Freight, new { @class = "input-text float", Id = "Freight", placeholder = "奖品名称" }) 元
-                    <span class="info">*</span>
-                </td>
-            </tr>
             <tr scope-type="area-city">
                 <td class="text">开奖城市：</td>
                 <td class="input">
                     <select name="loc_province" class="select" style="width: 80px;"></select>
                     <select name="loc_city" class="select" style="width: 100px;"></select>
                     <select name="loc_town" class="select" style="width: 120px; display: none;"></select>
+                </td>
+            </tr>
+            <tr rtype="timing quota answer">
+                <td class="text">运费：</td>
+                <td class="input">
+                    @Html.TextBoxFor(model => model.PrizeOrderView.Freight, new { @class = "input-text float", Id = "Freight", placeholder = "奖品名称" }) 元
+                    <span class="info">*</span>
                 </td>
             </tr>
             <tr rtype="timing quota answer scene">
@@ -600,7 +600,9 @@
                         var rtype = $("#slLauchType").val();
                         if (rtype == '@RevealType.Timing.ToInt()')
                             return true;
-                        if (rtype == '@RevealType.Answer.ToInt()' && $("#slRevealTypeOfAnswer").val() == "1" && $("#slAnswerLauchType").val() == "1")
+                        if (rtype == '@RevealType.Answer.ToInt()'
+                            && $("#slRevealTypeOfAnswer").val() == '@RevealTypeOfAnswer.Auto.ToInt()'
+                            && $("#slAnswerLauchType").val() == '@AnswerRevealConditionType.Timing.ToInt()')
                             return true;
                         if (rtype == '@RevealType.Scene.ToInt()')
                             return true;
@@ -615,7 +617,9 @@
                         var rtype = $("#slLauchType").val();
                         if (rtype == '@RevealType.Quota.ToInt()')
                             return true;
-                        if (rtype == '@RevealType.Answer.ToInt()' && $("#slRevealTypeOfAnswer").val() == "1" && $("#slAnswerLauchType").val() == "2")
+                        if (rtype == '@RevealType.Answer.ToInt()'
+                            && $("#slRevealTypeOfAnswer").val() == '@RevealTypeOfAnswer.Auto.ToInt()'
+                            && $("#slAnswerLauchType").val() == '@AnswerRevealConditionType.Quota.ToInt()')
                             return true;
                         return false;
                     },
@@ -638,7 +642,12 @@
                 });
 
                 $("#slInputType").rules("add", {
-                    required: true,
+                    required: function () {//开奖问题
+                        var rtype = $("#slLauchType").val();
+                        if (rtype == '@RevealType.Scene.ToInt()')
+                            return true;
+                        return false;
+                    },
                     messages: {
                         required: "人员录入方式不能为空"
                     }
@@ -648,7 +657,7 @@
                 if ($form.valid()) {
                     var rtype = $("#slLauchType").val();
                     if (rtype == '@RevealType.Scene.ToInt()') {
-                        if ($("#slInputType").val() == "1") {
+                        if ($("#slInputType").val() == '@InputTypeOfStaff.Manual.ToInt()') {
                             var optionLength = $("tr[input-type='manual'] div.dropdown-item").length;
                             if (optionLength == 0) {
                                 layer.alert("抽奖参与者至少设置一个", 8);
