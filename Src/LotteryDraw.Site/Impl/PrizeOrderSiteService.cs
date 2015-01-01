@@ -336,18 +336,23 @@ namespace LotteryDraw.Site.Impl
                     break;
                 case RevealType.Answer:
                     porder.Extend.PrizeAsking.Question = porderdetail.PrizeOrderView.Question;
-                    porder.Extend.PrizeAsking.Answer = porderdetail.PrizeOrderView.Answer;
                     porder.Extend.PrizeAsking.AnswerOptions = porderdetail.PrizeOrderView.AnswerOptions;
-                    // 开奖条件
-                    porder.Extend.AnswerRevealConditionType = porderdetail.PrizeOrderView.AnswerRevealConditionType;
-                    switch (porder.Extend.AnswerRevealConditionType)
+                    porder.Extend.RevealTypeOfAnswer = porderdetail.PrizeOrderView.RevealTypeOfAnswer;
+                    // 竞猜开奖开奖方式为"自动"
+                    if (porder.Extend.RevealTypeOfAnswer == RevealTypeOfAnswer.Auto)
                     {
-                        case AnswerRevealConditionType.Quota:
-                            porder.Extend.PoolCount = porderdetail.PrizeOrderView.PoolCount; //总人数
-                            break;
-                        case AnswerRevealConditionType.Timing:
-                            porder.Extend.LaunchTime = porderdetail.PrizeOrderView.LaunchTime; //开奖时间
-                            break;
+                        porder.Extend.PrizeAsking.Answer = porderdetail.PrizeOrderView.Answer;
+                        // 开奖条件
+                        porder.Extend.AnswerRevealConditionType = porderdetail.PrizeOrderView.AnswerRevealConditionType;
+                        switch (porder.Extend.AnswerRevealConditionType)
+                        {
+                            case AnswerRevealConditionType.Quota:
+                                porder.Extend.PoolCount = porderdetail.PrizeOrderView.PoolCount; //总人数
+                                break;
+                            case AnswerRevealConditionType.Timing:
+                                porder.Extend.LaunchTime = porderdetail.PrizeOrderView.LaunchTime; //开奖时间
+                                break;
+                        }
                     }
                     break;
                 case RevealType.Scene:

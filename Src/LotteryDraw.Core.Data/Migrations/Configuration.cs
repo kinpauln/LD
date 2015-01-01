@@ -44,74 +44,76 @@ namespace LotteryDraw.Core.Data.Migrations
             roleSet.AddOrUpdate(m => new { m.Name }, roles.ToArray());
             context.SaveChanges();
 
-            List<Member> members = new List<Member>
-            {
-                new Member { UserName = "admin", Password = Encrypt.Encode("123456"), Email = "admin@choujiangma.com", PubishingEnableTimes = int.MaxValue, Name = "管理员",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="市南区", Province="山东省", City="青岛市",Suffix="香港中路"}} },
-                new Member { UserName = "whl", Password = Encrypt.Encode("123456"), Email = "hl.wang@choujiangma.com", PubishingEnableTimes = int.MaxValue, Name = "王宏利",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="四方区", Province="山东省", City="青岛市",Suffix="山东路" }} },
-                new Member { UserName = "wjp", Password = Encrypt.Encode("123456"), Email = "jp.wang@choujiangma.com", PubishingEnableTimes = int.MaxValue, Name = "王金鹏",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="南京路" }} },
-                new Member { UserName = "test_ent", Password = Encrypt.Encode("123456"), Email = "test_ent@choujiangma.com", PubishingEnableTimes = 5, Name = "企业测试账号",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="万年泉路" }} },
-                new Member { UserName = "test_psnl", Password = Encrypt.Encode("123456"), Email = "test_psnl@choujiangma.com", PubishingEnableTimes = 5, Name = "个人测试账号",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="金水路" }} }
-            };
-            members[0].Roles.Add(roleSet.ToArray()[0]);
-            members[1].Roles.Add(roleSet.ToArray()[0]);
-            members[2].Roles.Add(roleSet.ToArray()[0]);
-            members[3].Roles.Add(roleSet.ToArray()[1]);//企业用户
-            members[4].Roles.Add(roleSet.ToArray()[2]);//个人用户
-            //for (int i = 0; i < 30; i++)
+            //List<Member> members = new List<Member>
             //{
-            //    Random rnd = new Random((int)DateTime.Now.Ticks + i);
-            //    Member member = new Member
-            //    {
-            //        UserName = "user" + i,
-            //        Password = Encrypt.Encode("123456"),
-            //        Email = "user" + i + "@choujiangma.com",
-            //        Name = "用户" + i,
-            //        PubishingEnableTimes = 5,
-            //        Extend = new MemberExtend() { AdvertisingUrl = "http://www.wuliubang.net/" }
-            //    };
-            //    var roleArray = roleSet.ToArray();
-            //    member.Roles.Add(roleArray[rnd.Next(0, roleArray.Length)]);
-            //    if (rnd.NextDouble() > 0.5)
-            //    {
-            //        member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);
-            //    }
-            //    members.Add(member);
-            //}
-            DbSet<Member> memberSet = context.Set<Member>();
-            memberSet.AddOrUpdate(m => new { m.UserName }, members.ToArray());
-            context.SaveChanges();
+            //    new Member { UserName = "admin", Password = Encrypt.Encode("123456"), Email = "admin@choujiangma.com", PubishingEnableTimes = int.MaxValue, Name = "管理员",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="市南区", Province="山东省", City="青岛市",Suffix="香港中路"}} },
+            //    new Member { UserName = "whl", Password = Encrypt.Encode("123456"), Email = "hl.wang@choujiangma.com", PubishingEnableTimes = int.MaxValue, Name = "王宏利",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="四方区", Province="山东省", City="青岛市",Suffix="山东路" }} },
+            //    new Member { UserName = "wjp", Password = Encrypt.Encode("123456"), Email = "jp.wang@choujiangma.com", PubishingEnableTimes = int.MaxValue, Name = "王金鹏",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="南京路" }} },
+            //    new Member { UserName = "test_ent", Password = Encrypt.Encode("123456"), Email = "test_ent@choujiangma.com", PubishingEnableTimes = 5, Name = "企业测试账号",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="万年泉路" }} },
+            //    new Member { UserName = "test_psnl", Password = Encrypt.Encode("123456"), Email = "test_psnl@choujiangma.com", PubishingEnableTimes = 5, Name = "个人测试账号",Extend = new MemberExtend(){ Tel="13345673245",AdvertisingUrl = "http://www.wuliubang.net/", Address = new MemberAddress(){ Town="李沧区", Province="山东省", City="青岛市",Suffix="金水路" }} }
+            //};
+            //members[0].Roles.Add(roleSet.ToArray()[0]);
+            //members[1].Roles.Add(roleSet.ToArray()[0]);
+            //members[2].Roles.Add(roleSet.ToArray()[0]);
+            //members[3].Roles.Add(roleSet.ToArray()[1]);//企业用户
+            //members[4].Roles.Add(roleSet.ToArray()[2]);//个人用户
 
-            //List<Prize> prizes = new List<Prize>();
-            //for (int i = 1; i < 30; i++)
-            //{
-            //    Random rnd = new Random((int)DateTime.Now.Ticks + i);
-            //    var prize = new Prize() { Name = "奖品名称奖品名称" + i.ToString(), Description = "奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述" + i.ToString(), AddDate = DateTime.Now };
-            //    var memberArray = memberSet.ToArray();
-            //    var member = memberArray[rnd.Next(0, memberArray.Length)];
-            //    prize.Member = member;
-            //    //prize.Photo = StreamUtil.Base64ToBytes(StaticStrings.demoImageBase64String);
-            //    prizes.Add(prize);
-            //}
-            //DbSet<Prize> prizeSet = context.Set<Prize>();
-            //prizeSet.AddOrUpdate(m => new { m.Name }, prizes.ToArray());
+            ////for (int i = 0; i < 30; i++)
+            ////{
+            ////    Random rnd = new Random((int)DateTime.Now.Ticks + i);
+            ////    Member member = new Member
+            ////    {
+            ////        UserName = "user" + i,
+            ////        Password = Encrypt.Encode("123456"),
+            ////        Email = "user" + i + "@choujiangma.com",
+            ////        Name = "用户" + i,
+            ////        PubishingEnableTimes = 5,
+            ////        Extend = new MemberExtend() { AdvertisingUrl = "http://www.wuliubang.net/" }
+            ////    };
+            ////    var roleArray = roleSet.ToArray();
+            ////    member.Roles.Add(roleArray[rnd.Next(0, roleArray.Length)]);
+            ////    if (rnd.NextDouble() > 0.5)
+            ////    {
+            ////        member.Roles.Add(roleArray[rnd.Next(1, roleArray.Length)]);
+            ////    }
+            ////    members.Add(member);
+            ////}
+
+            //DbSet<Member> memberSet = context.Set<Member>();
+            //memberSet.AddOrUpdate(m => new { m.UserName }, members.ToArray());
             //context.SaveChanges();
 
-            //List<PrizePhoto> photos = new List<PrizePhoto>();
-            //var prizeArray = prizes.ToArray();
-            //for (int i = 0; i < prizes.Count; i++)
-            //{
-            //    Random rnd = new Random((int)DateTime.Now.Ticks + i);
-            //    PrizePhoto pphoto = new PrizePhoto
-            //    {
-            //        Name = "e26b4610-58fb-4ceb-ac72-a3f700c7c301.jpg",
-            //        Prize = prizes.ToArray()[i]
-            //    };
+            ////List<Prize> prizes = new List<Prize>();
+            ////for (int i = 1; i < 30; i++)
+            ////{
+            ////    Random rnd = new Random((int)DateTime.Now.Ticks + i);
+            ////    var prize = new Prize() { Name = "奖品名称奖品名称" + i.ToString(), Description = "奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述奖品描述" + i.ToString(), AddDate = DateTime.Now };
+            ////    var memberArray = memberSet.ToArray();
+            ////    var member = memberArray[rnd.Next(0, memberArray.Length)];
+            ////    prize.Member = member;
+            ////    //prize.Photo = StreamUtil.Base64ToBytes(StaticStrings.demoImageBase64String);
+            ////    prizes.Add(prize);
+            ////}
+            ////DbSet<Prize> prizeSet = context.Set<Prize>();
+            ////prizeSet.AddOrUpdate(m => new { m.Name }, prizes.ToArray());
+            ////context.SaveChanges();
 
-            //    photos.Add(pphoto);
-            //}
-            //DbSet<PrizePhoto> pPhotoSet = context.Set<PrizePhoto>();
-            //pPhotoSet.AddOrUpdate(p => new { p.Name }, photos.ToArray());
-            //context.SaveChanges();
+            ////List<PrizePhoto> photos = new List<PrizePhoto>();
+            ////var prizeArray = prizes.ToArray();
+            ////for (int i = 0; i < prizes.Count; i++)
+            ////{
+            ////    Random rnd = new Random((int)DateTime.Now.Ticks + i);
+            ////    PrizePhoto pphoto = new PrizePhoto
+            ////    {
+            ////        Name = "e26b4610-58fb-4ceb-ac72-a3f700c7c301.jpg",
+            ////        Prize = prizes.ToArray()[i]
+            ////    };
+
+            ////    photos.Add(pphoto);
+            ////}
+            ////DbSet<PrizePhoto> pPhotoSet = context.Set<PrizePhoto>();
+            ////pPhotoSet.AddOrUpdate(p => new { p.Name }, photos.ToArray());
+            ////context.SaveChanges();
         }
     }
 

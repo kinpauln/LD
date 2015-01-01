@@ -328,22 +328,33 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                         ViewBag.Message = "命题答案选项必须设置";
                         return false;
                     }
-                    switch (model.PrizeOrderView.AnswerRevealConditionType)
+
+                    //if (model.PrizeOrderView.RevealTypeOfAnswer == RevealTypeOfAnswer.Auto)
+                    //{
+                    //    ViewBag.Message = "竞猜开奖的开奖方式必须选择";
+                    //    return false;
+                    //}
+                    
+                    // 竞猜开奖的开奖方式为“自动”
+                    if (model.PrizeOrderView.RevealTypeOfAnswer == RevealTypeOfAnswer.Auto)
                     {
-                        case AnswerRevealConditionType.Timing:
-                            if (!model.PrizeOrderView.LaunchTime.HasValue)
-                            {
-                                ViewBag.Message = "开奖时间必须指定";
-                                return false;
-                            }
-                            break;
-                        case AnswerRevealConditionType.Quota:
-                            if (!model.PrizeOrderView.PoolCount.HasValue || model.PrizeOrderView.PoolCount.Value == 0)
-                            {
-                                ViewBag.Message = "总人数必须指定且大于0";
-                                return false;
-                            }
-                            break;
+                        switch (model.PrizeOrderView.AnswerRevealConditionType)
+                        {
+                            case AnswerRevealConditionType.Timing:
+                                if (!model.PrizeOrderView.LaunchTime.HasValue)
+                                {
+                                    ViewBag.Message = "开奖时间必须指定";
+                                    return false;
+                                }
+                                break;
+                            case AnswerRevealConditionType.Quota:
+                                if (!model.PrizeOrderView.PoolCount.HasValue || model.PrizeOrderView.PoolCount.Value == 0)
+                                {
+                                    ViewBag.Message = "总人数必须指定且大于0";
+                                    return false;
+                                }
+                                break;
+                        }
                     }
                     break;
                 case RevealType.Scene:

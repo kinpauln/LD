@@ -64,6 +64,18 @@ namespace LotteryDraw.Component.Tools
     }
 
     /// <summary>
+    /// 竞猜开奖
+    /// </summary>
+    [Description("竞猜开奖开奖方式")]
+    public enum RevealTypeOfAnswer
+    {
+        [Description("自动")]
+        Auto = 1,
+        [Description("手动")]
+        Manual = 2
+    }
+
+    /// <summary>
     /// 竞猜开奖开奖条件类型
     /// </summary>
     [Description("竞猜开奖开奖条件类型")]
@@ -76,7 +88,7 @@ namespace LotteryDraw.Component.Tools
     }
 
     /// <summary>
-    /// 竞猜开奖开奖条件类型
+    /// 开奖结果状态
     /// </summary>
     [Description("开奖结果状态")]
     public enum LotteryResultState

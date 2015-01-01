@@ -31,6 +31,8 @@
     @Html.HiddenFor(model => model.PrizeOrderView.PrizeId, new { Id = "hidnPrizeId" });
     @Html.HiddenFor(model => model.PrizeOrderView.StaffsOfScenceString, new { Id = "hidnStaffsOfScenceString" });
     @Html.HiddenFor(model => model.PrizeOrderView.InputTypeOfStaff, new { Id = "hidnInputTypeOfStaff" });
+    @Html.HiddenFor(model => model.PrizeOrderView.RevealTypeOfAnswer, new { Id = "hidnRevealTypeOfAnswer" });
+    @Html.HiddenFor(model => model.PrizeOrderView.Answer, new { Id = "hidnAnswer" });
     <table class="message_table">
         <tbody>
             @*@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
@@ -130,6 +132,17 @@
                 </td>
             </tr>
             <tr rtype="answer">
+                <td class="text">开奖方式：</td>
+                <td class="input">
+                    @*@Html.DropDownList("slLauchType",(SelectList)ViewBag.RevealTypeList)*@
+                    <select id="slRevealTypeOfAnswer" name="slRevealTypeOfAnswer">
+                        <option value="" selected>请选择</option>
+                        <option value="1" rtype-of-answer="auto">自动</option>
+                        <option value="2" rtype-of-answer="manual">手动</option>
+                    </select><span class="info">*</span>
+                </td>
+            </tr>
+            <tr rtype-of-answer="auto">
                 <td class="text">开奖答案：</td>
                 <td class="input">
                     <select id="slAnswer" name="slAnswer">
@@ -137,7 +150,7 @@
                     </select><span class="info">*</span><input type="button" class="button orange" value="重置" id="btnResetAnswerOption" />
                 </td>
             </tr>
-            <tr rtype="answer">
+            <tr rtype-of-answer="auto">
                 <td class="text">开奖条件：</td>
                 <td class="input">
                     @*@Html.DropDownList("slLauchType",(SelectList)ViewBag.RevealTypeList)*@
@@ -332,6 +345,8 @@
                 }
                 if (thisvalue == '@RevealType.Answer.ToInt()') {
                     locateAnswerLauchTypeSelect("");
+                    // 竞猜开奖的开奖方式
+                    locateRTypeOfAnswerSelect("");
                 }
                 if (thisvalue == '@RevealType.Scene.ToInt()') {
                     locateStaffInputTypeSelect("");
@@ -382,6 +397,19 @@
                 }
             });
 
+            // 竞猜开奖开奖方式下拉框事件
+            $("#slRevealTypeOfAnswer").change(function () {
+                //$("#hidnScopeType").val($(this).val());
+                $("#hidnRevealTypeOfAnswer").val($(this).val());
+
+                var $opobj = $(this).find("option:selected");
+                var rtypeofanswer = $opobj.attr("rtype-of-answer");
+                $("form#prizeForm tr[rtype-of-answer]").hide();
+                if (rtypeofanswer != "") {
+                    // 本抽奖类型相关的 表单项都现实出来
+                    $("form#prizeForm tr[rtype-of-answer*='" + rtypeofanswer + "']").fadeIn();
+                }
+            });
             // 人员录入方式下拉框事件
             $("#slInputType").change(function () {
                 $("#hidnInputTypeOfStaff").val($(this).val());
@@ -548,6 +576,17 @@
                         required: "抽奖范围不能为空"
                     }
                 });
+                $("#slRevealTypeOfAnswer").rules("add", {
+                    required: function () {
+                        var rtype = $("#slLauchType").val();
+                        if (rtype == '@RevealType.Answer.ToInt()')
+                            return false;
+                        return true;
+                    },
+                    messages: {
+                        required: "竞猜开奖的开奖方式不能为空"
+                    }
+                });
                 $("#LuckyCount").rules("add", {
                     required: true,
                     digits: true,
@@ -561,7 +600,7 @@
                         var rtype = $("#slLauchType").val();
                         if (rtype == '@RevealType.Timing.ToInt()')
                             return true;
-                        if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "1")
+                        if (rtype == '@RevealType.Answer.ToInt()' && $("#slRevealTypeOfAnswer").val() == "1" && $("#slAnswerLauchType").val() == "1")
                             return true;
                         if (rtype == '@RevealType.Scene.ToInt()')
                             return true;
@@ -576,7 +615,7 @@
                         var rtype = $("#slLauchType").val();
                         if (rtype == '@RevealType.Quota.ToInt()')
                             return true;
-                        if (rtype == '@RevealType.Answer.ToInt()' && $("#slAnswerLauchType").val() == "2")
+                        if (rtype == '@RevealType.Answer.ToInt()' && $("#slRevealTypeOfAnswer").val() == "1" && $("#slAnswerLauchType").val() == "2")
                             return true;
                         return false;
                     },
@@ -634,7 +673,11 @@
                             options = options.substring(0, options.length - 3);
                         }
                         $("#hidnAnswerOptions").val(options);
-                        $("hidnAnswer").val($("#slAnswer").val());
+
+                        // 自动开奖（预先知道答案）
+                        if ($("#slRevealTypeOfAnswer").val() == '@RevealTypeOfAnswer.Auto.ToInt()') {
+                            $("#hidnAnswer").val($("#slAnswer").val());
+                        }
                     }
 
                     // 非现场抽奖需要设置开奖城市
@@ -673,7 +716,9 @@
                     slAnswer: {
                         required: function () {//开奖答案
                             var rtype = $("#slLauchType").val();
-                            if (rtype == '@RevealType.Answer.ToInt()')
+                            if (rtype == '@RevealType.Answer.ToInt()'
+                                && $("#slRevealTypeOfAnswer").val() == '@RevealTypeOfAnswer.Auto.ToInt()' //竞猜开奖开奖方式为“自动”
+                                )
                                 return true;
                             return false;
                         },
@@ -819,6 +864,11 @@
         function getOptionString(opvalue, optext) {
             var resultString = "<div class=\"dropdown-item\" value=" + opvalue + "><span>" + optext + "</span><span class='remove'>X</span></div>";
             return resultString;
+        }
+
+        function locateRTypeOfAnswerSelect(value) {
+            var $select = $("#slRevealTypeOfAnswer");
+            locateSelect($select, value);
         }
 
         function locateRTypeSelect(value) {

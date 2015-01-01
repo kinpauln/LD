@@ -103,6 +103,20 @@ namespace LotteryDraw.Core.Models.Business
         }
 
         /// <summary>
+        /// 获取或设置 竞竞猜开奖开奖方式的数值表示，用于数据库存储
+        /// </summary>
+        public int RevealTypeOfAnswerNum { get; set; }
+
+        /// <summary>
+        /// 竞猜开奖开奖方式
+        /// </summary>
+        public RevealTypeOfAnswer RevealTypeOfAnswer
+        {
+            get { return (RevealTypeOfAnswer)RevealTypeOfAnswerNum; }
+            set { RevealTypeOfAnswerNum = (int)value; }
+        }
+
+        /// <summary>
         ///  问答
         /// </summary>
         public PrizeAsking PrizeAsking { get; set; }
