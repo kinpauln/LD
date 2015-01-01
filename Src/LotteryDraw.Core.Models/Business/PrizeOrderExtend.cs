@@ -89,12 +89,12 @@ namespace LotteryDraw.Core.Models.Business
         public string Remarks { get; set; }
 
         /// <summary>
-        /// 获取或设置 答案开奖开奖条件类型的数值表示，用于数据库存储
+        /// 获取或设置 竞猜开奖开奖条件类型的数值表示，用于数据库存储
         /// </summary>
         public int AnswerRevealConditionTypeNum { get; set; }
 
         /// <summary>
-        /// 答案开奖开奖条件
+        /// 竞猜开奖开奖条件
         /// </summary>
         public AnswerRevealConditionType AnswerRevealConditionType
         {

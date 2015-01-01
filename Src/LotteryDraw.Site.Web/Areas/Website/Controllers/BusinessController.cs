@@ -63,7 +63,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         }
 
         /// <summary>
-        ///  答案抽奖
+        ///  竞猜抽奖
         /// </summary>
         [AuthorizeIgnore]
         public ActionResult Answer(int? id, string keywords)

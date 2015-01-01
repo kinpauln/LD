@@ -97,7 +97,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                         ViewBag.TopTimingPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Timing).ToPrizeOrderDetailList();
                         //定员
                         ViewBag.TopQuotaPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Quota).ToPrizeOrderDetailList();
-                        //答案
+                        //竞猜
                         ViewBag.TopAnswerPrizeOrders = dt.Select("RevealType=" + (int)RevealType.Answer).ToPrizeOrderDetailList();
                         //现场
                         ViewBag.TopScenePrizeOrders = dt.Select("RevealType=" + (int)RevealType.Scene).ToPrizeOrderDetailList();

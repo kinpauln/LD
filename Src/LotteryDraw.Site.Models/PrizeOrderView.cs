@@ -66,9 +66,9 @@ namespace LotteryDraw.Site.Models
         public string ScopeAreaCity { get; set; }
 
         /// <summary>
-        /// 答案开奖开奖条件类型
+        /// 竞猜开奖开奖条件类型
         /// </summary>
-        [Display(Name = "答案开奖开奖条件类型")]
+        [Display(Name = "竞猜开奖开奖条件类型")]
         public AnswerRevealConditionType AnswerRevealConditionType
         {
             get { return (AnswerRevealConditionType)AnswerRevealConditionTypeNum; }

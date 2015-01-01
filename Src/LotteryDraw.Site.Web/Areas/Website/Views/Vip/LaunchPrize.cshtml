@@ -83,7 +83,7 @@
                         <option value="-1" containerid="welcome-container">请选择</option>
                         <option value="1" containerid="timing-container">定时开奖</option>
                         <option value="2" containerid="quota-container">定员开奖</option>
-                        <option value="3" containerid="answer-container">答案开奖</option>
+                        <option value="3" containerid="answer-container">竞猜开奖</option>
                         <option value="4" containerid="scene-container">实时开奖</option>
                     </select>
                 </td>
@@ -230,7 +230,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="text">答案选项：</td>
+                    <td class="text">竞猜选项：</td>
                     <td class="input">
                         <div style="float: left;">
                             @*@Html.TextAreaFor(m => m.Answer, new { @class = "textarea-text", cols = "50", rows = "3" })*@
@@ -245,7 +245,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="text">开奖答案：</td>
+                    <td class="text">开奖竞猜：</td>
                     <td class="input">
                         <select id="slAnswer" name="slAnswer">
                             <option value="" selected>请选择</option>
@@ -451,7 +451,7 @@
 
             $("#btnAddAnswerOption").click(function () {
                 if ($("#txtAnswerOption").val() == "") {
-                    alert("答案不能为空");
+                    alert("竞猜不能为空");
                     return;
                 }
 
@@ -622,7 +622,7 @@
                 return answerLength >= 2;
             }, "至少设置2个答案选项");
 
-            //答案开奖，验证开奖日期是否设置
+            //竞猜开奖，验证开奖日期是否设置
             $.validator.addMethod("requiredLaunchTimeOfAnswerType", function (value, element) {
                 var type = $("#slAnswerLauchType").val();
                 if (type == 1) {
@@ -633,7 +633,7 @@
                 return true;
             }, "开奖日期必须设置");
 
-            //答案开奖，验证奖池大小是否设置
+            //竞猜开奖，验证奖池大小是否设置
             $.validator.addMethod("requiredPoolCountTimeOfAnswerType", function (value, element) {
                 var type = $("#slAnswerLauchType").val();
                 if (type == 2) {
@@ -686,7 +686,7 @@
                         required: "必须输入"
                     },
                     AddedAnswerOptions: {
-                        isAddedAnswerOptions: "至少设置2个答案选项"
+                        isAddedAnswerOptions: "至少设置2个竞猜选项"
                     },
                     slAnswer: {
                         required: "必须选择"

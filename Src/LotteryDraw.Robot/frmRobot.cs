@@ -266,9 +266,9 @@ namespace RevealTest
                             Notice(ds.Tables[1], "定员开奖");
                             #endregion
 
-                            #region 答案
+                            #region 竞猜
                             txtInfo.Text += subSplitLine + Environment.NewLine;
-                            Notice(ds.Tables[2], "答案开奖");
+                            Notice(ds.Tables[2], "竞猜开奖");
                             #endregion
 
                             #region 现场

@@ -72,7 +72,7 @@
                         <option value="" rtype="">请选择</option>
                         <option value="1" rtype="timing">定时开奖</option>
                         <option value="2" rtype="quota">定员开奖</option>
-                        <option value="3" rtype="answer">答案开奖</option>
+                        <option value="3" rtype="answer">竞猜开奖</option>
                         <option value="4" rtype="scene">现场开奖</option>
                     </select><span class="info">*</span>
                 </td>
@@ -119,7 +119,7 @@
                 <td class="input">
                     <div style="float: left; line-height: 200px;">
                         @*@Html.TextAreaFor(m => m.Answer, new { @class = "textarea-text", cols = "50", rows = "3" })*@
-                        <input type="text" class="input-text" id="txtAnswerOption" placeholder="请填写一个答案选项" />
+                        <input type="text" class="input-text" id="txtAnswerOption" placeholder="请填写一个竞猜选项" />
                         <input type="button" class="" value="追加" style="padding: 5px; width: 60px;" id="btnAddAnswerOption" />
                     </div>
                     <div style="float: left;">
@@ -251,8 +251,8 @@
     <ul class="layer_notice" style="display: none; padding: 10px;">
         <li>
             <label>友情提示：</label></li>
-        <li>1. 您将要进行的是“答案抽奖”的开奖方式。</li>
-        <li>2. 您请务必设置开奖题目和答案。</li>
+        <li>1. 您将要进行的是“竞猜抽奖”的开奖方式。</li>
+        <li>2. 您请务必设置开奖题目和竞猜。</li>
     </ul>
 </div>
 @section scripts{
@@ -622,7 +622,7 @@
                         }
                     }
 
-                    // 答案抽奖需要设置答案选项和正确答案
+                    // 竞猜抽奖需要设置答案选项和正确答案
                     if (rtype == '@RevealType.Answer.ToInt()') {
                         var options = "";
                         $("#slAnswer option[class='answer']").each(function () {

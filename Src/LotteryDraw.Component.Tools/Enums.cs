@@ -39,7 +39,7 @@ namespace LotteryDraw.Component.Tools
         Timing = 1,
         [Description("定员开奖")]
         Quota = 2,
-        [Description("答案开奖")]
+        [Description("竞猜开奖")]
         Answer = 3,
         [Description("现场开奖")]
         Scene = 4
@@ -64,9 +64,9 @@ namespace LotteryDraw.Component.Tools
     }
 
     /// <summary>
-    /// 答案开奖开奖条件类型
+    /// 竞猜开奖开奖条件类型
     /// </summary>
-    [Description("答案开奖开奖条件类型")]
+    [Description("竞猜开奖开奖条件类型")]
     public enum AnswerRevealConditionType
     {
         [Description("定时")]
@@ -76,7 +76,7 @@ namespace LotteryDraw.Component.Tools
     }
 
     /// <summary>
-    /// 答案开奖开奖条件类型
+    /// 竞猜开奖开奖条件类型
     /// </summary>
     [Description("开奖结果状态")]
     public enum LotteryResultState
@@ -98,7 +98,7 @@ namespace LotteryDraw.Component.Tools
     }
 
     /// <summary>
-    /// 答案开奖开奖条件类型
+    /// 现场开奖开奖条件类型
     /// </summary>
     [Description("现场抽奖中奖人员奖单状态")]
     public enum LuckySceneStaffState

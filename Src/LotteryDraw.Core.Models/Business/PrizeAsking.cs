@@ -22,7 +22,7 @@ using LotteryDraw.Core.Models.Account;
 namespace LotteryDraw.Core.Models.Business
 {
     /// <summary>
-    /// 答案开奖对应问答的实体
+    /// 竞猜开奖对应问答的实体
     /// </summary>
     public class PrizeAsking
     {

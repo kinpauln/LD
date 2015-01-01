@@ -148,7 +148,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             //    ViewBag.Message = "奖品邮寄地址不能为空";
             //    return View(model);
             //}
-            // 答案开奖的话需要验证是否选择了答案
+            // 竞猜开奖的话需要验证是否选择了答案
             if ((int)RevealType.Answer == rtype)
             {
                 if (string.IsNullOrEmpty(model.UserAnswer))
