@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using LotteryDraw.Site.Extentions;
 using Webdiyer.WebControls.Mvc;
 using LotteryDraw.Core;
+using LotteryDraw.Core.Models.Business;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
@@ -25,6 +26,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
         [Import]
         protected IPrizeOrderContract PrizeOrderContract { get; set; }
+
+        [Import]
+        protected IPrizeContract PrizeContract { get; set; }
 
         #endregion
         #endregion
@@ -97,6 +101,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
             string whereString = GetWhereStringOfPrizeOrderDetail(keywords);
 
+            PagedList<PrizeOrderDetailView> model = null;
             IEnumerable<PrizeOrderDetailView> rlist = null;
             OperationResult result = PrizeOrderSiteContract.GetRevealedSceneLotteries(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount, RevealState.Drawn.ToInt());
             ViewBag.TotalCount = totalCount;
@@ -119,13 +124,13 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     rlist = dt.ToPrizeOrderDetailList();
                     if (rlist != null)
                     {
-                        PagedList<PrizeOrderDetailView> model = new PagedList<PrizeOrderDetailView>(rlist, pageIndex, pageSize, totalCount);
+                        model = new PagedList<PrizeOrderDetailView>(rlist, pageIndex, pageSize, totalCount);
                         return View(model);
                     }
                 }
             }
             ViewBag.Message = result.Message;
-            return null;
+            return View(model);
         }
 
         /// <summary>
@@ -152,13 +157,31 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         //        ViewBag.Message = string.Format("不存在Id为{0}的奖单", id);
         //    return View(model);
         //} 
-        
+
         /// <summary>
         ///  奖单详情
         /// </summary>
-        public ActionResult PrizeOrderDetail()
+        public ActionResult PrizeOrderDetail(Guid id)
         {
-            return View();
+            //PrizeOrderView model = PrizeOrderContract.PrizeOrders
+            //    .Where(p => p.Id.Equals(id))
+            //    .Select(p => new PrizeOrderView()
+            //    {
+            //        Id = p.Id,
+            //        RevealTypeNum = p.RevealTypeNum,
+            //        RevealStateNum = p.RevealStateNum,
+            //        LaunchTime = p.Extend.LaunchTime,
+            //        MinLuckyCount = p.Extend.MinLuckyCount,
+            //        LuckyCount = p.Extend.LuckyCount,
+            //        LuckyPercent = p.Extend.LuckyPercent,
+            //        PoolCount = p.Extend.PoolCount,
+            //        Remarks = p.Extend.Remarks,
+            //        AddDate = p.AddDate
+            //    }).FirstOrDefault();
+            PrizeOrderDetailView model = PrizeOrderSiteContract.GetPrizeOrderDetailView(id);
+            if (model == null)
+                ViewBag.Message = string.Format("不存在Id为{0}的奖单", id);
+            return View(model);
         }
 
         //public ActionResult PrizeOrders(int revealType, int pageIndex, string keywords)

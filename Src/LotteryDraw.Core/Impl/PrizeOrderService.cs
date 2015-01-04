@@ -315,7 +315,7 @@ namespace LotteryDraw.Core.Impl
                 SqlParameter paramPI = new SqlParameter("@PageIndex", SqlDbType.Int);
                 paramPI.Value = pageIndex;
                 paramList.Add(paramPI);
-                
+
                 //排序字符串
                 SqlParameter paramWhere = new SqlParameter("@Where", SqlDbType.VarChar, 2000);
                 paramWhere.Value = whereString;
@@ -470,7 +470,8 @@ namespace LotteryDraw.Core.Impl
                         PrizeOrderRepository.Insert(porder);
 
                         // 现场抽奖
-                        if (porder.RevealType == RevealType.Scene) {
+                        if (porder.RevealType == RevealType.Scene)
+                        {
                             if (porder.SceneStaffs != null && porder.SceneStaffs.Count() > 0)
                             {
                                 SceneStaffRepository.Insert(porder.SceneStaffs);
@@ -495,6 +496,64 @@ namespace LotteryDraw.Core.Impl
                 {
                     tran.Rollback();
                 }
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        ///  后知答案“竞猜开奖”
+        /// </summary>
+        /// <param name="id">奖单Id</param>
+        /// <param name="answer">竞猜答案</param>
+        public OperationResult RevealManualAnswerLottery(Guid id, string answer)
+        {
+            try
+            {
+                List<SqlParameter> paramList = new List<SqlParameter>();
+
+                SqlParameter paramPoid = new SqlParameter("@PrizeOrderId", SqlDbType.VarChar, 100);
+                paramPoid.Value = id.ToString();
+                paramList.Add(paramPoid);
+
+                SqlParameter paramAnswer = new SqlParameter("@Answer", SqlDbType.VarChar, -1);
+                paramAnswer.Value = answer;
+                paramList.Add(paramAnswer);
+
+                SqlParameter paramerrorcode = new SqlParameter("@ErrorCode", SqlDbType.VarChar, 10);
+                paramerrorcode.Direction = ParameterDirection.Output;
+                paramList.Add(paramerrorcode);
+
+                SqlParameter paramerrorstring = new SqlParameter("@ErrorString", SqlDbType.VarChar, -1);
+                paramerrorstring.Direction = ParameterDirection.Output;
+                paramList.Add(paramerrorstring);
+
+
+                SqlCommand command = new SqlCommand();
+                PrizeOrderRepository.ExecProcdureReturnDataSet("sp_revealSingleAnswerLottery", out command, paramList.ToArray());
+
+                string errorCode = command.Parameters["@ErrorCode"].Value.ToString();
+                string errorstring = command.Parameters["@ErrorString"].Value.ToString();
+
+                if (string.IsNullOrEmpty(errorCode))
+                {
+                    return new OperationResult(OperationResultType.Success, "开奖成功。", id);
+                }
+                else
+                {
+                    switch (errorCode)
+                    {
+                        case "Error_01":
+                            return new OperationResult(OperationResultType.Warning, "奖单投注者小于中奖人数", errorstring);
+                        case "Error_02":
+                            return new OperationResult(OperationResultType.Warning, "竞猜正确者总数小于所设置的中奖人数", errorstring);
+                        default:
+                            return new OperationResult(OperationResultType.Warning, "出错了。", id);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
                 return new OperationResult(OperationResultType.Error, ex.Message);
             }
         }

@@ -43,6 +43,12 @@ namespace LotteryDraw.Site.Impl
         [Import]
         protected IPrizeContract PrizeContract { get; set; }
 
+        [Import]
+        protected IAccountContract AccountContract { get; set; }
+
+        [Import]
+        protected IPrizeBettingContract PrizeBettingContract { get; set; }
+
         /// <summary>
         ///     添加奖品
         /// </summary>
@@ -207,11 +213,12 @@ namespace LotteryDraw.Site.Impl
         /// <param name="revealtype">开奖类型</param>
         /// <param name="revealstate">奖单状态</param>
         /// <returns></returns>
-        public OperationResult GetRevealedSceneLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealstate = 0) {
+        public OperationResult GetRevealedSceneLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealstate = 0)
+        {
             OperationResult result = PrizeOrderContract.GetRevealedSceneLotteries(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount, revealstate);
             return result;
         }
-        
+
         /// <summary>
         ///  置顶
         /// </summary>
@@ -387,6 +394,46 @@ namespace LotteryDraw.Site.Impl
             }
 
             return PrizeOrderContract.BatchAdd(porder, shouldMinus);
+        }
+
+        /// <summary>
+        ///  后知答案“竞猜开奖”
+        /// </summary>
+        /// <param name="id">奖单Id</param>
+        /// <param name="answer">竞猜答案</param>
+        public OperationResult RevealManualAnswerLottery(Guid id, string answer)
+        {
+            OperationResult result = PrizeOrderContract.RevealManualAnswerLottery(id, answer);
+            return result;
+        }
+
+        /// <summary>
+        ///  获取奖单详情
+        /// </summary>
+        /// <param name="id">奖单Id</param>
+        public PrizeOrderDetailView GetPrizeOrderDetailView(Guid id)
+        {
+            var entity = (from po in PrizeOrderContract.PrizeOrders
+                          join p in PrizeContract.Prizes on po.Prize.Id equals p.Id
+                          join user in AccountContract.Members on p.Member.Id equals user.Id
+                          where po.Id == id
+                          select new
+                          {
+                              PrizeEntity = p,
+                              PrizeOrderEntity = po,
+                              UserEntity = user,
+                              RevealType = po.RevealType,
+                              BettingCount = po.PrizeBettings.Count
+                          })
+                         .FirstOrDefault();
+            var rtentity = new PrizeOrderDetailView()
+                          {
+                              PrizeView = entity.PrizeEntity.ToSiteViewModel(),
+                              MemberView = entity.UserEntity.ToSiteViewModel(),
+                              PrizeOrderView = entity.PrizeOrderEntity.ToSiteViewModel(),
+                          };
+            rtentity.PrizeOrderView.BettingCount = entity.BettingCount;
+            return rtentity;
         }
     }
 }

@@ -661,30 +661,6 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         #endregion
 
         #region 奖单
-        /// <summary>
-        ///  奖单详情
-        /// </summary>
-        public ActionResult PrizeOrderDetail(Guid id)
-        {
-            PrizeOrderView model = PrizeOrderContract.PrizeOrders
-                .Where(p => p.Id.Equals(id))
-                .Select(p => new PrizeOrderView()
-                {
-                    Id = p.Id,
-                    RevealTypeNum = p.RevealTypeNum,
-                    RevealStateNum = p.RevealStateNum,
-                    LaunchTime = p.Extend.LaunchTime,
-                    MinLuckyCount = p.Extend.MinLuckyCount,
-                    LuckyCount = p.Extend.LuckyCount,
-                    LuckyPercent = p.Extend.LuckyPercent,
-                    PoolCount = p.Extend.PoolCount,
-                    Remarks = p.Extend.Remarks,
-                    AddDate = p.AddDate
-                }).FirstOrDefault();
-            if (model == null)
-                ViewBag.Message = string.Format("不存在Id为{0}的奖单", id);
-            return View(model);
-        }
 
         /// <summary>
         ///  奖单列表
@@ -706,7 +682,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             .Select(p => new PrizeOrderView()
             {
                 Id = p.Id,
-                RevealTypeNum = p.RevealTypeNum,
+                RevealType = p.RevealType,
                 RevealState = p.RevealState,
                 LaunchTime = p.Extend.LaunchTime,
                 MinLuckyCount = p.Extend.MinLuckyCount,
@@ -714,7 +690,10 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 LuckyPercent = p.Extend.LuckyPercent,
                 PoolCount = p.Extend.PoolCount,
                 Remarks = p.Extend.Remarks,
-                AddDate = p.AddDate
+                AddDate = p.AddDate,
+                Question = p.Extend.PrizeAsking.Question,
+                AnswerOptions = p.Extend.PrizeAsking.AnswerOptions,
+                RevealTypeOfAnswer = p.Extend.RevealTypeOfAnswer
             });
 
             PagedList<PrizeOrderView> model = new PagedList<PrizeOrderView>(rlist, pageIndex, this.PageSize, total);
@@ -875,6 +854,18 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             return Json(new { OK = false, Message = msg }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult RevealManualAnswerLottery(Guid poid, string answer)
+        {
+            OperationResult result = PrizeOrderSiteContract.RevealManualAnswerLottery(poid, answer);
+            if (result.ResultType == OperationResultType.Success)
+            {
+                return Json(new { OK = true, Message = "开奖成功！" }, JsonRequestBehavior.AllowGet);
+            }
+
+            string msg = result.Message ?? result.ResultType.ToDescription();
+            return Json(new { OK = false, Message = msg }, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult MyBettingList(int? id)
         {
             long userid = this.UserId ?? 0;
@@ -921,6 +912,20 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         }
 
         /// <summary>
+        ///  奖品详情
+        /// </summary>
+        public ActionResult PrizeDetail(Guid id)
+        {
+            ViewBag.UserId = this.UserId ?? 0;
+
+            Prize pmodel = PrizeContract.Prizes
+                .Where(p => p.Id.Equals(id))
+                .FirstOrDefault();
+            PrizeView model = pmodel.ToSiteViewModel();
+            return View(model);
+        }
+
+        /// <summary>
         ///  删除奖品
         /// </summary>
         /// <param name="id"></param>
@@ -935,20 +940,6 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
             TempData["Message"] = msg;
             return RedirectToAction("ManagePrizes");
-        }
-
-        /// <summary>
-        ///  奖品详情
-        /// </summary>
-        public ActionResult PrizeDetail(Guid id)
-        {
-            ViewBag.UserId = this.UserId ?? 0;
-
-            Prize pmodel = PrizeContract.Prizes
-                .Where(p => p.Id.Equals(id))
-                .FirstOrDefault();
-            PrizeView model = pmodel.ToSiteViewModel();
-            return View(model);
         }
 
         public FileResult GetImage(string base64String)

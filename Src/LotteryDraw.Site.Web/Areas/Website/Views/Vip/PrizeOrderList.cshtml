@@ -16,6 +16,18 @@
 }
 @section styles{
     <link href="~/Content/website/css/prize.css" rel="stylesheet" />
+    <style type="text/css">
+        table.alert-tb-form {
+            border-collapse: collapse;
+            border: none;
+        }
+
+            table.alert-tb-form td, table.alert-tb-form tr {
+                /*border: none;*/
+                text-align: left;
+                padding: 2px;
+            }
+    </style>
 }
 <div class="active" id="prizelist" style="margin: 10px 0;">
 
@@ -27,22 +39,34 @@
         <tr>
             <th>抽奖类型</th>
             <th>状态</th>
-            <th>描述</th>
             <th style="width: 120px;">发布日期</th>
             <th style="width: 120px;">操作</th>
         </tr>
-        @if (Model == null || Model.Count == 0) {
-             <tr>
-                <td colspan="6">没有奖单</td></tr>
+        @if (Model == null || Model.Count == 0)
+        {
+            <tr>
+                <td colspan="6">没有奖单</td>
+            </tr>
         }
         @foreach (var item in Model)
         {
             <tr>
                 <td>@item.RevealType.ToDescription()</td>
                 <td>@item.RevealState.ToDescription()</td>
-                <td><div title="@item.Remarks" style="width:120px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.Remarks</div></td>
                 <td>@item.AddDate.ToString("yyy-MM-dd HH:mm:ss")</td>
-                <td><a href="/Vip/PrizeOrderDetail/@item.Id">详情</a>&nbsp;|&nbsp;<a href="/Vip/PrizeOrderDelete/@item.Id" onclick="javascript:return confirm('确认要删除？')">删除</a></td>
+                <td>
+                    <a href="/Business/PrizeOrderDetail/@item.Id">详情</a>
+                    @{
+            if (item.RevealType == RevealType.Answer
+                && item.RevealState == RevealState.UnDrawn
+                && item.RevealTypeOfAnswer == RevealTypeOfAnswer.Manual)
+            {
+                        @:&nbsp;|&nbsp;<a href="#" class="answer-manual" poid="@item.Id" question="@item.Question" answer-options="@item.AnswerOptions">我要开奖</a>
+                    }
+                    }
+                    @*<a href="/Vip/PrizeOrderDelete/@item.Id" onclick="javascript:return confirm('确认要删除？')">删除</a>*@
+
+                </td>
             </tr>
         }
     </table>
@@ -58,11 +82,168 @@
 }, new { @class = "diggpager" })
 </div>
 
+<div style="display: none; padding: 50px;" id="answer-alert-content">
+    <input type="hidden" id="hidnPoId" />
+    <table style="margin: auto;" class="alert-tb-form" id="tbform">
+        <tr>
+            <td style="width:70px;">
+                <label>竞猜题目：</label></td>
+            <td>
+                <span id="spanQuestion"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:70px;">
+                <label>标准答案：</label></td>
+            <td>
+                <select id="slAnswerOptions">
+                    <option value="">请选择</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: center;">
+                <input type="button" id="btnOpenLottery" value="开奖" class="button orange" /></td>
+        </tr>
+    </table>
+</div>
 @section scripts{
     <script type="text/javascript">
+        var global_layerid;
         $(function () {
             $("#prizelist table tr:odd").addClass("odd-tr");
             $("#prizelist table tr:even").addClass("even-tr");
+
+            $("a[class*='answer-manual']").click(function (e) {
+                var poid = $(this).attr("poid");
+                $("#hidnPoId").val(poid);
+                var question = $(this).attr("question");
+                var answerOptionString = $(this).attr("answer-options");
+                layer.confirm("确认开奖？", function (index) {
+                    $("#spanQuestion").html(question);
+                    // 初始化下拉框选项
+                    initAnswerOptionSelector(answerOptionString);
+                    layer.close(index);
+                }, function () {
+                });
+
+                e.preventDefault();
+            });
+
+            $("#btnOpenLottery").click(function (e) {
+                var answer = $("#slAnswerOptions").val();
+                if (answer == "") {
+                    layer.alert("答案必须选择", 8);
+                    return;
+                }
+
+                var poid = $("#hidnPoId").val();
+                var loadi;
+                $.ajax({
+                    type: "post",
+                    data: { poid: poid, answer: answer },
+                    url: "/Vip/RevealManualAnswerLottery",
+                    beforeSend: function () {
+                        loadi = layer.load('正在开奖，请耐心等待…');
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        var result = data.OK;
+                        var message = data.Message;
+                        if (!result) {
+                            layer.alert(message, 8);
+                            return;
+                        }
+                        layer.alert(message, 9);
+                        $("#btnOpenLottery").attr("disabled", "disabled");
+                    },
+                    error: function () {
+
+                    },
+                    complete: function () {
+                        layer.close(loadi);
+                    }
+                });
+            });
         });
+
+
+        function initAnswerOptionSelector(optionString) {
+            $("#slAnswerOptions option[class='answer-option']").remove();
+
+            var options = optionString.split("|||");
+            for (var i = 0; i < options.length; i++) {
+                var currstring = options[i];
+                var value = currstring.split(":")[0];
+                var text = currstring.split(":")[1];
+                $("#slAnswerOptions").append("<option class='answer-option' value='" + value + "'>" + text + "</option>");
+            }
+
+            var domwidth = getHiddenDomWidth("answer-alert-content");
+            var domheight = getHiddenDomHeight("answer-alert-content");
+            console.log(domwidth);
+            global_layerid = $.layer({
+                type: 1,   //0-4的选择,（1代表page层）
+                //area: [domwidth + 'px', 'auto'],
+                //shade: [0],  //不显示遮罩
+                border: [0], //不显示边框
+                title: [
+                    '我要开奖',
+                    //自定义标题风格，如果不需要，直接title: '标题' 即可  #577DB7
+                    'border:none; background:#024D9E; color:#fff;'
+                ],
+                bgcolor: '#eee', //设置层背景色
+                page: {
+                    dom: '#answer-alert-content',
+                    //html: '',
+                    //url: '',
+                    ok: function (datas) { }
+                },
+                shift: 'top' //从上动画弹出
+            });
+            //layer.area(global_layerid, { width: domwidth + "px", height: domheight + "px" });
+        }
+
+        function getHiddenDomWidth(domid) {
+            var returnwidth = 0;
+            var element = document.getElementById(domid);
+            //保存原来的属性值
+            var display = element.style.display,
+                overflow = element.style.overflow,
+                height = element.style.height;
+            //设置新属性
+            element.style.display = "block";
+            element.style.overflow = "hidden";
+            element.style.height = "0px";
+            //由于元素已经参与渲染，所以可以获取到尺寸
+            returnwidth = element.offsetWidth;
+            //还原被修改的属性
+            element.style.display = display;
+            element.style.overflow = overflow;
+            element.style.height = height;
+
+            return returnwidth;
+        }
+
+        function getHiddenDomHeight(domid) {
+            var returnheight = 0;
+            var element = document.getElementById(domid);
+            //保存原来的属性值
+            var display = element.style.display,
+                overflow = element.style.overflow,
+                width = element.style.width;
+            //设置新属性
+            element.style.display = "block";
+            element.style.overflow = "hidden";
+            element.style.width = "0px";
+            //由于元素已经参与渲染，所以可以获取到尺寸
+            returnheight = element.offsetHeight;
+            //还原被修改的属性
+            element.style.display = display;
+            element.style.overflow = overflow;
+            element.style.width = width;
+
+            return returnheight;
+        }
     </script>
 }

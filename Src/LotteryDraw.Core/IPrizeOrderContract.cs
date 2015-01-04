@@ -133,6 +133,12 @@ namespace LotteryDraw.Core
         /// <param name="shouldMinus">是否该对用户的可发起抽奖次数减</param>
         OperationResult BatchAdd(PrizeOrder porder, bool shouldMinus = false);
 
+        /// <summary>
+        ///  后知答案“竞猜开奖”
+        /// </summary>
+        /// <param name="id">奖单Id</param>
+        /// <param name="answer">竞猜答案</param>
+        OperationResult RevealManualAnswerLottery(Guid id, string answer);
         #endregion
     }
 }

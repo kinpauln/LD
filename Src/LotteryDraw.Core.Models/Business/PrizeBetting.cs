@@ -51,6 +51,6 @@ namespace LotteryDraw.Core.Models.Business
         /// <summary>
         /// 获取或设置 答案选项
         /// </summary>
-        public string AnswerOption { get; set; }
+        public string UserAnswer { get; set; }
     }
 }

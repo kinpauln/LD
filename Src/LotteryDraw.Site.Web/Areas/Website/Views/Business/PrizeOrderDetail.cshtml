@@ -1,416 +1,194 @@
-﻿@{
-    ViewBag.Title = "PrizeOrderDetail";
+﻿@using LotteryDraw.Component.Tools;
+@{
+    ViewBag.Title = "奖单详情";
     Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
 }
+@model LotteryDraw.Site.Models.PrizeOrderDetailView
+
+@{
+    string poid = Model.PrizeOrderView.Id.ToString();
+    string pid = Model.PrizeView.Id.ToString();
+    string prizeName = Model.PrizeView.Name.ToString();
+    string prizeDescription = Model.PrizeView.Description.ToString();
+    // 发起抽奖日期
+    string addDate = Model.PrizeOrderView.AddDate.ToString("yyyy-MM-dd");
+    string lauchTime = Model.PrizeOrderView.LaunchTime.HasValue ? Model.PrizeOrderView.LaunchTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "未知";
+    string username = Model.MemberView.UserName.ToString(); //发起抽奖者
+    string pubuserid = Model.MemberView.Id.ToString();
+    int rtype = Model.PrizeOrderView.RevealType.ToInt();
+    string rtstring = Model.PrizeOrderView.RevealType.ToDescription().Replace("开奖", "");
+    int rstate = Model.PrizeOrderView.RevealState.ToInt();
+    string rsstring = Model.PrizeOrderView.RevealState.ToDescription();
+    string originalPhotoName = Model.PrizeView.OriginalPhoto.Name;
+    string advurl = Model.MemberView.AdvertisingUrl;
+    int scopeType = Model.PrizeOrderView.ScopeTypeNum;
+    string scopeCity = "全国";
+    if (scopeType == ScopeType.AreaCity.ToInt())
+    {
+        scopeCity = Model.PrizeOrderView.ScopeAreaCity;
+    }
+    string luckyStaffsString = Model.PrizeOrderView.LuckyStaffsOfScenceString;
+    int totalstaffs = Model.PrizeOrderView.StaffTotalCount;
+}
+<div class="gm_left" style="width:100%;">
+    @*<div class="gml_header">
+            <h3>
+                <a href="http://event.1905.com/">观影团首页</a>
+                &gt;
+           
+                    <a href="http://d.1905.com/app/gyt">活动列表</a>
+            </h3>
+            <span>&gt; 【有奖活动】细说电影中那些逗比二人组</span>
+
+        </div>*@
+    <div class="left_mainbody">
+        <div class="activities_content">
+            <h2 class="film_name">@prizeName</h2>
+            <div class="acti_marks">
+                <ul>
+                    <li class="reward pngIcon"><a href="#" onclick="javascript:history.go(-1);">返回</a></li>
+                </ul>
+            </div>
+            <dl class="acti_intr clearfix">
+                <dt class="acti_img prevue_on" style="width:355px;">
+                    <div class="act_pic" style="width:350px;">
+                        @{
+                            string photoname = string.Empty;
+                            if (!string.IsNullOrEmpty(originalPhotoName))
+                            {
+                                photoname = "/Files/PrizePhotos/" + pubuserid + "/" + originalPhotoName;
+                            }
+                            else
+                            {
+                                photoname = "";
+                            }
+                        }
+                        <img width="350" height="262" src="@photoname" title="@prizeName" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+                    </div>
+                    <div class="act_icon act_icon_03">
+                        <span class="start">@rsstring</span>
+                        <span class="icon_01"></span>
+                    </div>
+                </dt>
+
+
+                <dd class="acti_text" style="min-width:500px;width:auto;float:left;margin-left:10px;">
+                    <p class="simple_intr"><i class="left_icon pngIcon"></i>@prizeDescription<i class="right_icon pngIcon"></i></p>
+                    <p class="a_t_time">
+                        <span>@lauchTime</span>                                    开奖时间：                
+                    </p>
+                    <ul class="opre item">
+                        <li class=" _checkLogin red">
+
+
+
+                            <span class="part_in_succ pngIcon">@rsstring  &nbsp;
+                                           
+                                        @*<a href="#" class="to_gybg" target="_blank">查看中奖者&gt;&gt;</a> &nbsp;*@
+                                @{                       
+                                    if (rstate == LotteryDraw.Component.Tools.RevealState.Drawn.ToInt())
+                                    {   
+                                    <a href="#" class="view-lucky-staffs" lucky-staffs-string="@Model.PrizeOrderView.LuckyStaffsOfScenceString">查看中奖者&gt;&gt;</a>
+                                    }
+                                }
+                            </span></li>
+
+                    </ul>
+                    <div class="other_info clearfix">
+                        <div class="inter_part_in_count">@*<span id="likeNum">1421</span>感兴趣*@<span class="part_peoples">@Model.PrizeOrderView.BettingCount</span>人参加</div>
+                    <div class="clear"></div>
+                    </div>
+
+                    <div class="the_ticket the_reward pngIcon">
+                        <dl>
+                            <dd>中奖人数</dd>
+                            <dd class=" line-h25"><span style="font-size: 30px;" class="blue pl04 pr04">@Model.PrizeOrderView.LuckyCount</span>人</dd>
+                        </dl>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+
+        <div class="activi_city">
+            <div class="sponsor_share clearfix">
+                <!-- Baidu Button BEGIN -->
+                @*<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+                        <span class="bds_more_share bds_more ">分享给朋友吧：</span>
+                        <a class="bds_qzone" title="分享到QQ空间" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
+                        <a class="bds_tsina" title="分享到新浪微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
+                        <a class="bds_tqq" title="分享到腾讯微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
+                        <a class="bds_renren" title="分享到人人网" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
+                        <a class="bds_t163" title="分享到网易微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
+                    </div>*@
+                <p class="sponsor">主办方:<a class="movie_wang" href="#">@Model.MemberView.UserName</a>                @*人气:<span>2506383</span>*@</p>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="clear"></div>
 
 @section styles{
     <link href="~/Content/website/css/prizeblock.css" rel="stylesheet" />
     <link href="~/Content/website/css/detail_default.css" rel="stylesheet" />
+    <style type="text/css">
+        .layer_notice {
+            float: left;
+            height: auto;
+            max-height:400px;
+            overflow-y:scroll;
+            width: 150px;
+            /*overflow: hidden;*/
+            color: #fff;
+            background: #014A97;
+            padding: 10px;
+            border: 1px solid #000066;
+        }
+
+            .layer_notice li {
+                line-height: 25px;
+                list-style: none;
+            }
+
+            .layer_notice label {
+                font-size: 14px;
+            }
+            .layer_notice li.lucky-item {
+                font-size:20px;
+                text-align:center;
+            }
+    </style>
 }
-<div class="gyt_main_body clearfix" style="width:1244px;">
-    <div class="gm_left">
-        @*<div class="gml_header">
-            <h3>
-                <a href="http://event.1905.com/">观影团首页</a>
-                &gt;
-           
-                    <a href="http://d.1905.com/app/gyt">活动列表</a>
-            </h3>
-            <span>&gt; 【有奖活动】细说电影中那些逗比二人组</span>
-
-        </div>*@
-        <div class="left_mainbody">
-            <div class="activities_content">
-                <h2 class="film_name">【有奖活动】细说电影中那些逗比二人组</h2>
-                <div class="acti_marks">
-                    <ul>
-                        <li class="reward pngIcon">奖品</li>
-                    </ul>
-                </div>
-                <dl class="acti_intr clearfix">
-                    <dt class="acti_img prevue_on">
-                        <div class="act_pic">
-                            <img width="250" height="262" src="." title="【有奖活动】细说电影中那些逗比二人组" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
-                        </div>
-                        <div class="act_icon act_icon_03">
-                            <span class="start">开奖结束</span>
-                            <span class="icon_01"></span>
-                        </div>
-                    </dt>
-
-
-                    <dd class="acti_text">
-                        <p class="simple_intr"><i class="left_icon pngIcon"></i>逗比二人组奇遇记，黄渤和徐峥就是典型吧？还有耿浩和郝义，你还知道哪对呢？                  <i class="right_icon pngIcon"></i></p>
-                        <p class="a_t_time">
-                            <span>2014年11月10日</span>                                    开奖时间：                
-                        </p>
-                        <ul class="opre item">
-                            <li class=" _checkLogin red">
-
-
-
-                                <span class="part_in_succ pngIcon">开奖结束  &nbsp;
-                                           
-                                        <a href="#" class="to_gybg" target="_blank">查看中奖者&gt;&gt;</a> &nbsp;
-                                                                 
-                                        <a href="#" target="_blank">查看中奖者&gt;&gt;</a>
-                                </span></li>
-
-                        </ul>
-                        <div class="other_info clearfix">
-                            <div class="inter_part_in_count"><span id="likeNum">1421</span>感兴趣<span class="part_peoples">1120</span>参加</div>
-                        </div>
-
-                        <div class="the_ticket the_reward pngIcon">
-                            <dl>
-                                <dd>免费提供</dd>
-                                <dd class=" line-h25"><span style="font-size: 30px;" class="blue pl04 pr04">10</span>张</dd>
-                            </dl>
-                        </div>
-                    </dd>
-                </dl>
-            </div>
-
-            <div class="activi_city">
-                <div class="sponsor_share clearfix">
-                    <!-- Baidu Button BEGIN -->
-                    @*<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
-                        <span class="bds_more_share bds_more ">分享给朋友吧：</span>
-                        <a class="bds_qzone" title="分享到QQ空间" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_tsina" title="分享到新浪微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_tqq" title="分享到腾讯微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_renren" title="分享到人人网" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_t163" title="分享到网易微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                    </div>*@
-                    <p class="sponsor">主办方:<a class="movie_wang" href="#" target="_blank">物流邦</a>                人气:<span>2506383</span></p>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="gm_left">
-        @*<div class="gml_header">
-            <h3>
-                <a href="http://event.1905.com/">观影团首页</a>
-                &gt;
-           
-                    <a href="http://d.1905.com/app/gyt">活动列表</a>
-            </h3>
-            <span>&gt; 【有奖活动】细说电影中那些逗比二人组</span>
-
-        </div>*@
-        <div class="left_mainbody">
-            <div class="activities_content">
-                <h2 class="film_name">【有奖活动】细说电影中那些逗比二人组</h2>
-                <div class="acti_marks">
-                    <ul>
-                        <li class="reward pngIcon">奖品</li>
-                    </ul>
-                </div>
-                <dl class="acti_intr clearfix">
-                    <dt class="acti_img prevue_on">
-                        <div class="act_pic">
-                            <img width="250" height="262" src="." title="【有奖活动】细说电影中那些逗比二人组" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
-                        </div>
-                        <div class="act_icon act_icon_03">
-                            <span class="start">开奖结束</span>
-                            <span class="icon_01"></span>
-                        </div>
-                    </dt>
-
-
-                    <dd class="acti_text">
-                        <p class="simple_intr"><i class="left_icon pngIcon"></i>逗比二人组奇遇记，黄渤和徐峥就是典型吧？还有耿浩和郝义，你还知道哪对呢？                  <i class="right_icon pngIcon"></i></p>
-                        <p class="a_t_time">
-                            <span>2014年11月10日</span>                                    开奖时间：                
-                        </p>
-                        <ul class="opre item">
-                            <li class=" _checkLogin red">
-
-
-
-                                <span class="part_in_succ pngIcon">开奖结束  &nbsp;
-                                           
-                                        <a href="#" class="to_gybg" target="_blank">查看中奖者&gt;&gt;</a> &nbsp;
-                                                                 
-                                        <a href="#" target="_blank">查看中奖者&gt;&gt;</a>
-                                </span></li>
-
-                        </ul>
-                        <div class="other_info clearfix">
-                            <div class="inter_part_in_count"><span id="likeNum">1421</span>感兴趣<span class="part_peoples">1120</span>参加</div>
-                        </div>
-
-                        <div class="the_ticket the_reward pngIcon">
-                            <dl>
-                                <dd>免费提供</dd>
-                                <dd class=" line-h25"><span style="font-size: 30px;" class="blue pl04 pr04">10</span>张</dd>
-                            </dl>
-                        </div>
-                    </dd>
-                </dl>
-            </div>
-
-            <div class="activi_city">
-                <div class="sponsor_share clearfix">
-                    <!-- Baidu Button BEGIN -->
-                    @*<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
-                        <span class="bds_more_share bds_more ">分享给朋友吧：</span>
-                        <a class="bds_qzone" title="分享到QQ空间" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_tsina" title="分享到新浪微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_tqq" title="分享到腾讯微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_renren" title="分享到人人网" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_t163" title="分享到网易微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                    </div>*@
-                    <p class="sponsor">主办方:<a class="movie_wang" href="#" target="_blank">物流邦</a>                人气:<span>2506383</span></p>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="gm_left">
-        @*<div class="gml_header">
-            <h3>
-                <a href="http://event.1905.com/">观影团首页</a>
-                &gt;
-           
-                    <a href="http://d.1905.com/app/gyt">活动列表</a>
-            </h3>
-            <span>&gt; 【有奖活动】细说电影中那些逗比二人组</span>
-
-        </div>*@
-        <div class="left_mainbody">
-            <div class="activities_content">
-                <h2 class="film_name">【有奖活动】细说电影中那些逗比二人组</h2>
-                <div class="acti_marks">
-                    <ul>
-                        <li class="reward pngIcon">奖品</li>
-                    </ul>
-                </div>
-                <dl class="acti_intr clearfix">
-                    <dt class="acti_img prevue_on">
-                        <div class="act_pic">
-                            <img width="250" height="262" src="." title="【有奖活动】细说电影中那些逗比二人组" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
-                        </div>
-                        <div class="act_icon act_icon_03">
-                            <span class="start">开奖结束</span>
-                            <span class="icon_01"></span>
-                        </div>
-                    </dt>
-
-
-                    <dd class="acti_text">
-                        <p class="simple_intr"><i class="left_icon pngIcon"></i>逗比二人组奇遇记，黄渤和徐峥就是典型吧？还有耿浩和郝义，你还知道哪对呢？                  <i class="right_icon pngIcon"></i></p>
-                        <p class="a_t_time">
-                            <span>2014年11月10日</span>                                    开奖时间：                
-                        </p>
-                        <ul class="opre item">
-                            <li class=" _checkLogin red">
-
-
-
-                                <span class="part_in_succ pngIcon">开奖结束  &nbsp;
-                                           
-                                        <a href="#" class="to_gybg" target="_blank">查看中奖者&gt;&gt;</a> &nbsp;
-                                                                 
-                                        <a href="#" target="_blank">查看中奖者&gt;&gt;</a>
-                                </span></li>
-
-                        </ul>
-                        <div class="other_info clearfix">
-                            <div class="inter_part_in_count"><span id="likeNum">1421</span>感兴趣<span class="part_peoples">1120</span>参加</div>
-                        </div>
-
-                        <div class="the_ticket the_reward pngIcon">
-                            <dl>
-                                <dd>免费提供</dd>
-                                <dd class=" line-h25"><span style="font-size: 30px;" class="blue pl04 pr04">10</span>张</dd>
-                            </dl>
-                        </div>
-                    </dd>
-                </dl>
-            </div>
-
-            <div class="activi_city">
-                <div class="sponsor_share clearfix">
-                    <!-- Baidu Button BEGIN -->
-                    @*<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
-                        <span class="bds_more_share bds_more ">分享给朋友吧：</span>
-                        <a class="bds_qzone" title="分享到QQ空间" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_tsina" title="分享到新浪微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_tqq" title="分享到腾讯微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_renren" title="分享到人人网" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_t163" title="分享到网易微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                    </div>*@
-                    <p class="sponsor">主办方:<a class="movie_wang" href="#" target="_blank">物流邦</a>                人气:<span>2506383</span></p>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="gm_left">
-        @*<div class="gml_header">
-            <h3>
-                <a href="http://event.1905.com/">观影团首页</a>
-                &gt;
-           
-                    <a href="http://d.1905.com/app/gyt">活动列表</a>
-            </h3>
-            <span>&gt; 【有奖活动】细说电影中那些逗比二人组</span>
-
-        </div>*@
-        <div class="left_mainbody">
-            <div class="activities_content">
-                <h2 class="film_name">【有奖活动】细说电影中那些逗比二人组</h2>
-                <div class="acti_marks">
-                    <ul>
-                        <li class="reward pngIcon">奖品</li>
-                    </ul>
-                </div>
-                <dl class="acti_intr clearfix">
-                    <dt class="acti_img prevue_on">
-                        <div class="act_pic">
-                            <img width="250" height="262" src="." title="【有奖活动】细说电影中那些逗比二人组" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
-                        </div>
-                        <div class="act_icon act_icon_03">
-                            <span class="start">开奖结束</span>
-                            <span class="icon_01"></span>
-                        </div>
-                    </dt>
-
-
-                    <dd class="acti_text">
-                        <p class="simple_intr"><i class="left_icon pngIcon"></i>逗比二人组奇遇记，黄渤和徐峥就是典型吧？还有耿浩和郝义，你还知道哪对呢？                  <i class="right_icon pngIcon"></i></p>
-                        <p class="a_t_time">
-                            <span>2014年11月10日</span>                                    开奖时间：                
-                        </p>
-                        <ul class="opre item">
-                            <li class=" _checkLogin red">
-
-
-
-                                <span class="part_in_succ pngIcon">开奖结束  &nbsp;
-                                           
-                                        <a href="#" class="to_gybg" target="_blank">查看中奖者&gt;&gt;</a> &nbsp;
-                                                                 
-                                        <a href="#" target="_blank">查看中奖者&gt;&gt;</a>
-                                </span></li>
-
-                        </ul>
-                        <div class="other_info clearfix">
-                            <div class="inter_part_in_count"><span id="likeNum">1421</span>感兴趣<span class="part_peoples">1120</span>参加</div>
-                        </div>
-
-                        <div class="the_ticket the_reward pngIcon">
-                            <dl>
-                                <dd>免费提供</dd>
-                                <dd class=" line-h25"><span style="font-size: 30px;" class="blue pl04 pr04">10</span>张</dd>
-                            </dl>
-                        </div>
-                    </dd>
-                </dl>
-            </div>
-
-            <div class="activi_city">
-                <div class="sponsor_share clearfix">
-                    <!-- Baidu Button BEGIN -->
-                    @*<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
-                        <span class="bds_more_share bds_more ">分享给朋友吧：</span>
-                        <a class="bds_qzone" title="分享到QQ空间" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_tsina" title="分享到新浪微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_tqq" title="分享到腾讯微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_renren" title="分享到人人网" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_t163" title="分享到网易微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                    </div>*@
-                    <p class="sponsor">主办方:<a class="movie_wang" href="#" target="_blank">物流邦</a>                人气:<span>2506383</span></p>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="gm_left">
-        @*<div class="gml_header">
-            <h3>
-                <a href="http://event.1905.com/">观影团首页</a>
-                &gt;
-           
-                    <a href="http://d.1905.com/app/gyt">活动列表</a>
-            </h3>
-            <span>&gt; 【有奖活动】细说电影中那些逗比二人组</span>
-
-        </div>*@
-        <div class="left_mainbody">
-            <div class="activities_content">
-                <h2 class="film_name">【有奖活动】细说电影中那些逗比二人组</h2>
-                <div class="acti_marks">
-                    <ul>
-                        <li class="reward pngIcon">奖品</li>
-                    </ul>
-                </div>
-                <dl class="acti_intr clearfix">
-                    <dt class="acti_img prevue_on">
-                        <div class="act_pic">
-                            <img width="250" height="262" src="." title="【有奖活动】细说电影中那些逗比二人组" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
-                        </div>
-                        <div class="act_icon act_icon_03">
-                            <span class="start">开奖结束</span>
-                            <span class="icon_01"></span>
-                        </div>
-                    </dt>
-
-
-                    <dd class="acti_text">
-                        <p class="simple_intr"><i class="left_icon pngIcon"></i>逗比二人组奇遇记，黄渤和徐峥就是典型吧？还有耿浩和郝义，你还知道哪对呢？                  <i class="right_icon pngIcon"></i></p>
-                        <p class="a_t_time">
-                            <span>2014年11月10日</span>                                    开奖时间：                
-                        </p>
-                        <ul class="opre item">
-                            <li class=" _checkLogin red">
-
-
-
-                                <span class="part_in_succ pngIcon">开奖结束  &nbsp;
-                                           
-                                        <a href="#" class="to_gybg" target="_blank">查看中奖者&gt;&gt;</a> &nbsp;
-                                                                 
-                                        <a href="#" target="_blank">查看中奖者&gt;&gt;</a>
-                                </span></li>
-
-                        </ul>
-                        <div class="other_info clearfix">
-                            <div class="inter_part_in_count"><span id="likeNum">1421</span>感兴趣<span class="part_peoples">1120</span>参加</div>
-                        </div>
-
-                        <div class="the_ticket the_reward pngIcon">
-                            <dl>
-                                <dd>免费提供</dd>
-                                <dd class=" line-h25"><span style="font-size: 30px;" class="blue pl04 pr04">10</span>张</dd>
-                            </dl>
-                        </div>
-                    </dd>
-                </dl>
-            </div>
-
-            <div class="activi_city">
-                <div class="sponsor_share clearfix">
-                    <!-- Baidu Button BEGIN -->
-                    @*<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
-                        <span class="bds_more_share bds_more ">分享给朋友吧：</span>
-                        <a class="bds_qzone" title="分享到QQ空间" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_tsina" title="分享到新浪微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_tqq" title="分享到腾讯微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_renren" title="分享到人人网" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                        <a class="bds_t163" title="分享到网易微博" href="http://d.1905.com/app/gyt/detail/628?fr=imbd-05#"></a>
-                    </div>*@
-                    <p class="sponsor">主办方:<a class="movie_wang" href="#" target="_blank">物流邦</a>                人气:<span>2506383</span></p>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
+<div class="layer-box">
+    <ul class="layer_notice" style="display: none; padding: 10px;">
+        @*<li>
+            <label>中奖者：</label></li>*@
+    </ul>
 </div>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("dd.acti_text:eq(0)").width($("div.activities_content:eq(0)").width() - $("div.act_pic:eq(0)").width() -30);
+
+            $("a[class*='view-lucky-staffs']").click(function (e) {
+                var luckyStaffs = $(this).attr("lucky-staffs-string");
+                var staffs = luckyStaffs.split("|");
+                $("li.lucky-item").remove();
+                for (var i = 0; i < staffs.length; i++) {
+                    $(".layer_notice").append("<li class='lucky-item'>" + staffs[i] + "</li>");
+                }
+
+                $.layer({
+                    type: 1,
+                    shade: [0.5, '#000'],
+                    //shade: [0],
+                    area: ['auto', 'auto'],
+                    title: false,
+                    border: [0],
+                    page: { dom: '.layer_notice' }
+                });
+            });
+        });
+    </script>
+    }

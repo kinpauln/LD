@@ -160,5 +160,7 @@ namespace LotteryDraw.Site.Models
         public DateTime? UpdateDate { get; set; }
 
         public PrizeView PrizeView { get; set; }
+
+        public int BettingCount { get; set; }
     }
 }
