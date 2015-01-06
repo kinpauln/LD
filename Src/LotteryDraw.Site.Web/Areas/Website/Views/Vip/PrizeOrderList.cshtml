@@ -82,9 +82,9 @@
 }, new { @class = "diggpager" })
 </div>
 
-<div style="display: none; padding: 50px;" id="answer-alert-content">
+<div style="display: none; padding: 50px;width:500px;" id="answer-alert-content">
     <input type="hidden" id="hidnPoId" />
-    <table style="margin: auto;" class="alert-tb-form" id="tbform">
+    <table style="margin: auto;width:500px;" class="alert-tb-form" id="tbform">
         <tr>
             <td style="width:70px;">
                 <label>竞猜题目：</label></td>
@@ -185,6 +185,7 @@
             global_layerid = $.layer({
                 type: 1,   //0-4的选择,（1代表page层）
                 //area: [domwidth + 'px', 'auto'],
+                area: ['600px', 'auto'],
                 //shade: [0],  //不显示遮罩
                 border: [0], //不显示边框
                 title: [
