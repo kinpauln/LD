@@ -30,8 +30,11 @@ namespace RevealTest
     [Export]
     public partial class frmRobot : Form
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private Thread _revealLottery;
         private bool _revealWatchingStopped = true;
+        private bool _fromTrayExit = false;             //是否允许退出
 
         private static CompositionContainer _container;
 
@@ -61,6 +64,8 @@ namespace RevealTest
 
         public frmRobot()
         {
+            log.Info("程序启动");
+
             InitializeComponent();
             //初始化MEF组合容器
             AggregateCatalog catalog = new AggregateCatalog();
@@ -228,10 +233,13 @@ namespace RevealTest
             btnStopReveal.Enabled = true;
             _revealWatchingStopped = false;
             txtInfo.Text += "开奖监控正在启动..." + Environment.NewLine;
+            log.Info("开奖监控正在启动...");
+
             _revealLottery = new Thread(new ThreadStart(RevealLottery));
             _revealLottery.IsBackground = true;
             _revealLottery.Start();
             txtInfo.Text += "开奖监控启动成功..." + Environment.NewLine + Environment.NewLine;
+            log.Info("开奖监控启动成功...");
         }
 
         private void RevealLottery()
@@ -245,6 +253,7 @@ namespace RevealTest
                 {
                     txtInfo.Text += splitLine + Environment.NewLine;
                     txtInfo.Text += string.Format("尝试新一次的开奖...【{0}】", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) + Environment.NewLine;
+                    log.Info(string.Format("尝试新一次的开奖...【{0}】", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
                     string errorString = string.Empty;
                     OperationResult result = PrizeOrderContract.RevealLottery(interval, out errorString);
                     if (result.ResultType == OperationResultType.Success)
@@ -280,9 +289,11 @@ namespace RevealTest
                     }
                     else
                     {
+                        log.Error("出错了，错误信息：" + result.Message);
                         txtInfo.Text += "出错了，错误信息：" + result.Message + Environment.NewLine;
                     }
                     txtInfo.Text += "本次开奖结束！" + Environment.NewLine;
+                    log.Info("本次开奖结束！");
                     txtInfo.Text += splitLine + Environment.NewLine + Environment.NewLine;
 
                 }));
@@ -298,33 +309,39 @@ namespace RevealTest
                 int revealCount = int.Parse(row["RevealCount"].ToString());
                 if (revealCount > 0)
                 {
-                    txtInfo.Text += string.Format("本次【{1}】共{0}次！", revealCount.ToString(), lotteryName) + Environment.NewLine;
+                    //txtInfo.Text += string.Format("本次【{1}】共{0}次！", revealCount.ToString(), lotteryName) + Environment.NewLine;
+                    log.Info(string.Format("本次【{1}】共{0}次！", revealCount.ToString(), lotteryName));
                     string succeededOrders = row["SucceededOrders"].ToString();
                     if (!string.IsNullOrEmpty(succeededOrders))
                     {
                         string[] poids = succeededOrders.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                         succeededOrders = succeededOrders.EndsWith(",") ? succeededOrders.Substring(0, succeededOrders.Length - 1) : succeededOrders;
-                        txtInfo.Text += string.Format("本次【{2}】成功{0}次，所涉及的奖单ID为：{1}", poids.Length.ToString(), succeededOrders, lotteryName) + Environment.NewLine;
+                        //txtInfo.Text += string.Format("本次【{2}】成功{0}次，所涉及的奖单ID为：{1}", poids.Length.ToString(), succeededOrders, lotteryName) + Environment.NewLine;
+                        log.Info(string.Format("本次【{2}】成功{0}次，所涉及的奖单ID为：{1}", poids.Length.ToString(), succeededOrders, lotteryName));
                     }
                     else
                     {
-                        txtInfo.Text += string.Format("本次【{0}】无一成功！", lotteryName) + Environment.NewLine;
+                        //txtInfo.Text += string.Format("本次【{0}】无一成功！", lotteryName) + Environment.NewLine;
+                        log.Info(string.Format("本次【{0}】无一成功！", lotteryName));
                     }
                     string failedOrders = row["FailedOrders"].ToString();
                     if (!string.IsNullOrEmpty(failedOrders))
                     {
                         string[] poids = failedOrders.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                         failedOrders = failedOrders.EndsWith(",") ? failedOrders.Substring(0, failedOrders.Length - 1) : failedOrders;
-                        txtInfo.Text += string.Format("本次【{2}】失败{0}次，所涉及的奖单ID为{1}", poids.Length.ToString(), failedOrders, lotteryName) + Environment.NewLine;
+                        //txtInfo.Text += string.Format("本次【{2}】失败{0}次，所涉及的奖单ID为{1}", poids.Length.ToString(), failedOrders, lotteryName) + Environment.NewLine;
+                        log.Info(string.Format("本次【{2}】失败{0}次，所涉及的奖单ID为{1}", poids.Length.ToString(), failedOrders, lotteryName));
                     }
                     else
                     {
                         txtInfo.Text += string.Format("本次【{0}】全部成功！", lotteryName) + Environment.NewLine;
+                        log.Info(string.Format("本次【{0}】全部成功！", lotteryName));
                     }
                 }
                 else
                 {
                     txtInfo.Text += string.Format("本次没有需要开奖的【{0}】", lotteryName) + Environment.NewLine;
+                    log.Info(string.Format("本次没有需要开奖的【{0}】", lotteryName));
                 }
             }
         }
@@ -335,6 +352,9 @@ namespace RevealTest
             _revealWatchingStopped = true;
             _revealLottery.Abort();
             txtInfo.Text += "开奖监控已停止" + Environment.NewLine + Environment.NewLine;
+            
+            log.Info("开奖监控已停止");
+
             btnOpenLottery.Enabled = true;
         }
 
@@ -342,11 +362,57 @@ namespace RevealTest
         {
             this.btnOpenLottery.Enabled = true;
             this.btnStopReveal.Enabled = false;
+
+            ni.Text = ProductName;
+        }
+
+        //显示托盘提醒
+        private void ShowTip()
+        {
+            //ni.ShowBalloonTip(5000, "提示",
+            //    "系统并没有退出只是最小化到托盘，您可以在托盘图标上使用右键菜单来调出主窗口！", ToolTipIcon.Info);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _revealWatchingStopped = true;
+            if (!_fromTrayExit)
+            {
+                //最小化到托盘
+                this.Hide();
+                ni.Visible = true;
+                e.Cancel = true;
+                ShowTip();
+            }
+            //_revealWatchingStopped = true;
+            //log.Info("程序正在退出");
+        }
+
+        //处理托盘退出
+        private void ctmExitSystem_Click(object sender, EventArgs e)
+        {
+            _fromTrayExit = true;
+            ni.Visible = false;
+            Application.Exit();
+        }
+
+        //处理托盘显示主窗口
+        private void ctmShowMain_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.BringToFront();
+            this.WindowState = FormWindowState.Maximized;
+            ni.Visible = false;
+        }
+
+        //双击打开主窗口
+        private void ni_DoubleClick(object sender, EventArgs e)
+        {
+            ctmShowMain_Click(null, null);
+        }
+
+        private void frmRobot_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            log.Info("程序已退出");
         }
     }
 }
