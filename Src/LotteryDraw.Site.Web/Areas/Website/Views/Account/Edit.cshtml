@@ -103,6 +103,20 @@
     <script src="~/Content/website/address/location.js"></script>*@
     <script type="text/javascript">
         $(function () {
+            $("#AdvertisingUrl").focus(function () {
+                layer.tips('域名必须以 http:// 开头', this, {
+                    style: ['background-color:#014A97; color:#fff', '#014A97'],
+                    maxWidth: 185,
+                    time: 30,
+                    //closeBtn: [0, true]
+                    closeBtn: false
+                });
+            });
+
+            $("#AdvertisingUrl").blur(function () {
+                layer.closeTips();
+            });
+
             jQuery.validator.addMethod("phone", function (value, element) {
                 return this.optional(element) || /^(13[0-9]|15[0|3|6|7|8|9]|18[8|9])\d{8}$/.test(value);
             }, "请输入合法的手机号码.");

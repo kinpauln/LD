@@ -318,6 +318,8 @@
     <Content Include="Content\website\address\area_id.js" />
     <Content Include="Content\website\address\location.js" />
     <Content Include="Content\website\address\location_id.js" />
+    <Content Include="Content\website\css\user_space_base.css" />
+    <Content Include="Content\website\css\user_space.css" />
     <Content Include="Content\website\css\detail_default.css" />
     <Content Include="Content\website\css\prizeblock.css" />
     <Content Include="Content\website\css\csshover.htc" />

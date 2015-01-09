@@ -47,6 +47,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 ViewBag.NoticeCount = LotteryResultContract.LotteryResults.Where(lr =>
                     !lr.IsDeleted
                     && lr.Member.Id == userid
+                    && lr.LotteryResultState == LotteryResultState.Default
                     && lr.State == (int)LotteryResultState.Default).Count();
             }
             return View();
