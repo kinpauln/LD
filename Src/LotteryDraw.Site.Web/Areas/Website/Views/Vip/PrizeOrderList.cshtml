@@ -51,7 +51,8 @@
         @foreach (var item in Model)
         {
             string colorstring = "black";
-            switch (item.RevealState) { 
+            switch (item.RevealState)
+            {
                 case RevealState.Drawn:
                     colorstring = "red";
                     break;
@@ -95,18 +96,18 @@
 }, new { @class = "diggpager" })
 </div>
 
-<div style="display: none; padding: 50px;width:500px;" id="answer-alert-content">
+<div style="display: none; padding: 50px; width: 500px;" id="answer-alert-content">
     <input type="hidden" id="hidnPoId" />
-    <table style="margin: auto;width:500px;" class="alert-tb-form" id="tbform">
+    <table style="margin: auto; width: 500px;" class="alert-tb-form" id="tbform">
         <tr>
-            <td style="width:70px;">
+            <td style="width: 70px;">
                 <label>竞猜题目：</label></td>
             <td>
                 <span id="spanQuestion"></span>
             </td>
         </tr>
         <tr>
-            <td style="width:70px;">
+            <td style="width: 70px;">
                 <label>标准答案：</label></td>
             <td>
                 <select id="slAnswerOptions">
@@ -167,8 +168,9 @@
                             layer.alert(message, 8);
                             return;
                         }
-                        layer.alert(message, 9);
-                        $("#btnOpenLottery").attr("disabled", "disabled");
+                        layer.alert(message, 9, function () {
+                            $("#btnOpenLottery").attr("disabled", "disabled");
+                        });
                     },
                     error: function () {
 

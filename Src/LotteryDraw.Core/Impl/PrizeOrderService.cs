@@ -544,9 +544,9 @@ namespace LotteryDraw.Core.Impl
                     switch (errorCode)
                     {
                         case "Error_01":
-                            return new OperationResult(OperationResultType.Warning, "奖单投注者小于中奖人数", errorstring);
+                            return new OperationResult(OperationResultType.Warning, "奖单投注者小于中奖人数，不能开奖", errorstring);
                         case "Error_02":
-                            return new OperationResult(OperationResultType.Warning, "竞猜正确者总数小于所设置的中奖人数", errorstring);
+                            return new OperationResult(OperationResultType.Warning, "竞猜正确者总数小于所设置的中奖人数，不能开奖", errorstring);
                         default:
                             return new OperationResult(OperationResultType.Warning, "出错了。", id);
                     }
