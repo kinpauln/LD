@@ -135,7 +135,14 @@
                             {
                                 foreach (var item in topluckies)
                                 {
-                            <li class="list "><a href="http://www.wuliubang.net/" title="@item.MemberView.UserName" target="_self">@item.MemberView.UserName &nbsp; &nbsp; &nbsp; &nbsp;@item.MemberView.Tel</a></li>
+                                    string telEncryption = string.Empty;
+                                    if (!string.IsNullOrEmpty(item.MemberView.Tel))
+                                    {
+                                        string str1 = item.MemberView.Tel.Substring(0, 3);
+                                        string str2 = item.MemberView.Tel.Substring(7);
+                                        telEncryption = str1 + "****" + str2;
+                                    }
+                            <li class="list "><a href="http://www.wuliubang.net/" title="@item.MemberView.UserName" target="_self">@item.MemberView.UserName &nbsp; &nbsp; &nbsp; &nbsp;@telEncryption</a></li>
                                 }
                             }
                         }
