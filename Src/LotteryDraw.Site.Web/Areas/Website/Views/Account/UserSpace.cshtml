@@ -3,46 +3,82 @@
     Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
 }
 
+@section styles{
+    <link href="~/Content/website/css/user_space_base.css" rel="stylesheet" />
+    <link href="~/Content/website/css/user_space.css" rel="stylesheet" />
+}
 @model LotteryDraw.Site.Models.MemberView
 
-<table class="message_table">
-    <tbody>
-        <tr>
-            <td class="text">用户名</td>
-            <td class="input">
-                <label>@Model.UserName</label>
-            </td>
-        </tr>
-        <tr>
-            <td class="text">昵称</td>
-            <td class="input">
-                <label>@Model.Name</label>
-            </td>
-        </tr>
+<div style="padding:10px;">
+    <div class="mainbody homeBody">
+        <div class="h_personal clearfix">
+            <div class="hp_img">
+                <a href="#">
+                    <img src="#" onerror="this.onerror=null;this.src=&#39;http://nuc.m1905.com/images/noavatar_big.gif&#39;">
+                </a>
+            </div>
+            <div class="hp_info">
+                <h4>
+                    <span class="name font_yahei">
+                        <a href="#" class="dr_rz_color">@Model.UserName</a>
+                    </span>
+                    <span id="followstate">
+                        <a href="javascript:void(0);" class="btn_orange_small"><em class="font_yahei">+</em>关注</a>                    </span>
+                             </h4>
+                <div class="min_height">
+                    <p class="si_iTxt">
+                        人生三大乐事：吃 睡 看恐怖片~               
+                    </p>
+                    <div class="hi_per">
+                        <span>北京 朝阳</span>                    <s>|</s>
 
-        <tr>
-            <td class="text">地址</td>
-            <td class="input">
-                <label>@Model.Address</label>
-            </td>
-        </tr>
-        <tr>
-            <td class="text">Email</td>
-            <td class="input">
-                <label>@Model.Email</label>
-            </td>
-        </tr>
-        <tr>
-            <td class="text">电话</td>
-            <td class="input">
-                <label>@Model.Tel</label>
-            </td>
-        </tr>
-        <tr>
-            <td class="text">域名</td>
-            <td class="input">
-                <label>@Model.AdvertisingUrl</label>
-            </td>
-        </tr>
-    </tbody>
-</table>
+                        <span class="s">标签：
+                           
+                            <a title="挑战恐怖极限" href="javascript:;" class="userListTag17003">挑战恐怖极限</a><a title="3D控" href="javascript:;" class="userListTag17004">3D控</a><a title="看片达人" href="javascript:;" class="userListTag17005">看片达人</a>                        </span>
+                        
+                    </div>
+                </div>
+                <div class="si_iStat clearfix">
+                    <ul class="statUl statUl_02 clearfix">
+                        <li class="first">
+                            <strong class="font_verdana"><a href="#">0</a></strong>
+                            <br>
+                            <a href="#">关注</a>
+                        </li>
+                        <li class="last"><strong class="font_verdana"><a href="#" id="followernum">0</a></strong>
+                            <br>
+                            <a href="#">粉丝</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+
+
+        <div class="h_tabs font_yahei">
+            <a href="#" class="Info on">资料<s></s></a>
+            <a href="#">抽奖记录<s></s></a>
+            <a href="#">中奖记录<s></s></a>
+        </div>
+
+    </div>
+
+    <div class="mainbody">
+        <div class="per_infoBox line-h30" style="">
+            <ul id="base">
+                <li>
+                    <span class="f14 fb">基本信息</span>
+                </li>
+                <li>用户名：@Model.UserName</li>
+                <li>昵称：@Model.Name</li>
+                <li>地址：@Model.Address</li>
+                <li>Email： @Model.Email</li>
+                <li>电话： @Model.Tel</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+</div>
