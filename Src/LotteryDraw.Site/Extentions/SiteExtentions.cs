@@ -60,6 +60,7 @@ namespace LotteryDraw.Site.Extentions
             return new PrizeView()
             {
                 Id = p.Id,
+                MemberView = p.Member.ToSiteViewModel(),
                 MemberId = p.Member.Id,
                 Name = p.Name,
                 Description = p.Description,

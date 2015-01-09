@@ -28,6 +28,7 @@
     <table class="prize-list">
         <tr>
             <th>奖品名称</th>
+            <th>抽奖发起人</th>
             <th>状态</th>
             <th style="width: 120px;">操作</th>
         </tr>
@@ -51,6 +52,7 @@
                 <td>
                     <div title="@item.PrizeOrderView.PrizeView.Name" style="text-align:left;width:400px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.PrizeOrderView.PrizeView.Name</div>
                 </td>
+                <td><a href="/Account/UserSpace/@item.MemberView.Id">@item.PrizeOrderView.PrizeView.MemberView.UserName</a></td>
                 <td>@item.LotteryResultState.ToDescription()</td>
                 <td>
                         @{

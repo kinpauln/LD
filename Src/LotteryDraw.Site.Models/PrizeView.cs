@@ -55,6 +55,8 @@ namespace LotteryDraw.Site.Models
 
         public long MemberId { get; set; }
 
+        public MemberView MemberView { get; set; }
+
         public DateTime? UpdateDate { get; set; }
     }
 }
