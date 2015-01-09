@@ -29,8 +29,9 @@
     }
     string luckyStaffsString = Model.PrizeOrderView.LuckyStaffsOfScenceString;
     int totalstaffs = Model.PrizeOrderView.StaffTotalCount;
+    int bettingCount = Model.PrizeOrderView.BettingCount;
 }
-<div class="gm_left" style="width:100%;">
+<div class="gm_left" style="width: 100%;">
     @*<div class="gml_header">
             <h3>
                 <a href="http://event.1905.com/">观影团首页</a>
@@ -46,12 +47,12 @@
             <h2 class="film_name">@prizeName</h2>
             <div class="acti_marks">
                 <ul>
-                    <li class="reward pngIcon"><a href="javascript:history.go(-1);" style="color:#fff;">返回</a></li>
+                    <li class="reward pngIcon"><a href="javascript:history.go(-1);" style="color: #fff;">返回</a></li>
                 </ul>
             </div>
             <dl class="acti_intr clearfix">
-                <dt class="acti_img prevue_on" style="width:355px;">
-                    <div class="act_pic" style="width:350px;">
+                <dt class="acti_img prevue_on" style="width: 355px;">
+                    <div class="act_pic" style="width: 350px;">
                         @{
                             string photoname = string.Empty;
                             if (!string.IsNullOrEmpty(originalPhotoName))
@@ -72,7 +73,7 @@
                 </dt>
 
 
-                <dd class="acti_text" style="min-width:500px;width:auto;float:left;margin-left:10px;">
+                <dd class="acti_text" style="min-width: 500px; width: auto; float: left; margin-left: 10px;">
                     <p class="simple_intr"><i class="left_icon pngIcon"></i>@prizeDescription<i class="right_icon pngIcon"></i></p>
                     <p class="a_t_time">
                         <span>@lauchTime</span>                                    开奖时间：                
@@ -87,16 +88,23 @@
                                         @*<a href="#" class="to_gybg" target="_blank">查看中奖者&gt;&gt;</a> &nbsp;*@
                                 @{                       
                                     if (rstate == LotteryDraw.Component.Tools.RevealState.Drawn.ToInt())
-                                    {   
-                                    <a href="#" class="view-lucky-staffs" lucky-staffs-string="@Model.PrizeOrderView.LuckyStaffsOfScenceString">查看中奖者&gt;&gt;</a>
+                                    {
+                                        if (rtype == LotteryDraw.Component.Tools.RevealType.Scene.ToInt())
+                                        {
+                                    <a href="#" class="view-lucky-staffs" ddd="sdf" lucky-staffs-string="@luckyStaffsString">查看中奖者&gt;&gt;</a>
+                                        }
+                                        else
+                                        {
+                                    <a href="/Vip/luckyresults?poid=@poid" class="lucky-users">查看中奖者&gt;&gt;</a>
+                                        }
                                     }
                                 }
                             </span></li>
 
                     </ul>
                     <div class="other_info clearfix">
-                        <div class="inter_part_in_count">@*<span id="likeNum">1421</span>感兴趣*@<span class="part_peoples">@Model.PrizeOrderView.BettingCount</span>人参加</div>
-                    <div class="clear"></div>
+                        <div class="inter_part_in_count">@*<span id="likeNum">1421</span>感兴趣*@<span class="part_peoples">@bettingCount</span>人参加</div>
+                        <div class="clear"></div>
                     </div>
 
                     <div class="the_ticket the_reward pngIcon">
@@ -136,8 +144,8 @@
         .layer_notice {
             float: left;
             height: auto;
-            max-height:400px;
-            overflow-y:scroll;
+            max-height: 400px;
+            overflow-y: scroll;
             width: 150px;
             /*overflow: hidden;*/
             color: #fff;
@@ -154,9 +162,10 @@
             .layer_notice label {
                 font-size: 14px;
             }
+
             .layer_notice li.lucky-item {
-                font-size:20px;
-                text-align:center;
+                font-size: 20px;
+                text-align: center;
             }
     </style>
 }
@@ -169,7 +178,7 @@
 @section scripts{
     <script type="text/javascript">
         $(function () {
-            $("dd.acti_text:eq(0)").width($("div.activities_content:eq(0)").width() - $("div.act_pic:eq(0)").width() -30);
+            $("dd.acti_text:eq(0)").width($("div.activities_content:eq(0)").width() - $("div.act_pic:eq(0)").width() - 30);
 
             $("a[class*='view-lucky-staffs']").click(function (e) {
                 var luckyStaffs = $(this).attr("lucky-staffs-string");
@@ -191,4 +200,4 @@
             });
         });
     </script>
-    }
+}

@@ -101,7 +101,7 @@ namespace LotteryDraw.Site.Extentions
         {
             if (po == null)
                 return null;
-            return new PrizeOrderView()
+            var rentity = new PrizeOrderView()
             {
                 Id = po.Id,
                 RevealType = po.RevealType,
@@ -126,11 +126,31 @@ namespace LotteryDraw.Site.Extentions
                 LuckyCount = po.Extend.LuckyCount,
                 Question = po.Extend.PrizeAsking.Question,
                 AnswerOptions = po.Extend.PrizeAsking.AnswerOptions,
-                Answer = po.Extend.PrizeAsking.Answer
+                Answer = po.Extend.PrizeAsking.Answer,
+                //LuckyStaffsOfScenceString = po.Extend.
                 //StaffsOfScenceString = po.SceneStaffs.AsEnumerable().ToArray().,
                 //Is2Top = po.Extend,
                 //UpdateDate = po.,
             };
+
+            if (po.RevealType == RevealType.Scene)
+            {
+                // 参与者数目
+                if (po.SceneStaffs != null)
+                {
+                    rentity.BettingCount = po.SceneStaffs.Count;
+                }
+                // 已开奖的，取出中奖者
+                if (po.RevealState == RevealState.Drawn)
+                {
+                    if (po.SceneStaffs != null && po.SceneStaffs.Count > 0)
+                    {
+                        rentity.LuckyStaffsOfScenceString = string.Join("|", po.SceneStaffs.Where(ss => ss.IsLucky).Select(ss => ss.Value).ToArray());
+                    }
+                }
+            }
+
+            return rentity;
         }
 
         /// <summary>
@@ -202,7 +222,8 @@ namespace LotteryDraw.Site.Extentions
                 {
                     detail.PrizeOrderView.Is2Top = Convert.ToBoolean(row["Is2Top"]);
                 }
-                else {
+                else
+                {
                     detail.PrizeOrderView.Is2Top = false;
                 }
 
@@ -210,13 +231,13 @@ namespace LotteryDraw.Site.Extentions
                 {
                     detail.PrizeOrderView.StaffTotalCount = Convert.ToInt32(row["StaffTotalCount"]);
                 }
-                
+
 
                 if (row.Table.Columns.Contains("LuckyStaffs"))
                 {
                     detail.PrizeOrderView.LuckyStaffsOfScenceString = row["LuckyStaffs"].ToString();
                 }
-                
+
                 rlist.Add(detail);
             }
 
