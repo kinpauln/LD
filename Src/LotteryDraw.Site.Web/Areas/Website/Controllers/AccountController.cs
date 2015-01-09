@@ -204,6 +204,12 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             return View(GetModelView(id));
         }
 
+        public ActionResult UserSpace(long? id)
+        {
+            ViewBag.IsPostBack = false;
+            return View(GetModelView(id));
+        }
+
         #endregion
 
         #region 私有方法

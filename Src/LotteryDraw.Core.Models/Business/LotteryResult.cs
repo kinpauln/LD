@@ -51,6 +51,11 @@ namespace LotteryDraw.Core.Models.Business
         public int LotteryResultStateNum { get; set; }
 
         public int State { get; set; }
+        
+        /// <summary>
+        /// 获取或设置 中奖感言
+        /// </summary>
+        public string SpeechAfterWinning { get; set; }
 
         public DateTime? UpdateDate { get; set; }
     }

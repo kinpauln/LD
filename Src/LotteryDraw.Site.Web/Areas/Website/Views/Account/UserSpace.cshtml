@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "UserSpace";
+    Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
+}
+
+@model LotteryDraw.Site.Models.MemberView
+
+<table class="message_table">
+    <tbody>
+        <tr>
+            <td class="text">用户名</td>
+            <td class="input">
+                <label>@Model.UserName</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="text">昵称</td>
+            <td class="input">
+                <label>@Model.Name</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="text">地址</td>
+            <td class="input">
+                <label>@Model.Address</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="text">Email</td>
+            <td class="input">
+                <label>@Model.Email</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="text">电话</td>
+            <td class="input">
+                <label>@Model.Tel</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="text">域名</td>
+            <td class="input">
+                <label>@Model.AdvertisingUrl</label>
+            </td>
+        </tr>
+    </tbody>
+</table>

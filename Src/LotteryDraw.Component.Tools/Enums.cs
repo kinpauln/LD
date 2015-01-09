@@ -93,20 +93,24 @@ namespace LotteryDraw.Component.Tools
     [Description("开奖结果状态")]
     public enum LotteryResultState
     {
-        [Description("未通知")]
+        [Description("未读")]
         Default = 0,
-        //[Description("已通知")]
-        //Noticed = 1,
+        [Description("已读")]
+        Noticed = 1,
         [Description("已付款")]
-        Paid = 1,
-        [Description("确认已付款")]
-        PayConfirmed = 2,
-        [Description("邮寄中")]
-        Posting = 3,
+        Paid = 2,
+        [Description("用户付款已到账")]
+        PaymentReceived = 3,
+        [Description("用户付款未到账")]
+        PaymentNotReceived = 4,
+        [Description("已发货")]
+        Posting = 5,
         [Description("已收货")]
-        Reveived = 4,
+        Reveived = 6,
+        [Description("交易成功")]
+        Finished = 7,
         [Description("已关闭")]
-        Closed = 5
+        Closed = 8
     }
 
     /// <summary>

@@ -287,3 +287,15 @@ div.diggpager a[disabled]:hover
 
 /*其他样式*/
 span.error-info, span.field-validation-error { color:#f00; }
+#lucky-info .ctitle{ margin:10px 0px 10px; padding:5px 20px; background:url(../images/dt-7.gif) no-repeat left center; *background-position:left 17px; font-size:14px; border-bottom:1px dotted #ccc;}
+
+table.message_table {
+    border:none;
+    border-collapse:collapse;
+}
+table.message_table td,table.message_table th {
+    border:none;
+    border-collapse:collapse;
+    text-align:left;
+    padding:2px;
+}

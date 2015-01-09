@@ -472,6 +472,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 rlist.Add(new LotteryResultView()
                 {
                     Id = p.Id,
+                    LotteryResultState = p.LotteryResultState,
                     PrizeOrderView = p.PrizeOrder.ToSiteViewModel(),
                     MemberView = p.Member.ToSiteViewModel(),
                     AddDate = p.AddDate
@@ -838,6 +839,43 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             ViewBag.MetHitsVisible = false;
             ViewBag.MemberId = this.UserId ?? 0;
         }
+        #endregion
+
+        #region 中奖者
+        public ActionResult LuckyResults(Guid? poid, int? id)
+        {
+            long userid = this.UserId ?? 0;
+            ViewBag.UserId = userid.ToString();
+
+            int pageIndex = id ?? 1;
+            int total;
+            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("Id") };
+
+            var plist = LotteryResultContract.LotteryResults
+                .Where(p => p.PrizeOrder.Id.Equals(poid.Value) && !p.IsDeleted)
+                .Where<LotteryResult, Guid>(m => true, pageIndex, this.PageSize, out total, sortConditions)
+                .OrderBy(p => p.Member.UserName)
+                .ToList();
+            var rlist = new List<LotteryResultView>();
+            plist.ForEach(p =>
+            {
+                rlist.Add(new LotteryResultView()
+                {
+                    Id = p.Id,
+                    LotteryResultState = p.LotteryResultState,
+                    PrizeOrderView = p.PrizeOrder.ToSiteViewModel(),
+                    MemberView = p.Member.ToSiteViewModel(),
+                    AddDate = p.AddDate
+                });
+            });
+
+            if (plist.FirstOrDefault() != null)
+            {
+                ViewBag.PrizeOrderEntity = plist.FirstOrDefault().PrizeOrder.ToSiteViewModel();
+            }
+            PagedList<LotteryResultView> model = new PagedList<LotteryResultView>(rlist, pageIndex, this.PageSize, total);
+            return View(model);
+        } 
         #endregion
 
         [HttpPost]

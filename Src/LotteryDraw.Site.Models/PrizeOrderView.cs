@@ -105,6 +105,12 @@ namespace LotteryDraw.Site.Models
         public DateTime? LaunchTime { get; set; }
 
         /// <summary>
+        ///  开奖执行时间
+        /// </summary>
+        [Display(Name = "开奖执行时间")]
+        public DateTime? RevealDate { get; set; }
+
+        /// <summary>
         ///  中奖最低人数
         /// </summary>
         [Display(Name = "中奖最低人数")]

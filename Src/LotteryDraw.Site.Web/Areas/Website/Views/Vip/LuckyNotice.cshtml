@@ -52,17 +52,27 @@
                     <div title="@item.PrizeOrderView.PrizeView.Name" style="text-align:left;width:400px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">@item.PrizeOrderView.PrizeView.Name</div>
                 </td>
                 <td>@item.LotteryResultState.ToDescription()</td>
-                <td><a href="/Vip/PrizeDetail/@item.PrizeOrderView.PrizeView.Id">详情</a>&nbsp;|&nbsp; 
-                    @{
-            if (item.LotteryResultState == LotteryResultState.Default)
-            {
-                        <a href="#" class="Paid" ltid ="@item.Id">我已付款</a>
-            }
-            else if (item.LotteryResultState == LotteryResultState.Posting)
-            {
-                        <a href="#" class="Received" ltid ="@item.Id">我已收货</a>
-            }
-                    }
+                <td>
+                        @{
+                            string classString = string.Empty;
+                            string aFormatstring = "<a href=\"#\" class=\"{0}\" ltid=\"{1}\">{2}</a>";
+                            List<string> alinkList = new List<string>();
+                            alinkList.Add("<a href=\"/Business/PrizeOrderDetail/"+item.PrizeOrderView.Id+"\">详情</a>");
+                            switch (item.LotteryResultState)
+                            {
+                                case LotteryResultState.Default:
+                                case LotteryResultState.Noticed:
+                                case LotteryResultState.PaymentNotReceived:
+                                    alinkList.Add(string.Format(aFormatstring, "Paid", item.Id, "我已汇款"));
+                                    alinkList.Add(string.Format(aFormatstring, "close", item.Id, "关闭"));
+                                    break;
+                                case LotteryResultState.Posting:
+                                    alinkList.Add(string.Format(aFormatstring, "Received", item.Id, "我已收货"));
+                                    break;
+                            }
+                            string htmlstring = string.Join("&nbsp;|&nbsp;", alinkList.ToArray());
+                        }
+                        @Html.Raw(htmlstring)
                 </td>
             </tr>
         }
@@ -79,40 +89,38 @@
 }, new { @class = "diggpager" })
 </div>
 @section scripts{
+    <script src="~/Content/website/js/scripts.js"></script>
     <script type="text/javascript">
         $(function () {
             $("a[class*='Received']").click(function (e) {
+                var ltid = $(this).attr("ltid");
+                layer.confirm("您确实已收到奖品？", function (index) {
+                    var loadingmessage = "正在更新您的中奖状态至【已收货】，请耐心等待…";
+                    updateLotteryResultState(ltid, '@LotteryResultState.Reveived.ToInt()', loadingmessage);
+                }, function () { });
 
                 e.preventDefault();
             });
 
             $("a[class*='Paid']").click(function (e) {
                 var ltid = $(this).attr("ltid");
-                var loadi;
-                $.ajax({
-                    type: "post",
-                    data: { id: ltid, state: '@LotteryResultState.Paid.ToInt()' },
-                    url: "/Vip/UpdateLotteryResult",
-                    beforeSend: function () {
-                        loadi = layer.load('正在更新您的中奖状态，请耐心等待…');
-                    },
-                    dataType: "json",
-                    success: function (data) {
-                        var result = data.OK;
-                        var message = data.Message;
-                        if (!result) {
-                            layer.alert(message, 8);
-                            return;
-                        }
-                        layer.alert(message, 9);
-                    },
-                    error: function () {
+                layer.confirm("您确实已付款？", function (index) {
+                    var loadingmessage = "正在更新您的中奖状态至【已付款】，请耐心等待…";
+                    updateLotteryResultState(ltid, '@LotteryResultState.Paid.ToInt()', loadingmessage);
+                }, function () { });
 
-                    },
-                    complete: function () {
-                        layer.close(loadi);
-                    }
+                e.preventDefault();
+            });
+
+            $("a[class*='close']").click(function (e) {
+                var lrid = $(this).attr("lr-id");
+                layer.confirm("确定关闭交易？", function (index) {
+                    layer.close(index);
+                    var loadingmessage = "正在更新状态至【关闭】，请耐心等待…";
+                    updateLotteryResultState(lrid, '@LotteryResultState.Closed.ToInt()', loadingmessage);
+                }, function () {
                 });
+
                 e.preventDefault();
             });
         });

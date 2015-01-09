@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Website/Views/Shared/_Layout_Vip.cshtml";
+}
+@using Webdiyer.WebControls.Mvc;
+@using LotteryDraw.Component.Tools;
+@model PagedList<LotteryDraw.Site.Models.LotteryResultView>
+
+@section  LeftMenuItems{
+    @Html.Partial("VipNavPartial")
+}
+
+@section  BreadCrumbs{
+    &gt;
+    <label>中奖者</label>
+}
+@section styles{
+    <link href="~/Content/website/css/prize.css" rel="stylesheet" />
+    <style type="text/css">
+    </style>
+}
+
+<div id="lucky-info">
+    @{
+        LotteryDraw.Site.Models.PrizeOrderView prizeOrderModel = new LotteryDraw.Site.Models.PrizeOrderView();
+        if (ViewBag.PrizeOrderEntity != null)
+        {
+            prizeOrderModel = ViewBag.PrizeOrderEntity as LotteryDraw.Site.Models.PrizeOrderView;
+        }
+    }
+    <h3 class="ctitle">奖单信息&nbsp;<span><a href="#" id="abtnPoSwitch" style="text-decoration: none; font-weight: normal; font-size: 10px;" class="open">[折叠]</a></span></h3>
+    <div id="prizeorder-info">
+        <div style="">
+            <div style="float: left;">
+                @{
+                    string photoname = string.Empty;
+                    string originalPhotoName = string.Empty;
+                    if (prizeOrderModel.PrizeView != null
+                        && prizeOrderModel.PrizeView.OriginalPhoto != null
+                        && !string.IsNullOrEmpty(prizeOrderModel.PrizeView.OriginalPhoto.Name)
+                        )
+                    {
+                        string pubuserid = prizeOrderModel.PrizeView.MemberId.ToString();
+                        photoname = "/Files/PrizePhotos/" + pubuserid + "/" + originalPhotoName;
+                    }
+                }
+                <img width="350" height="262" src="@photoname" title="@prizeOrderModel.PrizeView.Name" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+            </div>
+            <div style="float: left; margin-left: 10px;">
+                <table class="message_table" style="font-size: 10px;">
+                    <tbody>
+                        <tr>
+                            <th>奖品名称:</th>
+                            <td>
+                                <label>@prizeOrderModel.PrizeView.Name</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>开奖类型:</th>
+                            <td>
+                                <label>@prizeOrderModel.RevealType.ToDescription()</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>执行开奖时间:</th>
+                            <td>
+                                @{
+                                    string dateString = "未知";
+                                    if (prizeOrderModel.RevealDate.HasValue)
+                                    {
+                                        dateString = prizeOrderModel.RevealDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
+                                    }
+                                }
+                                <label>@dateString</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>奖品描述:</th>
+                            <td>
+                                <label>@prizeOrderModel.PrizeView.Description</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+    <h3 class="ctitle">中奖者信息</h3>
+    <div class="active" id="prizelist" style="margin: 10px 0;">
+        <table class="prize-list">
+            <tr>
+                <th>用户名</th>
+                <th>电话</th>
+                <th>地址</th>
+                <th>状态</th>
+                <th style="width: 200px;">操作</th>
+            </tr>
+            @if (Model == null || Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="6">没有中奖者</td>
+                </tr>
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><a href="/Account/UserSpace/@item.MemberView.Id">@item.MemberView.UserName</a></td>
+                    <td>@item.MemberView.Tel</td>
+                    <td>@item.MemberView.Address</td>
+                    <td>@item.LotteryResultState.ToDescription()</td>
+                    <td>
+                        @{
+                            string classString = string.Empty;
+                            string aFormatstring = "<a href=\"#\" class=\"{0}\" lr-id=\"{1}\">{2}</a>";
+                            List<string> alinkList = new List<string>();
+                            switch (item.LotteryResultState)
+                            {
+                                case LotteryResultState.Paid:
+                                    alinkList.Add(string.Format(aFormatstring, "paid", item.Id, "汇款已到账"));
+                                    alinkList.Add(string.Format(aFormatstring, "notpaid", item.Id, "汇款未到账"));
+                                    break;
+                                case LotteryResultState.PaymentReceived:
+                                    alinkList.Add(string.Format(aFormatstring, "posting", item.Id, "我已发货"));
+                                    break;
+                                case LotteryResultState.Reveived:
+                                    alinkList.Add(string.Format(aFormatstring, "finished", item.Id, "完成交易"));
+                                    break;
+                                case LotteryResultState.Default:
+                                case LotteryResultState.Noticed:
+                                case LotteryResultState.PaymentNotReceived:
+                                    alinkList.Add(string.Format(aFormatstring, "close", item.Id, "关闭"));
+                                    break;
+                            }
+                            string htmlstring = string.Join("&nbsp;|&nbsp;", alinkList.ToArray());
+                        }
+                        @Html.Raw(htmlstring)
+                    </td>
+                </tr>
+            }
+        </table>
+        @Html.Pager(Model, new PagerOptions
+   {
+       PageIndexParameterName = "id",
+       FirstPageText = "首页",
+       LastPageText = "尾页",
+       PrevPageText = "上一页",
+       NextPageText = "下一页",
+       PagerItemsSeperator = "",
+       CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
+   }, new { @class = "diggpager" })
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/website/js/scripts.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("a[class*='paid']").click(function (e) {
+                var lrid = $(this).attr("lr-id");
+                layer.confirm("用户汇款确定已到账？", function (index) {
+                    layer.close(index);
+                    var loadingmessage = "正在更新状态至【汇款已到账】，请耐心等待…";
+                    updateLotteryResultState(lrid, '@LotteryResultState.PaymentReceived.ToInt()', loadingmessage);
+                }, function () {
+                });
+
+                e.preventDefault();
+            });
+            $("a[class*='notpaid']").click(function (e) {
+                var lrid = $(this).attr("lr-id");
+                layer.confirm("用户汇款确定未到账？", function (index) {
+                    layer.close(index);
+                    var loadingmessage = "正在更新状态至【汇款未到账】，请耐心等待…";
+                    updateLotteryResultState(lrid, '@LotteryResultState.PaymentNotReceived.ToInt()', loadingmessage);
+                }, function () {
+                });
+
+                e.preventDefault();
+            });
+            $("a[class*='posting']").click(function (e) {
+                var lrid = $(this).attr("lr-id");
+                layer.confirm("确定已发货？", function (index) {
+                    layer.close(index);
+                    var loadingmessage = "正在更新状态至【已发货】，请耐心等待…";
+                    updateLotteryResultState(lrid, '@LotteryResultState.Posting.ToInt()', loadingmessage);
+                }, function () {
+                });
+
+                e.preventDefault();
+            });
+            $("a[class*='finished']").click(function (e) {
+                var lrid = $(this).attr("lr-id");
+                layer.confirm("确定交易已成功？", function (index) {
+                    layer.close(index);
+                    var loadingmessage = "正在更新状态至【交易成功】，请耐心等待…";
+                    updateLotteryResultState(lrid, '@LotteryResultState.Finished.ToInt()', loadingmessage);
+                }, function () {
+                });
+
+                e.preventDefault();
+            });
+            $("a[class*='close']").click(function (e) {
+                var lrid = $(this).attr("lr-id");
+                layer.confirm("确定关闭交易？", function (index) {
+                    layer.close(index);
+                    var loadingmessage = "正在更新状态至【关闭】，请耐心等待…";
+                    updateLotteryResultState(lrid, '@LotteryResultState.Closed.ToInt()', loadingmessage);
+                }, function () {
+                });
+
+                e.preventDefault();
+            });
+
+            $("#abtnPoSwitch").click(function (e) {
+                if ($(this).hasClass("open")) {
+                    $(this).removeClass("open");
+                    $(this).addClass("collapse");
+                    $(this).html("[展开]");
+                } else {
+                    $(this).removeClass("collapse");
+                    $(this).addClass("open");
+                    $(this).html("[折叠]");
+                }
+                $("#prizeorder-info").toggle(100);
+
+                e.preventDefault();
+            });
+
+        });
+    </script>
+}

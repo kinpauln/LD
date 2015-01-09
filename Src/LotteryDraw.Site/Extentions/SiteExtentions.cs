@@ -119,6 +119,7 @@ namespace LotteryDraw.Site.Extentions
                 PrizeView = po.Prize.ToSiteViewModel(),
                 SortOrder = po.SortOrder ?? 0,
                 LaunchTime = po.Extend.LaunchTime,
+                RevealDate = po.RevealDate,
                 MinLuckyCount = po.Extend.MinLuckyCount,
                 LuckyPercent = po.Extend.LuckyPercent,
                 PoolCount = po.Extend.PoolCount,

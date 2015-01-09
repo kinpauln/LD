@@ -24,6 +24,7 @@ using LotteryDraw.Component.Data;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using LotteryDraw.Core.Data.Repositories.Business;
+using Microsoft.Win32;
 
 namespace RevealTest
 {
@@ -75,6 +76,18 @@ namespace RevealTest
             _container.ComposeParts(this);
 
             DatabaseInitializer.Initialize();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.btnOpenLottery.Enabled = true;
+            this.btnStopReveal.Enabled = false;
+
+            ni.Text = ProductName;
+
+            SetAutoRun();
+
+            btnOpenLottery_Click(null, null);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -352,18 +365,10 @@ namespace RevealTest
             _revealWatchingStopped = true;
             _revealLottery.Abort();
             txtInfo.Text += "开奖监控已停止" + Environment.NewLine + Environment.NewLine;
-            
+
             log.Info("开奖监控已停止");
 
             btnOpenLottery.Enabled = true;
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            this.btnOpenLottery.Enabled = true;
-            this.btnStopReveal.Enabled = false;
-
-            ni.Text = ProductName;
         }
 
         //显示托盘提醒
@@ -413,6 +418,53 @@ namespace RevealTest
         private void frmRobot_FormClosed(object sender, FormClosedEventArgs e)
         {
             log.Info("程序已退出");
+        }
+
+        //自动运行
+        private string AutoRunKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+        private void SetAutoRun()
+        {
+            try
+            {
+                /*获得当前登录的Windows用户标示
+                System.Security.Principal.WindowsIdentity identity = 
+                    System.Security.Principal.WindowsIdentity.GetCurrent();
+
+                //判断当前登录用户是否为管理员
+                System.Security.Principal.WindowsPrincipal principal = new System.Security.Principal.WindowsPrincipal( identity );
+                if (!principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator))
+                {
+                    //创建启动对象
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+
+                    //设置运行文件
+                    startInfo.FileName = Application.ExecutablePath;
+
+
+                    //如果不是管理员，则启动UAC
+                    System.Diagnostics.Process.Start(startInfo);
+
+                    //退出
+                    System.Windows.Forms.Application.Exit();
+                }*/
+
+                string path = Application.ExecutablePath;
+                RegistryKey root = Registry.LocalMachine;
+
+                //判断键值是不是存在，如果不在则创建
+                RegistryKey run = root.CreateSubKey(AutoRunKey);
+                object obj = run.GetValue(Application.ProductName);
+                if (obj == null)
+                {
+                    run.SetValue(Application.ProductName, path);
+                }
+
+                root.Close();
+            }
+            catch (Exception ex)
+            {
+                log.Info("添加自动运行出错", ex);
+            }
         }
     }
 }
