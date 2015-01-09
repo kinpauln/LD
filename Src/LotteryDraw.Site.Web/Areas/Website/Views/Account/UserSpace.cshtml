@@ -78,9 +78,12 @@
                 <li>用户名：@Model.UserName</li>
                 <li>昵称：@Model.Name</li>
                 <li>账号类型：@Model.MemberType.GetDescription()</li>
-                <li>地址：@Model.Address</li>
-                <li>Email： @Model.Email</li>
-                <li>电话： @Model.Tel</li>
+                @if (User.Identity.IsAuthenticated)
+                { 
+                    <li>地址：@Model.Address</li>
+                    <li>Email： @Model.Email</li>
+                    <li>电话： @Model.Tel</li>
+                }
             </ul>
         </div>
     </div>
