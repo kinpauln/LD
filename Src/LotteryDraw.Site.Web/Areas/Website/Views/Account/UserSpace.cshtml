@@ -3,6 +3,7 @@
     Layout = "~/Areas/Website/Views/Shared/_Layout_Business.cshtml";
 }
 
+@using LotteryDraw.Component.Tools;
 @section styles{
     <link href="~/Content/website/css/user_space_base.css" rel="stylesheet" />
     <link href="~/Content/website/css/user_space.css" rel="stylesheet" />
@@ -27,15 +28,18 @@
                              </h4>
                 <div class="min_height">
                     <p class="si_iTxt">
-                        人生三大乐事：吃 睡 看恐怖片~               
+                        @Model.AdvertisingUrl              
                     </p>
                     <div class="hi_per">
-                        <span>北京 朝阳</span>                    <s>|</s>
+                        <span>@Model.Province @Model.City</span><s>|</s>
 
-                        <span class="s">标签：
-                           
-                            <a title="挑战恐怖极限" href="javascript:;" class="userListTag17003">挑战恐怖极限</a><a title="3D控" href="javascript:;" class="userListTag17004">3D控</a><a title="看片达人" href="javascript:;" class="userListTag17005">看片达人</a>                        </span>
-                        
+                        <span class="s">角色：
+                            @{
+                                foreach (string name in Model.RoleNames)
+                                {
+                                    <a title="@name" href="javascript:;">@name</a>  
+                                }
+                            } 
                     </div>
                 </div>
                 <div class="si_iStat clearfix">
@@ -73,6 +77,7 @@
                 </li>
                 <li>用户名：@Model.UserName</li>
                 <li>昵称：@Model.Name</li>
+                <li>账号类型：@Model.MemberType.GetDescription()</li>
                 <li>地址：@Model.Address</li>
                 <li>Email： @Model.Email</li>
                 <li>电话： @Model.Tel</li>
