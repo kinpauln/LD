@@ -60,6 +60,7 @@ namespace LotteryDraw.Site.Extentions
             return new PrizeView()
             {
                 Id = p.Id,
+                MemberId = p.Member.Id,
                 Name = p.Name,
                 Description = p.Description,
                 AddDate = p.AddDate,
@@ -126,7 +127,7 @@ namespace LotteryDraw.Site.Extentions
                 LuckyCount = po.Extend.LuckyCount,
                 Question = po.Extend.PrizeAsking.Question,
                 AnswerOptions = po.Extend.PrizeAsking.AnswerOptions,
-                Answer = po.Extend.PrizeAsking.Answer,
+                Answer = po.Extend.PrizeAsking.Answer
                 //LuckyStaffsOfScenceString = po.Extend.
                 //StaffsOfScenceString = po.SceneStaffs.AsEnumerable().ToArray().,
                 //Is2Top = po.Extend,
