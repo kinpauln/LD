@@ -299,3 +299,11 @@ table.message_table td,table.message_table th {
     text-align:left;
     padding:2px;
 }
+
+.luckylist a {
+    text-decoration:none;
+}
+.luckylist a:link {color: #000;} /* 未访问的链接 */
+.luckylist a:visited {/*color: #F00;*/} /* 已访问的链接 */
+.luckylist a:hover{/*color: #0F0;*/text-decoration:underline;} /* 鼠标在链接上 */ 
+.luckylist a:active {/*color: #00F;*/} /* 点击激活链接——在你点击该链接之后，页面正在转向新地址的时候，链接显示此颜色；当你已经到了要链接的页面，然后再返回，原页面上的此链接仍是此颜色 */ 

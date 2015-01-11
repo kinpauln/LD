@@ -142,7 +142,45 @@
                                         string str2 = item.MemberView.Tel.Substring(7);
                                         telEncryption = str1 + "****" + str2;
                                     }
-                            <li class="list "><a href="http://www.wuliubang.net/" title="@item.MemberView.UserName" target="_self">@item.MemberView.UserName &nbsp; &nbsp; &nbsp; &nbsp;@telEncryption</a></li>
+                            <li class="list luckylist">
+                                    @{
+                                    string alinkFormatString = "<a href=\"{0}\" style=\"\" title=\"{1}\" target=\"_self\">{2}</a>";
+                                    string spanFormatString = "<span style=\"{2}\">{1}{0}</span>";
+                                    string luckyString = string.Empty;
+                                    List<string> contentlist = new List<string>();
+                                    string pnameString = string.Format(alinkFormatString
+                                        , "/Business/PrizeOrderDetail/"+item.PrizeOrderView.Id.ToString()
+                                        , item.PrizeOrderView.PrizeView.Name
+                                        , item.PrizeOrderView.PrizeView.Name); //发起抽奖人提供的某某奖品
+                                    contentlist.Add(string.Format(spanFormatString, pnameString, "奖品名:",""));
+
+                                    string userNameString = string.Format(alinkFormatString
+                                        , "/Account/UserSpace/" + item.MemberView.Id.ToString()
+                                        , item.MemberView.UserName
+                                        , item.MemberView.UserName); //中奖人
+                                    contentlist.Add(string.Format(spanFormatString, userNameString, "中奖人:", ""));
+
+                                    string telString = string.Format(alinkFormatString
+                                        , "#"
+                                        , telEncryption
+                                        , telEncryption); //电话
+                                    contentlist.Add(string.Format(spanFormatString, telString, "电话:", ""));
+
+                                    string cityString = string.Format(alinkFormatString
+                                        , "#"
+                                        , item.MemberView.City
+                                        , item.MemberView.City); //某某市
+                                    contentlist.Add(string.Format(spanFormatString, cityString, "城市:", ""));
+
+                                    string poidString = string.Format(alinkFormatString
+                                        , "#"
+                                        , item.Id.ToString()
+                                        , item.Id.ToString()); //单号
+                                    contentlist.Add(string.Format(spanFormatString, poidString, "中奖单号:", ""));
+
+                                    luckyString = string.Join("&nbsp; &nbsp; &nbsp; &nbsp;", contentlist.ToArray());
+                                    }
+                                    @Html.Raw(luckyString)</li>
                                 }
                             }
                         }

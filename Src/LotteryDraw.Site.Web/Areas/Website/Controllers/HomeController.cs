@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LotteryDraw.Site.Extentions;
+using LotteryDraw.Core.Models.Business;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
@@ -62,16 +63,19 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             int luckyCount = int.Parse(System.Configuration.ConfigurationManager.AppSettings["TopCountOfLuckyMember"]);
             var topLuckies = LotteryResultContract.LotteryResults.Where(lr =>
                     !lr.IsDeleted)
-                    .OrderByDescending(lr => lr.AddDate).Take(luckyCount).Select(lr => new LotteryResultView
-                    {
-                        MemberView = new MemberView()
-                        {
-                            UserName = lr.Member.UserName,
-                            Name = lr.Member.Name,
-                            Tel = lr.Member.Extend.Tel
-                        }
-                    }).ToList();
-            ViewBag.TopLuckies = topLuckies;
+                    .OrderByDescending(lr => lr.AddDate).Take(luckyCount)
+                    .ToList();
+            List<LotteryResultView> lrvlist = new List<LotteryResultView>();
+            foreach (LotteryResult item in topLuckies)
+            {
+                lrvlist.Add(new LotteryResultView()
+                {
+                    Id = item.Id,
+                    MemberView = item.Member.ToSiteViewModel(),
+                    PrizeOrderView = item.PrizeOrder.ToSiteViewModel()
+                });
+            }
+            ViewBag.TopLuckies = lrvlist;
         }
 
         /// <summary>
@@ -120,9 +124,9 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     }
                 }
             }
-        } 
+        }
         #endregion
-        
+
         public override ActionResult InfoPage()
         {
             return View("~/Areas/Website/Views/Shared/InfoPage.cshtml");

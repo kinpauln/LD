@@ -106,7 +106,7 @@ padding: 0px 7px 0px 8px;background:url(../bg.png) no-repeat -408px -1277px; zoo
 
 *+html #News ul{ margin:0px; position:relative; top:13px;}  
 
-#News .soroll{height: 24px;line-height: 24px;width: 500px;float: left;overflow: hidden; position:relative;}
+#News .soroll{height: 24px;line-height: 24px;width: 100%;max-width:1024px;float: left;overflow: hidden; position:relative;}
 
 #News .soroll ol{ float:left;}
 
