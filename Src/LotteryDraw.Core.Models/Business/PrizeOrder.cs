@@ -73,6 +73,11 @@ namespace LotteryDraw.Core.Models.Business
         public virtual ICollection<PrizeBetting> PrizeBettings { get; set; }
 
         /// <summary>
+        /// 获取或设置 该奖单下的白名单人员
+        /// </summary>
+        public virtual ICollection<WhiteList> WhiteLists { get; set; }
+
+        /// <summary>
         /// 获取或设置 该奖单下的所有参与现场抽奖的人员（现场抽奖）
         /// </summary>
         public virtual ICollection<SceneStaff> SceneStaffs { get; set; }

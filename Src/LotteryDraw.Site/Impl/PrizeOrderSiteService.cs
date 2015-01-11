@@ -432,10 +432,10 @@ namespace LotteryDraw.Site.Impl
                               MemberView = entity.UserEntity.ToSiteViewModel(),
                               PrizeOrderView = entity.PrizeOrderEntity.ToSiteViewModel(),
                           };
-            if (rtentity.PrizeOrderView.RevealType != RevealType.Scene)
-            {
-                rtentity.PrizeOrderView.BettingCount = entity.BettingCount;
-            }
+            //if (rtentity.PrizeOrderView.RevealType != RevealType.Scene)
+            //{
+            //    rtentity.PrizeOrderView.BettingCount = entity.BettingCount;
+            //}
             return rtentity;
         }
     }

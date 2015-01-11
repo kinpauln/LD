@@ -151,6 +151,19 @@ namespace LotteryDraw.Site.Extentions
                     }
                 }
             }
+            else
+            {
+                // 投注者数目
+                if (po.PrizeBettings != null)
+                {
+                    rentity.BettingCount = po.PrizeBettings.Where(pb => !pb.IsDeleted).Count();
+                }
+                // 白名单数目
+                if (po.WhiteLists != null)
+                {
+                    rentity.BettingCount = rentity.BettingCount + po.WhiteLists.Where(wl => !wl.IsDeleted).Count();
+                }
+            }
 
             return rentity;
         }
