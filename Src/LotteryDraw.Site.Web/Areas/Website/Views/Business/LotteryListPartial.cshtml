@@ -150,21 +150,27 @@
                 </p>
                 <p class="rmn-item">
                     <em>运费 :</em>
-                    <span>@item.PrizeOrderView.Freight 元
+                    <span>@item.PrizeOrderView.Freight
+                        元
                     </span>
                 </p>
                 <p class="rmn-item">
                     <em>已抽奖 :</em>
-                    <span>1556人
+                    <span>@item.PrizeOrderView.JoinedCount
+                        人
                     </span>
                 </p>
                 @{
               if (item.PrizeOrderView.RevealType == RevealType.Quota ||
                   item.PrizeOrderView.RevealType == RevealType.Answer && item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Quota)
               {
+                  int joindCount = item.PrizeOrderView.JoinedCount;
+                  int poolCount = item.PrizeOrderView.PoolCount ?? 0;
+                  int leftCount = poolCount - joindCount;
                     <p class="rmn-item">
                         <em>距开奖还差 :</em>
-                        <span>154445人
+                        <span>@leftCount
+                            人
                         </span>
                     </p>}
                 }

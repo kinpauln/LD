@@ -233,6 +233,11 @@ namespace LotteryDraw.Site.Extentions
                     detail.PrizeOrderView.LaunchTime = Convert.ToDateTime(row["LaunchTime"]);
                 }
 
+                if (!(row["PoolCount"] is System.DBNull))
+                {
+                    detail.PrizeOrderView.PoolCount = Convert.ToInt32(row["PoolCount"]);
+                }
+
                 if (row.Table.Columns.Contains("Is2Top"))
                 {
                     detail.PrizeOrderView.Is2Top = Convert.ToBoolean(row["Is2Top"]);
@@ -251,6 +256,16 @@ namespace LotteryDraw.Site.Extentions
                 if (row.Table.Columns.Contains("LuckyStaffs"))
                 {
                     detail.PrizeOrderView.LuckyStaffsOfScenceString = row["LuckyStaffs"].ToString();
+                }
+
+                if (row.Table.Columns.Contains("BettingCount"))
+                {
+                    detail.PrizeOrderView.BettingCount = Convert.ToInt32(row["BettingCount"]);
+                }
+
+                if (row.Table.Columns.Contains("WhiteListCount"))
+                {
+                    detail.PrizeOrderView.WhiteListCount = Convert.ToInt32(row["WhiteListCount"]);
                 }
 
                 rlist.Add(detail);

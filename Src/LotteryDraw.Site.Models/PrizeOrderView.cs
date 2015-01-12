@@ -25,7 +25,7 @@ namespace LotteryDraw.Site.Models
 
         public int RevealTypeNum { get; set; }
 
-        
+
         /// <summary>
         /// 开奖状态
         /// </summary>
@@ -152,7 +152,7 @@ namespace LotteryDraw.Site.Models
         public string LuckyStaffsOfScenceString { get; set; }
 
         public int StaffTotalCount { get; set; }
-        
+
         public bool Is2Top { get; set; }
 
         public InputTypeOfStaff InputTypeOfStaff
@@ -167,6 +167,22 @@ namespace LotteryDraw.Site.Models
 
         public PrizeView PrizeView { get; set; }
 
+        /// <summary>
+        /// 已抽奖人数
+        /// </summary>
         public int BettingCount { get; set; }
+
+        /// <summary>
+        /// 白名单人数
+        /// </summary>
+        public int WhiteListCount { get; set; }
+
+        /// <summary>
+        /// 已参与抽奖人数
+        /// </summary>
+        public int JoinedCount
+        {
+            get { return BettingCount + WhiteListCount; }
+        }
     }
 }
