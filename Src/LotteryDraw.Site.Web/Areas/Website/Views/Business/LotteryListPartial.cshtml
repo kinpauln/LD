@@ -118,7 +118,7 @@
                      )
                   {
                       showTimeSpan = true;
-                      if (item.PrizeOrderView.LaunchTime.HasValue 
+                      if (item.PrizeOrderView.LaunchTime.HasValue
                           && item.PrizeOrderView.LaunchTime.Value < DateTime.Now)
                       {
                           iconString = "已过期";
@@ -195,17 +195,26 @@
                       TimeSpan tsLT = new TimeSpan(lauchTime.Ticks);
                       TimeSpan ts = tsNow.Subtract(tsLT).Duration();
 
-                      dateDiff = ts.Days.ToString() + "天"
-                      + ts.Hours.ToString() + "小时"
-                      + ts.Minutes.ToString() + "分钟"
+                      dateDiff = ts.Days > 0 ? ts.Days.ToString() + "天" : string.Empty
+                      + ((ts.Days == 0 && ts.Hours == 0) ? string.Empty : ts.Hours.ToString() + "小时")
+                      + ((ts.Days == 0 && ts.Hours == 0 && ts.Minutes == 0) ? string.Empty : ts.Minutes.ToString() + "分钟")
                       + ts.Seconds.ToString() + "秒";
                   
                     <p class="rmn-item">
                         <em>距开奖还差 :</em>
-                        <span>@dateDiff
+                        <span title="@dateDiff">@dateDiff
                         </span>
                     </p>}
               }}
+                @{
+              if (item.PrizeOrderView.RevealType == RevealType.Answer)
+              {
+                    <p class="rmn-item">
+                        <em>竞猜开奖方式 :</em>
+                        <span>@item.PrizeOrderView.RevealTypeOfAnswer.ToDescription()
+                        </span>
+                    </p>}
+                }
                 <div class="clear"></div>
                 @{
               if (item.PrizeOrderView.RevealStateNum == RevealState.UnDrawn.ToInt()

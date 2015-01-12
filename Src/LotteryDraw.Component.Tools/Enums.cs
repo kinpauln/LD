@@ -69,6 +69,8 @@ namespace LotteryDraw.Component.Tools
     [Description("竞猜开奖开奖方式")]
     public enum RevealTypeOfAnswer
     {
+        [Description("未知")]
+        Unknown = 0,
         [Description("自动")]
         Auto = 1,
         [Description("手动")]

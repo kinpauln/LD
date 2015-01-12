@@ -143,16 +143,16 @@
                                         telEncryption = str1 + "****" + str2;
                                     }
                             <li class="list luckylist">
-                                    @{
+                                @{
                                     string alinkFormatString = "<a href=\"{0}\" style=\"\" title=\"{1}\" target=\"_self\">{2}</a>";
                                     string spanFormatString = "<span style=\"{2}\">{1}{0}</span>";
                                     string luckyString = string.Empty;
                                     List<string> contentlist = new List<string>();
                                     string pnameString = string.Format(alinkFormatString
-                                        , "/Business/PrizeOrderDetail/"+item.PrizeOrderView.Id.ToString()
+                                        , "/Business/PrizeOrderDetail/" + item.PrizeOrderView.Id.ToString()
                                         , item.PrizeOrderView.PrizeView.Name
                                         , item.PrizeOrderView.PrizeView.Name); //发起抽奖人提供的某某奖品
-                                    contentlist.Add(string.Format(spanFormatString, pnameString, "奖品名:",""));
+                                    contentlist.Add(string.Format(spanFormatString, pnameString, "奖品名:", ""));
 
                                     string userNameString = string.Format(alinkFormatString
                                         , "/Account/UserSpace/" + item.MemberView.Id.ToString()
@@ -179,8 +179,8 @@
                                     contentlist.Add(string.Format(spanFormatString, poidString, "中奖单号:", ""));
 
                                     luckyString = string.Join("&nbsp; &nbsp; &nbsp; &nbsp;", contentlist.ToArray());
-                                    }
-                                    @Html.Raw(luckyString)</li>
+                                }
+                                @Html.Raw(luckyString)</li>
                                 }
                             }
                         }
@@ -241,6 +241,39 @@
                                     scopeCity = item.PrizeOrderView.ScopeAreaCity;
                                 }
                                 bool is2Top = item.PrizeOrderView.Is2Top;
+                                bool showTimeSpan = false; //显示距离开奖时长
+                                bool isOutOfDate = false; //已过期
+                                bool joinEnable = true;
+
+                                // 定员抽奖，需要判断奖池是否已满
+                                if (item.PrizeOrderView.RevealType == RevealType.Quota ||
+                                    (item.PrizeOrderView.RevealType == RevealType.Answer
+                                        && item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Quota
+                                        && item.PrizeOrderView.RevealTypeOfAnswer == RevealTypeOfAnswer.Auto
+                                     )
+                                   )
+                                {
+                                    if (item.PrizeOrderView.JoinedCount == item.PrizeOrderView.PoolCount)
+                                    {
+                                        joinEnable = false;
+                                    }
+                                }
+                                // 定时抽奖，需要判断奖池是否已满
+                                if (item.PrizeOrderView.RevealType == RevealType.Timing ||
+                                    (item.PrizeOrderView.RevealType == RevealType.Answer
+                                        && item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Timing
+                                        && item.PrizeOrderView.RevealTypeOfAnswer == RevealTypeOfAnswer.Auto
+                                     )
+                                   )
+                                {
+                                    showTimeSpan = true;
+                                    if (item.PrizeOrderView.LaunchTime.HasValue
+                                        && item.PrizeOrderView.LaunchTime.Value < DateTime.Now)
+                                    {
+                                        isOutOfDate = true;
+                                        joinEnable = false;
+                                    }
+                                }
                         <dl class="clearfix ranking-movie-list fl">
                             <dt class="fl">
                                 <a href="/Vip/PrizeDetail/@pid" target="_self">
@@ -253,7 +286,7 @@
                                     }
 
                                     <p class="ranking-pic-back ranking-pic"></p>
-                                    <p class="ranking-show-time ranking-pic">发起抽奖时间：@addDate</p>
+                                    <p class="ranking-show-time ranking-pic">发起抽奖时间：@addDate @item.PrizeOrderView.RevealState</p>
                                 </a>
                             </dt>
                             <dd class="fl">
@@ -271,42 +304,6 @@
                                 </nobr>
                                     </span>
                                 </p>
-                                @*<p class="rmn-item">
-                                <em>主演 :</em>
-                                <span>
-                                    <nobr>
-                                        <a href="#" target="_blank">克里斯·帕拉特</a>
-                                </nobr>
-                                    <nobr>
-                                        &nbsp;&nbsp;
-                                        <a href="#" target="_blank">佐伊·索尔达娜</a>
-                                </nobr>
-                                    <nobr>
-                                        &nbsp;&nbsp;
-                                        <a href="#" target="_blank">李·佩斯</a>
-                                </nobr>
-                                    <nobr>
-                                        &nbsp;&nbsp;
-                                        <a href="#" target="_blank">凯伦·吉兰</a>
-                                </nobr>
-                                </span>
-                            </p>
-                                <p class="rmn-item">
-                                    <em>类型 :</em>
-                                    <span>
-                                        <nobr>
-                                    <a href="#" target="_blank">动作</a>
-                                </nobr>
-                                        <nobr>
-                                    &nbsp;&nbsp;
-                                    <a href="#" target="_blank">科幻</a>
-                                </nobr>
-                                        <nobr>
-                                    &nbsp;&nbsp;
-                                    <a href="#" target="_blank">冒险</a>
-                                </nobr>
-                                    </span>
-                                </p>*@
                                 <p class="rmn-item">
                                     <em>抽奖范围 :</em>
                                     <span>@scopeCity
@@ -329,8 +326,8 @@
                                     item.PrizeOrderView.RevealType == RevealType.Answer && item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Quota)
                                 {
                                     int joindCount = item.PrizeOrderView.JoinedCount;
-                                    int poolCount = item.PrizeOrderView.PoolCount??0;
-                                    int leftCount = poolCount-joindCount;
+                                    int poolCount = item.PrizeOrderView.PoolCount ?? 0;
+                                    int leftCount = poolCount - joindCount;
                                     <p class="rmn-item">
                                         <em>距开奖还差 :</em>
                                         <span>@leftCount
@@ -339,41 +336,48 @@
                                     </p>}
                                 }
                                 @{
-                                if (item.PrizeOrderView.RevealType == RevealType.Timing ||
-                                    item.PrizeOrderView.RevealType == RevealType.Answer && item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Timing)
+                                if (!isOutOfDate && showTimeSpan)
                                 {
+                                    if (item.PrizeOrderView.LaunchTime.HasValue)
+                                    {
+                                        DateTime lauchTime = item.PrizeOrderView.LaunchTime.Value;
+
+                                        string dateDiff = null;
+                                        TimeSpan tsNow = new TimeSpan(DateTime.Now.Ticks);
+                                        TimeSpan tsLT = new TimeSpan(lauchTime.Ticks);
+                                        TimeSpan ts = tsNow.Subtract(tsLT).Duration();
+
+                                        dateDiff = ts.Days > 0 ? ts.Days.ToString() + "天" : string.Empty
+                                        + ((ts.Days == 0 && ts.Hours == 0) ? string.Empty : ts.Hours.ToString() + "小时")
+                                        + ((ts.Days == 0 && ts.Hours == 0 && ts.Minutes == 0) ? string.Empty : ts.Minutes.ToString() + "分钟")
+                                        + ts.Seconds.ToString() + "秒";
+                  
                                     <p class="rmn-item">
                                         <em>距开奖还差 :</em>
-                                        <span>2天3小时20分8秒
+                                        <span title="@dateDiff">@dateDiff
+                                        </span>
+                                    </p>}
+                                }}
+                                @{
+                                if (item.PrizeOrderView.RevealType == RevealType.Answer)
+                                {
+                                    <p class="rmn-item">
+                                        <em>竞猜开奖方式 :</em>
+                                        <span>@item.PrizeOrderView.RevealTypeOfAnswer.ToDescription()
                                         </span>
                                     </p>}
                                 }
                                 <div class="clear"></div>
-                                @*<div class="rmn-item clearfix">
-                                <ul>
-                                    <li>已抽奖 :
-                               
-                                <span class="">1556人</span>
-                                    </li>
-                                    <li>距开奖还差 :
-                               
-                                <span class="">154445人</span>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li>高清视频 :
-                               
-                                <span class="">3个</span>
-                                    </li>
-                                    <li>预告/花絮:
-                               
-                                <span class="">87个</span>
-                                    </li>
-                                </ul>
-                            </div>*@
-                                <div class="r-play-con">
-                                    <a class="r-play-button excute-launch" target="_self" href="#" scope-type="@scopeType" scope-city="@scopeCity" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
-                                </div>
+                                @{
+                                if (item.PrizeOrderView.RevealStateNum == RevealState.UnDrawn.ToInt()
+                                    && joinEnable
+                                    )
+                                {
+                                    <div class="r-play-con">
+                                        <a class="r-play-button excute-launch" target="_self" href="#" scope-type="@scopeType" scope-city="@scopeCity" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
+                                    </div>
+                                }
+                                }
                             </dd>
                         </dl>
                             }
