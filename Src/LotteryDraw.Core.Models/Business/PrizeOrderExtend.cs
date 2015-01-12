@@ -116,6 +116,8 @@ namespace LotteryDraw.Core.Models.Business
             set { RevealTypeOfAnswerNum = (int)value; }
         }
 
+        public bool IsNeedExchangeCode { get; set; }
+
         /// <summary>
         ///  ÎÊ´ð
         /// </summary>

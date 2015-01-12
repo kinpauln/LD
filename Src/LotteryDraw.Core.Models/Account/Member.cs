@@ -34,16 +34,24 @@ namespace LotteryDraw.Core.Models.Account
         }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(50)]
         public string UserName { get; set; }
 
         [Required]
-        [StringLength(32)]
+        [StringLength(50)]
         public string Password { get; set; }
 
-        //[Required]
-        [StringLength(20)]
+        /// <summary>
+        ///  公司名或者 用户的真实姓名
+        /// </summary>
+        //[StringLength(20)]
         public string Name { get; set; }
+
+        /// <summary>
+        ///  账号昵称
+        /// </summary>
+        //[StringLength(50)]
+        public string NickName { get; set; }
 
         [Required]
         [StringLength(50)]

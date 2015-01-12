@@ -35,6 +35,11 @@ namespace LotteryDraw.Core.Models.Account
         public string Tel { get; set; }
 
         /// <summary>
+        ///  Í·Ïñ
+        /// </summary>
+        public string HeadPortrait { get; set; }
+
+        /// <summary>
         ///  ¹ã¸æUrl
         /// </summary>
         public string AdvertisingUrl { get; set; }
