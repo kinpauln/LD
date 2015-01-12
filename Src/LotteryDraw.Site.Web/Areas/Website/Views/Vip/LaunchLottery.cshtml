@@ -33,6 +33,7 @@
     @Html.HiddenFor(model => model.PrizeOrderView.InputTypeOfStaff, new { Id = "hidnInputTypeOfStaff" });
     @Html.HiddenFor(model => model.PrizeOrderView.RevealTypeOfAnswer, new { Id = "hidnRevealTypeOfAnswer" });
     @Html.HiddenFor(model => model.PrizeOrderView.Answer, new { Id = "hidnAnswer" });
+    @Html.HiddenFor(model => model.PrizeOrderView.IsNeedExchangeCode, new { Id = "hidnIsNeedExchangeCode" });
     <table class="message_table">
         <tbody>
             @*@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
@@ -79,13 +80,14 @@
                     </select><span class="info">*</span>
                 </td>
             </tr>
-            @*<tr rtype="no-change">
-                <td class="text">是否有兑奖码：</td>
+            <tr rtype="timing quota answer">
+                <td class="text">是否需要兑奖码：</td>
                 <td class="input">
-                    <input type="radio" name="needexchangecode" value="yes" />
-                    <input type="radio" name="needexchangecode" value="no" />
+                    <div style="width:120px;float:left;">
+                    <span><input type="radio" name="needexchangecode" value="true" />是</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span><input type="radio" name="needexchangecode" value="false" />否</span></div>
                 </td>
-            </tr>*@
+            </tr>
             <tr rtype="timing quota answer">
                 <td class="text">抽奖范围：</td>
                 <td class="input">
@@ -339,6 +341,10 @@
                 }
             });
 
+            $("input:radio[name='needexchangecode']").click(function () {
+                $("#hidnIsNeedExchangeCode").val($(this).val());
+            });
+
             // 开奖类型下拉框事件
             $("#slLauchType").change(function () {
                 var thisvalue = $(this).val();
@@ -572,6 +578,12 @@
                         required: "开奖类型不能为空"
                     }
                 });
+                $("#slLauchType").rules("add", {
+                    required: true,
+                    messages: {
+                        required: "开奖类型不能为空"
+                    }
+                });
                 $("#slScopeType").rules("add", {
                     required: function () {
                         var rtype = $("#slLauchType").val();
@@ -729,6 +741,14 @@
                 errorClass: 'error-info',
                 focusInvalid: false,
                 rules: {
+                    needexchangecode:{
+                        required: function () {//是否有兑奖码
+                            var rtype = $("#slLauchType").val();
+                            if (rtype != '@RevealType.Scene.ToInt()')
+                                return true;
+                            return false;
+                        }
+                    },
                     slAnswer: {
                         required: function () {//开奖答案
                             var rtype = $("#slLauchType").val();
@@ -775,6 +795,9 @@
                 },
 
                 messages: {
+                    needexchangecode:{
+                        required: "是否需要兑奖码必须选择"
+                    },
                     slAnswer: {
                         required: "开奖答案必须选择"
                     },
@@ -814,7 +837,13 @@
                     if (element.hasClass('select')) {
                         element.parent().append("<br />");
                     }
-                    error.appendTo(element.parent());
+                    if (element.is(":radio")) {
+                        error.appendTo(element.parent().parent().parent());
+                        //error.appendTo(element.parent());
+                    }
+                    else {
+                        error.appendTo(element.parent());
+                    }
                 }
                 , onfocusout: function (element) {
                     $(element).valid();

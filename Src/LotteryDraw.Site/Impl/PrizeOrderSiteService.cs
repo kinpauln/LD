@@ -276,6 +276,7 @@ namespace LotteryDraw.Site.Impl
                         AnswerRevealConditionType = pomodel.Extend.AnswerRevealConditionType,
                         ScopeType = pomodel.Extend.ScopeType,
                         ScopeAreaCity = pomodel.Extend.ScopeCity,
+                        IsNeedExchangeCode = pomodel.Extend.IsNeedExchangeCode,
                         AddDate = pomodel.AddDate
                     },
                     MemberView = new MemberView()
@@ -326,7 +327,7 @@ namespace LotteryDraw.Site.Impl
                 }
             };
 
-            // 定员、定员、竞猜三种模式需要设置抽奖城市
+            // 定员、定员、竞猜三种模式需要设置抽奖城市、是否需要兑奖码、运费
             if (RevealType.Scene != porderdetail.PrizeOrderView.RevealType)
             {
                 porder.Extend.ScopeType = porderdetail.PrizeOrderView.ScopeType;
@@ -336,6 +337,7 @@ namespace LotteryDraw.Site.Impl
                 }
 
                 porder.Extend.Freight = porderdetail.PrizeOrderView.Freight;
+                porder.Extend.IsNeedExchangeCode = porderdetail.PrizeOrderView.IsNeedExchangeCode;
             }
             switch (porderdetail.PrizeOrderView.RevealType)
             {

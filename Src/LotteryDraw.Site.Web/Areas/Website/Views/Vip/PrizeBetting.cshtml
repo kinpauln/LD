@@ -36,6 +36,7 @@
     @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.AnswerOptions)
     @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.AddDate)
     @Html.HiddenFor(model => model.PrizeOrderDetailView.MemberView.Id, new { Id = "hidnMemberIdOfPrize" })
+    @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.IsNeedExchangeCode, new { Id = "hidnIsNeedExchangeCode" })
     <table class="message_table">
         <tbody>
             @*@if (ViewBag.IsPostBack != null && (bool)ViewBag.IsPostBack)
@@ -175,21 +176,24 @@
                     <br />
                 </td>
             </tr>*@
-            <tr rtype="no-change">
-                <td class="text">兑奖码</td>
-                <td class="input">
-                    @Html.TextBoxFor(m => m.ExchangeCode, new { @class = "input-text", Id = "ExchangeCode" })
-                </td>
-            </tr>
+            @if (Model.PrizeOrderDetailView.PrizeOrderView.IsNeedExchangeCode)
+            {
+                <tr rtype="no-change">
+                    <td class="text">兑奖码</td>
+                    <td class="input">
+                        @Html.TextBoxFor(m => m.ExchangeCode, new { @class = "input-text", Id = "ExchangeCode" })
+                    </td>
+                </tr>
+            }
             <tr>
                 <td class="text"></td>
                 <td class="input">
                     @Html.MvcCaptcha(new MvcCaptchaOptions
-                               {
-                                   DelayLoad = false, //若要启用Ajax延迟加载验证码图片功能，则需要设置MvcCaptchaOptions属性的DelayLoad为true
-                                   ValidationInputBoxId = "captchaInput", //验证码输入文本框的客户端ID
-                                   CaptchaImageContainerId = "imgContainer" //包含验证码图片的容器元素的客户端ID
-                               })
+               {
+                   DelayLoad = false, //若要启用Ajax延迟加载验证码图片功能，则需要设置MvcCaptchaOptions属性的DelayLoad为true
+                   ValidationInputBoxId = "captchaInput", //验证码输入文本框的客户端ID
+                   CaptchaImageContainerId = "imgContainer" //包含验证码图片的容器元素的客户端ID
+               })
                     <span id="imgContainer"></span>
                     <br />
                     <div>请输入上边图片中的文字：</div>
@@ -267,6 +271,16 @@
                             return false;
                         }
                     },
+                    ExchangeCode:{
+                        required: function () {
+                            var isNeedExCode = $("#hidnIsNeedExchangeCode").val();
+                            var rtype = '@ViewBag.RevealType';
+                            if (isNeedExCode.toLowerCase() == "true") {
+                                return true;
+                            }
+                            return false;
+                        }
+                    },
                     _mvcCaptchaText: {
                         required: true
                     }
@@ -282,6 +296,9 @@
                     //}
                     answer: {
                         required: "答案必须选择"
+                    },
+                    ExchangeCode: {
+                        required: "兑奖码不能为空"
                     },
                     _mvcCaptchaText: {
                         required: "验证码不能为空"

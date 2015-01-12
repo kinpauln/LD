@@ -155,6 +155,8 @@ namespace LotteryDraw.Site.Models
 
         public bool Is2Top { get; set; }
 
+        public bool IsNeedExchangeCode { get; set; }
+
         public InputTypeOfStaff InputTypeOfStaff
         {
             get { return (InputTypeOfStaff)InputTypeOfStaffNum; }

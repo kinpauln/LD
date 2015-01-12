@@ -221,6 +221,27 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 ModelState.Remove("PrizeOrderView.AnswerRevealConditionType");
             }
 
+            // 非竞猜开奖，则取消对“揭晓答案（先知、后知）方式”的验证
+            if (model.PrizeOrderView.RevealType != RevealType.Answer)
+            {
+                ModelState.Remove("PrizeOrderView.RevealTypeOfAnswer");
+                ModelState.Remove("PrizeOrderView.AnswerRevealConditionType");
+            }
+
+            // 现场开奖，则取消对“是否需要兑奖码”的验证
+            if (model.PrizeOrderView.RevealType == RevealType.Scene)
+            {
+                ModelState.Remove("PrizeOrderView.IsNeedExchangeCode");
+                ModelState.Remove("PrizeOrderView.RevealTypeOfAnswer");
+                ModelState.Remove("PrizeOrderView.AnswerRevealConditionType");
+            }
+
+            // 非现场开奖，则取消对“人员录入方式”的验证
+            if (model.PrizeOrderView.RevealType != RevealType.Scene)
+            {
+                ModelState.Remove("PrizeOrderView.InputTypeOfStaff");
+            }
+
             if (ModelState.IsValid)
             {
                 //验证码验证通过  
