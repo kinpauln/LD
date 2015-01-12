@@ -209,9 +209,13 @@
                 @{
               if (item.PrizeOrderView.RevealType == RevealType.Answer)
               {
+                  string typeString = item.PrizeOrderView.RevealTypeOfAnswer.ToDescription();
+                  if(item.PrizeOrderView.RevealTypeOfAnswer == RevealTypeOfAnswer.Auto){
+                      typeString += "【"+item.PrizeOrderView.AnswerRevealConditionType.ToDescription()+"】";
+                  }
                     <p class="rmn-item">
                         <em>竞猜开奖方式 :</em>
-                        <span>@item.PrizeOrderView.RevealTypeOfAnswer.ToDescription()
+                        <span>@typeString
                         </span>
                     </p>}
                 }
