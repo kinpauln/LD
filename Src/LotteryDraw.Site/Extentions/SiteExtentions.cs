@@ -238,6 +238,11 @@ namespace LotteryDraw.Site.Extentions
                     detail.PrizeOrderView.PoolCount = Convert.ToInt32(row["PoolCount"]);
                 }
 
+                if (row.Table.Columns.Contains("RevealTypeOfAnswerNum"))
+                {
+                    detail.PrizeOrderView.RevealTypeOfAnswerNum = int.Parse(row["RevealTypeOfAnswerNum"].ToString());
+                }
+
                 if (row.Table.Columns.Contains("Is2Top"))
                 {
                     detail.PrizeOrderView.Is2Top = Convert.ToBoolean(row["Is2Top"]);

@@ -199,8 +199,23 @@ position: relative;
 z-index: 2;
         font-size: 12px;
 }
- .act_icon_03 .start {
+ .act_icon_drawn .start {
 background-color: #526681;
+}
+ .act_icon_drawing .start {
+background-color: #526681;
+}
+ .act_icon_undrawn .start {
+background-color: #526681;
+}
+ .act_icon_canceled .start {
+background-color: #526681;
+}
+ .act_icon_failed .start {
+background-color: #526681;
+}
+ .act_icon_disabled .start {
+background-color: #ff6239;
 }
  .act_icon .icon_01 {
 height: 20px;
