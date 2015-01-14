@@ -744,6 +744,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             int totalPageCount;
 
             string whereString = GetWhereStringOfPrizeOrderDetail(keywords);
+            whereString += string.IsNullOrEmpty(whereString) ? "MemberId = " + userid.ToString() : " and MemberId = " + userid.ToString();
 
             PagedList<PrizeOrderDetailView> model = null;
             IEnumerable<PrizeOrderDetailView> rlist = null;

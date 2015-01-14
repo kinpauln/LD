@@ -12,7 +12,7 @@
 
 @section  BreadCrumbs{
     &gt;
-    <label>死奖</label>
+    <label>漏开奖单</label>
 }
 @section styles{
     <link href="~/Content/website/css/prize.css" rel="stylesheet" />
@@ -30,71 +30,71 @@
     </style>
 }
 <div class="active" id="prizelist" style="margin: 10px 0;">
-
-    @if (!string.IsNullOrEmpty(TempData["Message"] as string))
-    {
-        <div style="color: #f00;" class="error-info">@TempData["Message"]</div>
-    }
     <table class="prize-list">
         <tr>
             <th>抽奖类型</th>
             <th>中奖人数</th>
             <th>投注人数</th>
+            <th>是否死单</th>
             <th style="width: 120px;">发布日期</th>
             <th style="width: 120px;">操作</th>
         </tr>
         @if (Model == null || Model.Count == 0)
         {
             <tr>
-                <td colspan="6">没有需要开奖的记录</td>
+                <td colspan="6">没有漏开的奖单</td>
             </tr>
         }
-        @foreach (var item in Model)
+        else
         {
-            bool showRevealButton = false;
-            int luckyCount = item.PrizeOrderView.LuckyCount ?? 0;
-            int bettingCount = item.PrizeOrderView.BettingCount;
-            switch (item.PrizeOrderView.RevealType)
+            foreach (var item in Model)
             {
-                case RevealType.Timing:
-                    if (bettingCount >= luckyCount)
-                    {
-                        showRevealButton = true;
-                    }
-                    break;
-                case RevealType.Quota:
-                    if (item.PrizeOrderView.PoolCount <= bettingCount)
-                    {
-                        showRevealButton = true;
-                    }
-                    break;
-                case RevealType.Answer:
-                    if (item.PrizeOrderView.RevealTypeOfAnswer == RevealTypeOfAnswer.Auto)
-                    {
-                        if (item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Timing)
+                bool showRevealButton = false;
+                int luckyCount = item.PrizeOrderView.LuckyCount ?? 0;
+                int bettingCount = item.PrizeOrderView.BettingCount;
+                switch (item.PrizeOrderView.RevealType)
+                {
+                    case RevealType.Timing:
+                        if (bettingCount >= luckyCount)
                         {
-                            if (bettingCount >= luckyCount)
+                            showRevealButton = true;
+                        }
+                        break;
+                    case RevealType.Quota:
+                        if (item.PrizeOrderView.PoolCount <= bettingCount)
+                        {
+                            showRevealButton = true;
+                        }
+                        break;
+                    case RevealType.Answer:
+                        if (item.PrizeOrderView.RevealTypeOfAnswer == RevealTypeOfAnswer.Auto)
+                        {
+                            if (item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Timing)
                             {
-                                showRevealButton = true;
+                                if (bettingCount >= luckyCount)
+                                {
+                                    showRevealButton = true;
+                                }
+                            }
+                            else
+                            {
+                                if (item.PrizeOrderView.PoolCount <= bettingCount)
+                                {
+                                    showRevealButton = true;
+                                }
                             }
                         }
-                        else
-                        {
-                            if (item.PrizeOrderView.PoolCount <= bettingCount)
-                            {
-                                showRevealButton = true;
-                            }
-                        }
-                    }
-                    break;
-                case RevealType.Scene:
-                    showRevealButton = true;
-                    break;
-            }
+                        break;
+                    case RevealType.Scene:
+                        showRevealButton = true;
+                        break;
+                }
+                string deadstring = showRevealButton ? "否" : "是";
             <tr>
                 <td>@item.PrizeOrderView.RevealType.ToDescription()</td>
                 <td>@item.PrizeOrderView.LuckyCount</td>
                 <td>@item.PrizeOrderView.BettingCount</td>
+                <td>@deadstring</td>
                 <td>@item.PrizeOrderView.AddDate.ToString("yyy-MM-dd HH:mm:ss")</td>
                 <td>
                     <a href="/Business/PrizeOrderDetail/@item.PrizeOrderView.Id">详情</a>
@@ -108,6 +108,7 @@
                     }
                 </td>
             </tr>
+            }
         }
     </table>
     @Html.Pager(Model, new PagerOptions
