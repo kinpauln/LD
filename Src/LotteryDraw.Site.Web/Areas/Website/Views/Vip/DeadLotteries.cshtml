@@ -1,0 +1,285 @@
+﻿@using Webdiyer.WebControls.Mvc;
+@using LotteryDraw.Component.Tools;
+@model PagedList<LotteryDraw.Site.Models.PrizeOrderDetailView>
+@{
+    ViewBag.Title = "奖单列表";
+    Layout = "~/Areas/Website/Views/Shared/_Layout_Vip.cshtml";
+}
+
+@section  LeftMenuItems{
+    @Html.Partial("VipNavPartial")
+}
+
+@section  BreadCrumbs{
+    &gt;
+    <label>死奖</label>
+}
+@section styles{
+    <link href="~/Content/website/css/prize.css" rel="stylesheet" />
+    <style type="text/css">
+        table.alert-tb-form {
+            border-collapse: collapse;
+            border: none;
+        }
+
+            table.alert-tb-form td, table.alert-tb-form tr {
+                /*border: none;*/
+                text-align: left;
+                padding: 2px;
+            }
+    </style>
+}
+<div class="active" id="prizelist" style="margin: 10px 0;">
+
+    @if (!string.IsNullOrEmpty(TempData["Message"] as string))
+    {
+        <div style="color: #f00;" class="error-info">@TempData["Message"]</div>
+    }
+    <table class="prize-list">
+        <tr>
+            <th>抽奖类型</th>
+            <th>中奖人数</th>
+            <th>投注人数</th>
+            <th style="width: 120px;">发布日期</th>
+            <th style="width: 120px;">操作</th>
+        </tr>
+        @if (Model == null || Model.Count == 0)
+        {
+            <tr>
+                <td colspan="6">没有需要开奖的记录</td>
+            </tr>
+        }
+        @foreach (var item in Model)
+        {
+            bool showRevealButton = false;
+            int luckyCount = item.PrizeOrderView.LuckyCount ?? 0;
+            int bettingCount = item.PrizeOrderView.BettingCount;
+            switch (item.PrizeOrderView.RevealType)
+            {
+                case RevealType.Timing:
+                    if (bettingCount >= luckyCount)
+                    {
+                        showRevealButton = true;
+                    }
+                    break;
+                case RevealType.Quota:
+                    if (item.PrizeOrderView.PoolCount <= bettingCount)
+                    {
+                        showRevealButton = true;
+                    }
+                    break;
+                case RevealType.Answer:
+                    if (item.PrizeOrderView.RevealTypeOfAnswer == RevealTypeOfAnswer.Auto)
+                    {
+                        if (item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Timing)
+                        {
+                            if (bettingCount >= luckyCount)
+                            {
+                                showRevealButton = true;
+                            }
+                        }
+                        else
+                        {
+                            if (item.PrizeOrderView.PoolCount <= bettingCount)
+                            {
+                                showRevealButton = true;
+                            }
+                        }
+                    }
+                    break;
+                case RevealType.Scene:
+                    showRevealButton = true;
+                    break;
+            }
+            <tr>
+                <td>@item.PrizeOrderView.RevealType.ToDescription()</td>
+                <td>@item.PrizeOrderView.LuckyCount</td>
+                <td>@item.PrizeOrderView.BettingCount</td>
+                <td>@item.PrizeOrderView.AddDate.ToString("yyy-MM-dd HH:mm:ss")</td>
+                <td>
+                    <a href="/Business/PrizeOrderDetail/@item.PrizeOrderView.Id">详情</a>
+                    @if (showRevealButton)
+                    {
+                        @:&nbsp;|&nbsp;<a href="#" class="manual-reveal" poid="@item.PrizeOrderView.Id" rtype="@item.PrizeOrderView.RevealType.ToInt()">我要开奖</a>
+                    }
+                    else
+                    {
+                        @:&nbsp;|&nbsp;<a href="#" class="close-reveal" poid="@item.PrizeOrderView.Id">关闭</a>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    @Html.Pager(Model, new PagerOptions
+{
+    PageIndexParameterName = "id",
+    FirstPageText = "首页",
+    LastPageText = "尾页",
+    PrevPageText = "上一页",
+    NextPageText = "下一页",
+    PagerItemsSeperator = "",
+    CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
+}, new { @class = "diggpager" })
+</div>
+
+<div style="display: none; padding: 50px; width: 500px;" id="answer-alert-content">
+    <input type="hidden" id="hidnPoId" />
+    <table style="margin: auto; width: 500px;" class="alert-tb-form" id="tbform">
+        <tr>
+            <td style="width: 70px;">
+                <label>竞猜题目：</label></td>
+            <td>
+                <span id="spanQuestion"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 70px;">
+                <label>标准答案：</label></td>
+            <td>
+                <select id="slAnswerOptions">
+                    <option value="">请选择</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: center;">
+                <input type="button" id="btnOpenLottery" value="开奖" class="button orange" /></td>
+        </tr>
+    </table>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        var global_layerid;
+        $(function () {
+            $("#prizelist table tr:odd").addClass("odd-tr");
+            $("#prizelist table tr:even").addClass("even-tr");
+
+            $("a[class*='manual-reveal']").click(function (e) {
+                var poid = $(this).attr("poid");
+                var rtype = $(this).attr("rtype");
+                layer.confirm("确认开奖？", function (index) {
+                    layer.close(index);
+                    ManualReveal(poid, rtype);
+                }, function () {
+                });
+
+                e.preventDefault();
+            });
+
+            $("a[class*='close-reveal']").click(function (e) {
+                var poid = $(this).attr("poid");
+                layer.confirm("开奖条件已失效，手动开奖也将无法开奖，只有关闭该奖单。您确认此时关闭？", function (index) {
+                    layer.close(index);
+                    CloseReveal(poid);
+                }, function () {
+                });
+
+                e.preventDefault();
+            });
+        });
+
+        function ManualReveal(poid, rtype) {
+            var loadi;
+            $.ajax({
+                type: "post",
+                data: { poid: poid, rtype: rtype },
+                url: "/Vip/ManualRevealLottery",
+                beforeSend: function () {
+                    loadi = layer.load('正在开奖，请耐心等待…');
+                },
+                dataType: "json",
+                success: function (data) {
+                    var result = data.OK;
+                    var message = data.Message;
+                    if (!result) {
+                        layer.alert(message, 8);
+                        return;
+                    }
+                    layer.alert(message, 9, function () {
+                    });
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status);
+                    console.log(XMLHttpRequest.readyState);
+                    console.log(textStatus);
+                },
+                complete: function () {
+                    layer.close(loadi);
+                }
+            });
+        }
+
+        function CloseReveal(poid) {
+            var loadi;
+            $.ajax({
+                type: "post",
+                data: { poid: poid },
+                url: "/Vip/CloseReveal",
+                beforeSend: function () {
+                    loadi = layer.load('正在关闭奖单，请耐心等待…');
+                },
+                dataType: "json",
+                success: function (data) {
+                    var result = data.OK;
+                    var message = data.Message;
+                    if (!result) {
+                        layer.alert(message, 8);
+                        return;
+                    }
+                    layer.alert(message, 9, function () {
+                    });
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status);
+                    console.log(XMLHttpRequest.readyState);
+                    console.log(textStatus);
+                },
+                complete: function () {
+                    layer.close(loadi);
+                }
+            });
+        }
+
+        function getHiddenDomWidth(domid) {
+            var returnwidth = 0;
+            var element = document.getElementById(domid);
+            //保存原来的属性值
+            var display = element.style.display,
+                overflow = element.style.overflow,
+                height = element.style.height;
+            //设置新属性
+            element.style.display = "block";
+            element.style.overflow = "hidden";
+            element.style.height = "0px";
+            //由于元素已经参与渲染，所以可以获取到尺寸
+            returnwidth = element.offsetWidth;
+            //还原被修改的属性
+            element.style.display = display;
+            element.style.overflow = overflow;
+            element.style.height = height;
+
+            return returnwidth;
+        }
+
+        function getHiddenDomHeight(domid) {
+            var returnheight = 0;
+            var element = document.getElementById(domid);
+            //保存原来的属性值
+            var display = element.style.display,
+                overflow = element.style.overflow,
+                width = element.style.width;
+            //设置新属性
+            element.style.display = "block";
+            element.style.overflow = "hidden";
+            element.style.width = "0px";
+            //由于元素已经参与渲染，所以可以获取到尺寸
+            returnheight = element.offsetHeight;
+            //还原被修改的属性
+            element.style.display = display;
+            element.style.overflow = overflow;
+            element.style.width = width;
+
+            return returnheight;
+        }
+    </script>
+}

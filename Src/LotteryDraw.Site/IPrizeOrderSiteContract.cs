@@ -55,6 +55,19 @@ namespace LotteryDraw.Site
         OperationResult GetTopPrizeOrders(int topCount, int? rtype);
 
         /// <summary>
+        ///  “死”奖单
+        /// </summary>
+        /// <param name="pageSize">每页输出的记录数</param>
+        /// <param name="pageIndex">当前页数</param>
+        /// <param name="whereString">条件字符串</param>
+        /// <param name="orderbyString">排序字符串</param>
+        /// <param name="totalCount">返回总记录</param>
+        /// <param name="totalPageCount">返回总页数</param>
+        /// <param name="revealtype">开奖类型</param>
+        /// <returns></returns>
+        OperationResult GetDeadLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0);
+
+        /// <summary>
         ///  取奖单
         /// </summary>
         /// <param name="pageSize">每页输出的记录数</param>
@@ -107,6 +120,19 @@ namespace LotteryDraw.Site
         /// <param name="id">奖单Id</param>
         /// <param name="answer">竞猜答案</param>
         OperationResult RevealManualAnswerLottery(Guid id, string answer);
+        
+        /// <summary>
+        ///  手动开奖
+        /// </summary>
+        /// <param name="poid">奖单Id</param>
+        /// <param name="rtype">开奖类型</param>
+        OperationResult ManualRevealLottery(Guid poid, int rtype);
+
+        /// <summary>
+        ///  取消奖单
+        /// </summary>
+        /// <param name="poid">奖单Id</param>
+        OperationResult CancelReveal(Guid poid);
 
         /// <summary>
         ///  获取奖单详情

@@ -236,13 +236,6 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             return null;
         }
 
-        private string GetWhereStringOfPrizeOrderDetail(string keywords)
-        {
-            if (string.IsNullOrEmpty(keywords))
-                return null;
-            return string.Format("(PrizeName like '%{0}%' or PrizeDescription like '%{0}%' or UserNickName like '%{0}%' or UserName like '%{0}%')", keywords);
-        }
-
         /// <summary>
         ///  联系我们
         /// </summary>

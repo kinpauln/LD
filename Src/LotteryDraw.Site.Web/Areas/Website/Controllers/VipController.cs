@@ -14,6 +14,7 @@ using LotteryDraw.Site.Extentions;
 using LotteryDraw.Component.Utility;
 using LotteryDraw.Core.Models.Account;
 using System.Text;
+using System.Data;
 
 namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 {
@@ -726,6 +727,56 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         }
 
         /// <summary>
+        ///  开奖条件已过，但尚未开奖的奖单列表
+        /// </summary>
+        public ActionResult DeadLotteries(int? id, int? rtype, string keywords)
+        {
+            long userid = this.UserId ?? 0;
+            int pageIndex = id ?? 1;
+            int total;
+
+            ViewBag.UserId = this.UserId ?? 0;
+            PropertySortCondition[] sortConditions = new[] { new PropertySortCondition("SortOrder") };
+
+            int pageSize = int.Parse(System.Configuration.ConfigurationManager.AppSettings["PageCount"]);
+            string orderbyString = "SortOrder asc";
+            int totalCount;
+            int totalPageCount;
+
+            string whereString = GetWhereStringOfPrizeOrderDetail(keywords);
+
+            PagedList<PrizeOrderDetailView> model = null;
+            IEnumerable<PrizeOrderDetailView> rlist = null;
+            OperationResult result = PrizeOrderSiteContract.GetDeadLotteries(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount, rtype ?? 0);
+            ViewBag.TotalCount = totalCount;
+            ViewBag.PageIndex = pageIndex;
+            ViewBag.PageCount = totalPageCount;
+            if (result.ResultType == OperationResultType.Success)
+            {
+                DataSet ds = (DataSet)result.AppendData;
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    //DataTable dt = ds.Tables[0];
+                    //DataRow[] rowarray = new DataRow[dt.Rows.Count];
+                    //dt.Rows.CopyTo(rowarray, 0);
+                    ////所有
+                    //ViewBag.AllPrizeOrders = rowarray;
+
+                    DataTable dt = ds.Tables[0];
+
+                    rlist = dt.ToPrizeOrderDetailList();
+                    if (rlist != null)
+                    {
+                        model = new PagedList<PrizeOrderDetailView>(rlist, pageIndex, pageSize, totalCount);
+                    }
+                }
+            }
+            ViewBag.Message = result.Message;
+            return View(model);
+        }
+
+        /// <summary>
         ///  删除奖单
         /// </summary>
         /// <param name="id"></param>
@@ -925,6 +976,33 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             string msg = result.Message ?? result.ResultType.ToDescription();
             return Json(new { OK = false, Message = msg }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult ManualRevealLottery(Guid poid, int rtype)
+        {
+            OperationResult result = PrizeOrderSiteContract.ManualRevealLottery(poid, rtype);
+            if (result.ResultType == OperationResultType.Success)
+            {
+                return Json(new { OK = true, Message = "开奖成功！" }, JsonRequestBehavior.AllowGet);
+            }
+
+            string msg = result.Message ?? result.ResultType.ToDescription();
+            return Json(new { OK = false, Message = msg }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult CloseReveal(Guid poid)
+        {
+            OperationResult result = PrizeOrderSiteContract.CancelReveal(poid);
+            if (result.ResultType == OperationResultType.Success)
+            {
+                return Json(new { OK = true, Message = "关闭奖单成功！" }, JsonRequestBehavior.AllowGet);
+            }
+
+            string msg = result.Message ?? result.ResultType.ToDescription();
+            return Json(new { OK = false, Message = msg }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult MyBettingList(int? id)
         {
             long userid = this.UserId ?? 0;

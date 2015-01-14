@@ -213,6 +213,68 @@ namespace LotteryDraw.Core.Impl
         }
 
         /// <summary>
+        ///  “死”奖单
+        /// </summary>
+        /// <param name="pageSize">每页输出的记录数</param>
+        /// <param name="pageIndex">当前页数</param>
+        /// <param name="whereString">条件字符串</param>
+        /// <param name="orderbyString">排序字符串</param>
+        /// <param name="totalCount">返回总记录</param>
+        /// <param name="totalPageCount">返回总页数</param>
+        /// <param name="revealtype">开奖类型</param>
+        /// <returns></returns>
+        public OperationResult GetDeadLotteries(int pageSize, int pageIndex, string whereString, string orderbyString, out int totalCount, out int totalPageCount, int revealtype = 0)
+        {
+            totalCount = 0;
+            totalPageCount = 0;
+            try
+            {
+                List<SqlParameter> paramList = new List<SqlParameter>();
+
+                //开奖类型
+                SqlParameter paramRT = new SqlParameter("@RevealType", SqlDbType.Int);
+                paramRT.Value = revealtype;
+                paramList.Add(paramRT);
+
+                //每页输出的记录数
+                SqlParameter paramPS = new SqlParameter("@PageSize", SqlDbType.Int);
+                paramPS.Value = pageSize;
+                paramList.Add(paramPS);
+                //当前页数
+                SqlParameter paramPI = new SqlParameter("@PageIndex", SqlDbType.Int);
+                paramPI.Value = pageIndex;
+                paramList.Add(paramPI);
+
+                //排序字符串
+                SqlParameter paramWhere = new SqlParameter("@Where", SqlDbType.VarChar, 2000);
+                paramWhere.Value = whereString;
+                paramList.Add(paramWhere);
+                //排序字符串
+                SqlParameter paramOrder = new SqlParameter("@Order", SqlDbType.VarChar, 1000);
+                paramOrder.Value = orderbyString;
+                paramList.Add(paramOrder);
+
+                SqlParameter paramtc = new SqlParameter("@TotalCount", SqlDbType.Int);
+                paramtc.Direction = ParameterDirection.Output;
+                paramList.Add(paramtc);
+                SqlParameter paramtpc = new SqlParameter("@TotalPageCount", SqlDbType.Int);
+                paramtpc.Direction = ParameterDirection.Output;
+                paramList.Add(paramtpc);
+
+
+                SqlCommand command = new SqlCommand();
+                DataSet ds = PrizeOrderRepository.ExecProcdureReturnDataSet("sp_getDeadLotteries", out command, paramList.ToArray());
+                totalCount = Convert.ToInt32(command.Parameters["@TotalCount"].Value);
+                totalPageCount = Convert.ToInt32(command.Parameters["@TotalPageCount"].Value);
+                return new OperationResult(OperationResultType.Success, "成功获取数据。", ds);
+            }
+            catch (System.Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+
+        /// <summary>
         ///  取奖单
         /// </summary>
         /// <param name="pageSize">每页输出的记录数</param>
@@ -544,7 +606,7 @@ namespace LotteryDraw.Core.Impl
                     switch (errorCode)
                     {
                         case "Error_01":
-                            return new OperationResult(OperationResultType.Warning, "奖单投注者小于中奖人数，不能开奖", errorstring);
+                            return new OperationResult(OperationResultType.Warning, "奖单投注者总数小于所设置的中奖人数，不能开奖", errorstring);
                         case "Error_02":
                             return new OperationResult(OperationResultType.Warning, "竞猜正确者总数小于所设置的中奖人数，不能开奖", errorstring);
                         default:
@@ -555,6 +617,96 @@ namespace LotteryDraw.Core.Impl
             catch (System.Exception ex)
             {
                 return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        ///  手动开奖
+        /// </summary>
+        /// <param name="poid">奖单Id</param>
+        /// <param name="rtype">开奖类型</param>
+        public OperationResult ManualRevealLottery(Guid poid, int rtype)
+        {
+            try
+            {
+                List<SqlParameter> paramList = new List<SqlParameter>();
+
+                SqlParameter paramPoid = new SqlParameter("@PrizeOrderId", SqlDbType.VarChar, 100);
+                paramPoid.Value = poid.ToString();
+                paramList.Add(paramPoid);
+
+                SqlParameter paramRType = new SqlParameter("@RevealType", SqlDbType.Int);
+                paramRType.Value = rtype;
+                paramList.Add(paramRType);
+
+                SqlParameter paramerrorcode = new SqlParameter("@ErrorCode", SqlDbType.VarChar, 10);
+                paramerrorcode.Direction = ParameterDirection.Output;
+                paramList.Add(paramerrorcode);
+
+                SqlParameter paramerrorstring = new SqlParameter("@ErrorString", SqlDbType.VarChar, -1);
+                paramerrorstring.Direction = ParameterDirection.Output;
+                paramList.Add(paramerrorstring);
+
+
+                SqlCommand command = new SqlCommand();
+                PrizeOrderRepository.ExecProcdureReturnDataSet("sp_manualReveal", out command, paramList.ToArray());
+
+                string errorCode = command.Parameters["@ErrorCode"].Value.ToString();
+                string errorstring = command.Parameters["@ErrorString"].Value.ToString();
+
+                if (string.IsNullOrEmpty(errorCode))
+                {
+                    return new OperationResult(OperationResultType.Success, "开奖成功。", poid);
+                }
+                else
+                {
+                    switch (errorCode)
+                    {
+                        case "Error_01":
+                            return new OperationResult(OperationResultType.Warning, "奖单投注者小于中奖人数，不能开奖", errorstring);
+                        case "Error_02":
+                            return new OperationResult(OperationResultType.Warning, "事务提交出现错误，开奖失败", errorstring);
+                        default:
+                            return new OperationResult(OperationResultType.Warning, "出错了。", poid);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return new OperationResult(OperationResultType.Error, ex.Message);
+            }
+        }
+        
+        /// <summary>
+        ///  关闭奖单
+        /// </summary>
+        /// <param name="poid">奖单Id</param>
+        /// <param name="state">奖单状态</param>
+        public OperationResult UpdateLotteryState(Guid poid, RevealState state)
+        {
+            PrizeOrder entity = PrizeOrderRepository.Entities.Where(lr => lr.Id == poid).FirstOrDefault();
+
+            if (entity == null)
+            {
+                return new OperationResult(OperationResultType.Warning, string.Format("没有Id为{0}的中奖信息。", poid.ToString()), poid.ToString());
+            }
+
+            if (state == entity.RevealState)
+            {
+                return new OperationResult(OperationResultType.Warning, "要更新的状态与数据库的一致，无需更改。", entity);
+            }
+
+            entity.RevealState = state;
+
+            int rcount = PrizeOrderRepository.Update(entity);
+            if (rcount > 0)
+            {
+                return new OperationResult(OperationResultType.Success, "更新状态成功。", entity);
+            }
+            else
+            {
+                return new OperationResult(OperationResultType.Warning, "更新状态失败。");
             }
         }
     }
