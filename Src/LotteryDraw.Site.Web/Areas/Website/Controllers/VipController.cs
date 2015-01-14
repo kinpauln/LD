@@ -207,12 +207,12 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             ViewBag.ScopeProvince = model.PrizeOrderView.ScopeProvince;
             ViewBag.ScopeAreaCity = model.PrizeOrderView.ScopeAreaCity;
 
-            if (this.PubishingEnableTimes == 0)
-            {
-                //验证码验证通过
-                ViewBag.Message = "抱歉，您可发起抽奖的次数为0，请续费后再继续使用该功能。";
-                return View(model);
-            }
+            //if (this.PubishingEnableTimes == 0)
+            //{
+            //    //验证码验证通过
+            //    ViewBag.Message = "抱歉，您可发起抽奖的次数为0，请续费后再继续使用该功能。";
+            //    return View(model);
+            //}
 
             // 竞猜开奖并且开奖方式为“手动”，则取消对“开奖条件”的验证
             if (model.PrizeOrderView.RevealType == RevealType.Answer

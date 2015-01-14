@@ -130,7 +130,7 @@ namespace LotteryDraw.Core.Impl
         {
             //PublicHelper.CheckArgument(member, "member");
             //校验是否重复注册（用户名和邮箱是否已被注册过）
-            OperationResult fresult = CheckRegisteringMember(member.UserName, member.Email);
+            OperationResult fresult = CheckRegisteringMember(member.UserName, member.Email, member.NickName);
 
             if (fresult.ResultType != OperationResultType.Success)
                 return fresult;
@@ -173,9 +173,11 @@ namespace LotteryDraw.Core.Impl
         /// <summary>
         ///     校验用户名和邮箱是否已存在
         /// </summary>
-        /// <param name="prizebetting">奖品信息</param>
+        /// <param name="username">用户名</param>
+        /// <param name="email">邮箱</param>
+        /// <param name="nickname">昵称</param>
         /// <returns>业务操作结果</returns>
-        public OperationResult CheckRegisteringMember(string username, string email)
+        public OperationResult CheckRegisteringMember(string username, string email, string nickname)
         {
             try
             {
@@ -185,10 +187,16 @@ namespace LotteryDraw.Core.Impl
                 SqlParameter paramUserName = new SqlParameter("@UserName", SqlDbType.NVarChar, 20);
                 paramUserName.Value = username;
                 paramList.Add(paramUserName);
+
                 //邮箱
                 SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 50);
                 paramEmail.Value = email;
                 paramList.Add(paramEmail);
+
+                //昵称
+                SqlParameter paramNickName = new SqlParameter("@NickName", SqlDbType.NVarChar, -1);
+                paramNickName.Value = nickname;
+                paramList.Add(paramNickName);
 
                 SqlParameter paramerrorcode = new SqlParameter("@ErrorCode", SqlDbType.VarChar, 10);
                 paramerrorcode.Direction = ParameterDirection.Output;
@@ -212,6 +220,14 @@ namespace LotteryDraw.Core.Impl
                             return new OperationResult(OperationResultType.Warning, "邮箱已存在", null);
                         case "Error_03":
                             return new OperationResult(OperationResultType.Warning, "用户名和邮箱都已存在", null);
+                        case "Error_04":
+                            return new OperationResult(OperationResultType.Warning, "用户名和邮箱和昵称都已存在", null);
+                        case "Error_05":
+                            return new OperationResult(OperationResultType.Warning, "昵称已存在", null);
+                        case "Error_06":
+                            return new OperationResult(OperationResultType.Warning, "邮箱和昵称都已存在", null);
+                        case "Error_07":
+                            return new OperationResult(OperationResultType.Warning, "用户名和昵称已存在", null);
                         default:
                             return new OperationResult(OperationResultType.Warning, "出错了。", null);
                     }

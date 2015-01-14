@@ -105,6 +105,7 @@ namespace LotteryDraw.Site.Impl
                 Password = Encrypt.Encode(model.Password),
                 Email = model.Email,
                 Name = model.Name,
+                NickName = model.NickName.Trim(),
                 Extend = new MemberExtend()
                 {
                     Tel = model.Tel,

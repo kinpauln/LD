@@ -17,6 +17,11 @@ namespace LotteryDraw.Site.Models
 
         public string Name { get; set; }
 
+        /// <summary>
+        ///  昵称
+        /// </summary>
+        public string NickName { get; set; }
+
         //[Required(ErrorMessage = "{0}不能为空！")]
         [Display(Name = "登录密码")]
         public string Password { get; set; }

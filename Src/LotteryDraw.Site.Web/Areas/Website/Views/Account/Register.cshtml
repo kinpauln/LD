@@ -88,6 +88,23 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td class="text">昵称</td>
+                                <td class="input">
+                                    @Html.TextBoxFor(model => model.NickName, new { @class = "input-text", placeholder = "昵称" })
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.NickName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text">姓名</td>
+                                <td class="input">
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "input-text", placeholder = "姓名" })
+                                    <span class="info">*</span>
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.Name)
+                                </td>
+                            </tr>
+                            <tr>
                                 <td class="text">密码</td>
                                 <td class="input">
                                     @Html.PasswordFor(model => model.Password, new { @class = "input-text", id = "PasswordPsnl", placeholder = "密码" })
@@ -176,6 +193,14 @@
                                     <span class="info">*</span>
                                     <br />
                                     @Html.ValidationMessageFor(model => model.UserName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text">昵称</td>
+                                <td class="input">
+                                    @Html.TextBoxFor(model => model.NickName, new { @class = "input-text", placeholder = "昵称" })
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.NickName)
                                 </td>
                             </tr>
                             <tr>
