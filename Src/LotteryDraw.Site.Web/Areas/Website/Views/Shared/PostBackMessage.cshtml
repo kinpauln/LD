@@ -10,7 +10,12 @@
             var isok = '@ViewBag.PostBackIsOK';
             if (isok) {
                 var successString = '@ViewBag.SuccessString';
-                layer.alert(successString, 9);
+                layer.alert(successString, 9, function () {
+                    var returnUrl = '@ViewBag.ReturnUrl';
+                    if (returnUrl != null && returnUrl != "") {
+                        location.href = returnUrl;
+                    }
+                });
             }
         });
     </script>

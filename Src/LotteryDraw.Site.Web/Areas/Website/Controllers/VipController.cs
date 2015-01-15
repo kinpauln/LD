@@ -66,6 +66,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
             else
             {
+                string returnUrl = string.IsNullOrEmpty(Request.QueryString["returnUrl"]) ? "/Vip/Business/poId=" + poId.ToString() : Request.QueryString["returnUrl"];
+                ViewBag.ReturnUrl = returnUrl;
                 //int rtvalue = int.Parse(Request.QueryString["RevealType"]);
                 //ViewBag.RevealType = rtvalue;
                 ViewBag.CurrentUserId = this.UserId ?? 0;
@@ -101,6 +103,8 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             int rtype = model.PrizeOrderDetailView.PrizeOrderView.RevealType.ToInt();
             ViewBag.RevealType = rtype.ToString();
             ViewBag.CurrentUserId = this.UserId ?? 0;
+            string returnUrl = Request.Form["returnUrl"];
+            ViewBag.ReturnUrl = returnUrl;
 
             if (ModelState.IsValid)
             {
@@ -165,6 +169,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             {
                 ViewBag.PostBackIsOK = true;
                 ViewBag.SuccessString = "参与抽奖成功";
+                ViewBag.ReturnUrl = returnUrl;
                 return View(model);
                 //TempData["Message"] = "参与抽奖成功。";//<br /><a href='#'>奖池状况<a>";
                 //return RedirectToAction("InfoPage");
@@ -363,7 +368,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     //    ViewBag.Message = "竞猜开奖的开奖方式必须选择";
                     //    return false;
                     //}
-                    
+
                     // 竞猜开奖的开奖方式为“自动”
                     if (model.PrizeOrderView.RevealTypeOfAnswer == RevealTypeOfAnswer.Auto)
                     {
@@ -948,7 +953,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
             PagedList<LotteryResultView> model = new PagedList<LotteryResultView>(rlist, pageIndex, this.PageSize, total);
             return View(model);
-        } 
+        }
         #endregion
 
         [HttpPost]

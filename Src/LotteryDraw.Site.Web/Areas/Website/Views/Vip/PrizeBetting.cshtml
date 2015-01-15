@@ -19,6 +19,8 @@
 {
     long curruserid = ViewBag.CurrentUserId;
     @Html.Hidden("CurrentUserId", curruserid)
+    string returnUrl = ViewBag.ReturnUrl;
+    @Html.Hidden("returnUrl", returnUrl)
     @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.Id)
     @Html.HiddenFor(model => model.PrizeOrderDetailView.MemberView.Id)
     @Html.HiddenFor(model => model.PrizeOrderDetailView.PrizeOrderView.Question)

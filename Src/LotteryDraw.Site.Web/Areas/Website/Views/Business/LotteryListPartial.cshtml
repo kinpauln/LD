@@ -80,7 +80,7 @@
                   photoname = "";
               }
                     }
-                    <img src="@photoname" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+                    <img src="@photoname" class="prize-photo" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
                     @*<span class="assessment-zan up dpngIcon pngIcon">93%</span>*@
 
                     <p class="ranking-pic-back ranking-pic"></p>
@@ -255,3 +255,12 @@
        }, new { @class = "pageBox" })
 </div>
 @Html.Partial("_checkCityScripts")
+<link href="~/Content/fancybox/jquery.fancybox.css" rel="stylesheet" />
+<script src="~/Content/fancybox/jquery.fancybox.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".prize-photo").click(function () {
+
+        });
+    });
+</script>
