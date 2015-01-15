@@ -252,11 +252,13 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         {
             if (string.IsNullOrEmpty(model.Tel))
             {
-                if (!RegExp.IsMobileNo(model.Tel))
-                {
-                    ViewBag.Message = string.Format("手机号码不合法", model.Id);
-                    return false;
-                }
+                ViewBag.Message = "手机号码不能为空";
+                return false;
+            }
+            if (!RegExp.IsMobileNo(model.Tel, true))
+            {
+                ViewBag.Message = "手机号码不合法";
+                return false;
             }
             return true;
         }
@@ -272,7 +274,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     .ToSiteViewModel();
             }
             return model;
-        } 
+        }
         #endregion
 
         #region override

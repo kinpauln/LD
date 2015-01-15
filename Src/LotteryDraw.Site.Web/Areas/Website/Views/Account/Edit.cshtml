@@ -16,8 +16,10 @@
 }
 @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { id = "editform" }))
 {
-    @Html.HiddenFor(model=>model.UserName)
-    @Html.HiddenFor(model=>model.Email)
+    @Html.HiddenFor(model => model.UserName)
+    @Html.HiddenFor(model => model.Name)
+    @Html.HiddenFor(model => model.Email)
+    @Html.HiddenFor(model => model.MemberType)
     <table class="message_table">
         <tbody>
             <tr>
@@ -26,10 +28,27 @@
                     <label>@Model.UserName</label>
                 </td>
             </tr>
+            @{
+                string titlename = string.Empty;
+                if (Model.MemberType == LotteryDraw.Component.Tools.MemberType.Personal)
+                {
+                    titlename = "姓名";
+                }
+                else
+                {
+                    titlename = "公司名";
+                }
+            }
+            <tr>
+                <td class="text">@titlename</td>
+                <td class="input">
+                    <label>@Model.Name</label>
+                </td>
+            </tr>
             <tr>
                 <td class="text">昵称</td>
                 <td class="input">
-                    <label>@Model.Name</label>
+                    <label>@Model.NickName</label>
                 </td>
             </tr>
             @*<tr>
@@ -126,9 +145,15 @@
                 errorClass: 'error-info',
                 focusInvalid: false,
                 rules: {
+                    Tel: {
+                        phone: "required"
+                    }
                 },
 
                 messages: {
+                    Tel: {
+                        phone: "请输入合法的手机号码"
+                    }
                 },
                 invalidHandler: function (event, validator) { //display error alert on form submit   
                     //$('.alert-danger', $('.login-form')).show();
@@ -165,18 +190,7 @@
                     //$("form[name='regform-psnl'] input[name='hidn_city']:eq(0)").val(cityname);
                     //var townname = $("form[name='regform-psnl'] select[name='loc_town']:eq(0)").find("option:selected").text();
                     //$("form[name='regform-psnl'] input[name='hidn_town']:eq(0)").val(townname);
-                    
-                    if ($.trim($("#Tel").val() != "")) {
-                        var re;
-                        var tel = $("#Tel").val();
-                        re = /^(13[0-9]{9})|(15[89][0-9]{8})$/
-                        if (re.test(tel)) {
-                            form.submit();
-                        }
-                        else {
-                            layer.alert("手机号码不合法", 8);
-                        }
-                    }
+                    form.submit();
                 }
             });
         });
