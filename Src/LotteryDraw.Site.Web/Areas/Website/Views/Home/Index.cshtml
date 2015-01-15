@@ -11,6 +11,26 @@
     @Html.Partial("_checkCityScripts")
     <script type="text/javascript">
         $(function () {
+            $("a[class*='prize-photo']").fancybox({
+                'overlayShow': true,
+                'transitionIn': 'elastic',
+                'transitionOut': 'elastic',
+                'titlePosition': 'inside',//设置标题显示的位置.可以设置成 'outside', 'inside' 或 'over'
+                'titleShow': false, //如果为true，则显示标题
+                'type': 'image',
+                "overlayOpacity": 0.3, //遮罩层的透明度（范围0-1）
+                'overlayColor': '#666',//遮罩层的背景颜色
+                'titleFormat': function (title, currentArray, currentIndex, currentOpts) {
+                    return '<span id="fancybox-title-over">' + (currentIndex + 1) +
+                           ' / ' + currentArray.length + (title.length ? '   ' + title : '') + '</span>';
+                },
+                onStart: function () { },//回调函数，加载内容是触发
+                onCancel: function () { },//回调函数，取消加载内容后触发
+                onComplete: function () { },//回调函数，加载内容完成后触发
+                onCleanup: function () { },//回调函数，关闭fancybox前触发
+                onClosed: function () { } //回调函数，关闭fancybox后触发
+            });
+
             var rtype = '@Request.QueryString["rtype"]';
             if (rtype != null && rtype != "") {
                 $(".classify a").removeClass("show-now");
@@ -27,6 +47,7 @@
             //$("#top-prizes-container .middle").css("margin", "0 " + margin.toString() + "px !important");
             $("#top-prizes-container .middle").css("margin-left", margin.toString() + "px");
             $("#top-prizes-container .middle").css("margin-right", margin.toString() + "px");
+
         });</script>
 }
 @section styles{
@@ -125,79 +146,79 @@
 <div class="index">
     <div id="News">
         <div class="inner">
-            <div style="margin:0 auto;">
-            <h3><span>中奖信息</span></h3>
-            <ul>
-                <div class="soroll">
-                    <ol class="list-none metlist" style="margin-top: 0px;">
-                        @{
-                            var topluckies = ViewBag.TopLuckies;
-                            if (topluckies != null)
-                            {
-                                foreach (var item in topluckies)
+            <div style="margin: 0 auto;">
+                <h3><span>中奖信息</span></h3>
+                <ul>
+                    <div class="soroll">
+                        <ol class="list-none metlist" style="margin-top: 0px;">
+                            @{
+                                var topluckies = ViewBag.TopLuckies;
+                                if (topluckies != null)
                                 {
-                                    string telEncryption = string.Empty;
-                                    if (!string.IsNullOrEmpty(item.MemberView.Tel))
+                                    foreach (var item in topluckies)
                                     {
-                                        string str1 = item.MemberView.Tel.Substring(0, 3);
-                                        string str2 = item.MemberView.Tel.Substring(7);
-                                        telEncryption = str1 + "****" + str2;
+                                        string telEncryption = string.Empty;
+                                        if (!string.IsNullOrEmpty(item.MemberView.Tel))
+                                        {
+                                            string str1 = item.MemberView.Tel.Substring(0, 3);
+                                            string str2 = item.MemberView.Tel.Substring(7);
+                                            telEncryption = str1 + "****" + str2;
+                                        }
+                                <li class="list luckylist">
+                                    @{
+                                        string alinkFormatString = "<a href=\"{0}\" style=\"\" title=\"{1}\" target=\"_self\">{2}</a>";
+                                        string spanFormatString = "<span style=\"{2}\">{1}{0}</span>";
+                                        string luckyString = string.Empty;
+                                        List<string> contentlist = new List<string>();
+                                        string pnameString = string.Format(alinkFormatString
+                                            , "/Business/PrizeOrderDetail/" + item.PrizeOrderView.Id.ToString()
+                                            , item.PrizeOrderView.PrizeView.Name
+                                            , item.PrizeOrderView.PrizeView.Name); //发起抽奖人提供的某某奖品
+                                        contentlist.Add(string.Format(spanFormatString, pnameString, "奖品名:", ""));
+
+                                        string userNameString = string.Format(alinkFormatString
+                                            , "/Account/UserSpace/" + item.MemberView.Id.ToString()
+                                            , item.MemberView.UserName
+                                            , item.MemberView.UserName); //中奖人
+                                        contentlist.Add(string.Format(spanFormatString, userNameString, "中奖人:", ""));
+
+                                        string telString = string.Format(alinkFormatString
+                                            , "#"
+                                            , telEncryption
+                                            , telEncryption); //电话
+                                        contentlist.Add(string.Format(spanFormatString, telString, "电话:", ""));
+
+                                        string cityString = string.Format(alinkFormatString
+                                            , "#"
+                                            , item.MemberView.City
+                                            , item.MemberView.City); //某某市
+                                        contentlist.Add(string.Format(spanFormatString, cityString, "城市:", ""));
+
+                                        string poidString = string.Format(alinkFormatString
+                                            , "#"
+                                            , item.Id.ToString()
+                                            , item.Id.ToString()); //单号
+                                        contentlist.Add(string.Format(spanFormatString, poidString, "中奖单号:", ""));
+
+                                        luckyString = string.Join("&nbsp; &nbsp; &nbsp; &nbsp;", contentlist.ToArray());
                                     }
-                            <li class="list luckylist">
-                                @{
-                                    string alinkFormatString = "<a href=\"{0}\" style=\"\" title=\"{1}\" target=\"_self\">{2}</a>";
-                                    string spanFormatString = "<span style=\"{2}\">{1}{0}</span>";
-                                    string luckyString = string.Empty;
-                                    List<string> contentlist = new List<string>();
-                                    string pnameString = string.Format(alinkFormatString
-                                        , "/Business/PrizeOrderDetail/" + item.PrizeOrderView.Id.ToString()
-                                        , item.PrizeOrderView.PrizeView.Name
-                                        , item.PrizeOrderView.PrizeView.Name); //发起抽奖人提供的某某奖品
-                                    contentlist.Add(string.Format(spanFormatString, pnameString, "奖品名:", ""));
-
-                                    string userNameString = string.Format(alinkFormatString
-                                        , "/Account/UserSpace/" + item.MemberView.Id.ToString()
-                                        , item.MemberView.UserName
-                                        , item.MemberView.UserName); //中奖人
-                                    contentlist.Add(string.Format(spanFormatString, userNameString, "中奖人:", ""));
-
-                                    string telString = string.Format(alinkFormatString
-                                        , "#"
-                                        , telEncryption
-                                        , telEncryption); //电话
-                                    contentlist.Add(string.Format(spanFormatString, telString, "电话:", ""));
-
-                                    string cityString = string.Format(alinkFormatString
-                                        , "#"
-                                        , item.MemberView.City
-                                        , item.MemberView.City); //某某市
-                                    contentlist.Add(string.Format(spanFormatString, cityString, "城市:", ""));
-
-                                    string poidString = string.Format(alinkFormatString
-                                        , "#"
-                                        , item.Id.ToString()
-                                        , item.Id.ToString()); //单号
-                                    contentlist.Add(string.Format(spanFormatString, poidString, "中奖单号:", ""));
-
-                                    luckyString = string.Join("&nbsp; &nbsp; &nbsp; &nbsp;", contentlist.ToArray());
-                                }
-                                @Html.Raw(luckyString)</li>
+                                    @Html.Raw(luckyString)</li>
+                                    }
                                 }
                             }
-                        }
-                    </ol>
-                </div>
-            </ul>
-            @*<div id="productsearch" class="data-valuez=&#39;&#39;">
+                        </ol>
+                    </div>
+                </ul>
+                @*<div id="productsearch" class="data-valuez=&#39;&#39;">
                 <span><i style="float: left;"></i></span><span>
                     <form method="POST" name="myform1" action="http://www.wuliubang.net/" target="_self">
                         <input type="hidden" name="lang" value="cn">&nbsp;<input type="hidden" name="searchtype" value="0">&nbsp;<span class="navsearch_input"><input type="text" name="searchword" size="20"></span>&nbsp;<input class="searchimage" type="image" src="~/content/website/images/index_btn.gif">
                     </form>
                 </span>
             </div>*@
-        <div class="clear"></div>
+                <div class="clear"></div>
             </div>
-        <div class="clear"></div>
+            <div class="clear"></div>
         </div>
     </div>
     @*<div class="clear"></div>*@
@@ -234,7 +255,7 @@
                                 string username = item.MemberView.UserName; //发起抽奖者
                                 string rtype = item.PrizeOrderView.RevealType.ToInt().ToString();
                                 string rtstring = item.PrizeOrderView.RevealType.ToDescription().Replace("开奖", "");
-
+                                string originalPhotoName = item.PrizeView.OriginalPhoto.Name;
                                 long userid = item.MemberView.Id;
                                 string imgname = item.PrizeView.OriginalPhoto.Name;
                                 string advurl = item.MemberView.AdvertisingUrl;
@@ -278,10 +299,23 @@
                                         joinEnable = false;
                                     }
                                 }
+
+                                string photoname = string.Empty;
+                                if (!string.IsNullOrEmpty(originalPhotoName))
+                                {
+                                    photoname = "/Files/PrizePhotos/" + userid + "/" + originalPhotoName;
+                                }
+                                else
+                                {
+                                    photoname = "";
+                                }
                         <dl class="clearfix ranking-movie-list fl">
                             <dt class="fl">
                                 <a href="/Vip/PrizeDetail/@pid" target="_self">
-                                    <img src="/Files/PrizePhotos/@userid/@imgname" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+
+                                    <a href="@photoname" class="prize-photo" title="@prizeName">
+                                        <img src="@photoname" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+                                    </a>
                                     @{
                                 if (is2Top)
                                 {
