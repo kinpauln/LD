@@ -64,11 +64,22 @@
                 <td class="text">奖品图片：</td>
                 <td class="input">
                     @{
-    long userid = Model.PrizeOrderDetailView.MemberView.Id;
-    string imgname = Model.PrizeOrderDetailView.PrizeView.OriginalPhoto.Name;
+                        long userid = Model.PrizeOrderDetailView.MemberView.Id;
+                        string imgname = Model.PrizeOrderDetailView.PrizeView.OriginalPhoto.Name;
+                        string photoname = string.Empty;
+                        if (!string.IsNullOrEmpty(imgname))
+                        {
+                            photoname = "/Files/PrizePhotos/" + userid + "/" + imgname;
+                        }
+                        else
+                        {
+                            photoname = "";
+                        }
                     }
-                    <div style="max-width: 600px; max-height: 600px;">
-                        <img src="/Files/PrizePhotos/@userid/@imgname" style="width:600px;height:600px" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;" />
+                    <div style="max-width: 200px; max-height: 200px;">
+                        <a href="@photoname" class="fancybox-photo" title="@Model.PrizeOrderDetailView.PrizeView.Name">
+                            <img src="@photoname" style="width:200px;height:200px" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;" />
+                        </a>
                     </div>
                 </td>
             </tr>
@@ -273,7 +284,7 @@
                             return false;
                         }
                     },
-                    ExchangeCode:{
+                    ExchangeCode: {
                         required: function () {
                             var isNeedExCode = $("#hidnIsNeedExchangeCode").val();
                             var rtype = '@ViewBag.RevealType';

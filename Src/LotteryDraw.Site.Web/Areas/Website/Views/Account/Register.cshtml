@@ -311,6 +311,20 @@
     <script src="~/Content/website/address/location.js"></script>
     <script type="text/javascript">
         $(function () {
+            $("input:text[name='AdvertisingUrl']").focus(function () {
+                layer.tips('域名必须以 http:// 开头', this, {
+                    style: ['background-color:#014A97; color:#fff', '#014A97'],
+                    maxWidth: 185,
+                    time: 30,
+                    //closeBtn: [0, true]
+                    closeBtn: false
+                });
+            });
+
+            $("input:text[name='AdvertisingUrl']").blur(function () {
+                layer.closeTips();
+            });
+
             //地址下拉框联动
             showLocation();
 
