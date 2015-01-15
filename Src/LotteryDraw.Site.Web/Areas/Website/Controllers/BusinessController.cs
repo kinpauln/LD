@@ -134,6 +134,21 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
         }
 
         /// <summary>
+        ///  现场抽奖
+        /// </summary>
+        [AuthorizeIgnore]
+        public ActionResult TV(int? id, string keywords)
+        {
+            int pageIndex = id ?? 1;
+            //ViewBag.PageIndex = pageIndex;
+            //ViewBag.RevealType = RevealType.Quota.ToInt();
+            ViewBag.Keywords = keywords;
+
+            ViewBag.UserId = this.UserId ?? 0;
+            return View();
+        }
+
+        /// <summary>
         ///  奖单详情
         /// </summary>
         //public ActionResult PrizeOrderDetail(Guid id)

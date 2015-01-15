@@ -42,7 +42,9 @@ namespace LotteryDraw.Component.Tools
         [Description("竞猜开奖")]
         Answer = 3,
         [Description("现场开奖")]
-        Scene = 4
+        Scene = 4,
+        [Description("电视开奖")]
+        TV = 5
     }
 
     /// <summary>
