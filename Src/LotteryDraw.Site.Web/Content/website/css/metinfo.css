@@ -16,7 +16,7 @@ a:hover{text-decoration:none;}
 
 /*头部*/
 
-.inner{ width:1000px; margin:0 auto; position:relative;}
+.inner{ width:1200px; min-width:1200px; margin:0 auto; position:relative;}
 
 header{ background:url(../bg.png) no-repeat 0px -28px; height:107px; overflow:hidden; zoom:1}
 
