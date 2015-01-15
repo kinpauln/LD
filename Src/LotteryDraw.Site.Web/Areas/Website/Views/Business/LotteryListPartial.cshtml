@@ -80,8 +80,9 @@
                   photoname = "";
               }
                     }
-                    <img src="@photoname" class="prize-photo" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
-                    @*<span class="assessment-zan up dpngIcon pngIcon">93%</span>*@
+                    <a href="@photoname" class="prize-photo" title="@prizeName">
+                    <img src="@photoname" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+                    </a>@*<span class="assessment-zan up dpngIcon pngIcon">93%</span>*@
 
                     <p class="ranking-pic-back ranking-pic"></p>
                     <p class="ranking-show-time ranking-pic">发起抽奖时间：@addDate</p>
@@ -255,12 +256,19 @@
        }, new { @class = "pageBox" })
 </div>
 @Html.Partial("_checkCityScripts")
-<link href="~/Content/fancybox/jquery.fancybox.css" rel="stylesheet" />
-<script src="~/Content/fancybox/jquery.fancybox.js"></script>
 <script type="text/javascript">
     $(function () {
-        $(".prize-photo").click(function () {
-
+        $("a[class*='prize-photo']").fancybox({
+            'overlayShow': false,
+            'transitionIn': 'elastic',
+            'transitionOut': 'elastic',
+            'titlePosition' : 'inside',
+            //'titlePosition': 'over',
+            //'cyclic': true,
+            'titleFormat': function (title, currentArray, currentIndex, currentOpts) {
+//                return '<span id="fancybox-title-over">' + (currentIndex + 1) +
+//' / ' + currentArray.length + (title.length ? '   ' + title : '') + '</span>';
+            }
         });
     });
 </script>

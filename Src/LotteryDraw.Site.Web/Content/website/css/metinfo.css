@@ -37,7 +37,7 @@ header{ background:url(../bg.png) no-repeat 0px -28px; height:107px; overflow:hi
 
 .top-logo{ min-height:90px; _height:90px;}
 
-nav{ background:url(../nav.jpg) repeat-x;height:36px;position:relative; z-index:9999;}
+nav{ background:url(../nav.jpg) repeat-x;height:36px;position:relative; z-index:99;}
 
 nav ul li{position:relative; float:left; text-align:center; height:36px; line-height:35px; }
 
