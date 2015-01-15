@@ -260,10 +260,6 @@
 <script type="text/javascript">
     $(function () {
         $("a[class*='prize-photo']").fancybox({
-            'titleFormat': function (title, currentArray, currentIndex, currentOpts) {
-                return '<span id="fancybox-title-over">' + (currentIndex + 1) +
-                       ' / ' + currentArray.length + (title.length ? '   ' + title : '') + '</span>';
-            },
             //padding : 0, //白色边框宽度
             openEffect: 'elastic', //'fade', 'elastic', 'elastic'
             closeEffect: 'elastic',//'fade', 'elastic', 'elastic'

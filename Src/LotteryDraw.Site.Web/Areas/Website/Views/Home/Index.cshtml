@@ -12,23 +12,45 @@
     <script type="text/javascript">
         $(function () {
             $("a[class*='prize-photo']").fancybox({
-                'overlayShow': true,
-                'transitionIn': 'elastic',
-                'transitionOut': 'elastic',
-                'titlePosition': 'inside',//设置标题显示的位置.可以设置成 'outside', 'inside' 或 'over'
-                'titleShow': false, //如果为true，则显示标题
-                'type': 'image',
-                "overlayOpacity": 0.3, //遮罩层的透明度（范围0-1）
-                'overlayColor': '#666',//遮罩层的背景颜色
-                'titleFormat': function (title, currentArray, currentIndex, currentOpts) {
-                    return '<span id="fancybox-title-over">' + (currentIndex + 1) +
-                           ' / ' + currentArray.length + (title.length ? '   ' + title : '') + '</span>';
+                //padding : 0, //白色边框宽度
+                openEffect: 'elastic', //'fade', 'elastic', 'elastic'
+                closeEffect: 'elastic',//'fade', 'elastic', 'elastic'
+                nextEffect: 'elastic',//'fade', 'elastic', 'elastic'
+                prevEffect: 'elastic',//'fade', 'elastic', 'elastic'
+                beforeShow: function () {
+                    /* 禁用右键 */ //保护版权：禁止右键点击（添加水印）
+                    $.fancybox.wrap.bind("contextmenu", function (e) {
+                        return false;
+                    });
                 },
-                onStart: function () { },//回调函数，加载内容是触发
-                onCancel: function () { },//回调函数，取消加载内容后触发
-                onComplete: function () { },//回调函数，加载内容完成后触发
-                onCleanup: function () { },//回调函数，关闭fancybox前触发
-                onClosed: function () { } //回调函数，关闭fancybox后触发
+                helpers: {
+                    overlay: {
+                        opacity: 0.3, //遮罩层的透明度（范围0-1）
+                        closeClick: true,  // if true, fancyBox will be closed when user clicks on the overlay
+                        speedOut: 200,   // duration of fadeOut animation
+                        showEarly: true,  // indicates if should be opened immediately or wait until the content is ready
+                        css: {
+                            //'background': 'rgba(58, 42, 45, 0.95)'
+                        },    // custom CSS properties
+                        locked: true   // if true, the content will be locked into overlay
+                    },
+                    title: {
+                        type: 'inside' // 'float', 'inside', 'outside' or 'over'
+                    }
+                },
+                tpl: {
+                    wrap: '<div class="fancybox-wrap" tabIndex="-1"><div class="fancybox-skin"><div class="fancybox-outer"><div class="fancybox-inner"></div></div></div></div>',
+                    image: '<img class="fancybox-image" src="{href}" alt="" />',
+                    iframe: '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" frameborder="0" vspace="0" hspace="0"' + ($.browser.msie ? ' allowtransparency="true"' : '') + '></iframe>',
+                    error: '<p class="fancybox-error">无法加载您请求的内容。<br/>请以后再试。</p>',
+                    closeBtn: '<a title="关闭" class="fancybox-item fancybox-close" href="javascript:;"></a>',
+                    next: '<a title="下一张" class="fancybox-nav fancybox-next" href="javascript:;"><span></span></a>',
+                    prev: '<a title="上一张" class="fancybox-nav fancybox-prev" href="javascript:;"><span></span></a>'
+                }
+                //,afterClose: function () { //关闭 fancyBox 后刷新页面
+                //    location.reload();
+                //    return;
+                //}
             });
 
             var rtype = '@Request.QueryString["rtype"]';
