@@ -297,7 +297,7 @@ input.input-text, input.input-file, input.code{width:148px;}
 #features-index .c2 a img{ width:220px;}
 #features-index .c2 a span{width:750px;}
  .sbbox{ width:100%;}
- .sbbo{ width:790px;}
+ .sbbo{ /*width:790px;*/width:988px;}
  *html .sbbo{ width:788px;}
  *+html .sbbo{ width:788px;}
  .sbbox #imglist{ padding:25px 10px;}
