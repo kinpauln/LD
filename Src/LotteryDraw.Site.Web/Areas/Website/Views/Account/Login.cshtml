@@ -47,10 +47,10 @@
 
                 messages: {
                     Account: {
-                        required: "用户名不能为空"
+                        required: "请登录后，参加抽奖"
                     },
                     Password: {
-                        required: "密码不能为空"
+                        required: "请登录后，参加抽奖"
                     }
                 },
                 invalidHandler: function (event, validator) { //display error alert on form submit   
@@ -68,6 +68,7 @@
                 errorPlacement: function (error, element) {
                     //element.parent().append("<br />");
                     error.appendTo(element.parent());
+                    //layer.alert("请登录后，参加抽奖",8);
                 },
                 /*执行ajaxsubmit*/
                 submitHandler: function (form) {

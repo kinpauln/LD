@@ -533,6 +533,7 @@
     <Content Include="Areas\Website\Views\Vip\DeadLotteries.cshtml" />
     <Content Include="Areas\Website\Views\Business\TV.cshtml" />
     <Content Include="Content\fancybox-v2.1.5\fancyapps-fancyBox-v2.1.5-0-ge2248f4.zip" />
+    <Content Include="Areas\Website\Views\Business\Query.cshtml" />
     <None Include="Properties\PublishProfiles\LotteryDraw.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />

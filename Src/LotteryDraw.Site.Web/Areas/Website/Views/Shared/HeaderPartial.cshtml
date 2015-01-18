@@ -2,10 +2,18 @@
     <div class="inner">
         <div class="top-logo">
 
-            <a href="/" title="抽奖吗" id="web_logo">
-                <img src="~/content/website/images/1405415376.png" alt="抽奖吗" title="抽奖吗" style="margin: 25px 0px 0px 15px;">
+            <a href="/" title="抽奖吗" id="web_logo" style="position: absolute;left: 5px;top: 10px;display: block;width: 280px;">
+                <img src="~/content/website/images/1405415376.png" alt="抽奖吗" title="抽奖吗">
             </a>
-
+            <div class="n-header-middle feature-container" style="position: absolute;right: 130px;top: 55px;z-index:100;">
+                <div class="search-contai">
+                    @using (Html.BeginForm("Query", "Business"))
+                    {
+                        <input class="seach-content" type="text" name="keywords" placeholder="奖品名称/奖品描述/发布者用户名/发布者昵称" value="@ViewBag.Keywords">
+                        <input class="n-submit pngIcon" type="submit" value=" ">
+                    }
+                </div>
+            </div>
             <ul class="top-nav list-none">
                 @if (User.Identity.IsAuthenticated)
                 { 
