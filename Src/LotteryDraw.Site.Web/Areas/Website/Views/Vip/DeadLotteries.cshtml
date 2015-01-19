@@ -32,6 +32,7 @@
 <div class="active" id="prizelist" style="margin: 10px 0;">
     <table class="prize-list">
         <tr>
+            <th>奖品名称</th>
             <th>抽奖类型</th>
             <th>中奖人数</th>
             <th>投注人数</th>
@@ -91,20 +92,20 @@
                 }
                 string deadstring = showRevealButton ? "否" : "是";
             <tr>
+                <td><a href="/Business/PrizeOrderDetail/@item.PrizeOrderView.Id">@item.PrizeView.Name</a></td>
                 <td>@item.PrizeOrderView.RevealType.ToDescription()</td>
                 <td>@item.PrizeOrderView.LuckyCount</td>
                 <td>@item.PrizeOrderView.BettingCount</td>
                 <td>@deadstring</td>
                 <td>@item.PrizeOrderView.AddDate.ToString("yyy-MM-dd HH:mm:ss")</td>
                 <td>
-                    <a href="/Business/PrizeOrderDetail/@item.PrizeOrderView.Id">详情</a>
                     @if (showRevealButton)
                     {
-                        @:&nbsp;|&nbsp;<a href="#" class="manual-reveal" poid="@item.PrizeOrderView.Id" rtype="@item.PrizeOrderView.RevealType.ToInt()">我要开奖</a>
+                        <a href="#" class="manual-reveal" poid="@item.PrizeOrderView.Id" rtype="@item.PrizeOrderView.RevealType.ToInt()">我要开奖</a>
                     }
                     else
                     {
-                        @:&nbsp;|&nbsp;<a href="#" class="close-reveal" poid="@item.PrizeOrderView.Id">关闭</a>
+                        <a href="#" class="close-reveal" poid="@item.PrizeOrderView.Id">关闭</a>
                     }
                 </td>
             </tr>

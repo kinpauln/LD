@@ -707,24 +707,35 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             }
             var rlist = query.Where<PrizeOrder, Guid>(m => true, pageIndex, this.PageSize, out total, sortConditions)
             .OrderByDescending(p => p.AddDate)
-            .Select(p => new PrizeOrderView()
+            .Select(p => new
             {
-                Id = p.Id,
-                RevealType = p.RevealType,
-                RevealState = p.RevealState,
-                LaunchTime = p.Extend.LaunchTime,
-                MinLuckyCount = p.Extend.MinLuckyCount,
-                LuckyCount = p.Extend.LuckyCount,
-                LuckyPercent = p.Extend.LuckyPercent,
-                PoolCount = p.Extend.PoolCount,
-                Remarks = p.Extend.Remarks,
-                AddDate = p.AddDate,
-                Question = p.Extend.PrizeAsking.Question,
-                AnswerOptions = p.Extend.PrizeAsking.AnswerOptions,
-                RevealTypeOfAnswer = p.Extend.RevealTypeOfAnswer
+                PrizeOrder = p,
+                Prize = p.Prize
             });
 
-            PagedList<PrizeOrderView> model = new PagedList<PrizeOrderView>(rlist, pageIndex, this.PageSize, total);
+            List<PrizeOrderView> polist = new List<PrizeOrderView>();
+            rlist.ToList().ForEach(p =>
+            {
+                polist.Add(new PrizeOrderView()
+                {
+                    Id = p.PrizeOrder.Id,
+                    RevealType = p.PrizeOrder.RevealType,
+                    RevealState = p.PrizeOrder.RevealState,
+                    LaunchTime = p.PrizeOrder.Extend.LaunchTime,
+                    MinLuckyCount = p.PrizeOrder.Extend.MinLuckyCount,
+                    LuckyCount = p.PrizeOrder.Extend.LuckyCount,
+                    LuckyPercent = p.PrizeOrder.Extend.LuckyPercent,
+                    PoolCount = p.PrizeOrder.Extend.PoolCount,
+                    Remarks = p.PrizeOrder.Extend.Remarks,
+                    AddDate = p.PrizeOrder.AddDate,
+                    Question = p.PrizeOrder.Extend.PrizeAsking.Question,
+                    AnswerOptions = p.PrizeOrder.Extend.PrizeAsking.AnswerOptions,
+                    RevealTypeOfAnswer = p.PrizeOrder.Extend.RevealTypeOfAnswer,
+                    PrizeView = p.Prize.ToSiteViewModel()
+                });
+            });
+
+            PagedList<PrizeOrderView> model = new PagedList<PrizeOrderView>(polist, pageIndex, this.PageSize, total);
 
             if (model == null)
                 ViewBag.Message = string.Format("不存在Id为{0}的奖单", id);

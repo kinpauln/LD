@@ -233,6 +233,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             int totalPageCount;
 
             string whereString = GetWhereStringOfPrizeOrderDetail(keywords);
+            whereString += string.IsNullOrEmpty(whereString) ? " RevealType <> 4 and RevealType <> 5 " : " and RevealType <> 4 and RevealType <> 5 ";
 
             IEnumerable<PrizeOrderDetailView> rlist = null;
             OperationResult result = PrizeOrderSiteContract.GetLotteries(pageSize, pageIndex, whereString, orderbyString, out totalCount, out totalPageCount, rtype ?? 0);

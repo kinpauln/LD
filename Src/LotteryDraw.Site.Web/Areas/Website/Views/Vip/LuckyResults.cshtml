@@ -33,6 +33,7 @@
         <div style="">
             <div style="float: left;">
                 @{
+                    string prizeName = string.Empty;
                     string photoname = string.Empty;
                     string originalPhotoName = string.Empty;
                     if (prizeOrderModel.PrizeView != null
@@ -40,12 +41,16 @@
                         && !string.IsNullOrEmpty(prizeOrderModel.PrizeView.OriginalPhoto.Name)
                         )
                     {
+                        prizeName = prizeOrderModel.PrizeView.Name;
                         string pubuserid = prizeOrderModel.PrizeView.MemberId.ToString();
                         originalPhotoName = prizeOrderModel.PrizeView.OriginalPhoto.Name;
                         photoname = "/Files/PrizePhotos/" + pubuserid + "/" + originalPhotoName;
                     }
                 }
-                <img width="350" height="262" src="@photoname" title="@prizeOrderModel.PrizeView.Name" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+
+                <a href="@photoname" class="fancybox-photo" title="@prizeName">
+                    <img width="350" height="262" src="@photoname" title="@prizeOrderModel.PrizeView.Name" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
+                </a>
             </div>
             <div style="float: left; margin-left: 10px;">
                 <table class="message_table" style="font-size: 10px;">
@@ -57,9 +62,74 @@
                             </td>
                         </tr>
                         <tr>
+                            <th>奖品描述:</th>
+                            <td>
+                                <label>@prizeOrderModel.PrizeView.Description</label>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>开奖类型:</th>
                             <td>
                                 <label>@prizeOrderModel.RevealType.ToDescription()</label>
+                            </td>
+                        </tr>
+                        @if (prizeOrderModel.RevealType == RevealType.Quota)
+                        { 
+                            
+                            <tr>
+                                <th>奖池大小:</th>
+                                <td>
+                                    <label>@prizeOrderModel.PoolCount</label>人
+                                </td>
+                            </tr>
+                        }
+                        @if (prizeOrderModel.RevealType == RevealType.Timing)
+                        {
+                            string launchDateString = "未知";
+                            if (prizeOrderModel.LaunchTime.HasValue) {
+                                launchDateString = prizeOrderModel.LaunchTime.Value.ToString("yyyy-MM-dd H:mm:ss");
+                            }
+                            <tr>
+                                <th>开奖时间:</th>
+                                <td>
+                                    <label>@launchDateString</label>
+                                </td>
+                            </tr>
+                        }
+                        @if (prizeOrderModel.RevealType == RevealType.Answer)
+                        { 
+                            
+                            <tr>
+                                <th>开奖题目:</th>
+                                <td>
+                                    <label>@prizeOrderModel.Question</label>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th>开奖答案:</th>
+                                <td>
+                                    @{
+                            string asString = string.Empty;
+                            string asOptions = prizeOrderModel.AnswerOptions;
+                            if (!string.IsNullOrEmpty(asOptions)) {
+                                asOptions.Split(new string[]{"|||"},StringSplitOptions.RemoveEmptyEntries).ToList().ForEach(op => {
+                                    if (!string.IsNullOrEmpty(op)) {
+                                        if (op.Split(':')[0] == prizeOrderModel.Answer) {
+                                            asString = op.Split(':')[1];
+                                        }
+                                    }
+                                });
+                            }
+                                        }
+                                    <label>@asString</label>
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <th>投注人数:</th>
+                            <td>
+                                <label>@prizeOrderModel.BettingCount</label>人
                             </td>
                         </tr>
                         <tr>
@@ -73,12 +143,6 @@
                                     }
                                 }
                                 <label>@dateString</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>奖品描述:</th>
-                            <td>
-                                <label>@prizeOrderModel.PrizeView.Description</label>
                             </td>
                         </tr>
                     </tbody>
@@ -113,28 +177,28 @@
                     <td>@item.LotteryResultState.ToDescription()</td>
                     <td>
                         @{
-                            string classString = string.Empty;
-                            string aFormatstring = "<a href=\"#\" class=\"{0}\" lr-id=\"{1}\">{2}</a>";
-                            List<string> alinkList = new List<string>();
-                            switch (item.LotteryResultState)
-                            {
-                                case LotteryResultState.Paid:
-                                    alinkList.Add(string.Format(aFormatstring, "paid", item.Id, "汇款已到账"));
-                                    alinkList.Add(string.Format(aFormatstring, "notpaid", item.Id, "汇款未到账"));
-                                    break;
-                                case LotteryResultState.PaymentReceived:
-                                    alinkList.Add(string.Format(aFormatstring, "posting", item.Id, "我已发货"));
-                                    break;
-                                case LotteryResultState.Reveived:
-                                    alinkList.Add(string.Format(aFormatstring, "finished", item.Id, "完成交易"));
-                                    break;
-                                case LotteryResultState.Default:
-                                case LotteryResultState.Noticed:
-                                case LotteryResultState.PaymentNotReceived:
-                                    alinkList.Add(string.Format(aFormatstring, "close", item.Id, "关闭"));
-                                    break;
-                            }
-                            string htmlstring = string.Join("&nbsp;|&nbsp;", alinkList.ToArray());
+                string classString = string.Empty;
+                string aFormatstring = "<a href=\"#\" class=\"{0}\" lr-id=\"{1}\">{2}</a>";
+                List<string> alinkList = new List<string>();
+                switch (item.LotteryResultState)
+                {
+                    case LotteryResultState.Paid:
+                        alinkList.Add(string.Format(aFormatstring, "paid", item.Id, "汇款已到账"));
+                        alinkList.Add(string.Format(aFormatstring, "notpaid", item.Id, "汇款未到账"));
+                        break;
+                    case LotteryResultState.PaymentReceived:
+                        alinkList.Add(string.Format(aFormatstring, "posting", item.Id, "我已发货"));
+                        break;
+                    case LotteryResultState.Reveived:
+                        alinkList.Add(string.Format(aFormatstring, "finished", item.Id, "完成交易"));
+                        break;
+                    case LotteryResultState.Default:
+                    case LotteryResultState.Noticed:
+                    case LotteryResultState.PaymentNotReceived:
+                        alinkList.Add(string.Format(aFormatstring, "close", item.Id, "关闭"));
+                        break;
+                }
+                string htmlstring = string.Join("&nbsp;|&nbsp;", alinkList.ToArray());
                         }
                         @Html.Raw(htmlstring)
                     </td>
