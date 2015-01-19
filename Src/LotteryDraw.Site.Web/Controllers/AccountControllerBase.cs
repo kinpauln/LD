@@ -56,11 +56,27 @@ namespace LotteryDraw.Site.Web.Controllers
 
         [HttpPost]
         [AuthorizeIgnore]
+        [ValidateMvcCaptcha]
         public ActionResult Login(LoginModel model)
         {
             ViewBag.IsPostBack = true;
             try
             {
+                if (_areaName == "Website")
+                {
+                    if (ModelState.IsValid)
+                    {
+                        //验证码验证通过
+                    }
+                    else
+                    {
+                        //验证码验证失败
+                        //ModelState.AddModelError("", e.Message);
+                        ViewBag.Message = "验证码输入不正确";
+                        return View(model);
+                    }
+                }
+
                 OperationResult result = AccountSiteContract.Login(model);
                 string msg = result.Message ?? result.ResultType.ToDescription();
                 if (result.ResultType == OperationResultType.Success)
