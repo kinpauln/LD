@@ -666,7 +666,13 @@ namespace LotteryDraw.Core.Impl
                         case "Error_01":
                             return new OperationResult(OperationResultType.Warning, "奖单投注者小于中奖人数，不能开奖", errorstring);
                         case "Error_02":
-                            return new OperationResult(OperationResultType.Warning, "事务提交出现错误，开奖失败", errorstring);
+                            return new OperationResult(OperationResultType.Warning, "奖单投注者总数小于所设置的奖池上限，未达到开奖条件", errorstring);
+                        case "Error_03":
+                            return new OperationResult(OperationResultType.Warning, "开奖日期还没到，不能开奖", errorstring);
+                        case "Error_04":
+                            return new OperationResult(OperationResultType.Warning, "竞猜正确者总数为0", errorstring);
+                        case "Error_05":
+                            return new OperationResult(OperationResultType.Warning, "奖单投注者总数小于所设置的中奖人数,中止此奖单的开奖", errorstring);
                         default:
                             return new OperationResult(OperationResultType.Warning, "出错了。", poid);
                     }
