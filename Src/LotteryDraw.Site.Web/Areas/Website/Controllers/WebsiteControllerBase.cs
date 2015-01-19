@@ -187,6 +187,7 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
 
             if (!User.Identity.IsAuthenticated)
             {
+                TempData["AlertMessage"] = "请登录后，参加抽奖。";
                 filterContext.Result = RedirectToAction("Login", "Account", new { Area = "Website" });
                 return;
             }

@@ -44,6 +44,12 @@ namespace LotteryDraw.Site.Web.Controllers
             {
                 ReturnUrl = returnUrl
             };
+
+            if (TempData["AlertMessage"] != null)
+            {
+                ViewBag.AlertMessage = TempData["AlertMessage"];
+            }
+
             ViewBag.IsPostBack = false;
             return View(model);
         }

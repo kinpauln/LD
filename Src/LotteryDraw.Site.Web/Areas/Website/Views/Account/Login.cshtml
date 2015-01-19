@@ -10,6 +10,11 @@
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script type="text/javascript">
         $(function () {
+            var alertMsg = '@ViewBag.AlertMessage'; 
+            if (alertMsg != null && alertMsg != "") {
+                layer.alert(alertMsg, 8);
+            }
+
             $('.ct:gt(0)').hide();
             var hdw = $('.tab_title li');
 
@@ -47,10 +52,10 @@
 
                 messages: {
                     Account: {
-                        required: "请登录后，参加抽奖"
+                        required: "用户名不能为空"
                     },
                     Password: {
-                        required: "请登录后，参加抽奖"
+                        required: "密码不能为空"
                     }
                 },
                 invalidHandler: function (event, validator) { //display error alert on form submit   
