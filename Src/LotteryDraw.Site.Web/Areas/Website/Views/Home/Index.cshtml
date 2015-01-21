@@ -245,6 +245,12 @@
                                 {
                                     scopeCity = item.PrizeOrderView.ScopeAreaCity;
                                 }
+                                string encryptScopeCity = "";
+                                if (!string.IsNullOrEmpty(scopeCity))
+                                {
+                                    encryptScopeCity = LotteryDraw.Component.Utility.Encrypt.Encode(scopeCity.Trim().Replace("市", ""));
+                                }
+                                
                                 bool is2Top = item.PrizeOrderView.Is2Top;
                                 bool showTimeSpan = false; //显示距离开奖时长
                                 bool isOutOfDate = false; //已过期
@@ -392,7 +398,7 @@
                                     )
                                 {
                                     <div class="r-play-con">
-                                        <a class="r-play-button excute-launch" target="_self" href="#" scope-type="@scopeType" scope-city="@scopeCity" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
+                                        <a class="r-play-button excute-launch" target="_self" href="#" scope-type="@scopeType" scope-city="@scopeCity" encrypt-scope-city="@encryptScopeCity" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
                                     </div>
                                 }
                                 }

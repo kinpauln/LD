@@ -62,13 +62,25 @@ namespace LotteryDraw.Site.Impl
                 string useridString = member.Id.ToString();
                 string roleIdString = member.Roles == null ? string.Empty : string.Join(",", member.Roles.Select(r => r.RoleTypeNum.ToString()));
                 string publishTimes = member.PubishingEnableTimes.ToString();
+                string areaCity = member.Extend.Address.City;
 
                 // 若存在先删除
-                if (Cookie.Get("publishTimes") != null) {
+                if (Cookie.Get("publishTimes") != null)
+                {
                     Cookie.Remove("publishTimes");
                 }
                 //保存Cookie
                 Cookie.Save("publishTimes", Encrypt.Encode(publishTimes), 24);
+
+                // 若存在先删除
+                if (Cookie.Get("areaCity") != null)
+                {
+                    Cookie.Remove("areaCity");
+                }
+                if (!string.IsNullOrEmpty(areaCity))
+                {
+                    Cookie.Save("areaCity", Encrypt.Encode(areaCity.Trim().Replace("市", "")), 24);
+                }
 
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, member.UserName, DateTime.Now, expiration,
                     true, string.Join("|", new string[] { useridString, roleIdString, publishTimes }), FormsAuthentication.FormsCookiePath);
@@ -259,7 +271,7 @@ namespace LotteryDraw.Site.Impl
         {
             try
             {
-                bool result = AccountContract.ChangePassword(memberid,password);
+                bool result = AccountContract.ChangePassword(memberid, password);
                 if (result)
                 {
                     return new OperationResult(OperationResultType.Success, "修改密码成功");

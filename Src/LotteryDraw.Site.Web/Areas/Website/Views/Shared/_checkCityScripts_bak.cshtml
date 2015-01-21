@@ -5,22 +5,29 @@
     var _message = "";
     var _mycity = "";
     var _cityloaded = false;
-    var scopeCity = "";
 
     $(function () {
         $("a[class*='excute-launch']").click(function (e) {
             var $abutton = $(this);
             var stype = $abutton.attr("scope-type");
-            var encryptScopeCity = $abutton.attr("encrypt-scope-city");
+            var scopeCity = $abutton.attr("scope-city");
             // 需要验证城市
             if (stype == "@LotteryDraw.Component.Tools.ScopeType.AreaCity.ToInt()") {
                 var stype = $abutton.attr("scope-type");
-                scopeCity = $abutton.attr("scope-city");
+                var scopeCity = $abutton.attr("scope-city");
                 // 如果用户城市还未验证过则先验证城市
-                if (_mycity == "") {
-                    _mycity = $.cookie("areaCity");
+                if (!_cityloaded && _mycity == "") {
+                    layer_index_checking_city = layer.load("正在验证您所在城市，请耐心等待.....");
+                    getClientRequestInfo(function (data) {
+                        layer.close(layer_index_checking_city);
+                        _mycity = data.City.replace("市", "");
+                        _cityloaded = true;
+
+                        setGlobalInfo(scopeCity);
+                    });
+                } else {
+                    setGlobalInfo(scopeCity);
                 }
-                setGlobalInfo(encryptScopeCity);
                 excuteLaunch($abutton, true);
             } else {
                 excuteLaunch($abutton, false);
@@ -28,8 +35,8 @@
         });
     });
 
-    function setGlobalInfo(encryptScopeCity) {
-        if (_mycity != encryptScopeCity) {
+    function setGlobalInfo(scopeCity) {
+        if ($.trim(_mycity) != $.trim(scopeCity.replace("市", ""))) {
             _isSameCity = false;
             _message = "抱歉，您所在的城市不在该奖品的抽奖范围内，该奖品仅限【" + scopeCity + "】地区的用户。";
         } else {
@@ -71,6 +78,28 @@
                 } else {
                     location.href = trueurl + "&returnUrl=" + location.href;
                 }
+            }
+        });
+    }
+
+    function getClientRequestInfo(callback) {
+        var ip = '@ViewBag.UerIp';
+        ip = $.trim(ip); // "218.4.255.91";
+        $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' + ip, function (_result) {
+            var returnobj = null;
+            if (remote_ip_info.ret == "1") {
+                returnobj = {
+                    Ip: ip,
+                    Country: remote_ip_info.country,
+                    Province: remote_ip_info.province,
+                    City: remote_ip_info.city,
+                    Isp: remote_ip_info.isp
+                };
+                //$("#hidArea").val(ip + ";" + remote_ip_info.country + ";" + remote_ip_info.province + ";" + remote_ip_info.city + ";" + remote_ip_info.isp + ";");
+                //alert(ip + ";" + remote_ip_info.country + ";" + remote_ip_info.province + ";" + remote_ip_info.city + ";" + remote_ip_info.isp + ";");
+            }
+            if (callback != null) {
+                callback(returnobj);
             }
         });
     }
