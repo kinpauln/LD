@@ -67,7 +67,7 @@
               {
                   encryptScopeCity = LotteryDraw.Component.Utility.Encrypt.Encode(scopeCity.Trim().Replace("市", ""));
               }
-              
+
               bool showTimeSpan = false; //显示距离开奖时长
               bool isOutOfDate = false; //已过期
               bool joinEnable = true;
@@ -227,6 +227,14 @@
                         </span>
                     </p>}
                 }
+                <p class="rmn-item">
+                    <em>预售 :</em>
+                    <span>
+                        @item.PrizeOrderView.PresalePrice
+                        @*@displayCount*@
+                        元
+                    </span>
+                </p>
                 <div class="clear"></div>
                 @{
               if (item.PrizeOrderView.RevealStateNum == RevealState.UnDrawn.ToInt()

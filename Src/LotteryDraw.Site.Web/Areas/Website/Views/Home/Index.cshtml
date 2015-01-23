@@ -406,6 +406,14 @@
                                         </span>
                                     </p>}
                                 }
+                                <p class="rmn-item">
+                                    <em>预售 :</em>
+                                    <span>
+                                        @item.PrizeOrderView.PresalePrice
+                                        @*@displayCount*@
+                                        元
+                                    </span>
+                                </p>
                                 <div class="clear"></div>
                                 @{
                                 if (item.PrizeOrderView.RevealStateNum == RevealState.UnDrawn.ToInt()

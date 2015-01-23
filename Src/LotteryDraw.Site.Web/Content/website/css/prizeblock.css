@@ -135,9 +135,9 @@ text-decoration: none;
 .ranking-web-content .classify a{padding: 0 6px;display: inline-block;margin:0 17px 8px 0;color: #999;height: 21px;line-height: 21px;}
 .ranking-web-content .classify a.show-now{background-color: #2191cb;color: #fff}
 .ranking-web-content .classify a:hover{background-color:#2191cb;text-decoration: none; color: #fff}
-.ranking-movie-list{/*border:solid 1px red;*/height: 236px;overflow: hidden;width: 400px;font-family: "微软雅黑";margin-bottom: 50px;padding-right: 0px;}
+.ranking-movie-list{/*border:solid 1px red;*//*height:236px;*/height: 262px;overflow: hidden;width: 400px;font-family: "微软雅黑";margin-bottom: 50px;padding-right: 0px;}
 .ranking-movie-list img{width: 100%;height: 100%;}
-.ranking-movie-list dt{width: 170px; height:236px;overflow: hidden;position: relative;}
+.ranking-movie-list dt{width: 170px; /*height:236px;*/height:262px;overflow: hidden;position: relative;}
 .ranking-movie-list dt span{display: block;position: absolute;left: 0;top: 0;height: 30px;line-height: 30px;padding: 0 9px;background-color: #dd013c;font-size: 25px;font-family: arial;color: #fff;text-align: center;}
 .ranking-movie-list dt span.more-than-twth{background-color: #666;}
 .ranking-movie-list dd{padding-left:20px;width: 205px;overflow: hidden;position: relative;height: 100%;}
@@ -157,7 +157,7 @@ p.rmn-item{height: 26px;overflow: hidden;}
 .rmn-item ul{color: #999;padding-left:0px;}
 .rmn-item ul li{float: left;width: 110px;display: inline-block;_display:inline;_zoom:0;_height:26px;}
 .rmn-item ul span{color: #333;padding-left: 2px;display: inline;float: none;*width:45px;*overflow: hidden;*height: 16px;*line-height: 16px;*vertical-align: baseline; }
-.r-play-con{position: absolute;left: 20px;top: 195px;}
+.r-play-con{position: absolute;left: 20px;/*top: 195px;*/top: 221px;}
 .r-play-button{position: relative;display: inline-block;background-color: #e9486a; float: left;width: 80px;padding-left: 50px;height:40px;line-height: 40px;border-radius: 4px;margin-right: 10px;color: #fff;font-size: 18px;font-family: "微软雅黑"; }
 .r-play-button-gray{background-color: #999}
 .r-play-button:hover{text-decoration: none}
