@@ -84,6 +84,16 @@ namespace LotteryDraw.Core.Models.Business
         public virtual decimal Freight { get; set; }
 
         /// <summary>
+        /// 获取或设置 预售价格
+        /// </summary>
+        public virtual decimal PresalePrice { get; set; }
+
+        /// <summary>
+        ///  伪造参与抽奖者数目
+        /// </summary>
+        public int ForgedParticipantCount { get; set; }
+
+        /// <summary>
         ///  备注
         /// </summary>
         public string Remarks { get; set; }

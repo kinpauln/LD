@@ -53,6 +53,16 @@ namespace LotteryDraw.Site.Models
         /// </summary>
         public decimal Freight { get; set; }
 
+        /// <summary>
+        ///  预售价格
+        /// </summary>
+        public decimal PresalePrice { get; set; }
+
+        /// <summary>
+        ///  伪造参与抽奖者数目
+        /// </summary>
+        public int ForgedParticipantCount { get; set; }
+
         public int ScopeTypeNum { get; set; }
 
         /// <summary>

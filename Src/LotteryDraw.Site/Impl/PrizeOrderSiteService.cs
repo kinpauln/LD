@@ -353,7 +353,10 @@ namespace LotteryDraw.Site.Impl
                     porder.Extend.ScopeCity = porderdetail.PrizeOrderView.ScopeAreaCity;
                 }
 
+                // 运费
                 porder.Extend.Freight = porderdetail.PrizeOrderView.Freight;
+                // 预售价格
+                porder.Extend.PresalePrice = porderdetail.PrizeOrderView.PresalePrice;
                 porder.Extend.IsNeedExchangeCode = porderdetail.PrizeOrderView.IsNeedExchangeCode;
             }
             switch (porderdetail.PrizeOrderView.RevealType)

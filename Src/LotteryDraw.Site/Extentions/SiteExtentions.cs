@@ -210,7 +210,9 @@ namespace LotteryDraw.Site.Extentions
                         ScopeAreaCity = row["ScopeCity"].ToString(),
                         ScopeTypeNum = int.Parse(row["ScopeType"].ToString()),
                         AnswerRevealConditionTypeNum = int.Parse(row["AnswerRevealConditionTypeNum"].ToString()),
-                        Freight = Convert.ToDecimal(row["Freight"])
+                        Freight = Convert.ToDecimal(row["Freight"]),
+                        PresalePrice = Convert.ToDecimal(row["PresalePrice"]),
+                        ForgedParticipantCount = Convert.ToInt32(row["ForgedParticipantCount"])
                         //Is2Top = containIs2Top ? Convert.ToBoolean(row["Is2Top"]) : false
                     },
                     PrizeView = new PrizeView()

@@ -81,6 +81,12 @@
                 </td>
             </tr>
             <tr rtype="timing quota answer">
+                <td class="text">预售价格：</td>
+                <td class="input">
+                    @Html.TextBoxFor(model => model.PrizeOrderView.PresalePrice, new { @class = "input-text float", Id = "Freight", placeholder = "奖品名称" }) 元
+                </td>
+            </tr>
+            <tr rtype="timing quota answer">
                 <td class="text">是否需要兑奖码：</td>
                 <td class="input">
                     <div style="width:120px;float:left;">
@@ -110,7 +116,6 @@
                 <td class="text">运费：</td>
                 <td class="input">
                     @Html.TextBoxFor(model => model.PrizeOrderView.Freight, new { @class = "input-text float", Id = "Freight", placeholder = "奖品名称" }) 元
-                    <span class="info">*</span>
                 </td>
             </tr>
             <tr rtype="timing quota answer scene">
