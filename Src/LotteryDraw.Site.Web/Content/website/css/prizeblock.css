@@ -153,7 +153,7 @@ text-decoration: none;
 p.rmn-item{height: 26px;overflow: hidden;}
 .rmn-item span{display: inline-block;/*width: 222px;*/width: auto;max-width:120px;overflow: hidden;float: left;text-overflow:ellipsis;}
 .rmn-item em{font-style: normal;color: #999;display: inline-block;float: left;}
-.rmn-item a{color: #333}
+.rmn-item span a.prebuy{color: #E9486A}
 .rmn-item a:hover {
 text-decoration: underline;
 }

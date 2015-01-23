@@ -92,9 +92,10 @@
               {
                   photoname = "";
               }
-                                }
+                                }<a href="@photoname" class="fancybox-photo" title="@prizeName">
                                 <img width="250" height="262" src="@photoname" title="@prizeName" onerror="this.onerror=null,this.src=&#39;http://image11.m1905.cn/uploadfile/nopic.gif&#39;">
-                            </div>
+                            </a>
+                                    </div>
                             <div class="act_icon act_icon_03">
                                 <span class="start">@rsstring</span>
                                 <span class="icon_01"></span>
@@ -186,8 +187,8 @@
         .layer_notice {
             float: left;
             height: auto;
-            max-height:400px;
-            overflow-y:scroll;
+            max-height: 400px;
+            overflow-y: scroll;
             width: 150px;
             /*overflow: hidden;*/
             color: #fff;
@@ -204,9 +205,10 @@
             .layer_notice label {
                 font-size: 14px;
             }
+
             .layer_notice li.lucky-item {
-                font-size:20px;
-                text-align:center;
+                font-size: 20px;
+                text-align: center;
             }
     </style>
 }
