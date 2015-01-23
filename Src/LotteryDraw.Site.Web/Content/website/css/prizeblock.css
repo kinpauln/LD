@@ -154,6 +154,9 @@ p.rmn-item{height: 26px;overflow: hidden;}
 .rmn-item span{display: inline-block;/*width: 222px;*/width: auto;max-width:120px;overflow: hidden;float: left;text-overflow:ellipsis;}
 .rmn-item em{font-style: normal;color: #999;display: inline-block;float: left;}
 .rmn-item a{color: #333}
+.rmn-item a:hover {
+text-decoration: underline;
+}
 .rmn-item ul{color: #999;padding-left:0px;}
 .rmn-item ul li{float: left;width: 110px;display: inline-block;_display:inline;_zoom:0;_height:26px;}
 .rmn-item ul span{color: #333;padding-left: 2px;display: inline;float: none;*width:45px;*overflow: hidden;*height: 16px;*line-height: 16px;*vertical-align: baseline; }
