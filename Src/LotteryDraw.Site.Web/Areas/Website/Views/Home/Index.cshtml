@@ -295,6 +295,19 @@
                                 {
                                     photoname = "";
                                 }
+                                
+                                // 构造一个 假的随机数，中奖参与者数目
+                                int joinedCount = item.PrizeOrderView.JoinedCount;
+                                int displayCount = 0;
+                                int maxScopeVal = 100;
+                                if (item.PrizeOrderView.RevealType == RevealType.Quota)
+                                {
+                                    maxScopeVal = item.PrizeOrderView.PoolCount.Value;
+                                    int iUp = maxScopeVal;
+                                    int iDown = 1;
+                                    Random ro = new Random();
+                                    displayCount = ro.Next(iDown, iUp);
+                                }
                         <dl class="clearfix ranking-movie-list fl">
                             <dt class="fl">
                                 <a href="/Vip/PrizeDetail/@pid" target="_self">
@@ -341,7 +354,9 @@
                                 </p>
                                 <p class="rmn-item">
                                     <em>已抽奖 :</em>
-                                    <span>@item.PrizeOrderView.JoinedCount
+                                    <span>
+                                        @item.PrizeOrderView.JoinedCount
+                                        @*@displayCount*@
                                         人
                                     </span>
                                 </p>
@@ -349,9 +364,9 @@
                                 if (item.PrizeOrderView.RevealType == RevealType.Quota ||
                                     item.PrizeOrderView.RevealType == RevealType.Answer && item.PrizeOrderView.AnswerRevealConditionType == AnswerRevealConditionType.Quota)
                                 {
-                                    int joindCount = item.PrizeOrderView.JoinedCount;
                                     int poolCount = item.PrizeOrderView.PoolCount ?? 0;
-                                    int leftCount = poolCount - joindCount;
+                                    int leftCount = poolCount - joinedCount;
+                                    //int leftCount = poolCount - displayCount;
                                     <p class="rmn-item">
                                         <em>距开奖还差 :</em>
                                         <span>@leftCount
@@ -398,7 +413,7 @@
                                     )
                                 {
                                     <div class="r-play-con">
-                                        <a class="r-play-button excute-launch" target="_self" href="#" scope-type="@scopeType" scope-city="@scopeCity" encrypt-scope-city="@encryptScopeCity" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>我要抽奖</a>
+                                        <a class="r-play-button excute-launch" target="_self" href="#" scope-type="@scopeType" scope-city="@scopeCity" encrypt-scope-city="@encryptScopeCity" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>免费抽奖</a>
                                     </div>
                                 }
                                 }
