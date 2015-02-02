@@ -34,7 +34,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/12/2014 13:26:33</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Index.cshtml">
-      <publishTime>11/20/2014 12:52:03</publishTime>
+      <publishTime>01/15/2015 09:35:00</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/BreadCrumbs.cshtml">
       <publishTime>09/19/2014 18:25:50</publishTime>
@@ -70,13 +70,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/04/2014 15:51:55</publishTime>
     </File>
     <File Include="Areas/Website/Views/Account/Edit.cshtml">
-      <publishTime>12/04/2014 15:49:47</publishTime>
+      <publishTime>02/02/2015 17:46:55</publishTime>
     </File>
     <File Include="Areas/Website/Views/Account/Login.cshtml">
-      <publishTime>12/03/2014 15:58:36</publishTime>
+      <publishTime>01/19/2015 19:59:07</publishTime>
     </File>
     <File Include="Areas/Website/Views/Account/Register.cshtml">
-      <publishTime>12/03/2014 15:27:19</publishTime>
+      <publishTime>02/02/2015 17:47:29</publishTime>
+    </File>
+    <File Include="Areas/Website/Views/Account/UserSpace.cshtml">
+      <publishTime>01/09/2015 22:39:48</publishTime>
     </File>
     <File Include="Areas/Website/Views/Business/Answer.cshtml">
       <publishTime>11/29/2014 16:48:55</publishTime>
@@ -88,25 +91,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/19/2014 10:36:15</publishTime>
     </File>
     <File Include="Areas/Website/Views/Business/LotteryListPartial.cshtml">
-      <publishTime>12/22/2014 18:27:20</publishTime>
+      <publishTime>02/02/2015 18:06:18</publishTime>
+    </File>
+    <File Include="Areas/Website/Views/Business/PrizeOrderDetail.cshtml">
+      <publishTime>01/15/2015 15:58:53</publishTime>
     </File>
     <File Include="Areas/Website/Views/Business/PrizeOrders.cshtml">
       <publishTime>11/29/2014 15:43:14</publishTime>
+    </File>
+    <File Include="Areas/Website/Views/Business/Query.cshtml">
+      <publishTime>01/18/2015 16:49:32</publishTime>
     </File>
     <File Include="Areas/Website/Views/Business/Quota.cshtml">
       <publishTime>11/29/2014 16:48:59</publishTime>
     </File>
     <File Include="Areas/Website/Views/Business/Scene.cshtml">
-      <publishTime>11/29/2014 16:49:02</publishTime>
+      <publishTime>01/23/2015 23:26:32</publishTime>
     </File>
     <File Include="Areas/Website/Views/Business/Timing.cshtml">
       <publishTime>11/29/2014 16:49:05</publishTime>
+    </File>
+    <File Include="Areas/Website/Views/Business/TV.cshtml">
+      <publishTime>01/15/2015 09:47:20</publishTime>
     </File>
     <File Include="Areas/Website/Views/Default/Index.cshtml">
       <publishTime>09/22/2014 16:10:21</publishTime>
     </File>
     <File Include="Areas/Website/Views/Home/Index.cshtml">
-      <publishTime>12/22/2014 19:04:02</publishTime>
+      <publishTime>02/02/2015 18:05:58</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/BreadCrumbs.cshtml">
       <publishTime>09/19/2014 10:32:32</publishTime>
@@ -115,10 +127,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/19/2014 10:32:32</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/FooterPartial.cshtml">
-      <publishTime>12/12/2014 12:05:47</publishTime>
+      <publishTime>02/02/2015 12:44:16</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/HeaderPartial.cshtml">
-      <publishTime>12/19/2014 10:37:49</publishTime>
+      <publishTime>01/18/2015 16:36:32</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/InfoPage.cshtml">
       <publishTime>09/23/2014 23:18:09</publishTime>
@@ -127,43 +139,52 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/23/2014 23:12:05</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/PostBackMessage.cshtml">
-      <publishTime>12/27/2014 15:36:42</publishTime>
+      <publishTime>01/22/2015 11:40:04</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/TopMenuPartial.cshtml">
-      <publishTime>12/12/2014 12:17:17</publishTime>
+      <publishTime>01/15/2015 10:13:33</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/VipNavPartial.cshtml">
       <publishTime>09/30/2014 14:01:18</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/_checkCityScripts.cshtml">
-      <publishTime>12/19/2014 10:27:31</publishTime>
+      <publishTime>02/02/2015 18:03:11</publishTime>
+    </File>
+    <File Include="Areas/Website/Views/Shared/_checkCityScripts_bak.cshtml">
+      <publishTime>01/19/2015 19:25:10</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/_Layout.cshtml">
-      <publishTime>12/19/2014 20:18:23</publishTime>
+      <publishTime>01/21/2015 17:25:43</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/_Layout_Business.cshtml">
       <publishTime>12/15/2014 17:33:54</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/_Layout_Vip.cshtml">
-      <publishTime>12/04/2014 12:54:25</publishTime>
+      <publishTime>01/15/2015 10:51:26</publishTime>
     </File>
     <File Include="Areas/Website/Views/Shared/_LoginPartial.cshtml">
       <publishTime>09/19/2014 10:32:32</publishTime>
+    </File>
+    <File Include="Areas/Website/Views/Vip/DeadLotteries.cshtml">
+      <publishTime>01/19/2015 12:50:20</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/Index.cshtml">
       <publishTime>12/15/2014 17:44:50</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/LaunchLottery.cshtml">
-      <publishTime>12/27/2014 23:52:22</publishTime>
+      <publishTime>02/02/2015 12:59:18</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/LaunchPageButtonsPartial.cshtml">
       <publishTime>09/29/2014 13:26:17</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/LaunchPrize.cshtml">
-      <publishTime>12/01/2014 20:58:14</publishTime>
+      <publishTime>01/01/2015 16:18:00</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/LuckyNotice.cshtml">
-      <publishTime>12/19/2014 22:42:28</publishTime>
+      <publishTime>01/09/2015 21:45:10</publishTime>
+    </File>
+    <File Include="Areas/Website/Views/Vip/LuckyResults.cshtml">
+      <publishTime>01/19/2015 13:46:08</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/ManagePrizes.cshtml">
       <publishTime>12/02/2014 19:13:55</publishTime>
@@ -172,7 +193,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/29/2014 12:53:00</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/PrizeBetting.cshtml">
-      <publishTime>12/22/2014 11:41:11</publishTime>
+      <publishTime>01/15/2015 16:02:11</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/PrizeDetail.cshtml">
       <publishTime>12/19/2014 21:50:06</publishTime>
@@ -181,16 +202,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/29/2014 12:53:00</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/PrizeOrderDetail.cshtml">
-      <publishTime>11/29/2014 12:53:00</publishTime>
+      <publishTime>01/04/2015 15:10:36</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/PrizeOrderList.cshtml">
-      <publishTime>11/29/2014 12:53:00</publishTime>
+      <publishTime>01/22/2015 11:52:16</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/PublishPrize.cshtml">
       <publishTime>12/02/2014 16:52:27</publishTime>
     </File>
     <File Include="Areas/Website/Views/Vip/VipNavPartial.cshtml">
-      <publishTime>12/09/2014 17:20:07</publishTime>
+      <publishTime>01/14/2015 22:27:09</publishTime>
     </File>
     <File Include="Areas/Website/Views/Web.config">
       <publishTime>09/12/2014 14:20:29</publishTime>
@@ -259,70 +280,70 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/09/2013 11:07:29</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Config.dll">
-      <publishTime>12/26/2014 11:17:44</publishTime>
+      <publishTime>02/02/2015 12:59:55</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Config.pdb">
-      <publishTime>12/26/2014 11:17:43</publishTime>
+      <publishTime>02/02/2015 12:59:55</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Data.dll">
-      <publishTime>12/27/2014 23:40:57</publishTime>
+      <publishTime>02/02/2015 12:59:54</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Data.pdb">
-      <publishTime>12/27/2014 23:40:57</publishTime>
+      <publishTime>02/02/2015 12:59:54</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Log.dll">
-      <publishTime>12/26/2014 11:17:44</publishTime>
+      <publishTime>02/02/2015 12:59:56</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Log.pdb">
-      <publishTime>12/26/2014 11:17:44</publishTime>
+      <publishTime>02/02/2015 12:59:56</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Tools.dll">
-      <publishTime>12/27/2014 23:40:54</publishTime>
+      <publishTime>02/02/2015 12:59:49</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Tools.pdb">
-      <publishTime>12/27/2014 23:40:54</publishTime>
+      <publishTime>02/02/2015 12:59:49</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Utility.dll">
-      <publishTime>12/26/2014 11:16:36</publishTime>
+      <publishTime>02/02/2015 12:59:51</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Component.Utility.pdb">
-      <publishTime>12/26/2014 11:16:36</publishTime>
+      <publishTime>02/02/2015 12:59:51</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.Data.dll">
-      <publishTime>12/27/2014 23:40:58</publishTime>
+      <publishTime>02/02/2015 12:59:55</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.Data.pdb">
-      <publishTime>12/27/2014 23:40:58</publishTime>
+      <publishTime>02/02/2015 12:59:55</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.dll">
-      <publishTime>12/27/2014 23:40:58</publishTime>
+      <publishTime>02/02/2015 12:59:58</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.Models.dll">
-      <publishTime>12/27/2014 23:40:56</publishTime>
+      <publishTime>02/02/2015 12:59:51</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.Models.pdb">
-      <publishTime>12/27/2014 23:40:56</publishTime>
+      <publishTime>02/02/2015 12:59:51</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Core.pdb">
-      <publishTime>12/27/2014 23:40:58</publishTime>
+      <publishTime>02/02/2015 12:59:58</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.dll">
-      <publishTime>12/27/2014 23:40:59</publishTime>
+      <publishTime>02/02/2015 17:55:10</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.Models.dll">
-      <publishTime>12/27/2014 23:40:57</publishTime>
+      <publishTime>02/02/2015 12:59:54</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.Models.pdb">
-      <publishTime>12/27/2014 23:40:57</publishTime>
+      <publishTime>02/02/2015 12:59:54</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.pdb">
-      <publishTime>12/27/2014 23:40:59</publishTime>
+      <publishTime>02/02/2015 17:55:10</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.Web.dll">
-      <publishTime>12/27/2014 23:44:05</publishTime>
+      <publishTime>02/02/2015 17:55:12</publishTime>
     </File>
     <File Include="bin/LotteryDraw.Site.Web.pdb">
-      <publishTime>12/27/2014 23:44:05</publishTime>
+      <publishTime>02/02/2015 17:55:12</publishTime>
     </File>
     <File Include="bin/Microsoft.Data.Edm.dll">
       <publishTime>09/25/2014 21:16:07</publishTime>
@@ -729,6 +750,54 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/admin/assets/js/x-editable/bootstrap-editable.min.js">
       <publishTime>09/12/2014 14:08:01</publishTime>
     </File>
+    <File Include="Content/fancybox-v2.1.5/blank.gif">
+      <publishTime>01/15/2015 15:11:11</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/fancyapps-fancyBox-v2.1.5-0-ge2248f4.zip">
+      <publishTime>01/15/2015 15:14:04</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/fancybox_loading%402x.gif">
+      <publishTime>01/15/2015 15:11:15</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/fancybox_loading.gif">
+      <publishTime>01/15/2015 15:11:12</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/fancybox_overlay.png">
+      <publishTime>01/15/2015 15:11:15</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/fancybox_sprite%402x.png">
+      <publishTime>01/15/2015 15:11:15</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/fancybox_sprite.png">
+      <publishTime>01/15/2015 15:11:15</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/helpers/fancybox_buttons.png">
+      <publishTime>01/15/2015 15:11:11</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/helpers/jquery.fancybox-buttons.css">
+      <publishTime>01/15/2015 15:11:11</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/helpers/jquery.fancybox-buttons.js">
+      <publishTime>01/15/2015 15:11:11</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/helpers/jquery.fancybox-media.js">
+      <publishTime>01/15/2015 15:11:11</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/helpers/jquery.fancybox-thumbs.css">
+      <publishTime>01/15/2015 15:11:11</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/helpers/jquery.fancybox-thumbs.js">
+      <publishTime>01/15/2015 15:11:11</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/jquery.fancybox.css">
+      <publishTime>01/15/2015 15:11:15</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/jquery.fancybox.js">
+      <publishTime>01/15/2015 15:11:15</publishTime>
+    </File>
+    <File Include="Content/fancybox-v2.1.5/jquery.fancybox.pack.js">
+      <publishTime>01/15/2015 15:11:17</publishTime>
+    </File>
     <File Include="Content/layer-v1.8.5/layer-v1.8.5/demo.html">
       <publishTime>12/01/2014 12:12:43</publishTime>
     </File>
@@ -969,17 +1038,26 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/website/css/csshover.htc">
       <publishTime>05/30/2013 15:40:58</publishTime>
     </File>
+    <File Include="Content/website/css/detail_default.css">
+      <publishTime>12/31/2014 18:17:37</publishTime>
+    </File>
     <File Include="Content/website/css/metinfo.css">
-      <publishTime>11/27/2014 14:26:33</publishTime>
+      <publishTime>01/15/2015 12:14:55</publishTime>
     </File>
     <File Include="Content/website/css/metinfo_ui.css">
-      <publishTime>09/25/2014 21:00:32</publishTime>
+      <publishTime>01/11/2015 12:10:28</publishTime>
     </File>
     <File Include="Content/website/css/prize.css">
       <publishTime>10/23/2014 10:43:31</publishTime>
     </File>
     <File Include="Content/website/css/prizeblock.css">
-      <publishTime>12/05/2014 18:12:52</publishTime>
+      <publishTime>01/23/2015 23:32:00</publishTime>
+    </File>
+    <File Include="Content/website/css/user_space.css">
+      <publishTime>01/09/2015 21:09:30</publishTime>
+    </File>
+    <File Include="Content/website/css/user_space_base.css">
+      <publishTime>01/09/2015 21:18:20</publishTime>
     </File>
     <File Include="Content/website/images/1405414005.jpg">
       <publishTime>09/22/2014 14:50:50</publishTime>
@@ -1104,6 +1182,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/website/js/My97DatePicker/WdatePicker.js">
       <publishTime>09/28/2014 09:58:56</publishTime>
     </File>
+    <File Include="Content/website/js/scripts.js">
+      <publishTime>01/09/2015 15:22:05</publishTime>
+    </File>
     <File Include="Content/website/main_bg.jpg">
       <publishTime>09/22/2014 14:50:50</publishTime>
     </File>
@@ -1188,6 +1269,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/jquery-ui-1.8.24.min.js">
       <publishTime>09/12/2014 13:09:59</publishTime>
     </File>
+    <File Include="Scripts/jquery.cookie.js">
+      <publishTime>01/21/2015 17:25:06</publishTime>
+    </File>
     <File Include="Scripts/jquery.form.js">
       <publishTime>12/02/2014 16:49:07</publishTime>
     </File>
@@ -1267,7 +1351,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/12/2014 13:36:40</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/27/2014 23:53:08</publishTime>
+      <publishTime>02/02/2015 18:13:29</publishTime>
     </File>
   </ItemGroup>
 </Project>

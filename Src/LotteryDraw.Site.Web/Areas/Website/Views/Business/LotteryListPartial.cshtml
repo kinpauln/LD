@@ -58,14 +58,25 @@
               string advurl = item.MemberView.AdvertisingUrl;
               int scopeType = item.PrizeOrderView.ScopeTypeNum;
               string scopeCity = "全国";
-              if (scopeType == ScopeType.AreaCity.ToInt())
+              if (scopeType != ScopeType.Global.ToInt())
               {
                   scopeCity = item.PrizeOrderView.ScopeAreaCity;
               }
               string encryptScopeCity = "";
               if (!string.IsNullOrEmpty(scopeCity))
               {
-                  encryptScopeCity = LotteryDraw.Component.Utility.Encrypt.Encode(scopeCity.Trim().Replace("市", ""));
+                  encryptScopeCity = LotteryDraw.Component.Utility.Encrypt.Encode(scopeCity.Trim());
+              }
+
+              string scopeTown = "";
+              if (scopeType == ScopeType.Town.ToInt())
+              {
+                  scopeTown = item.PrizeOrderView.ScopeTown;
+              }
+              string encryptScopeTown = "";
+              if (!string.IsNullOrEmpty(scopeTown))
+              {
+                  encryptScopeTown = LotteryDraw.Component.Utility.Encrypt.Encode(scopeTown.Trim());
               }
 
               bool showTimeSpan = false; //显示距离开奖时长
@@ -161,7 +172,15 @@
                 </p>
                 <p class="rmn-item">
                     <em>抽奖范围 :</em>
-                    <span>@scopeCity
+                    @{
+                      string scopeString = scopeCity;
+                      if (!string.IsNullOrEmpty(scopeTown))
+                      {
+                          scopeString = string.Join("，", new string[] { scopeCity, scopeTown });
+                      }
+                    }
+                    <span title="@scopeString">
+                        @scopeString
                     </span>
                 </p>
                 <p class="rmn-item">
@@ -243,7 +262,7 @@
                   )
               {
                     <div class="r-play-con">
-                        <a class="r-play-button excute-launch" target="_self" href="#" join-enable="@joinEnable" adv-url="@advurl" scope-type="@scopeType" scope-city="@scopeCity" encrypt-scope-city="@encryptScopeCity" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>免费抽奖</a>
+                        <a class="r-play-button excute-launch" target="_self" href="#" join-enable="@joinEnable" adv-url="@advurl" scope-type="@scopeType" scope-city="@scopeCity" scope-town="@scopeTown" encrypt-scope-city="@encryptScopeCity" encrypt-scope-town="@encryptScopeTown" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>免费抽奖</a>
                     </div>
               }
                 }
@@ -258,18 +277,18 @@
     }
     <div class="clear"></div>
     @Html.Pager(Model, new PagerOptions
-       {
-           PageIndexParameterName = "id",
-           ContainerTagName = "div",
-           FirstPageText = "首页",
-           LastPageText = "尾页",
-           PrevPageText = "上一页",
-           NextPageText = "下一页",
-           PagerItemsSeperator = "",
-           NumericPagerItemCount = 10, //获取或设置每页显示的数字页索引索引分页导航元素的数目
-           PagerItemWrapperFormatString = "{0}",
-           CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
-       }, new { @class = "pageBox" })
+{
+    PageIndexParameterName = "id",
+    ContainerTagName = "div",
+    FirstPageText = "首页",
+    LastPageText = "尾页",
+    PrevPageText = "上一页",
+    NextPageText = "下一页",
+    PagerItemsSeperator = "",
+    NumericPagerItemCount = 10, //获取或设置每页显示的数字页索引索引分页导航元素的数目
+    PagerItemWrapperFormatString = "{0}",
+    CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>"
+}, new { @class = "pageBox" })
 </div>
 @Html.Partial("_checkCityScripts")
 <script type="text/javascript">

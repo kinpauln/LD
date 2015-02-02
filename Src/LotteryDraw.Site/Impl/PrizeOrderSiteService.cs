@@ -352,6 +352,11 @@ namespace LotteryDraw.Site.Impl
                 {
                     porder.Extend.ScopeCity = porderdetail.PrizeOrderView.ScopeAreaCity;
                 }
+                if (porderdetail.PrizeOrderView.ScopeType == ScopeType.Town)
+                {
+                    porder.Extend.ScopeCity = porderdetail.PrizeOrderView.ScopeAreaCity;
+                    porder.Extend.ScopeTown = porderdetail.PrizeOrderView.ScopeTown;
+                }
 
                 // 运费
                 porder.Extend.Freight = porderdetail.PrizeOrderView.Freight;

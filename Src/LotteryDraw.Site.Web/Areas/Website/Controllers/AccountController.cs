@@ -88,6 +88,12 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 model.City = city;
                 model.Town = town;
                 model.AddrSuffix = suffix;
+
+                if (!MemberUpdateValidate(model))
+                {
+                    return View(model);
+                }
+
                 OperationResult result = AccountSiteContract.Register(model);
                 string msg = result.Message ?? result.ResultType.ToDescription();
                 if (result.ResultType == OperationResultType.Success)
@@ -255,11 +261,11 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                 ViewBag.Message = "手机号码不能为空";
                 return false;
             }
-            if (!RegExp.IsMobileNo(model.Tel, true))
-            {
-                ViewBag.Message = "手机号码不合法";
-                return false;
-            }
+            //if (!RegExp.IsMobileNo(model.Tel, true))
+            //{
+            //    ViewBag.Message = "手机号码不合法";
+            //    return false;
+            //}
             return true;
         }
 

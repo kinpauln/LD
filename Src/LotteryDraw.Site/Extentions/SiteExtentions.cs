@@ -208,6 +208,7 @@ namespace LotteryDraw.Site.Extentions
                         LuckyCount = int.Parse(row["LuckyCount"].ToString()),
                         AddDate = Convert.ToDateTime(row["RaiseTime"]),
                         ScopeAreaCity = row["ScopeCity"].ToString(),
+                        ScopeTown = row["ScopeTown"].ToString(),
                         ScopeTypeNum = int.Parse(row["ScopeType"].ToString()),
                         AnswerRevealConditionTypeNum = int.Parse(row["AnswerRevealConditionTypeNum"].ToString()),
                         Freight = Convert.ToDecimal(row["Freight"]),

@@ -21,6 +21,7 @@
     @Html.HiddenFor(m => m.PrizeOrderView.ScopeType, new { Id = "hidnScopeType" })
     @Html.HiddenFor(m => m.PrizeOrderView.ScopeProvince, new { Id = "hidnScopeProvince" })
     @Html.HiddenFor(m => m.PrizeOrderView.ScopeAreaCity, new { Id = "hidnScopeAreaCity" })
+    @Html.HiddenFor(m => m.PrizeOrderView.ScopeTown, new { Id = "hidnScopeTown" })
     @Html.HiddenFor(m => m.PrizeOrderView.MinLuckyCount, new { Id = "hidnMinLuckyCount" })
     @Html.HiddenFor(m => m.PrizeOrderView.RevealType, new { Id = "hidnRevealType" });
                                                                                     //@Html.HiddenFor(m => m.PrizeOrderView.RevealTypeNum, new { Id = "hidnRevealTypeNum" });
@@ -89,9 +90,12 @@
             <tr rtype="timing quota answer">
                 <td class="text">是否需要兑奖码：</td>
                 <td class="input">
-                    <div style="width:120px;float:left;">
-                    <span><input type="radio" name="needexchangecode" value="true" />是</span> &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span><input type="radio" name="needexchangecode" value="false" />否</span></div>
+                    <div style="width: 120px; float: left;">
+                        <span>
+                            <input type="radio" name="needexchangecode" value="true" />是</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span>
+                        <input type="radio" name="needexchangecode" value="false" />否</span>
+                    </div>
                 </td>
             </tr>
             <tr rtype="timing quota answer">
@@ -101,15 +105,16 @@
                         <option value="" scope-type="">请选择</option>
                         <option value="1" scope-type="global">全国</option>
                         <option value="2" scope-type="area-city">地级城市</option>
+                        <option value="3" scope-type="area-town">区|县级城市</option>
                     </select><span class="info">*</span>
                 </td>
             </tr>
-            <tr scope-type="area-city">
+            <tr scope-type="area-city area-town">
                 <td class="text">开奖城市：</td>
                 <td class="input">
-                    <select name="loc_province" class="select" style="width: 80px;"></select>
-                    <select name="loc_city" class="select" style="width: 100px;"></select>
-                    <select name="loc_town" class="select" style="width: 120px; display: none;"></select>
+                    <select scope-type="area-city area-town" name="loc_province" class="select" style="width: 80px;"></select>
+                    <select scope-type="area-city area-town" name="loc_city" class="select" style="width: 100px;"></select>
+                    <select scope-type="area-town" name="loc_town" class="select" style="width: 120px;"></select>
                 </td>
             </tr>
             <tr rtype="timing quota answer">
@@ -394,26 +399,31 @@
             $("#slScopeType").change(function () {
                 //$("#hidnScopeType").val($(this).val());
                 $("#hidnScopeType").val($(this).val());
-                if ($(this).val() == '@ScopeType.AreaCity.ToInt()') {
-                    if (!cityIsLoaded) {
-                        //地址下拉框联动
-                        showLocation();
-                        cityIsLoaded = true;
-                    } else {
-                        //初始化选中状态（什么都不选中）
-                        var nullvalue = "";
-                        locateProvinceSelect(nullvalue);
+                if ($(this).val() != '@ScopeType.Global.ToInt()') {
+                    if ($(this).val() == '@ScopeType.AreaCity.ToInt()'
+                        || $(this).val() == '@ScopeType.Town.ToInt()') {
+                        if (!cityIsLoaded) {
+                            //地址下拉框联动
+                            showLocation();
+                            cityIsLoaded = true;
+                        } else {
+                            //初始化选中状态（什么都不选中）
+                            var nullvalue = "";
+                            locateProvinceSelect(nullvalue);
+                        }
                     }
                 }
 
                 var $opobj = $(this).find("option:selected");
                 var scopetype = $opobj.attr("scope-type");
                 $("form#prizeForm tr[scope-type]").hide();
+                $("select[scope-type]").hide();
                 if (scopetype != "") {
                     // 本抽奖类型相关的 表单项都现实出来
                     $("form#prizeForm tr[scope-type*='" + scopetype + "']").fadeIn();
+                    $("select[scope-type*='" + scopetype + "']").fadeIn();
                 }
-            });
+            }); //loc_town
 
             // 竞猜开奖开奖方式下拉框事件
             $("#slRevealTypeOfAnswer").change(function () {
@@ -716,17 +726,22 @@
                     // 非现场抽奖需要设置开奖城市
                     if (rtype != '@RevealType.Scene.ToInt()') {
                         // 开奖城市名称
-                        if ($("#slScopeType").val() == "@ScopeType.AreaCity.ToInt()") {
+                        if ($("#slScopeType").val() != "@ScopeType.Global.ToInt()") {
                             var province = $("select[name='loc_province']:eq(0)").find("option:selected").text();
                             var city = $("select[name='loc_city']:eq(0)").find("option:selected").text();
                             $("#hidnScopeAreaCity").val(city);
                             $("#hidnScopeProvince").val(province);
+
+                            // 开奖县/区名称
+                            if ($("#slScopeType").val() == "@ScopeType.Town.ToInt()") {
+                                var town = $("select[name='loc_town']:eq(0)").find("option:selected").text();
+                                $("#hidnScopeTown").val(town);
+                            }
                         }
                     }
 
                     // 现场抽奖需要设置抽奖参与人员
                     if (rtype == '@RevealType.Scene.ToInt()') {
-
                         var options = "";
                         $("tr[input-type='manual'] div.dropdown-item").each(function () {
                             //$("#main li:not([class])")  //排除有class属性
@@ -746,7 +761,7 @@
                 errorClass: 'error-info',
                 focusInvalid: false,
                 rules: {
-                    needexchangecode:{
+                    needexchangecode: {
                         required: function () {//是否有兑奖码
                             var rtype = $("#slLauchType").val();
                             if (rtype != '@RevealType.Scene.ToInt()')
@@ -794,13 +809,21 @@
                             return true;
                         }
                     },
+                    loc_town: { //县、区
+                        required: function () {
+                            var scopeType = $("#slScopeType").val();
+                            if (scopeType == "@ScopeType.Town.ToInt()")
+                                return true;
+                            return false;
+                        }
+                    },
                     _mvcCaptchaText: {
                         required: true
                     }
                 },
 
                 messages: {
-                    needexchangecode:{
+                    needexchangecode: {
                         required: "是否需要兑奖码必须选择"
                     },
                     slAnswer: {
@@ -814,6 +837,9 @@
                     },
                     loc_city: {
                         required: "城市必须选择"
+                    },
+                    loc_town: {
+                        required: "县/区必须选择"
                     },
                     _mvcCaptchaText: {
                         required: "验证码不能为空"
@@ -1020,10 +1046,10 @@
                 display: none;
             }
 
-                div.dropdown span:hover {
-                    color: #f00;
-                    font-weight: bold;
-                }
+            div.dropdown span:hover {
+                color: #f00;
+                font-weight: bold;
+            }
 
             div.dropdown .selected {
                 background: #C6D7EF;

@@ -323,9 +323,16 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
             switch (model.PrizeOrderView.RevealType)
             {
                 case RevealType.Timing:
-                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity))
+                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity 
+                        && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity))
                     {
                         ViewBag.Message = "抽奖城市必须指定";
+                        return false;
+                    }
+                    if (model.PrizeOrderView.ScopeType == ScopeType.Town 
+                        && string.IsNullOrEmpty(model.PrizeOrderView.ScopeTown))
+                    {
+                        ViewBag.Message = "抽奖县/区必须指定";
                         return false;
                     }
                     if (!model.PrizeOrderView.LaunchTime.HasValue)
@@ -335,9 +342,16 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     }
                     break;
                 case RevealType.Quota:
-                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity))
+                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity 
+                        && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity))
                     {
                         ViewBag.Message = "抽奖城市必须指定";
+                        return false;
+                    }
+                    if (model.PrizeOrderView.ScopeType == ScopeType.Town 
+                        && string.IsNullOrEmpty(model.PrizeOrderView.ScopeTown))
+                    {
+                        ViewBag.Message = "抽奖县/区必须指定";
                         return false;
                     }
                     if (!model.PrizeOrderView.PoolCount.HasValue || model.PrizeOrderView.PoolCount.Value == 0)
@@ -347,9 +361,16 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     }
                     break;
                 case RevealType.Answer:
-                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity))
+                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity 
+                        && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity))
                     {
                         ViewBag.Message = "抽奖城市必须指定";
+                        return false;
+                    }
+                    if (model.PrizeOrderView.ScopeType == ScopeType.Town 
+                        && string.IsNullOrEmpty(model.PrizeOrderView.ScopeTown))
+                    {
+                        ViewBag.Message = "抽奖县/区必须指定";
                         return false;
                     }
                     if (string.IsNullOrEmpty(model.PrizeOrderView.Question))
@@ -392,11 +413,6 @@ namespace LotteryDraw.Site.Web.Areas.Website.Controllers
                     }
                     break;
                 case RevealType.Scene:
-                    if (model.PrizeOrderView.ScopeType == ScopeType.AreaCity && string.IsNullOrEmpty(model.PrizeOrderView.ScopeAreaCity))
-                    {
-                        ViewBag.Message = "抽奖城市必须指定";
-                        return false;
-                    }
                     if (!model.PrizeOrderView.LaunchTime.HasValue)
                     {
                         ViewBag.Message = "开奖时间必须指定";

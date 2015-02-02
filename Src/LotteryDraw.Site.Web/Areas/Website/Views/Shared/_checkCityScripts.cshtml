@@ -4,23 +4,34 @@
     var _isSameCity = false;
     var _message = "";
     var _mycity = "";
+    var _mytown = "";
     var _cityloaded = false;
     var scopeCity = "";
+    var scopeTown = "";
 
     $(function () {
         $("a[class*='excute-launch']").click(function (e) {
             var $abutton = $(this);
             var stype = $abutton.attr("scope-type");
             var encryptScopeCity = $abutton.attr("encrypt-scope-city");
+            var encryptScopeTown = $abutton.attr("encrypt-scope-town");
             // 需要验证城市
-            if (stype == "@LotteryDraw.Component.Tools.ScopeType.AreaCity.ToInt()") {
-                var stype = $abutton.attr("scope-type");
+            if (stype != "@LotteryDraw.Component.Tools.ScopeType.Global.ToInt()") {
                 scopeCity = $abutton.attr("scope-city");
                 // 如果用户城市还未验证过则先验证城市
                 if (_mycity == "") {
                     _mycity = $.cookie("areaCity");
                 }
-                setGlobalInfo(encryptScopeCity);
+                if (stype == "@LotteryDraw.Component.Tools.ScopeType.AreaCity.ToInt()") {
+                    checkCity(encryptScopeCity);
+                } else if (stype == "@LotteryDraw.Component.Tools.ScopeType.Town.ToInt()") {
+                    scopeTown = $abutton.attr("scope-town");
+                    // 如果用户县/区还未验证过则先验证县/区
+                    if (_mytown == "") {
+                        _mytown = $.cookie("areaTown");
+                    }
+                    checkTown(encryptScopeCity, encryptScopeTown);
+                }
                 excuteLaunch($abutton, true);
             } else {
                 excuteLaunch($abutton, false);
@@ -28,13 +39,27 @@
         });
     });
 
-    function setGlobalInfo(encryptScopeCity) {
+    function checkCity(encryptScopeCity) {
         if (_mycity != encryptScopeCity) {
             _isSameCity = false;
             _message = "抱歉，您所在的城市不在该奖品的抽奖范围内，该奖品仅限【" + scopeCity + "】地区的用户。";
         } else {
             _isSameCity = true;
             message = "";
+        }
+    }
+
+    function checkTown(encryptScopeCity, encryptScopeTown) {
+        checkCity(encryptScopeCity);
+        // 先验证地级市，然后验证县/区
+        if (_isSameCity) {
+            if (_mytown != encryptScopeTown) {
+                _isSameCity = false;
+                _message = "抱歉，您所在的县/区不在该奖品的抽奖范围内，该奖品仅限【" + scopeCity + "," + scopeTown + "】地区的用户。";
+            } else {
+                _isSameCity = true;
+                message = "";
+            }
         }
     }
 

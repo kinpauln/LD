@@ -241,7 +241,7 @@
                                 string advurl = item.MemberView.AdvertisingUrl;
                                 int scopeType = item.PrizeOrderView.ScopeTypeNum;
                                 string scopeCity = "全国";
-                                if (scopeType == ScopeType.AreaCity.ToInt())
+                                if (scopeType != ScopeType.Global.ToInt())
                                 {
                                     scopeCity = item.PrizeOrderView.ScopeAreaCity;
                                 }
@@ -250,7 +250,18 @@
                                 {
                                     encryptScopeCity = LotteryDraw.Component.Utility.Encrypt.Encode(scopeCity.Trim().Replace("市", ""));
                                 }
-                                
+
+                                string scopeTown = "";
+                                if (scopeType == ScopeType.Town.ToInt())
+                                {
+                                    scopeTown = item.PrizeOrderView.ScopeTown;
+                                }
+                                string encryptScopeTown = "";
+                                if (!string.IsNullOrEmpty(scopeTown))
+                                {
+                                    encryptScopeTown = LotteryDraw.Component.Utility.Encrypt.Encode(scopeTown.Trim());
+                                }
+
                                 bool is2Top = item.PrizeOrderView.Is2Top;
                                 bool showTimeSpan = false; //显示距离开奖时长
                                 bool isOutOfDate = false; //已过期
@@ -295,7 +306,7 @@
                                 {
                                     photoname = "";
                                 }
-                                
+
                                 // 构造一个 假的随机数，中奖参与者数目
                                 int joinedCount = item.PrizeOrderView.JoinedCount;
                                 int displayCount = 0;
@@ -343,7 +354,15 @@
                                 </p>
                                 <p class="rmn-item">
                                     <em>抽奖范围 :</em>
-                                    <span>@scopeCity
+                                    @{
+                                        string scopeString = scopeCity;
+                                        if (!string.IsNullOrEmpty(scopeTown))
+                                        {
+                                            scopeString = string.Join("，", new string[] { scopeCity, scopeTown });
+                                        }
+                                    }
+                                    <span title="@scopeString">
+                                        @scopeString
                                     </span>
                                 </p>
                                 <p class="rmn-item">
@@ -422,7 +441,7 @@
                                     )
                                 {
                                     <div class="r-play-con">
-                                        <a class="r-play-button excute-launch" target="_self" href="#" scope-type="@scopeType" scope-city="@scopeCity" encrypt-scope-city="@encryptScopeCity" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>免费抽奖</a>
+                                        <a class="r-play-button excute-launch" target="_self" href="#" scope-type="@scopeType" scope-city="@scopeCity" scope-town="@scopeTown" encrypt-scope-city="@encryptScopeCity" encrypt-scope-town="@encryptScopeTown" adv-url="@advurl" true-href="/Vip/PrizeBetting?revealType=@rtype&poId=@poid"><i class="icon-play pngIcon"></i>免费抽奖</a>
                                     </div>
                                 }
                                 }

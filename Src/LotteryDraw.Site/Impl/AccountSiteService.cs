@@ -63,6 +63,7 @@ namespace LotteryDraw.Site.Impl
                 string roleIdString = member.Roles == null ? string.Empty : string.Join(",", member.Roles.Select(r => r.RoleTypeNum.ToString()));
                 string publishTimes = member.PubishingEnableTimes.ToString();
                 string areaCity = member.Extend.Address.City;
+                string areaTown = member.Extend.Address.Town;
 
                 // 若存在先删除
                 if (Cookie.Get("publishTimes") != null)
@@ -79,7 +80,17 @@ namespace LotteryDraw.Site.Impl
                 }
                 if (!string.IsNullOrEmpty(areaCity))
                 {
-                    Cookie.Save("areaCity", Encrypt.Encode(areaCity.Trim().Replace("市", "")), 24);
+                    Cookie.Save("areaCity", Encrypt.Encode(areaCity.Trim()), 24);
+                }
+
+                // 若存在先删除
+                if (Cookie.Get("areaTown") != null)
+                {
+                    Cookie.Remove("areaTown");
+                }
+                if (!string.IsNullOrEmpty(areaTown))
+                {
+                    Cookie.Save("areaTown", Encrypt.Encode(areaTown.Trim()), 24);
                 }
 
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, member.UserName, DateTime.Now, expiration,

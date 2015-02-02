@@ -146,13 +146,15 @@
                 focusInvalid: false,
                 rules: {
                     Tel: {
-                        phone: "required"
+                        required: true
+                        //,phone: "required"
                     }
                 },
 
                 messages: {
                     Tel: {
-                        phone: "请输入合法的手机号码"
+                        required: "手机号码不能为空"
+                        //,phone: "请输入合法的手机号码"
                     }
                 },
                 invalidHandler: function (event, validator) { //display error alert on form submit   

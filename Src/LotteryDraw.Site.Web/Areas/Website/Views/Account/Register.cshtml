@@ -370,7 +370,8 @@
                         email: true
                     },
                     Tel: {
-                        phone: 'required'
+                        required: true
+                        //,phone: 'required'
                     },
                     loc_province: {
                         required: true
@@ -399,7 +400,8 @@
                         email: "邮箱格式不正确"
                     },
                     Tel: {
-                        phone: "手机号码不合法"
+                        required: "手机号码不能为空"
+                        //,phone: "手机号码不合法"
                     },
                     loc_province: {
                         required: "【省份】必须选择"

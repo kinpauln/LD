@@ -154,7 +154,7 @@ namespace LotteryDraw.Component.Tools
         [Description("地级城市")]
         AreaCity = 2,
         [Description("县级城市")]
-        SmallCity = 3
+        Town = 3
     }
 
     /// <summary>

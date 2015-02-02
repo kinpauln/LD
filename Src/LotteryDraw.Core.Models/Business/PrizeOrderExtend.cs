@@ -53,6 +53,11 @@ namespace LotteryDraw.Core.Models.Business
         public string ScopeCity { get; set; }
 
         /// <summary>
+        /// 抽奖范围(县城名，区名)
+        /// </summary>
+        public string ScopeTown { get; set; }
+
+        /// <summary>
         ///  开奖时间
         /// </summary>
         public DateTime? LaunchTime { get; set; }

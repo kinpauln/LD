@@ -76,6 +76,11 @@ namespace LotteryDraw.Site.Models
         public string ScopeAreaCity { get; set; }
 
         /// <summary>
+        /// 抽奖范围(县城名，区名)
+        /// </summary>
+        public string ScopeTown { get; set; }
+
+        /// <summary>
         /// 竞猜开奖开奖条件类型
         /// </summary>
         //[Display(Name = "竞猜开奖开奖条件类型")]
