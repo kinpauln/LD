@@ -140,9 +140,13 @@
                                         string telEncryption = string.Empty;
                                         if (!string.IsNullOrEmpty(item.MemberView.Tel))
                                         {
-                                            string str1 = item.MemberView.Tel.Substring(0, 3);
-                                            string str2 = item.MemberView.Tel.Substring(7);
-                                            telEncryption = str1 + "****" + str2;
+                                            telEncryption = item.MemberView.Tel;
+                                            if (LotteryDraw.Component.Tools.RegExp.IsMobileNo(item.MemberView.Tel))
+                                            {
+                                                string str1 = item.MemberView.Tel.Substring(0, 3);
+                                                string str2 = item.MemberView.Tel.Substring(7);
+                                                telEncryption = str1 + "****" + str2;
+                                            }
                                         }
                                 <li class="list luckylist">
                                     @{
@@ -248,7 +252,7 @@
                                 string encryptScopeCity = "";
                                 if (!string.IsNullOrEmpty(scopeCity))
                                 {
-                                    encryptScopeCity = LotteryDraw.Component.Utility.Encrypt.Encode(scopeCity.Trim().Replace("市", ""));
+                                    encryptScopeCity = LotteryDraw.Component.Utility.Encrypt.Encode(scopeCity.Trim());
                                 }
 
                                 string scopeTown = "";
@@ -355,11 +359,11 @@
                                 <p class="rmn-item">
                                     <em>抽奖范围 :</em>
                                     @{
-                                        string scopeString = scopeCity;
-                                        if (!string.IsNullOrEmpty(scopeTown))
-                                        {
-                                            scopeString = string.Join("，", new string[] { scopeCity, scopeTown });
-                                        }
+                                string scopeString = scopeCity;
+                                if (!string.IsNullOrEmpty(scopeTown))
+                                {
+                                    scopeString = string.Join("，", new string[] { scopeCity, scopeTown });
+                                }
                                     }
                                     <span title="@scopeString">
                                         @scopeString

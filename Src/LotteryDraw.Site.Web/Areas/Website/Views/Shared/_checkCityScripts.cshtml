@@ -42,7 +42,11 @@
     function checkCity(encryptScopeCity) {
         if (_mycity != encryptScopeCity) {
             _isSameCity = false;
-            _message = "抱歉，您所在的城市不在该奖品的抽奖范围内，该奖品仅限【" + scopeCity + "】地区的用户。";
+            var areaString = scopeCity;
+            if (scopeTown != "" && scopeTown !=null) {
+                areaString = scopeCity + "，" + scopeTown;
+            }
+            _message = "抱歉，您所在的城市不在该奖品的抽奖范围内，该奖品仅限【" + areaString + "】地区的用户。";
         } else {
             _isSameCity = true;
             message = "";
@@ -55,7 +59,7 @@
         if (_isSameCity) {
             if (_mytown != encryptScopeTown) {
                 _isSameCity = false;
-                _message = "抱歉，您所在的县/区不在该奖品的抽奖范围内，该奖品仅限【" + scopeCity + "," + scopeTown + "】地区的用户。";
+                _message = "抱歉，您所在的县/区不在该奖品的抽奖范围内，该奖品仅限【" + scopeCity + "，" + scopeTown + "】地区的用户。";
             } else {
                 _isSameCity = true;
                 message = "";
