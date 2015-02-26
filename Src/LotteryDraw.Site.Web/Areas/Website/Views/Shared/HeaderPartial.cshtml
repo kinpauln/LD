@@ -30,7 +30,9 @@
             {
                 HttpCookie filterCityCookie = LotteryDraw.Component.Utility.Cookie.Get("filterCity");
 
-                filterCity = HttpUtility.UrlDecode(filterCityCookie.Value);
+                filterCity = HttpUtility.UrlDecode(filterCityCookie.Value,System.Text.Encoding.GetEncoding("UTF-8"));
+                //filterCity = filterCityCookie.Value;
+                //filterCity = "青岛";
             }
             else
             {

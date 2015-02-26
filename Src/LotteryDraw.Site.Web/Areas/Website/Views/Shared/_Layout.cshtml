@@ -170,6 +170,7 @@
                 //先删除cookie
                 $.cookie('filterCity', null);
                 var cookieSet = { expires: 1, path: '/' };
+                var encodecityname = encodeURIComponent(cityname);
                 $.cookie("filterCity", cityname, cookieSet);  //写入coockie 
 
                 $.fancybox.close();
