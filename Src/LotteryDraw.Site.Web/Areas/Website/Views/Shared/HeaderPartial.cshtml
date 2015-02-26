@@ -1,11 +1,86 @@
-﻿<header>
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $("a#changecity").fancybox({
+            'hideOnContentClick': true
+        });
+    });
+</script>
+<div class="city">
+    <div class="city1004">
+        <h1>@{
+            
+            string mycity = string.Empty;
+            string mytown = string.Empty;
+            HttpCookie citycookie = LotteryDraw.Component.Utility.Cookie.Get("areaCity");
+            if (citycookie != null)
+            {
+                mycity = LotteryDraw.Component.Utility.Encrypt.Decode(citycookie.Value);
+                if(!string.IsNullOrEmpty(mycity)){
+                    mycity = mycity.Replace("市", "");
+                }
+            }
+            HttpCookie towncookie = LotteryDraw.Component.Utility.Cookie.Get("areaTown");
+            if (towncookie != null)
+            {
+                mytown = LotteryDraw.Component.Utility.Encrypt.Decode(towncookie.Value);
+            }
+            string filterCity = string.Empty;
+            // 若存在先删除
+            if (LotteryDraw.Component.Utility.Cookie.Get("filterCity") != null)
+            {
+                HttpCookie filterCityCookie = LotteryDraw.Component.Utility.Cookie.Get("filterCity");
+                filterCity = LotteryDraw.Component.Utility.Encrypt.Decode(filterCityCookie.Value);
+            }
+            else
+            {
+                filterCity = mycity;
+                LotteryDraw.Component.Utility.Cookie.Save("filterCity", LotteryDraw.Component.Utility.Encrypt.Encode(mycity), 24);
+            }
+        }
+            <span id="spanCurrentCity">@filterCity</span>				<span>[<a style="cursor: pointer" id="changecity" href="#citydata" kesrc="#citydata">切换城市</a>]</span>
+        </h1>
+        <h2>
+            @if (User.Identity.IsAuthenticated)
+            { 
+                <span style="">欢迎您，<a href="#" style="color: red;">@User.Identity.Name</a></span>
+                        
+                if (ViewBag.NoticeCount != null && (int)ViewBag.NoticeCount > 0)
+                {
+                @:，您有&nbsp;<a href="/Vip/LuckyNotice" style="color: blue; font-weight: bold;">@ViewBag.NoticeCount</a>&nbsp;条未读中奖信息
+                            }
+                        
+                <span style="margin: 0px 8px;">|</span>
+                <a href="/Account/Detail/@ViewBag.UserId">账号管理</a>
+                    				
+                <span style="margin: 0px 8px;">|</span>
+                <a href="/Account/Logout">退出</a>
+            }
+            else
+            {
+                <a href="/Account/Login">登录</a>		
+                <span style="margin: 0px 8px;">|</span>
+                <a href="/Account/Register">注册</a>
+            }
+        </h2>
+    </div>
+</div>
+<header>
     <div class="inner">
         <div class="top-logo">
 
-            <a href="/" title="抽奖吗" id="web_logo" style="position: absolute;left: 5px;top: 10px;display: block;width: 280px;">
+            <a href="/" title="抽奖吗" id="web_logo" style="position: absolute; left: 5px; top: 10px; display: block; width: 280px;">
                 <img src="~/content/website/images/1405415376.png" alt="抽奖吗" title="抽奖吗">
             </a>
-            <div class="n-header-middle feature-container" style="position: absolute;right: 130px;top: 55px;z-index:100;">
+            <div class="n-header-middle feature-container" style="position: absolute; right: 10px; top: 35px; z-index: 100;">
+                <div class="search-contai">
+                    @using (Html.BeginForm("Query", "Business"))
+                    {
+                        <input class="seach-content" type="text" name="keywords" placeholder="奖品名称/奖品描述/发布者用户名/发布者昵称" value="@ViewBag.Keywords">
+                        <input class="n-submit pngIcon" type="submit" value=" ">
+                    }
+                </div>
+            </div>
+            @*<div class="n-header-middle feature-container" style="position: absolute; right: 130px; top: 55px; z-index: 100;">
                 <div class="search-contai">
                     @using (Html.BeginForm("Query", "Business"))
                     {
@@ -39,7 +114,7 @@
                 }
                 <li class="t"><a href="http://www.wuliubang.net/" onclick="SetHome(this,window.location,&quot;非IE浏览器不支持此功能，请手动设置！&quot;);" style="cursor: pointer;" title="设为首页">设为首页</a><span>|</span><a href="http://www.wuliubang.net/" onclick="addFavorite(&quot;非IE浏览器不支持此功能，请手动设置！&quot;);" style="cursor: pointer;" title="收藏本站">收藏本站</a></li>
 
-            </ul>
+            </ul>*@
         </div>
     </div>
 </header>

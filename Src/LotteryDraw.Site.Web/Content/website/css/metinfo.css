@@ -18,7 +18,7 @@ a:hover{text-decoration:none;}
 
 .inner{ width:1200px; min-width:1200px; margin:0 auto; position:relative;}
 
-header{ background:url(../bg.png) no-repeat 0px -28px; height:107px; overflow:hidden; zoom:1}
+header{ background:url(../bg.png) no-repeat 0px -28px; height:107px; margin-top:30px; overflow:hidden; zoom:1}
 
 #web_logo{ margin-left:10px; font-size:0px; position:relative; z-index:999;}
 

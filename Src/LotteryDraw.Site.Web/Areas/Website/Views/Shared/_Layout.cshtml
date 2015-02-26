@@ -153,6 +153,26 @@
             if (isIE6OrIE7Browser()) {
                 downloadBrowser();
             }
+
+
+            $change_li = $(".titleChar li");
+            $change_li.each(function (i) {
+                $(this).mouseover(function () {
+                    $(this).addClass("on").siblings().removeClass("on");
+                    $(".cityListBox dl").eq(i).show().siblings().hide();
+                })
+            });
+
+            $(".cityList a").click(function (e) {
+                var cityname = $(this).html();
+                $("#spanCurrentCity").html(cityname);
+                var cookieSet = { expires: 7, path: '/' };
+                $.cookie("filterCity", cityname, cookieSet);  //写入coockie 
+
+                $.fancybox.close();
+
+                e.preventDefault();
+            });
         });
 
         function downloadBrowser() {
@@ -238,5 +258,7 @@
     <script src="~/content/website/js/fun.inc.js" type="text/javascript"></script>
 
     @RenderSection("scripts", required: false)
+    
+    @Html.Partial("CityPartial")
 </body>
 </html>

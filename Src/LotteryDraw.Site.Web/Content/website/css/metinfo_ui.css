@@ -306,4 +306,36 @@ table.message_table td,table.message_table th {
 .luckylist a:link {color: #000;} /* 未访问的链接 */
 .luckylist a:visited {/*color: #F00;*/} /* 已访问的链接 */
 .luckylist a:hover{/*color: #0F0;*/text-decoration:underline;} /* 鼠标在链接上 */ 
-.luckylist a:active {/*color: #00F;*/} /* 点击激活链接——在你点击该链接之后，页面正在转向新地址的时候，链接显示此颜色；当你已经到了要链接的页面，然后再返回，原页面上的此链接仍是此颜色 */ 
+.luckylist a:active {/*color: #00F;*/} /* 点击激活链接——在你点击该链接之后，页面正在转向新地址的时候，链接显示此颜色；当你已经到了要链接的页面，然后再返回，原页面上的此链接仍是此颜色 */
+
+.city {
+width: 100%;
+height: 30px;
+background: url(../images/head_bg.png) repeat-x left top #F5F5F5;
+position: absolute;
+top: 0px;
+} 
+.city1004 {
+width: 1004px;
+margin: 0px auto;
+}
+.city1004 h1 {
+width: 50%;
+float: left;
+font: 12px/30px 微软雅黑;
+color: #fff;
+}
+.city1004 h2 {
+color: #fff;
+text-align: right;
+padding-right: 8px;
+font: 12px/30px 微软雅黑;
+}
+.city1004 a {
+color: #fff;
+}
+.city1004 a:hover {
+text-decoration: underline;
+color: #fff;
+outline: none;
+}
