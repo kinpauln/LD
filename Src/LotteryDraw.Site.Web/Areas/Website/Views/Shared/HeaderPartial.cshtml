@@ -25,16 +25,17 @@
                 mytown = LotteryDraw.Component.Utility.Encrypt.Decode(towncookie.Value);
             }
             string filterCity = string.Empty;
-            // 若存在先删除
+            // 若存在则读取
             if (LotteryDraw.Component.Utility.Cookie.Get("filterCity") != null)
             {
                 HttpCookie filterCityCookie = LotteryDraw.Component.Utility.Cookie.Get("filterCity");
-                filterCity = LotteryDraw.Component.Utility.Encrypt.Decode(filterCityCookie.Value);
+
+                filterCity = HttpUtility.UrlDecode(filterCityCookie.Value);
             }
             else
             {
                 filterCity = mycity;
-                LotteryDraw.Component.Utility.Cookie.Save("filterCity", LotteryDraw.Component.Utility.Encrypt.Encode(mycity), 24);
+                LotteryDraw.Component.Utility.Cookie.Save("filterCity", mycity, 24);
             }
         }
             <span id="spanCurrentCity">@filterCity</span>				<span>[<a style="cursor: pointer" id="changecity" href="#citydata" kesrc="#citydata">切换城市</a>]</span>

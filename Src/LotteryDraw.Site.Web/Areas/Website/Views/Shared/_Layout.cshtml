@@ -166,7 +166,10 @@
             $(".cityList a").click(function (e) {
                 var cityname = $(this).html();
                 $("#spanCurrentCity").html(cityname);
-                var cookieSet = { expires: 7, path: '/' };
+
+                //先删除cookie
+                $.cookie('filterCity', null);
+                var cookieSet = { expires: 1, path: '/' };
                 $.cookie("filterCity", cityname, cookieSet);  //写入coockie 
 
                 $.fancybox.close();
